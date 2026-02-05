@@ -7,17 +7,8 @@
 Existen muchas marcas de ropa en la web y se vuelve tedioso tener que buscar entre todas ellas para encontrar una prenda que cumpla con las características que buscamos, de acuerdo con nuestros gustos y preferencias.
 
 ### Cifras y datos relevantes
+- 
 
-## 👥 Miembros del equipo de desarrollo y responsabilidades
-- Nicolas Joya. **Backend Developer**
-  - Desarrolla la API que reúne la lógica interna, conección a base de datos, separación de roles, autenticación de usuarios y exposición de endpoints, permitiendo conectarlo con las tecnologías de interfaz gráfica.
-- David Romero. **Lider / Coordinador DB**
-  - Dirige y gestiona el proyecto y asimismo coordina el diseño, desarrollo y uso de bases de datos en la que se almacenarán los datos de usuarios y productos, permitiendo hacer consultas eficientes al momento de aplicar filtros de búsqueda.
-- Alejandro González. **Arquitecto de SW**
-  - Diseña la arquitectura de la solución de software, garantizando el orden, el uso de patrones GOF y la correcta separación en módulos de la aplicación.
-- Sebastian Ruiz. **Frontend Developer**
-  - Diseñador principal de la interfaz gráfica del software y la interactividad con el usuario.
- 
 ---
 ## 🎖️ Propuesta de valor
 Nuestra plataforma web conecta a marcas de ropa colombianas con consumidores que buscan alternativas conscientes al fast fashion. El proyecto responde a la necesidad de dar mayor visibilidad a emprendimientos locales que, a pesar de ofrecer productos de calidad y con identidad propia, tienen dificultades para competir frente a grandes marcas internacionales.
@@ -32,3 +23,15 @@ Nuestra misión es impulsar el emprendimiento colombiano en la industria de la m
 
 ## 👁️ Visión
 Nuestra visión es convertirnos en la plataforma digital líder en Colombia para la promoción y comercialización de marcas de moda locales, reconocida por fortalecer el ecosistema emprendedor y transformar la manera en que las personas consumen ropa. Aspiramos a ser un referente de moda responsable, innovación y compromiso social, contribuyendo a reducir el impacto del fast fashion y a posicionar el talento colombiano a nivel nacional.
+
+---
+
+## 👥 Miembros del equipo de desarrollo y responsabilidades
+- Nicolas Joya. **Backend Developer**
+  - Desarrolla la API que reúne la lógica interna, conección a base de datos, separación de roles, autenticación de usuarios y exposición de endpoints, permitiendo conectarlo con las tecnologías de interfaz gráfica.
+- David Romero. **Lider / Coordinador DB**
+  - Dirige y gestiona el proyecto y asimismo coordina el diseño, desarrollo y uso de bases de datos en la que se almacenarán los datos de usuarios y productos, permitiendo hacer consultas eficientes al momento de aplicar filtros de búsqueda.
+- Alejandro González. **Arquitecto de SW**
+  - Diseña la arquitectura de la solución de software, garantizando el orden, el uso de patrones GOF y la correcta separación en módulos de la aplicación.
+- Sebastian Ruiz. **Frontend Developer**
+  - Diseñador principal de la interfaz gráfica del software y la interactividad con el usuario.
