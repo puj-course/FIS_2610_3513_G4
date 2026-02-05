@@ -6,9 +6,23 @@
 ## 🔍 Descripción del Problema
 Existen muchas marcas de ropa en la web y se vuelve tedioso tener que buscar entre todas ellas para encontrar una prenda que cumpla con las características que buscamos, de acuerdo con nuestros gustos y preferencias.
 
-### Cifras y datos relevantes
-- 
+---
+## 📖 Cifras y datos relevantes
+Las ventas de ropa online ya representan el 38.1% de todas las compras en E.E.U.U. [1], a pesar de eso 84% de los compradores encontraron los filtros de búsqueda de los sitios de e-commerce desafiantes o innecesariamente complejo [2]. Fashtoll aprovecha el mercado ya existente y facilita a sus usuarios conseguir su estilo deseado.
 
+Parte del propósito de Fashtoll es visibilizar marcas emergentes, nos parece importante ya que el 66% de los consumidores prefieren marcas establecidas sobre alternativas de nicho por falta de confianza [1] nuestros usuarios pueden estar seguros de que compran la mejor calidad del mercado. Estos start ups de moda se gastan 129 dólares para conseguir un cliente nuevo [2], nuestra plataforma será el intermediario perfecto para solucionar eso.
+
+---
+## 👥 Miembros del equipo de desarrollo y responsabilidades
+- Nicolas Joya. **Backend Developer**
+  - Desarrolla la API que reúne la lógica interna, conección a base de datos, separación de roles, autenticación de usuarios y exposición de endpoints, permitiendo conectarlo con las tecnologías de interfaz gráfica.
+- David Romero. **Lider / Coordinador DB**
+  - Dirige y gestiona el proyecto y asimismo coordina el diseño, desarrollo y uso de bases de datos en la que se almacenarán los datos de usuarios y productos, permitiendo hacer consultas eficientes al momento de aplicar filtros de búsqueda.
+- Alejandro González. **Arquitecto de SW**
+  - Diseña la arquitectura de la solución de software, garantizando el orden, el uso de patrones GOF y la correcta separación en módulos de la aplicación.
+- Sebastian Ruiz. **Frontend Developer**
+  - Diseñador principal de la interfaz gráfica del software y la interactividad con el usuario.
+ 
 ---
 ## 🎖️ Propuesta de valor
 Nuestra plataforma web conecta a marcas de ropa colombianas con consumidores que buscan alternativas conscientes al fast fashion. El proyecto responde a la necesidad de dar mayor visibilidad a emprendimientos locales que, a pesar de ofrecer productos de calidad y con identidad propia, tienen dificultades para competir frente a grandes marcas internacionales.
@@ -25,13 +39,6 @@ Nuestra misión es impulsar el emprendimiento colombiano en la industria de la m
 Nuestra visión es convertirnos en la plataforma digital líder en Colombia para la promoción y comercialización de marcas de moda locales, reconocida por fortalecer el ecosistema emprendedor y transformar la manera en que las personas consumen ropa. Aspiramos a ser un referente de moda responsable, innovación y compromiso social, contribuyendo a reducir el impacto del fast fashion y a posicionar el talento colombiano a nivel nacional.
 
 ---
-
-## 👥 Miembros del equipo de desarrollo y responsabilidades
-- Nicolas Joya. **Backend Developer**
-  - Desarrolla la API que reúne la lógica interna, conección a base de datos, separación de roles, autenticación de usuarios y exposición de endpoints, permitiendo conectarlo con las tecnologías de interfaz gráfica.
-- David Romero. **Lider / Coordinador DB**
-  - Dirige y gestiona el proyecto y asimismo coordina el diseño, desarrollo y uso de bases de datos en la que se almacenarán los datos de usuarios y productos, permitiendo hacer consultas eficientes al momento de aplicar filtros de búsqueda.
-- Alejandro González. **Arquitecto de SW**
-  - Diseña la arquitectura de la solución de software, garantizando el orden, el uso de patrones GOF y la correcta separación en módulos de la aplicación.
-- Sebastian Ruiz. **Frontend Developer**
-  - Diseñador principal de la interfaz gráfica del software y la interactividad con el usuario.
+## Referencias
+[1] Podean. (2024). Apparel eCommerce Report 2025.
+[2] Best Colorful Socks. (2025). Top 20 Clothind Choice Decision Fatigue Statistics 2025.
