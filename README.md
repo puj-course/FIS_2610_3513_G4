@@ -5,14 +5,25 @@
 </p>
 
 **Portal de búsqueda y filtrado de marcas de ropa a nivel local. Por CEIBA.**
---
+
+---
+## Índice
+- **[Descripción del Problema](#-descripción-del-problema)**<br>
+- **[Propuesta de Valor](#%EF%B8%8F-propuesta-de-valor)**<br>
+- **[Lean Canvas](#-lean-canvas)**<br>
+- **[Misión](#-misión)**<br>
+- **[Visión](#%EF%B8%8F-visión)**<br>
+- **[Miembros del equipo de desarrollo y responsabilidades](#-miembros-del-equipo-de-desarrollo-y-responsabilidades)**<br>
+- **[Referencias](#referencias)**<br>
+
+---
 ## 🔍 Descripción del Problema
 Existen muchas marcas de ropa en la web, por ello se vuelve tedioso tener que buscar entre todas para encontrar una prenda que cumpla con las características que buscamos, de acuerdo con nuestros gustos y preferencias.
 
 Las ventas de ropa online representan el 38.1% de todas las compras en EE.UU. [1], a pesar de eso, 84% de los compradores encontraron los filtros de búsqueda de los sitios de e-commerce desafiantes o innecesariamente complejos [2]. Aun con un mercado tan grande, las startups de moda se gastan un 20% de su porcentaje de ingresos en marketing para atraer nuevos clientes [2].
 
 ---
-## 🎖️ Propuesta de valor
+## 🎖️ Propuesta de Valor
 Parte del propósito de Fashtoll es visibilizar marcas emergentes, nos parece importante ya que el 66% de los consumidores prefieren marcas establecidas sobre alternativas de nicho por falta de confianza [1]. Nuestros usuarios pueden estar seguros de que compran la mejor calidad del mercado. Estas startups de moda se gastan 129 dólares para conseguir un cliente nuevo [2], nuestra plataforma será el intermediario perfecto para solucionar eso.
 
 La página ofrece a las marcas un espacio digital donde pueden exhibir todo su catálogo y pagar por aparecer en anuncios dentro de la plataforma, logrando mayor alcance y posicionamiento frente a un público interesado en moda local. Para los usuarios, el beneficio es acceder en un solo lugar a múltiples marcas colombianas y a marcas que indican las tendencias actuales, facilitando la compra de un gran catálogo de productos sin procesos innecesarios.
