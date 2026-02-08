@@ -19,7 +19,7 @@ A diferencia de otras plataformas de venta de ropa, este proyecto se enfoca en e
 ---
 ## 📒 Lean Canvas
 <p align="center">
-  <img src="./assets/lean-canvas-v1.png" alt="Lean Canvas v1" width="640">
+  <img src="./assets/lean-canvas-v1.png" alt="Lean Canvas v1" width="1000">
 </p>
 
 ---
