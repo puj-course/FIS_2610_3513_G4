@@ -1,5 +1,8 @@
 # Fashtoll by CEIBA
-> "Scroll less, style more."
+
+<p align="center">
+  <img src="./assets/fashtoll-logo-v1.png" alt="FashToll Logo v1" width="1000">
+</p>
 
 **Portal de búsqueda y filtrado de marcas de ropa a nivel local. Por CEIBA.**
 --
