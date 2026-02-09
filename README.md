@@ -18,17 +18,26 @@
 
 ---
 ## 🔍 Descripción del Problema
-Existen muchas marcas de ropa en la web, por ello se vuelve tedioso tener que buscar entre todas para encontrar una prenda que cumpla con las características que buscamos, de acuerdo con nuestros gustos y preferencias.
+En un ecosistema donde el **38.1% de las ventas de ropa ya son digitales** [1], el proceso de compra se ha vuelto paradójicamente ineficiente. Los usuarios se enfrentan a un mercado fragmentado donde la búsqueda de prendas específicas es una tarea tediosa y frustrante.
 
-Las ventas de ropa online representan el 38.1% de todas las compras en EE.UU. [1], a pesar de eso, 84% de los compradores encontraron los filtros de búsqueda de los sitios de e-commerce desafiantes o innecesariamente complejos [2]. Aun con un mercado tan grande, las startups de moda se gastan un 20% de su porcentaje de ingresos en marketing para atraer nuevos clientes [2].
+### El Desafío del Consumidor
+* **Fatiga de Decisión:** El **84% de los compradores** reporta que los filtros de búsqueda actuales son ineficaces o innecesariamente complejos [2], lo que convierte una búsqueda simple en una pérdida de tiempo.
+* **Brecha de Confianza:** El **66% de los usuarios** prefiere marcas establecidas no por gusto, sino por el miedo a la falta de garantías en marcas de nicho [1].
+
+### El Desafío de la Marca Local
+* **Barreras de Entrada:** Las marcas emergentes deben invertir hasta un **20% de sus ingresos** solo en visibilidad [2], con un costo de adquisición de cliente (CAC) que promedia los **$129 USD** [2]. 
+
+Fashtoll nace para resolver esta ineficiencia, transformando el caos de la oferta en una experiencia de usuario dirigida y confiable.
 
 ---
 ## 🎖️ Propuesta de Valor
-Parte del propósito de Fashtoll es visibilizar marcas emergentes, nos parece importante ya que el 66% de los consumidores prefieren marcas establecidas sobre alternativas de nicho por falta de confianza [1]. Nuestros usuarios pueden estar seguros de que compran la mejor calidad del mercado. Estas startups de moda se gastan 129 dólares para conseguir un cliente nuevo [2], nuestra plataforma será el intermediario perfecto para solucionar eso.
+Fashtoll no es solo un catálogo; es un **optimizador de mercado** que redefine la relación entre el cliente y la moda independiente.
 
-La página ofrece a las marcas un espacio digital donde pueden exhibir todo su catálogo y pagar por aparecer en anuncios dentro de la plataforma, logrando mayor alcance y posicionamiento frente a un público interesado en moda local. Para los usuarios, el beneficio es acceder en un solo lugar a múltiples marcas colombianas y a marcas que indican las tendencias actuales, facilitando la compra de un gran catálogo de productos sin procesos innecesarios.
+1. **Búsqueda Técnica Estandarizada:** Implementamos un sistema de indexación que permite filtrar por características reales (material, fit, estilo) en múltiples catálogos simultáneamente.
+2. **Validación y Confianza:** Actuamos como un sello de garantía para marcas locales, reduciendo el riesgo percibido y permitiendo que la calidad compita de igual a igual con el *fast fashion*.
+3. **Eficiencia en el Descubrimiento:** Reducimos drásticamente el tiempo de búsqueda para el usuario y el costo de marketing para la marca, sirviendo como el intermediario técnico que el sector moda en Colombia necesita.
 
-A diferencia de otras plataformas de venta de ropa, este proyecto se enfoca en el fortalecimiento del emprendimiento colombiano, promoviendo una nueva visión de la moda basada en la identidad, la sostenibilidad y el apoyo a lo local, reduciendo la dependencia del fast fashion sin quitarle esta posibilidad a los usuarios interesados.
+*A diferencia de los portales masivos, nosotros priorizamos la **identidad local** y la **precisión técnica** de la búsqueda.*
 
 ---
 ## 📒 Lean Canvas
