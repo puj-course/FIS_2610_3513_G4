@@ -1,7 +1,7 @@
 # Fashtoll by CEIBA
 
 <p align="center">
-  <img src="./assets/fashtoll-logo-v1.png" alt="FashToll Logo v1" width="1000">
+  <img src="./docs/design/branding/fashtoll-logo-v1.png" alt="FashToll Logo v1" width="1000">
 </p>
 
 > **Fashtoll** es el ecosistema digital diseñado para conectar el talento de la moda local con el consumidor consciente. Actuamos como un puente inteligente que elimina la fatiga de decisión y potencia la visibilidad de marcas emergentes mediante tecnología de búsqueda avanzada.
@@ -12,8 +12,8 @@
 - **[Propuesta de Valor](#%EF%B8%8F-propuesta-de-valor)**<br>
 - **[Lean Canvas](#-lean-canvas)**<br>
 - **[Misión y Visión](#-misión-y-visión)**<br>
-- **[Miembros del equipo de desarrollo y responsabilidades](#-miembros-del-equipo-de-desarrollo-y-responsabilidades)**<br>
-- **[Referencias](#referencias)**<br>
+- **[Equipo](#-equipo)**<br>
+- **[Referencias](#-referencias)**<br>
 
 ---
 ## 🔍 Descripción del Problema
@@ -41,7 +41,7 @@ Fashtoll no es solo un catálogo; es un **optimizador de mercado** que redefine 
 ---
 ## 📒 Lean Canvas
 <p align="center">
-  <img src="./assets/lean-canvas-v1.png" alt="Lean Canvas v1" width="1000">
+  <img src="./docs/design/branding/lean-canvas-v1.png" alt="Lean Canvas v1" width="1000">
 </p>
 
 ---
@@ -54,20 +54,18 @@ Impulsar la transformación digital del sector moda en Colombia, facilitando el 
 Convertirnos en el estándar tecnológico de búsqueda y comercialización de moda en Colombia para el 2030. Aspiramos a ser la plataforma que democratice el acceso al mercado digital para las marcas emergentes, siendo reconocidos por nuestra innovación técnica y nuestro impacto positivo en la reducción del impacto ambiental del *fast fashion*.
 
 ---
-## 👥 Miembros del equipo de desarrollo y responsabilidades
-- Nicolas Joya. **Backend Developer**
-  - Desarrolla la API que reúne la lógica interna, conexión a base de datos, separación de roles, autenticación de usuarios y exposición de endpoints, permitiendo conectarlo con las tecnologías de interfaz gráfica.
-- David Romero. **Lider / Coordinador DB**
-  - Dirige y gestiona el proyecto y asimismo coordina el diseño, desarrollo y uso de bases de datos en las que se almacenarán los datos de usuarios y productos, permitiendo hacer consultas eficientes al momento de aplicar filtros de búsqueda.
-- Alejandro González. **Arquitecto de SW**
-  - Diseña la arquitectura de la solución de software, garantizando el orden, el uso de patrones GOF y la correcta separación en módulos de la aplicación.
-- Sebastian Ruiz. **Frontend Developer**
-  - Diseñador principal de la interfaz gráfica del software y la interactividad con el usuario.
+## 👥 Equipo
+De acuerdo con los objetivos de ingeniería de software, el equipo se organiza bajo roles que garantizan una solución robusta, escalable y modular.
+
+| Nombre | Rol | Responsabilidad |
+| :--- | :--- | :--- |
+| [David Romero](https://github.com/davidr124) | **Gestión / Liderazgo DB** | Dirigir el ciclo de vida del proyecto y orquestar el diseño lógico/físico de la persistencia para garantizar consultas de búsqueda optimizadas. |
+| [Alejandro González](https://github.com/alejandrogonzalezo1055) | **Arquitectura de SW** | Definir la estructura del sistema basada en patrones de diseño, asegurando la escalabilidad de la API y la correcta separación de intereses (SoC). |
+| [Nicolas Joya](https://github.com/NicoJoya) | **Backend Developer** | Implementar la lógica de negocio, sistemas de autenticación robustos y la exposición de servicios REST para el consumo de datos. |
+| [Sebastian Ruiz](https://github.com/Juanseruiz07) | **Frontend Developer** | Construir interfaces de usuario intuitivas y reactivas, garantizando una experiencia de usuario (UX) fluida y el consumo eficiente de la API. |
 
 ---
-## Referencias
-[1] Podean. (2024). Apparel eCommerce Report 2025.
-
-[2] Best Colorful Socks. (2025). Top 20 Clothing Choice Decision Fatigue Statistics 2025.
-
-[3] Inexmoda. (2025). Global Fashion Drivers Colombia 2025: Uncertainty, positioning and internationalization.
+## 📚 Referencias
+* [1] **Podean (2024).** *Apparel eCommerce Report 2025.*
+* [2] **Best Colorful Socks (2025).** *Top 20 Clothing Choice Decision Fatigue Statistics 2025.*
+* [3] **Inexmoda (2025).** *Global Fashion Drivers Colombia 2025: Uncertainty, positioning and internationalization.*
