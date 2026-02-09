@@ -11,8 +11,7 @@
 - **[Descripción del Problema](#-descripción-del-problema)**<br>
 - **[Propuesta de Valor](#%EF%B8%8F-propuesta-de-valor)**<br>
 - **[Lean Canvas](#-lean-canvas)**<br>
-- **[Misión](#-misión)**<br>
-- **[Visión](#%EF%B8%8F-visión)**<br>
+- **[Misión y Visión](#-misión-y-visión)**<br>
 - **[Miembros del equipo de desarrollo y responsabilidades](#-miembros-del-equipo-de-desarrollo-y-responsabilidades)**<br>
 - **[Referencias](#referencias)**<br>
 
@@ -46,11 +45,13 @@ Fashtoll no es solo un catálogo; es un **optimizador de mercado** que redefine 
 </p>
 
 ---
-## 🎯 Misión
-Actualmente la moda por e-commerce en Colombia solo representa el 9% del mercado actual de este sector [3], por eso nuestra misión es impulsar el emprendimiento colombiano en la industria de la moda, brindando una plataforma digital que permita a marcas locales exhibir y promocionar sus catálogos de manera accesible y efectiva. Buscamos conectar a los consumidores con alternativas al fast fashion, promoviendo el consumo consciente, el apoyo a lo local y la valoración de la identidad colombiana a través de la moda. Empezaremos en Bogotá ya que a nivel país es la ciudad que más gasta en moda mensualmente, $104.485 pesos exactamente [3], esto no quiere decir que nos quedaremos ahí, tenemos la expectativa de llegar al mercado nacional que mueve aproximadamente 33 Billones de pesos anuales [3] (ese fue el gasto en 2024).
+## 🎯 Misión y Visión
 
-## 👁️ Visión
-Nuestra visión es convertirnos en la plataforma digital líder en Colombia para la promoción y comercialización de marcas de moda locales, reconocida por fortalecer el ecosistema emprendedor y transformar la manera en que las personas consumen ropa. Aspiramos a ser un referente de moda responsable, innovación y compromiso social, contribuyendo a reducir el impacto del fast fashion y a posicionar el talento colombiano a nivel nacional.
+### Misión
+Impulsar la transformación digital del sector moda en Colombia, facilitando el acceso a alternativas sostenibles y locales. Con un mercado nacional que moviliza **$33 billones de pesos anuales** [3], nuestra misión es capturar y potenciar ese **9% de penetración e-commerce** [3] actual, empezando por Bogotá —el epicentro del gasto en moda— para conectar a las marcas con consumidores que valoran la autenticidad sobre la producción masiva.
+
+### Visión
+Convertirnos en el estándar tecnológico de búsqueda y comercialización de moda en Colombia para el 2030. Aspiramos a ser la plataforma que democratice el acceso al mercado digital para las marcas emergentes, siendo reconocidos por nuestra innovación técnica y nuestro impacto positivo en la reducción del impacto ambiental del *fast fashion*.
 
 ---
 ## 👥 Miembros del equipo de desarrollo y responsabilidades
