@@ -4,7 +4,7 @@
   <img src="./assets/fashtoll-logo-v1.png" alt="FashToll Logo v1" width="1000">
 </p>
 
-**Portal de búsqueda y filtrado de marcas de ropa a nivel local. Por CEIBA.**
+> **Fashtoll** es el ecosistema digital diseñado para conectar el talento de la moda local con el consumidor consciente. Actuamos como un puente inteligente que elimina la fatiga de decisión y potencia la visibilidad de marcas emergentes mediante tecnología de búsqueda avanzada.
 
 ---
 ## Índice
