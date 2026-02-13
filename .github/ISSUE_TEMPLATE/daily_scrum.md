@@ -17,4 +17,3 @@ assignees: ''
 - [ ] Sí (Describir: )
 
 ---
-*Nota: Recuerden que la Daily no debe durar más de 15 minutos.*
