@@ -12,7 +12,8 @@
 - **[Propuesta de Valor](#%EF%B8%8F-propuesta-de-valor)**<br>
 - **[Lean Canvas](#-lean-canvas)**<br>
 - **[Misión y Visión](#-misión-y-visión)**<br>
-- **[Equipo](#-equipo)**<br>
+- **[Equipo y Roles Técnicos](#-equipo-y-roles-técnicos)**<br>
+- **[Roles SCRUM](#-roles-scrum)**<br>
 - **[Referencias](#-referencias)**<br>
 
 ---
@@ -54,7 +55,7 @@ Impulsar la transformación digital del sector moda en Colombia, facilitando el 
 Convertirnos en el estándar tecnológico de búsqueda y comercialización de moda en Colombia para el 2030. Aspiramos a ser la plataforma que democratice el acceso al mercado digital para las marcas emergentes, siendo reconocidos por nuestra innovación técnica y nuestro impacto positivo en la reducción del impacto ambiental del *fast fashion*.
 
 ---
-## 👥 Equipo
+## 👥 Equipo y Roles Técnicos
 De acuerdo con los objetivos de ingeniería de software, el equipo se organiza bajo roles que garantizan una solución robusta, escalable y modular.
 
 | Nombre | Rol | Responsabilidad |
@@ -63,6 +64,17 @@ De acuerdo con los objetivos de ingeniería de software, el equipo se organiza b
 | [Alejandro González](https://github.com/alejandrogonzalezo1055) | **Arquitectura de SW** | Definir la estructura del sistema basada en patrones de diseño, asegurando la escalabilidad de la API y la correcta separación de intereses (SoC). |
 | [Nicolas Joya](https://github.com/NicoJoya) | **Backend Developer** | Implementar la lógica de negocio, sistemas de autenticación robustos y la exposición de servicios REST para el consumo de datos. |
 | [Sebastian Ruiz](https://github.com/Juanseruiz07) | **Frontend Developer** | Construir interfaces de usuario intuitivas y reactivas, garantizando una experiencia de usuario (UX) fluida y el consumo eficiente de la API. |
+
+---
+## ⚡ Roles SCRUM
+Siguiendo la metodología SCRUM, se definen los roles que garantizan el desarrollo ágil de un proyecto de software.
+
+| Nombre | Rol | Responsabilidad |
+| :--- | :--- | :--- |
+| [David Romero](https://github.com/davidr124) | **Scrum Master y QA Lead** | Como **Scrum Master**, organiza el trabajo por sprint, facilita la comunicación y ceremonias Scrum, da seguimiento al avance del proyecto e identifica y gestiona impedimentos. Como **QA Lead**, verifica que las entregas cumplan los criterios de evaluación, controla el cumplimiento de tareas del sprint, revisa la calidad funcional, técnica y documental, y reporta desviaciones, defectos y riesgos. |
+| [Alejandro González](https://github.com/alejandrogonzalezo1055) | **Scrum Master y Sprint Planner** | Como **Scrum Master**, coordina la ejecución de los sprints, facilita la comunicación del equipo y supervisa el avance general del proyecto gestionando impedimentos. Como **Sprint Planner**, descompone historias de usuario en tareas, organiza y mantiene el backlog del sprint, asigna y da seguimiento a tareas, y asegura coherencia entre backlog, issues y sprints en GitHub Projects. |
+| [Nicolas Joya](https://github.com/NicoJoya) | **Product Owner y Configuration Manager** | Como **Product Owner**, lidera la recolección de requerimientos, define historias de usuario, casos de uso y criterios de aceptación, prioriza el Product Backlog y valida entregables cerrando issues. Como **Configuration Manager**, administra el repositorio, define y controla el Gitflow, revisa y aprueba pull requests, y supervisa commits, fusiones y versiones del proyecto. |
+| [Sebastian Ruiz](https://github.com/Juanseruiz07) | **Sprint Planner y DevOps Engineer** | Como **Sprint Planner**, descompone historias en tareas técnicas, organiza el backlog del sprint, asigna tareas y garantiza la coherencia entre issues, sprints y milestones. Como **DevOps Engineer**, diseña y mantiene pipelines de CI/CD, automatiza pruebas e integración de módulos, gestiona el despliegue del sistema (por ejemplo con Docker) y configura los entornos de desarrollo, pruebas y producción. |
 
 ---
 ## 📚 Referencias
