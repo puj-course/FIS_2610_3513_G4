@@ -81,3 +81,11 @@ Siguiendo la metodología SCRUM, se definen los roles que garantizan el desarrol
 * [1] **Podean (2024).** *Apparel eCommerce Report 2025.*
 * [2] **Best Colorful Socks (2025).** *Top 20 Clothing Choice Decision Fatigue Statistics 2025.*
 * [3] **Inexmoda (2025).** *Global Fashion Drivers Colombia 2025: Uncertainty, positioning and internationalization.*
+---
+## 🎓 Contexto Académico
+Proyecto desarrollado con fines académicos.  
+
+Pontificia Universidad Javeriana
+Facultad de Ingeniería
+Fundamentos de Ingeniería de Software
+2026
