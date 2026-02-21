@@ -4,88 +4,78 @@
   <img src="./docs/design/branding/fashtoll-logo-v1.png" alt="FashToll Logo v1" width="1000">
 </p>
 
-> **Fashtoll** es el ecosistema digital diseñado para conectar el talento de la moda local con el consumidor consciente. Actuamos como un puente inteligente que elimina la fatiga de decisión y potencia la visibilidad de marcas emergentes mediante tecnología de búsqueda avanzada.
+**Fashtoll** es el ecosistema digital diseñado para conectar el talento de la moda local con el consumidor consciente. Actuamos como un puente inteligente que elimina la fatiga de decisión y potencia la visibilidad de marcas emergentes mediante tecnología de búsqueda avanzada.
 
 ---
-## Índice
-- **[Descripción del Problema](#-descripción-del-problema)**<br>
-- **[Propuesta de Valor](#%EF%B8%8F-propuesta-de-valor)**<br>
-- **[Lean Canvas](#-lean-canvas)**<br>
-- **[Misión y Visión](#-misión-y-visión)**<br>
-- **[Equipo y Roles Técnicos](#-equipo-y-roles-técnicos)**<br>
-- **[Roles SCRUM](#-roles-scrum)**<br>
-- **[Referencias](#-referencias)**<br>
+## 👥 Equipo del Proyecto
+
+| Nombre | Rol | GitHub / Perfil |
+| :--- | :--- | :--- |
+| David Romero | **Scrum Master y QA Lead** | https://github.com/davidr124 |
+| Alejandro González | **Scrum Master y Sprint Planner** | https://github.com/alejandrogonzalezo1055 |
+| Nicolas Joya | **Product Owner y Configuration Manager** | https://github.com/NicoJoya |
+| Juan Sebastian Ruiz | **Sprint Planner y DevOps Engineer** | https://github.com/Juanseruiz07 |
 
 ---
-## 🔍 Descripción del Problema
-En un ecosistema donde el **38.1% de las ventas de ropa ya son digitales** [1], el proceso de compra se ha vuelto paradójicamente ineficiente. Los usuarios se enfrentan a un mercado fragmentado donde la búsqueda de prendas específicas es una tarea tediosa y frustrante.
 
 ### El Desafío del Consumidor
 * **Fatiga de Decisión:** El **84% de los compradores** reporta que los filtros de búsqueda actuales son ineficaces o innecesariamente complejos [2], lo que convierte una búsqueda simple en una pérdida de tiempo.
-* **Brecha de Confianza:** El **66% de los usuarios** prefiere marcas establecidas no por gusto, sino por el miedo a la falta de garantías en marcas de nicho [1].ss
-
-### El Desafío de la Marca Local
-* **Barreras de Entrada:** Las marcas emergentes deben invertir hasta un **20% de sus ingresos** solo en visibilidad [2], con un costo de adquisición de cliente (CAC) que promedia los **$129 USD** [2]. 
-
-Fashtoll nace para resolver esta ineficiencia, transformando el caos de la oferta en una experiencia de usuario dirigida y confiable.
+* **Brecha de Confianza:** El **66% de los usuarios** prefiere marcas establecidas no por gusto, sino por el miedo a la falta de garantías en marcas de nicho [1].
 
 ---
-## 🎖️ Propuesta de Valor
-Fashtoll no es solo un catálogo; es un **optimizador de mercado** que redefine la relación entre el cliente y la moda independiente.
 
-1. **Búsqueda Técnica Estandarizada:** Implementamos un sistema de indexación que permite filtrar por características reales (material, fit, estilo) en múltiples catálogos simultáneamente.
-2. **Validación y Confianza:** Actuamos como un sello de garantía para marcas locales, reduciendo el riesgo percibido y permitiendo que la calidad compita de igual a igual con el *fast fashion*.
-3. **Eficiencia en el Descubrimiento:** Reducimos drásticamente el tiempo de búsqueda para el usuario y el costo de marketing para la marca, sirviendo como el intermediario técnico que el sector moda en Colombia necesita.
+## 📥 Instalación y Ejecución
+**Requisitos**
+- Java 17+
+- Maven
+- Docker Desktop
 
-*A diferencia de los portales masivos, nosotros priorizamos la **identidad local** y la **precisión técnica** de la búsqueda.*
+## 💻 Clonar el repositorio
+```text
+git clone https://github.com/puj-course/FIS_2610_3513_G4.git
+cd FIS_2610_3513_G4
+```
 
----
-## 📒 Lean Canvas
-<p align="center">
-  <img src="./docs/design/branding/lean-canvas-v1.png" alt="Lean Canvas v1" width="1000">
-</p>
+## 🐋 Ejecución con Docker
+```text
+proximamente...
+```
 
----
-## 🎯 Misión y Visión
-
-### Misión
-Impulsar la transformación digital del sector moda en Colombia, facilitando el acceso a alternativas sostenibles y locales. Con un mercado nacional que moviliza **$33 billones de pesos anuales** [3], nuestra misión es capturar y potenciar ese **9% de penetración e-commerce** [3] actual, empezando por Bogotá —el epicentro del gasto en moda— para conectar a las marcas con consumidores que valoran la autenticidad sobre la producción masiva.
-
-### Visión
-Convertirnos en el estándar tecnológico de búsqueda y comercialización de moda en Colombia para el 2030. Aspiramos a ser la plataforma que democratice el acceso al mercado digital para las marcas emergentes, siendo reconocidos por nuestra innovación técnica y nuestro impacto positivo en la reducción del impacto ambiental del *fast fashion*.
-
----
-## 👥 Equipo y Roles Técnicos
-De acuerdo con los objetivos de ingeniería de software, el equipo se organiza bajo roles que garantizan una solución robusta, escalable y modular.
-
-| Nombre | Rol | Responsabilidad |
-| :--- | :--- | :--- |
-| [David Romero](https://github.com/davidr124) | **Gestión / Liderazgo DB** | Dirigir el ciclo de vida del proyecto y orquestar el diseño lógico/físico de la persistencia para garantizar consultas de búsqueda optimizadas. |
-| [Alejandro González](https://github.com/alejandrogonzalezo1055) | **Arquitectura de SW** | Definir la estructura del sistema basada en patrones de diseño, asegurando la escalabilidad de la API y la correcta separación de intereses (SoC). |
-| [Nicolas Joya](https://github.com/NicoJoya) | **Backend Developer** | Implementar la lógica de negocio, sistemas de autenticación robustos y la exposición de servicios REST para el consumo de datos. |
-| [Sebastian Ruiz](https://github.com/Juanseruiz07) | **Frontend Developer** | Construir interfaces de usuario intuitivas y reactivas, garantizando una experiencia de usuario (UX) fluida y el consumo eficiente de la API. |
+## 🧪 Ejecución de pruebas
+```text
+proximamente...
+```
 
 ---
-## ⚡ Roles SCRUM
-Siguiendo la metodología SCRUM, se definen los roles que garantizan el desarrollo ágil de un proyecto de software.
 
-| Nombre | Rol | Responsabilidad |
-| :--- | :--- | :--- |
-| [David Romero](https://github.com/davidr124) | **Scrum Master y QA Lead** | Como **Scrum Master**, organiza el trabajo por sprint, facilita la comunicación y ceremonias Scrum, da seguimiento al avance del proyecto e identifica y gestiona impedimentos. Como **QA Lead**, verifica que las entregas cumplan los criterios de evaluación, controla el cumplimiento de tareas del sprint, revisa la calidad funcional, técnica y documental, y reporta desviaciones, defectos y riesgos. |
-| [Alejandro González](https://github.com/alejandrogonzalezo1055) | **Scrum Master y Sprint Planner** | Como **Scrum Master**, coordina la ejecución de los sprints, facilita la comunicación del equipo y supervisa el avance general del proyecto gestionando impedimentos. Como **Sprint Planner**, descompone historias de usuario en tareas, organiza y mantiene el backlog del sprint, asigna y da seguimiento a tareas, y asegura coherencia entre backlog, issues y sprints en GitHub Projects. |
-| [Nicolas Joya](https://github.com/NicoJoya) | **Product Owner y Configuration Manager** | Como **Product Owner**, lidera la recolección de requerimientos, define historias de usuario, casos de uso y criterios de aceptación, prioriza el Product Backlog y valida entregables cerrando issues. Como **Configuration Manager**, administra el repositorio, define y controla el Gitflow, revisa y aprueba pull requests, y supervisa commits, fusiones y versiones del proyecto. |
-| [Sebastian Ruiz](https://github.com/Juanseruiz07) | **Sprint Planner y DevOps Engineer** | Como **Sprint Planner**, descompone historias en tareas técnicas, organiza el backlog del sprint, asigna tareas y garantiza la coherencia entre issues, sprints y milestones. Como **DevOps Engineer**, diseña y mantiene pipelines de CI/CD, automatiza pruebas e integración de módulos, gestiona el despliegue del sistema (por ejemplo con Docker) y configura los entornos de desarrollo, pruebas y producción. |
-
----
-## 📚 Referencias
-* [1] **Podean (2024).** *Apparel eCommerce Report 2025.*
-* [2] **Best Colorful Socks (2025).** *Top 20 Clothing Choice Decision Fatigue Statistics 2025.*
-* [3] **Inexmoda (2025).** *Global Fashion Drivers Colombia 2025: Uncertainty, positioning and internationalization.*
----
 ## 🎓 Contexto Académico
-Proyecto desarrollado con fines académicos.  
+- **Asignatura:** Fundamentos de Ingeniería de Software
+- **Docente:** Luis Gabriel Moreno Sandoval, PhD
+- **Contacto:** morenoluis@javeriana.edu.co
 
-Pontificia Universidad Javeriana
-Facultad de Ingeniería
-Fundamentos de Ingeniería de Software
-2026
+---
+
+## 📧 Contacto
+
+**Equipo de desarrollo:**
+
+**Nicolás Joya Murillo**  
+Estudiante de Ingeniería en Sistemas, Pontificia Universidad Javeriana  
+📧 nicolas_joya@javeriana.edu.co 
+
+**Alejandro Gonzalez Ochoa**  
+Estudiante de Ingeniería en Sistemas, Pontificia Universidad Javeriana  
+📧 alejandrogonzalezo@javeriana.edu.co
+
+**Juan Sebastián Ruiz**  
+Estudiante de Ingeniería en Sistemas, Pontificia Universidad Javeriana  
+📧 Juan.Ruizg@javeriana.edu.co
+
+**David Felipe Mannios Romero**  
+Estudiante de Ingeniería en Sistemas, Pontificia Universidad Javeriana  
+📧 david.manniosr@javeriana.edu.co
+
+---
+
+## ⚖️ Licencia
+Proyecto desarrollado con fines académicos.
