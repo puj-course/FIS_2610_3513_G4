@@ -18,12 +18,9 @@
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
-- **Frontend:** JavaScript, React
-- **Backend:** Java, Spring Boot
-- **Base de Datos:** PostgreSQL, Flyway
-- **DevOps:** GitHub Actions, Docker, SonarQube
-- **Control de versiones:** Git
+### El Desafío del Consumidor
+* **Fatiga de Decisión:** El **84% de los compradores** reporta que los filtros de búsqueda actuales son ineficaces o innecesariamente complejos [2], lo que convierte una búsqueda simple en una pérdida de tiempo.
+* **Brecha de Confianza:** El **66% de los usuarios** prefiere marcas establecidas no por gusto, sino por el miedo a la falta de garantías en marcas de nicho [1].
 
 ---
 
