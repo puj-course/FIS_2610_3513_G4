@@ -22,7 +22,7 @@ En un ecosistema donde el **38.1% de las ventas de ropa ya son digitales** [1], 
 
 ### El Desafío del Consumidor
 * **Fatiga de Decisión:** El **84% de los compradores** reporta que los filtros de búsqueda actuales son ineficaces o innecesariamente complejos [2], lo que convierte una búsqueda simple en una pérdida de tiempo.
-* **Brecha de Confianza:** El **66% de los usuarios** prefiere marcas establecidas no por gusto, sino por el miedo a la falta de garantías en marcas de nicho [1].
+* **Brecha de Confianza:** El **66% de los usuarios** prefiere marcas establecidas no por gusto, sino por el miedo a la falta de garantías en marcas de nicho [1].ss
 
 ### El Desafío de la Marca Local
 * **Barreras de Entrada:** Las marcas emergentes deben invertir hasta un **20% de sus ingresos** solo en visibilidad [2], con un costo de adquisición de cliente (CAC) que promedia los **$129 USD** [2]. 
