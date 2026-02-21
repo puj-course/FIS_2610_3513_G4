@@ -14,7 +14,7 @@
 | David Romero | **Scrum Master y QA Lead** | https://github.com/davidr124 |
 | Alejandro González | **Scrum Master y Sprint Planner** | https://github.com/alejandrogonzalezo1055 |
 | Nicolas Joya | **Product Owner y Configuration Manager** | https://github.com/NicoJoya |
-| Sebastian Ruiz | **Sprint Planner y DevOps Engineer** | https://github.com/Juanseruiz07 |
+| Juan Sebastian Ruiz | **Sprint Planner y DevOps Engineer** | https://github.com/Juanseruiz07 |
 
 ---
 
