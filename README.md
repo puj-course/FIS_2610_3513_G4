@@ -85,7 +85,7 @@ Siguiendo la metodología SCRUM, se definen los roles que garantizan el desarrol
 ## 🎓 Contexto Académico
 Proyecto desarrollado con fines académicos.  
 
-Pontificia Universidad Javeriana
-Facultad de Ingeniería
-Fundamentos de Ingeniería de Software
-2026
+Pontificia Universidad Javeriana  
+Facultad de Ingeniería  
+Fundamentos de Ingeniería de Software  
+2026  
