@@ -51,12 +51,14 @@ cd FIS_2610_3513_G4
 
 ## 🐋 Ejecución con Docker
 ```text
-proximamente...
+// proximamente disponible...
+docker-compose up --build
 ```
 
 ## 🧪 Ejecución de pruebas
 ```text
-proximamente...
+// proximamente disponible...
+docker-compose run backend mvn test
 ```
 
 ---
