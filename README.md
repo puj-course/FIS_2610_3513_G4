@@ -18,6 +18,19 @@
 
 ---
 
+---
+## 👥 Equipo y Roles Técnicos
+De acuerdo con los objetivos de ingeniería de software, el equipo se organiza bajo roles que garantizan una solución robusta, escalable y modular.
+
+| Nombre | Rol | Responsabilidad |
+| :--- | :--- | :--- |
+| [David Romero](https://github.com/davidr124) | **Gestión / Liderazgo DB** | Dirigir el ciclo de vida del proyecto y orquestar el diseño lógico/físico de la persistencia para garantizar consultas de búsqueda optimizadas. |
+| [Alejandro González](https://github.com/alejandrogonzalezo1055) | **Arquitectura de SW** | Definir la estructura del sistema basada en patrones de diseño, asegurando la escalabilidad de la API y la correcta separación de intereses (SoC). |
+| [Nicolas Joya](https://github.com/NicoJoya) | **Backend Developer** | Implementar la lógica de negocio, sistemas de autenticación robustos y la exposición de servicios REST para el consumo de datos. |
+| [Sebastian Ruiz](https://github.com/Juanseruiz07) | **Frontend Developer** | Construir interfaces de usuario intuitivas y reactivas, garantizando una experiencia de usuario (UX) fluida y el consumo eficiente de la API. |
+
+---
+
 ### El Desafío del Consumidor
 * **Fatiga de Decisión:** El **84% de los compradores** reporta que los filtros de búsqueda actuales son ineficaces o innecesariamente complejos [2], lo que convierte una búsqueda simple en una pérdida de tiempo.
 * **Brecha de Confianza:** El **66% de los usuarios** prefiere marcas establecidas no por gusto, sino por el miedo a la falta de garantías en marcas de nicho [1].
