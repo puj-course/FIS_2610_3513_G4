@@ -1,13 +1,8 @@
-.env
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
-### OS ###
-.DS_Store
-Thumbs.db
 
 ### STS ###
 .apt_generated
