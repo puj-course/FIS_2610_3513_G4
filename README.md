@@ -21,6 +21,7 @@
 ## 🛠️ Tecnologías Utilizadas
 - **Frontend:** JavaScript, React
 - **Backend:** Java, Spring Boot
+- **Construcción:** Maven
 - **Base de Datos:** PostgreSQL, Flyway
 - **DevOps:** GitHub Actions, Docker, SonarQube
 - **Control de versiones:** Git
@@ -39,15 +40,23 @@ git clone https://github.com/puj-course/FIS_2610_3513_G4.git
 cd FIS_2610_3513_G4
 ```
 
-## 🐋 Ejecución con Docker
+## 🐋 Ejecución de PostgreSQL con Docker
+Para desplegar el servicio de base de datos PostgreSQL se debe instalar Docker Desktop y ejecutar este comando en la raíz del proyecto:
 ```text
-// proximamente disponible...
-docker-compose up --build
+docker compose up -d
 ```
+La base de datos estará disponible en el puerto 5432.
 
-## 🧪 Ejecución de pruebas
+## ▶️ Ejecución de la Aplicación con IDE
+Abrir el proyecto con cualquier IDE compatible y ejecutarlo. En IntelliJ IDEA:
 ```text
-// proximamente disponible...
+Open Project -> FIS_2610_3513_G4 -> Run 'FashtollApplication'
+```
+La aplicación estará disponible en el puerto 8080.
+
+## 🧪 Ejecución de pruebas (Próximamente)
+```text
+// próximamente disponible...
 docker-compose run backend mvn test
 ```
 
