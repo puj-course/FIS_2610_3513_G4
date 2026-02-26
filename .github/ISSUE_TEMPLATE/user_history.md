@@ -14,11 +14,11 @@ labels: 'enhancement'
 1. Son varios criterios que indican cuando se puede considerar terminada la historia de usuario
    
 ### 🏁 Definition of Done
-- [] Cumple todos los criterios de aceptación.
-- [] Está implementada sin errores críticos.
-- [] Está integrada al repositorio principal.
-- [] Tiene pruebas (si aplica).
-- [] Está validada por el Product Owner.
+- [ ] Cumple todos los criterios de aceptación.
+- [ ] Está implementada sin errores críticos.
+- [ ] Está integrada al repositorio principal.
+- [ ] Tiene pruebas (si aplica).
+- [ ] Está validada por el Product Owner.
 
 ### 📑 Información adicional (borrar este subtitulo y contenido despues de añadir la prioridad y los sub-issues)
 1. Es necesario definir la prioridad (alta, media o baja).
