@@ -9,12 +9,12 @@
 ---
 ## 👥 Equipo del Proyecto
 
-| Nombre | Rol | GitHub / Perfil |
-| :--- | :--- | :--- |
-| David Romero | **Scrum Master y QA Lead** | https://github.com/davidr124 |
-| Alejandro González | **Scrum Master y Sprint Planner** | https://github.com/alejandrogonzalezo1055 |
-| Nicolas Joya | **Product Owner y Configuration Manager** | https://github.com/NicoJoya |
-| Juan Sebastian Ruiz | **Sprint Planner y DevOps Engineer** | https://github.com/Juanseruiz07 |
+| Nombre | Rol Scrum | Rol Técnico | GitHub / Perfil |
+| :--- | :--- | :--- | :--- |
+| David Romero | **Scrum Master y QA Lead** | Gestión / Liderazgo DB | https://github.com/davidr124 |
+| Alejandro González | **Scrum Master y Sprint Planner** | Arquitectura de SW | https://github.com/alejandrogonzalezo1055 |
+| Nicolas Joya | **Product Owner y Configuration Manager** | Backend Developer | https://github.com/NicoJoya |
+| Juan Sebastian Ruiz | **Sprint Planner y DevOps Engineer** | Frontend Developer | https://github.com/Juanseruiz07 |
 
 ---
 
@@ -25,6 +25,61 @@
 - **Base de Datos:** PostgreSQL, Flyway
 - **DevOps:** GitHub Actions, Docker, SonarQube
 - **Control de versiones:** Git
+
+---
+
+## 🗂️ Estructura del Proyecto
+```text
+FIS_2610_3513_G4/
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   ├── feature_request.md
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── workflows/
+│       ├── ci.yml
+│       └── cd.yml
+├── conf/
+│   ├── config.yaml
+│   └── settings.json
+├── docs/
+│   ├── api/
+│   ├── architecture/
+│   └── user_guide/
+├── jupyter/
+│   ├── notebooks/
+│   │   ├── exploration.ipynb
+│   │   └── analysis.ipynb
+│   └── datasets/
+│       ├── data1.csv
+│       └── data2.csv
+├── scripts/
+│   ├── setup.sh
+│   ├── deploy.sh
+│   └── test.sh
+├── backend/                 # Beckend (Spring Boot)
+│   ├── src/
+│   │   ├── main/
+│   │   |   ├── java/
+│   │   |   └── resources/
+│   │   └── test/
+│   │       └── java/
+│   └── pom.xml
+├── frontend/                # Frontend (React)
+├── temp/
+│   ├── temp_file.txt
+│   └── temp_data/
+│       ├── temp1.tmp
+│       └── temp2.tmp
+├── .gitignore
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── Dockerfile
+├── docker-compose.yml
+└── Makefile
+```
 
 ---
 
