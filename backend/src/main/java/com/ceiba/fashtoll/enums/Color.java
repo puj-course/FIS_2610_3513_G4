@@ -14,5 +14,7 @@ public enum Color {
     PINK,
     YELLOW,
     GOLD,
-    SILVER
+    SILVER,
+    MULTICOLOR,
+    OTHER
 }

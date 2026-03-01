@@ -6,10 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-// @Table(name = "brands")
+@Table(name = "brands")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,10 +31,10 @@ public class Brand {
     @NotBlank(message = "La contraseña es obligatoria")
     private String password; // hash de BCrypt
 
-    // @Column(name = "picture_url", length = 500)
+    @Column(name = "picture_url", length = 500)
     private String pictureUrl;
 
-    // @Column(name = "link_official", length = 255)
+    @Column(name = "link_official", length = 255)
     private String linkOfficial;
 
     private Integer followers = 0;
@@ -41,9 +42,19 @@ public class Brand {
     @Min(0) @Max(5)
     private Double rating = 0.0;
 
-    // @Column(name = "is_verified")
+    @Column(name = "is_verified")
     private Boolean isVerified = false;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
+
+    /* Cuando exista Tag
+    @ManyToMany
+    @JoinTable(
+            name = "brand_tags",
+            joinColumns = @JoinColumn(name = "brand_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
+    */
 }

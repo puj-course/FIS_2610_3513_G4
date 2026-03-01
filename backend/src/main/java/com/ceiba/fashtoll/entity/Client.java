@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-// @Table(name = "clients")
+@Table(name = "clients")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,4 +29,17 @@ public class Client {
 
     @NotBlank(message = "La contraseña es obligatoria")
     private String password; // hash de BCrypt
+
+    /* Cuando exista Wishlist
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Wishlist> wishlists = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "client_follows_brand",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "brand_id")
+    )
+    private Set<Brand> followedBrands = new HashSet<>();
+    */
 }
