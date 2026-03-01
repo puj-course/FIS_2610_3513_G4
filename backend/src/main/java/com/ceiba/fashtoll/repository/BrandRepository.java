@@ -1,4 +1,4 @@
 package com.ceiba.fashtoll.repository;
 
-public class BrandRepository {
+public interface BrandRepository {
 }
