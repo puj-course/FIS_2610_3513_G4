@@ -26,11 +26,9 @@ public class Product {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    /* Cuando exista ProductType
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_type_id", nullable = false)
     private ProductType productType;
-    */
 
     @NotBlank(message = "El nombre del producto es obligatorio")
     @Size(max = 150)
