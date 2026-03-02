@@ -23,7 +23,7 @@ public class ClientService {
 
     public Client getClientById(Long id) {
         return clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found: " + id));
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado: " + id));
     }
 
     public Client createClient(Client client) {
