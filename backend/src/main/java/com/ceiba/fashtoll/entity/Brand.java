@@ -1,5 +1,6 @@
 package com.ceiba.fashtoll.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -16,20 +17,16 @@ import java.util.List;
 @AllArgsConstructor
 public class Brand {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // Se asignará el mismo id que el de User
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @NotBlank(message = "El nombre de la marca es obligatorio")
     @Size(max = 100)
     private String name;
-
-    @NotBlank(message = "El email es obligatorio")
-    @Email(message = "Debe ser un email válido")
-    @Column(unique = true, length = 150)
-    private String email;
-
-    @NotBlank(message = "La contraseña es obligatoria")
-    private String password; // hash de BCrypt
 
     @Column(name = "picture_url", length = 500)
     private String pictureUrl;
@@ -46,6 +43,7 @@ public class Brand {
     private Boolean isVerified = false;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    @JsonIgnore // Para que jackon no serialice los productos de la marca
     private List<Product> products = new ArrayList<>();
 
     /* Cuando exista Tag

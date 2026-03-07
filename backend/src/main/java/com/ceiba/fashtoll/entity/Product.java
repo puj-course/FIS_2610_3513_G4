@@ -3,11 +3,13 @@ package com.ceiba.fashtoll.entity;
 import com.ceiba.fashtoll.enums.Color;
 import com.ceiba.fashtoll.enums.Gender;
 import com.ceiba.fashtoll.enums.GeneralFit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -24,6 +26,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
+    @JsonIgnore // para que jackson no serialice el objeto marca
     private Brand brand;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,7 +63,8 @@ public class Product {
     private String linkProduct;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     /* Cuando exista ProductImage y Tag
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

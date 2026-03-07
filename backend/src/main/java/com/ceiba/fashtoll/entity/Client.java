@@ -15,20 +15,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // Se asignará el mismo id que el de User
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 100)
     private String name;
-
-    @NotBlank(message = "El email es obligatorio")
-    @Email(message = "Debe ser un email válido")
-    @Column(unique = true, length = 150)
-    private String email;
-
-    @NotBlank(message = "La contraseña es obligatoria")
-    private String password; // hash de BCrypt
 
     /* Cuando exista Wishlist
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
