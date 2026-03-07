@@ -3,6 +3,7 @@ package com.ceiba.fashtoll.entity;
 import com.ceiba.fashtoll.enums.Color;
 import com.ceiba.fashtoll.enums.Gender;
 import com.ceiba.fashtoll.enums.GeneralFit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
+    @JsonIgnore // para que jackson no serialice el objeto marca
     private Brand brand;
 
     @ManyToOne(fetch = FetchType.LAZY)

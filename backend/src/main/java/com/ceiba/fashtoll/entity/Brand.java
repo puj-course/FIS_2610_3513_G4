@@ -1,5 +1,6 @@
 package com.ceiba.fashtoll.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,7 @@ public class Brand {
     private Boolean isVerified = false;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    @JsonIgnore // Para que jackon no serialice los productos de la marca
     private List<Product> products = new ArrayList<>();
 
     /* Cuando exista Tag
