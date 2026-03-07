@@ -1,10 +1,94 @@
 package com.ceiba.fashtoll.service;
 
+import com.ceiba.fashtoll.dto.ProductDTO;
+import com.ceiba.fashtoll.entity.Brand;
+import com.ceiba.fashtoll.entity.Product;
+import com.ceiba.fashtoll.entity.ProductType;
+import com.ceiba.fashtoll.mapper.ProductMapper;
+import com.ceiba.fashtoll.repository.BrandRepository;
+import com.ceiba.fashtoll.repository.ProductRepository;
+import com.ceiba.fashtoll.repository.ProductTypeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
 
+    private final ProductRepository productRepository;
+    private final BrandRepository brandRepository;
+    private final ProductTypeRepository productTypeRepository;
+    private final ProductMapper productMapper;
 
+    @Autowired
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, ProductTypeRepository productTypeRepository, ProductMapper productMapper) {
+        this.productRepository = productRepository;
+        this.brandRepository = brandRepository;
+        this.productTypeRepository = productTypeRepository;
+        this.productMapper = productMapper;
+    }
 
+    public List<ProductDTO> getAllProducts() {
+        return productRepository.findAll().stream()
+                .map(productMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public ProductDTO getProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
+        return productMapper.toDTO(product);
+    }
+
+    public ProductDTO createProduct(ProductDTO productDTO) {
+        Product product = productMapper.toEntity(productDTO);
+        if (productDTO.getBrandId() != null) {
+            Brand brand = brandRepository.findById(productDTO.getBrandId())
+                    .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + productDTO.getBrandId()));
+            product.setBrand(brand);
+        }
+        if (productDTO.getProductTypeId() != null) {
+            ProductType productType = productTypeRepository.findById(productDTO.getProductTypeId())
+                    .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + productDTO.getProductTypeId()));
+            product.setProductType(productType);
+        }
+        if (product.getAvailable() == null) product.setAvailable(true);
+        if (product.getRating() == null) product.setRating(0.0);
+        Product savedProduct = productRepository.save(product);
+        return productMapper.toDTO(savedProduct);
+    }
+
+    public ProductDTO updateProduct(Long id, ProductDTO updatedProductDTO) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
+        product.setName(updatedProductDTO.getName());
+        product.setDescription(updatedProductDTO.getDescription());
+        product.setPrice(updatedProductDTO.getPrice());
+        product.setGeneralFit(updatedProductDTO.getGeneralFit());
+        product.setGender(updatedProductDTO.getGender());
+        product.setColor(updatedProductDTO.getColor());
+        product.setAvailable(updatedProductDTO.getAvailable());
+        product.setRating(updatedProductDTO.getRating());
+        product.setLinkProduct(updatedProductDTO.getLinkProduct());
+        if (updatedProductDTO.getBrandId() != null) {
+            Brand brand = brandRepository.findById(updatedProductDTO.getBrandId())
+                    .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + updatedProductDTO.getBrandId()));
+            product.setBrand(brand);
+        }
+        if (updatedProductDTO.getProductTypeId() != null) {
+            ProductType productType = productTypeRepository.findById(updatedProductDTO.getProductTypeId())
+                    .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + updatedProductDTO.getProductTypeId()));
+            product.setProductType(productType);
+        }
+        Product savedProduct = productRepository.save(product);
+        return productMapper.toDTO(savedProduct);
+    }
+
+    public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
+        productRepository.delete(product);
+    }
 }

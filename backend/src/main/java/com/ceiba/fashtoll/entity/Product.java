@@ -9,6 +9,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -62,7 +63,8 @@ public class Product {
     private String linkProduct;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     /* Cuando exista ProductImage y Tag
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.controller;
 
-import com.ceiba.fashtoll.entity.Brand;
+import com.ceiba.fashtoll.dto.BrandDTO;
 import com.ceiba.fashtoll.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,24 +21,24 @@ public class BrandController {
     }
 
     @GetMapping
-    public List<Brand> getAllBrands() {
+    public List<BrandDTO> getAllBrands() {
         return brandService.getAllBrands();
     }
 
     @GetMapping("/{id}")
-    public Brand getBrandById(@PathVariable Long id) {
+    public BrandDTO getBrandById(@PathVariable Long id) {
         return brandService.getBrandById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Brand> createBrand(@RequestBody Brand brand) {
-        Brand newBrand = brandService.createBrand(brand);
+    public ResponseEntity<BrandDTO> createBrand(@RequestBody BrandDTO brandDTO) {
+        BrandDTO newBrand = brandService.createBrand(brandDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newBrand);
     }
 
     @PutMapping("/{id}")
-    public Brand updateBrand(@PathVariable Long id, @RequestBody Brand updatedBrand) {
-        return brandService.updateBrand(id, updatedBrand);
+    public BrandDTO updateBrand(@PathVariable Long id, @RequestBody BrandDTO updatedBrandDTO) {
+        return brandService.updateBrand(id, updatedBrandDTO);
     }
 
     @DeleteMapping("/{id}")
