@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.controller;
 
-import com.ceiba.fashtoll.entity.Client;
+import com.ceiba.fashtoll.dto.ClientDTO;
 import com.ceiba.fashtoll.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,24 +21,24 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<Client> getAllClients() {
+    public List<ClientDTO> getAllClients() {
         return clientService.getAllClients();
     }
 
     @GetMapping("/{id}")
-    public Client getClientById(@PathVariable Long id) {
+    public ClientDTO getClientById(@PathVariable Long id) {
         return clientService.getClientById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Client> createClient(@RequestBody Client client) {
-        Client newClient = clientService.createClient(client);
+    public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO) {
+        ClientDTO newClient = clientService.createClient(clientDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newClient);
     }
 
     @PutMapping("/{id}")
-    public Client updateClient(@PathVariable Long id, @RequestBody Client updatedClient) {
-        return clientService.updateClient(id, updatedClient);
+    public ClientDTO updateClient(@PathVariable Long id, @RequestBody ClientDTO updatedClientDTO) {
+        return clientService.updateClient(id, updatedClientDTO);
     }
 
     @DeleteMapping("/{id}")
