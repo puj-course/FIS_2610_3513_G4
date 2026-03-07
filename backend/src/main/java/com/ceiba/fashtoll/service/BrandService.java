@@ -36,8 +36,6 @@ public class BrandService {
     public Brand updateBrand(Long id, Brand updatedBrand) {
         Brand brand = getBrandById(id);
         brand.setName(updatedBrand.getName());
-        brand.setEmail(updatedBrand.getEmail());
-        brand.setPassword(updatedBrand.getPassword());
         brand.setPictureUrl(updatedBrand.getPictureUrl());
         brand.setLinkOfficial(updatedBrand.getLinkOfficial());
         brand.setFollowers(updatedBrand.getFollowers());
