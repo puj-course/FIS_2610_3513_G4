@@ -91,4 +91,34 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
         productRepository.delete(product);
     }
+
+    public List<ProductDTO> getProductsByBrand(Long brandId) {
+        return productRepository.findByBrandId(brandId).stream()
+                .map(productMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    // TODO: Implementar createBrandProduct() para que una marca cree un producto propio
+
+    public ProductDTO updateBrandProduct(Long brandId, Long productId, ProductDTO updatedProductDTO) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + productId));
+
+        if (!product.getBrand().getId().equals(brandId)) {
+            throw new RuntimeException("No tiene permisos para actualizar este producto");
+        }
+
+        return updateProduct(productId, updatedProductDTO);
+    }
+
+    public void deleteBrandProduct(Long brandId, Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + productId));
+
+        if (!product.getBrand().getId().equals(brandId)) {
+            throw new RuntimeException("No tiene permisos para eliminar este producto");
+        }
+
+        productRepository.delete(product);
+    }
 }

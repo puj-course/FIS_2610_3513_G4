@@ -51,24 +51,26 @@ public class BrandController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/my-products")
-//    public List<ProductDTO> getMyProducts(Authentication authentication) {
-//        User user = (User) authentication.getPrincipal();
-//        return productService.getProductsByBrand(user.getId());
-//    }
-//
-//    @PutMapping("/my-products/{id}")
-//    public ProductDTO updateMyProduct(Authentication authentication, @PathVariable Long id, @RequestBody ProductDTO productDTO) {
-//        User user = (User) authentication.getPrincipal();
-//        return productService.updateBrandProduct(user.getId(), id, productDTO);
-//    }
-//
-//    @DeleteMapping("/my-products/{id}")
-//    public ResponseEntity<Void> deleteMyProduct(Authentication authentication, @PathVariable Long id) {
-//        User user = (User) authentication.getPrincipal();
-//        productService.deleteBrandProduct(user.getId(), id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @GetMapping("/my-products")
+    public List<ProductDTO> getMyProducts(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return productService.getProductsByBrand(user.getId());
+    }
+
+    // TODO: Implementar createMyProduct()
+
+    @PutMapping("/my-products/{id}")
+    public ProductDTO updateMyProduct(Authentication authentication, @PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        User user = (User) authentication.getPrincipal();
+        return productService.updateBrandProduct(user.getId(), id, productDTO);
+    }
+
+    @DeleteMapping("/my-products/{id}")
+    public ResponseEntity<Void> deleteMyProduct(Authentication authentication, @PathVariable Long id) {
+        User user = (User) authentication.getPrincipal();
+        productService.deleteBrandProduct(user.getId(), id);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
