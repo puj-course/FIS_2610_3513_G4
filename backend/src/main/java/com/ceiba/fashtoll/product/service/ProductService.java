@@ -70,8 +70,10 @@ public class ProductService {
         product.setGender(updatedProductDTO.getGender());
         product.setColor(updatedProductDTO.getColor());
         product.setAvailable(updatedProductDTO.getAvailable());
-        product.setRating(updatedProductDTO.getRating());
         product.setLinkProduct(updatedProductDTO.getLinkProduct());
+        if (updatedProductDTO.getRating() != null) {
+            product.setRating(updatedProductDTO.getRating());
+        }
         if (updatedProductDTO.getBrandId() != null) {
             Brand brand = brandRepository.findById(updatedProductDTO.getBrandId())
                     .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + updatedProductDTO.getBrandId()));
@@ -98,7 +100,35 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    // TODO: Implementar createBrandProduct() para que una marca cree un producto propio
+    public ProductDTO getProductByBrand(Long brandId, Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + productId));
+
+        if (!product.getBrand().getId().equals(brandId)) {
+            throw new RuntimeException("No tiene permisos para ver este producto");
+        }
+
+        return productMapper.toDTO(product);
+    }
+
+    public ProductDTO createBrandProduct(Long brandId, ProductDTO productDTO) {
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + brandId));
+
+        ProductType productType = productTypeRepository.findById(productDTO.getProductTypeId())
+                .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + productDTO.getProductTypeId()));
+
+        Product product = productMapper.toEntity(productDTO);
+        product.setBrand(brand);
+        product.setProductType(productType);
+
+        if (product.getRating() == null) {
+            product.setRating(0.0);
+        }
+
+        Product savedProduct = productRepository.save(product);
+        return productMapper.toDTO(savedProduct);
+    }
 
     public ProductDTO updateBrandProduct(Long brandId, Long productId, ProductDTO updatedProductDTO) {
         Product product = productRepository.findById(productId)

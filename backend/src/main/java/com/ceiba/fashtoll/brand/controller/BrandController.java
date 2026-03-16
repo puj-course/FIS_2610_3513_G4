@@ -57,7 +57,18 @@ public class BrandController {
         return productService.getProductsByBrand(user.getId());
     }
 
-    // TODO: Implementar createMyProduct()
+    @GetMapping("/my-products/{id}")
+    public ProductDTO getMyProduct(Authentication authentication, @PathVariable Long id) {
+        User user = (User) authentication.getPrincipal();
+        return productService.getProductByBrand(user.getId(), id);
+    }
+
+    @PostMapping("/my-products")
+    public ResponseEntity<ProductDTO> createMyProduct(Authentication authentication, @RequestBody ProductDTO productDTO) {
+        User user = (User) authentication.getPrincipal();
+        ProductDTO newProduct = productService.createBrandProduct(user.getId(), productDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
+    }
 
     @PutMapping("/my-products/{id}")
     public ProductDTO updateMyProduct(Authentication authentication, @PathVariable Long id, @RequestBody ProductDTO productDTO) {
