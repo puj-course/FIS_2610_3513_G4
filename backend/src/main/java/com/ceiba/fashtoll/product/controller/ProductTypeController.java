@@ -5,6 +5,7 @@ import com.ceiba.fashtoll.product.service.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,17 +31,20 @@ public class ProductTypeController {
         return productTypeService.getProductTypeById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductTypeDTO> createProductType(@RequestBody ProductTypeDTO productTypeDTO) {
         ProductTypeDTO newProductType = productTypeService.createProductType(productTypeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProductType);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ProductTypeDTO updateProductType(@PathVariable Long id, @RequestBody ProductTypeDTO updatedProductTypeDTO) {
         return productTypeService.updateProductType(id, updatedProductTypeDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProductType(@PathVariable Long id) {
         productTypeService.deleteProductType(id);
