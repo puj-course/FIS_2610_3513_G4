@@ -75,4 +75,11 @@ public class BrandService {
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
         brandRepository.delete(brand);
     }
+
+    public void verifyBrand(Long id, boolean verified) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+        brand.setIsVerified(verified);
+        brandRepository.save(brand);
+    }
 }

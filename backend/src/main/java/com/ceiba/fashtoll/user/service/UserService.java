@@ -57,4 +57,11 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + id));
         userRepository.delete(user);
     }
+
+    public void setUserActiveStatus(Long id, boolean active) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        user.setIsActive(active);
+        userRepository.save(user);
+    }
 }
