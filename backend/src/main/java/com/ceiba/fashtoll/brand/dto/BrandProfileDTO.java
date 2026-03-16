@@ -1,0 +1,18 @@
+package com.ceiba.fashtoll.brand.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BrandProfileDTO {
+    private String name;
+    private String email;
+    private String pictureUrl;
+    private String linkOfficial;
+    private Integer followers;
+    private Double rating;
+    private Boolean isVerified;
+}

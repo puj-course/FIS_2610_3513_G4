@@ -1,6 +1,7 @@
 package com.ceiba.fashtoll.brand.service;
 
 import com.ceiba.fashtoll.brand.dto.BrandDTO;
+import com.ceiba.fashtoll.brand.dto.BrandProfileDTO;
 import com.ceiba.fashtoll.brand.entity.Brand;
 import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.brand.mapper.BrandMapper;
@@ -74,5 +75,36 @@ public class BrandService {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
         brandRepository.delete(brand);
+    }
+
+    public BrandProfileDTO getProfile(Long userId) {
+        Brand brand = brandRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+        return new BrandProfileDTO(
+                brand.getName(),
+                brand.getUser().getEmail(),
+                brand.getPictureUrl(),
+                brand.getLinkOfficial(),
+                brand.getFollowers(),
+                brand.getRating(),
+                brand.getIsVerified()
+        );
+    }
+
+    public BrandProfileDTO updateProfile(Long userId, BrandProfileDTO profileDTO) {
+        Brand brand = brandRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+        brand.setName(profileDTO.getName());
+        brand.setPictureUrl(profileDTO.getPictureUrl());
+        brand.setLinkOfficial(profileDTO.getLinkOfficial());
+        brandRepository.save(brand);
+        return getProfile(userId);
+    }
+
+    public void verifyBrand(Long id, boolean verified) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+        brand.setIsVerified(verified);
+        brandRepository.save(brand);
     }
 }

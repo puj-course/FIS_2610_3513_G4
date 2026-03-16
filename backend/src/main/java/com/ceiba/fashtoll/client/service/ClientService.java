@@ -1,6 +1,7 @@
 package com.ceiba.fashtoll.client.service;
 
 import com.ceiba.fashtoll.client.dto.ClientDTO;
+import com.ceiba.fashtoll.client.dto.ClientProfileDTO;
 import com.ceiba.fashtoll.client.entity.Client;
 import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.client.mapper.ClientMapper;
@@ -66,5 +67,19 @@ public class ClientService {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado: " + id));
         clientRepository.delete(client);
+    }
+
+    public ClientProfileDTO getProfile(Long userId) {
+        Client client = clientRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        return new ClientProfileDTO(client.getName(), client.getUser().getEmail());
+    }
+
+    public ClientProfileDTO updateProfile(Long userId, ClientProfileDTO profileDTO) {
+        Client client = clientRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        client.setName(profileDTO.getName());
+        clientRepository.save(client);
+        return new ClientProfileDTO(client.getName(), client.getUser().getEmail());
     }
 }
