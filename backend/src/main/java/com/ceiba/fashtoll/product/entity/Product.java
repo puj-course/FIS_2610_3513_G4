@@ -4,6 +4,7 @@ import com.ceiba.fashtoll.brand.entity.Brand;
 import com.ceiba.fashtoll.enums.Color;
 import com.ceiba.fashtoll.enums.Gender;
 import com.ceiba.fashtoll.enums.GeneralFit;
+import com.ceiba.fashtoll.tag.entity.Tag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -14,6 +15,10 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -67,7 +72,6 @@ public class Product {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    /* Cuando exista ProductImage y Tag
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> images = new ArrayList<>();
 
@@ -78,5 +82,4 @@ public class Product {
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags = new HashSet<>();
-    */
 }
