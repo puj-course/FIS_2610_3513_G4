@@ -1,3 +1,0 @@
-CREATE TABLE product_types (id BIGSERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL, category VARCHAR(50) NOT NULL);
-CREATE TABLE products (id BIGSERIAL PRIMARY KEY, brand_id BIGINT NOT NULL REFERENCES brands(id), product_type_id BIGINT NOT NULL REFERENCES product_types(id), name VARCHAR(150) NOT NULL, description TEXT, price NUMERIC(12,2) NOT NULL, general_fit VARCHAR(50) NOT NULL, gender VARCHAR(20) NOT NULL, color VARCHAR(30) NOT NULL, available BOOLEAN DEFAULT true, rating NUMERIC(2,1) DEFAULT 0, link_product VARCHAR(500), created_at TIMESTAMPTZ DEFAULT NOW());
-CREATE TABLE product_images (id BIGSERIAL PRIMARY KEY, product_id BIGINT NOT NULL REFERENCES products(id), image_url VARCHAR(500) NOT NULL);
