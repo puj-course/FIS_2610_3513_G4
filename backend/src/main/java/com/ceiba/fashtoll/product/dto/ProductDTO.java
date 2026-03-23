@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +29,6 @@ public class ProductDTO {
     private LocalDateTime createdAt;
     private Long brandId;
     private Long productTypeId;
+    private List<String> imageUrls;
+    private Set<Long> tagIds;
 }
