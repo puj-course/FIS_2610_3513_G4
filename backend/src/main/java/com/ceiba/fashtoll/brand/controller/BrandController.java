@@ -51,24 +51,37 @@ public class BrandController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/my-products")
-//    public List<ProductDTO> getMyProducts(Authentication authentication) {
-//        User user = (User) authentication.getPrincipal();
-//        return productService.getProductsByBrand(user.getId());
-//    }
-//
-//    @PutMapping("/my-products/{id}")
-//    public ProductDTO updateMyProduct(Authentication authentication, @PathVariable Long id, @RequestBody ProductDTO productDTO) {
-//        User user = (User) authentication.getPrincipal();
-//        return productService.updateBrandProduct(user.getId(), id, productDTO);
-//    }
-//
-//    @DeleteMapping("/my-products/{id}")
-//    public ResponseEntity<Void> deleteMyProduct(Authentication authentication, @PathVariable Long id) {
-//        User user = (User) authentication.getPrincipal();
-//        productService.deleteBrandProduct(user.getId(), id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @GetMapping("/my-products")
+    public List<ProductDTO> getMyProducts(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return productService.getProductsByBrand(user.getId());
+    }
+
+    @GetMapping("/my-products/{id}")
+    public ProductDTO getMyProduct(Authentication authentication, @PathVariable Long id) {
+        User user = (User) authentication.getPrincipal();
+        return productService.getProductByBrand(user.getId(), id);
+    }
+
+    @PostMapping("/my-products")
+    public ResponseEntity<ProductDTO> createMyProduct(Authentication authentication, @RequestBody ProductDTO productDTO) {
+        User user = (User) authentication.getPrincipal();
+        ProductDTO newProduct = productService.createBrandProduct(user.getId(), productDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
+    }
+
+    @PutMapping("/my-products/{id}")
+    public ProductDTO updateMyProduct(Authentication authentication, @PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        User user = (User) authentication.getPrincipal();
+        return productService.updateBrandProduct(user.getId(), id, productDTO);
+    }
+
+    @DeleteMapping("/my-products/{id}")
+    public ResponseEntity<Void> deleteMyProduct(Authentication authentication, @PathVariable Long id) {
+        User user = (User) authentication.getPrincipal();
+        productService.deleteBrandProduct(user.getId(), id);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
