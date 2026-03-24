@@ -2,7 +2,11 @@ package com.ceiba.fashtoll.product.mapper;
 
 import com.ceiba.fashtoll.product.dto.ProductDTO;
 import com.ceiba.fashtoll.product.entity.Product;
+import com.ceiba.fashtoll.product.entity.ProductImage;
+import com.ceiba.fashtoll.tag.entity.Tag;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class ProductMapper {
@@ -23,6 +27,23 @@ public class ProductMapper {
         dto.setCreatedAt(product.getCreatedAt());
         dto.setBrandId(product.getBrand() != null ? product.getBrand().getId() : null);
         dto.setProductTypeId(product.getProductType() != null ? product.getProductType().getId() : null);
+
+        if (product.getImages() != null) {
+            dto.setImageUrls(
+                    product.getImages().stream()
+                            .map(ProductImage::getImageUrl)
+                            .collect(Collectors.toList())
+            );
+        }
+
+        if (product.getTags() != null) {
+            dto.setTagIds(
+                    product.getTags().stream()
+                            .map(Tag::getId)
+                            .collect(Collectors.toSet())
+            );
+        }
+
         return dto;
     }
 
