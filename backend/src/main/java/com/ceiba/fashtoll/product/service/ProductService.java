@@ -3,15 +3,20 @@ package com.ceiba.fashtoll.product.service;
 import com.ceiba.fashtoll.product.dto.ProductDTO;
 import com.ceiba.fashtoll.brand.entity.Brand;
 import com.ceiba.fashtoll.product.entity.Product;
+import com.ceiba.fashtoll.product.entity.ProductImage;
 import com.ceiba.fashtoll.product.entity.ProductType;
 import com.ceiba.fashtoll.product.mapper.ProductMapper;
 import com.ceiba.fashtoll.brand.repository.BrandRepository;
 import com.ceiba.fashtoll.product.repository.ProductRepository;
 import com.ceiba.fashtoll.product.repository.ProductTypeRepository;
+import com.ceiba.fashtoll.tag.entity.Tag;
+import com.ceiba.fashtoll.tag.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,13 +26,17 @@ public class ProductService {
     private final BrandRepository brandRepository;
     private final ProductTypeRepository productTypeRepository;
     private final ProductMapper productMapper;
+    private final TagRepository tagRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, ProductTypeRepository productTypeRepository, ProductMapper productMapper) {
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository,
+                          ProductTypeRepository productTypeRepository, ProductMapper productMapper,
+                          TagRepository tagRepository) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.productTypeRepository = productTypeRepository;
         this.productMapper = productMapper;
+        this.tagRepository = tagRepository;
     }
 
     public List<ProductDTO> getAllProducts() {
@@ -84,6 +93,24 @@ public class ProductService {
                     .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + updatedProductDTO.getProductTypeId()));
             product.setProductType(productType);
         }
+
+        // Imágenes
+        if (updatedProductDTO.getImageUrls() != null) {
+            product.getImages().clear(); // Se borran las antiguas
+            updatedProductDTO.getImageUrls().forEach(url -> {
+                ProductImage img = new ProductImage();
+                img.setImageUrl(url);
+                img.setProduct(product);
+                product.getImages().add(img);
+            });
+        }
+
+        // Tags
+        if (updatedProductDTO.getTagIds() != null) {
+            Set<Tag> tags = new HashSet<>(tagRepository.findAllById(updatedProductDTO.getTagIds()));
+            product.setTags(tags);
+        }
+
         Product savedProduct = productRepository.save(product);
         return productMapper.toDTO(savedProduct);
     }
@@ -124,6 +151,25 @@ public class ProductService {
 
         if (product.getRating() == null) {
             product.setRating(0.0);
+        }
+
+        // Imágenes
+        if (productDTO.getImageUrls() != null && !productDTO.getImageUrls().isEmpty()) {
+            List<ProductImage> images = productDTO.getImageUrls().stream()
+                    .map(url -> {
+                        ProductImage img = new ProductImage();
+                        img.setImageUrl(url);
+                        img.setProduct(product);
+                        return img;
+                    })
+                    .collect(Collectors.toList());
+            product.setImages(images);
+        }
+
+        // Tags
+        if (productDTO.getTagIds() != null && !productDTO.getTagIds().isEmpty()) {
+            Set<Tag> tags = new HashSet<>(tagRepository.findAllById(productDTO.getTagIds()));
+            product.setTags(tags);
         }
 
         Product savedProduct = productRepository.save(product);
