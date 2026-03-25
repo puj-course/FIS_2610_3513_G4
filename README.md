@@ -12,7 +12,7 @@
 | Nombre | Rol Scrum | Rol Técnico | GitHub / Perfil |
 | :--- | :--- | :--- | :--- |
 | David Romero | **Scrum Master y QA Lead** | Gestión / Liderazgo DB | https://github.com/davidr124 |
-| Alejandro González | **Scrum Master y Sprint Planner** | Arquitectura de SW | https://github.com/alejandrogonzalezo1055 |
+| Alejandro González | **Scrum Master y Sprint Planner** | Arquitecto de SW y Backend Developer | https://github.com/alejandrogonzalezo1055 |
 | Nicolas Joya | **Product Owner y Configuration Manager** | Backend Developer | https://github.com/NicoJoya |
 | Juan Sebastian Ruiz | **Sprint Planner y DevOps Engineer** | Frontend Developer | https://github.com/Juanseruiz07 |
 
@@ -86,7 +86,7 @@ FIS_2610_3513_G4/
 
 ## 📥 Instalación y Ejecución
 **Requisitos**
-- Java 17+
+- Java 25
 - Maven
 - Docker Desktop
 
