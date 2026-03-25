@@ -25,9 +25,14 @@ public class RegisterRequest {
     private Role role;
 
     @NotBlank(message = "El nombre es obligatorio")
+    @Size(max = 100)
     private String name;
 
     // Campos exclusivos para marcas
+
+    @Size(max = 500)
     private String pictureUrl;
+
+    @Size(max = 255)
     private String linkOfficial;
 }
