@@ -17,6 +17,9 @@ public class UserUpdateRequest {
     @Email(message = "Debe ser un email válido")
     private String email;
 
+    @NotNull(message = "El rol es obligatorio")
     private Role role;
+
+    @NotNull(message = "El estado de actividad es obligatorio")
     private Boolean isActive;
 }

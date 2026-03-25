@@ -25,14 +25,14 @@ public class RegisterRequest {
     private Role role;
 
     @NotBlank(message = "El nombre es obligatorio")
-    @Size(max = 100)
+    @Size(max = 100, message = "El nombre no puede exceder los 100 caracteres")
     private String name;
 
     // Campos exclusivos para marcas
 
-    @Size(max = 500)
+    @Size(max = 500, message = "La URL de la imagen no puede exceder los 500 caracteres")
     private String pictureUrl;
 
-    @Size(max = 255)
+    @Size(max = 255, message = "El link oficial no puede exceder los 255 caracteres")
     private String linkOfficial;
 }
