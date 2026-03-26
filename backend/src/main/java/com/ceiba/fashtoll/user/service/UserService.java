@@ -1,7 +1,9 @@
 package com.ceiba.fashtoll.user.service;
 
 import com.ceiba.fashtoll.user.dto.PasswordChangeRequestDTO;
-import com.ceiba.fashtoll.user.dto.UserDTO;
+import com.ceiba.fashtoll.user.dto.UserCreateRequest;
+import com.ceiba.fashtoll.user.dto.UserResponse;
+import com.ceiba.fashtoll.user.dto.UserUpdateRequest;
 import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.user.mapper.UserMapper;
 import com.ceiba.fashtoll.user.repository.UserRepository;
@@ -27,34 +29,33 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<UserDTO> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(userMapper::toDTO)
+                .map(userMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public UserDTO getUserById(Long id) {
+    public UserResponse getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + id));
-        return userMapper.toDTO(user);
+        return userMapper.toResponse(user);
     }
 
-    public UserDTO createUser(UserDTO userDTO) {
-        User user = userMapper.toEntity(userDTO);
-        if (user.getIsActive() == null) user.setIsActive(true);
+    @Transactional
+    public UserResponse createUser(UserCreateRequest request) {
+        User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setIsActive(true);
         User savedUser = userRepository.save(user);
-        return userMapper.toDTO(savedUser);
+        return userMapper.toResponse(savedUser);
     }
 
-    public UserDTO updateUser(Long id, UserDTO updatedUserDTO) {
+    public UserResponse updateUser(Long id, UserUpdateRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + id));
-        user.setEmail(updatedUserDTO.getEmail());
-        user.setRole(updatedUserDTO.getRole());
-        user.setCreatedAt(updatedUserDTO.getCreatedAt());
-        user.setIsActive(updatedUserDTO.getIsActive());
+        userMapper.updateEntity(request, user);
         User savedUser = userRepository.save(user);
-        return userMapper.toDTO(savedUser);
+        return userMapper.toResponse(savedUser);
     }
 
     public void deleteUser(Long id) {
