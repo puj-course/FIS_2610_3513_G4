@@ -1,35 +1,44 @@
 package com.ceiba.fashtoll.product.mapper;
 
-import com.ceiba.fashtoll.product.dto.ProductDTO;
+import com.ceiba.fashtoll.product.dto.ProductAdminUpdateRequest;
+import com.ceiba.fashtoll.product.dto.ProductCreateRequest;
+import com.ceiba.fashtoll.product.dto.ProductResponse;
+import com.ceiba.fashtoll.product.dto.ProductUpdateRequest;
 import com.ceiba.fashtoll.product.entity.Product;
+import com.ceiba.fashtoll.tag.mapper.TagMapper;
 import com.ceiba.fashtoll.product.entity.ProductImage;
-import com.ceiba.fashtoll.tag.entity.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ProductMapper {
 
-    public ProductDTO toDTO(Product product) {
+    private final ProductTypeMapper productTypeMapper;
+    private final TagMapper tagMapper;
+
+    public ProductResponse toResponse(Product product) {
         if (product == null) return null;
-        ProductDTO dto = new ProductDTO();
-        dto.setId(product.getId());
-        dto.setName(product.getName());
-        dto.setDescription(product.getDescription());
-        dto.setPrice(product.getPrice());
-        dto.setGeneralFit(product.getGeneralFit());
-        dto.setGender(product.getGender());
-        dto.setColor(product.getColor());
-        dto.setAvailable(product.getAvailable());
-        dto.setRating(product.getRating());
-        dto.setLinkProduct(product.getLinkProduct());
-        dto.setCreatedAt(product.getCreatedAt());
-        dto.setBrandId(product.getBrand() != null ? product.getBrand().getId() : null);
-        dto.setProductTypeId(product.getProductType() != null ? product.getProductType().getId() : null);
+        ProductResponse response = new ProductResponse();
+        response.setId(product.getId());
+        response.setBrandId(product.getBrand() != null ? product.getBrand().getId() : null);
+        response.setProductType(productTypeMapper.toResponse(product.getProductType()));
+        response.setName(product.getName());
+        response.setDescription(product.getDescription());
+        response.setPrice(product.getPrice());
+        response.setGeneralFit(product.getGeneralFit());
+        response.setGender(product.getGender());
+        response.setColor(product.getColor());
+        response.setAvailable(product.getAvailable());
+        response.setRating(product.getRating());
+        response.setLinkProduct(product.getLinkProduct());
+        response.setCreatedAt(product.getCreatedAt());
 
         if (product.getImages() != null) {
-            dto.setImageUrls(
+            response.setImageUrls(
                     product.getImages().stream()
                             .map(ProductImage::getImageUrl)
                             .collect(Collectors.toList())
@@ -37,30 +46,56 @@ public class ProductMapper {
         }
 
         if (product.getTags() != null) {
-            dto.setTagIds(
+            response.setTags(
                     product.getTags().stream()
-                            .map(Tag::getId)
-                            .collect(Collectors.toSet())
+                            .map(tagMapper::toResponse)
+                            .collect(Collectors.toList())
             );
+        } else {
+            response.setTags(new ArrayList<>());
         }
 
-        return dto;
+        return response;
     }
 
-    public Product toEntity(ProductDTO dto) {
-        if (dto == null) return null;
+    public Product toEntity(ProductCreateRequest request) {
+        if (request == null) return null;
         Product product = new Product();
-        product.setId(dto.getId());
-        product.setName(dto.getName());
-        product.setDescription(dto.getDescription());
-        product.setPrice(dto.getPrice());
-        product.setGeneralFit(dto.getGeneralFit());
-        product.setGender(dto.getGender());
-        product.setColor(dto.getColor());
-        product.setAvailable(dto.getAvailable());
-        product.setRating(dto.getRating());
-        product.setLinkProduct(dto.getLinkProduct());
-        product.setCreatedAt(dto.getCreatedAt());
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setGeneralFit(request.getGeneralFit());
+        product.setGender(request.getGender());
+        product.setColor(request.getColor());
+        product.setAvailable(request.getAvailable() != null ? request.getAvailable() : true);
+        product.setLinkProduct(request.getLinkProduct());
         return product;
+    }
+
+    public void updateEntityFromBrand(ProductUpdateRequest request, Product product) {
+        if (request == null || product == null) return;
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setGeneralFit(request.getGeneralFit());
+        product.setGender(request.getGender());
+        product.setColor(request.getColor());
+        if (request.getAvailable() != null) {
+            product.setAvailable(request.getAvailable());
+        }
+        product.setLinkProduct(request.getLinkProduct());
+    }
+    public void updateEntityFromAdmin(ProductAdminUpdateRequest request, Product product) {
+        if (request == null || product == null) return;
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setGeneralFit(request.getGeneralFit());
+        product.setGender(request.getGender());
+        product.setColor(request.getColor());
+        if (request.getAvailable() != null) {
+            product.setAvailable(request.getAvailable());
+        }
+        product.setLinkProduct(request.getLinkProduct());
     }
 }
