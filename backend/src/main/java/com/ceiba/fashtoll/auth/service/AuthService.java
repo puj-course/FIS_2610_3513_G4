@@ -31,6 +31,10 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
+        if (request.getRole() == Role.ADMIN) {
+            throw new RuntimeException("No se permite el registro manual de administradores");
+        }
+
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("El email ya está registrado");
         }
