@@ -1,11 +1,11 @@
 package com.ceiba.fashtoll.client.controller;
 
-import com.ceiba.fashtoll.client.dto.ClientDTO;
-import com.ceiba.fashtoll.client.dto.ClientProfileDTO;
+import com.ceiba.fashtoll.client.dto.*;
 import com.ceiba.fashtoll.client.service.ClientService;
 import com.ceiba.fashtoll.user.dto.PasswordChangeRequestDTO;
 import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +29,21 @@ public class ClientController {
     }
 
     @GetMapping("/profile")
-    public ClientProfileDTO getProfile(Authentication authentication) {
+    public ClientProfileResponse getProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return clientService.getProfile(user.getId());
     }
 
     @PutMapping("/profile")
-    public ClientProfileDTO updateProfile(Authentication authentication, @RequestBody ClientProfileDTO profileDTO) {
+    public ClientProfileResponse updateProfile(Authentication authentication,
+                                               @Valid @RequestBody ClientProfileUpdateRequest request) {
         User user = (User) authentication.getPrincipal();
-        return clientService.updateProfile(user.getId(), profileDTO);
+        return clientService.updateProfile(user.getId(), request);
     }
 
     @PutMapping("/password")
-    public ResponseEntity<Void> changePassword(Authentication authentication, @RequestBody PasswordChangeRequestDTO request) {
+    public ResponseEntity<Void> changePassword(Authentication authentication,
+                                               @Valid @RequestBody PasswordChangeRequestDTO request) {
         User user = (User) authentication.getPrincipal();
         userService.changePassword(user.getId(), request);
         return ResponseEntity.noContent().build();
@@ -49,27 +51,27 @@ public class ClientController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ClientDTO> getAllClients() {
+    public List<ClientResponse> getAllClients() {
         return clientService.getAllClients();
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ClientDTO getClientById(@PathVariable Long id) {
+    public ClientResponse getClientById(@PathVariable Long id) {
         return clientService.getClientById(id);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO) {
-        ClientDTO newClient = clientService.createClient(clientDTO);
+    public ResponseEntity<ClientResponse> createClient(@Valid @RequestBody ClientCreateRequest request) {
+        ClientResponse newClient = clientService.createClient(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newClient);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ClientDTO updateClient(@PathVariable Long id, @RequestBody ClientDTO updatedClientDTO) {
-        return clientService.updateClient(id, updatedClientDTO);
+    public ClientResponse updateClient(@PathVariable Long id, @Valid @RequestBody ClientUpdateRequest request) {
+        return clientService.updateClient(id, request);
     }
 
     @DeleteMapping("/{id}")
