@@ -16,6 +16,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductCreateRequest {
+
+    private Long brandId;
+
     @NotNull(message = "El ID del tipo de producto es obligatorio")
     private Long productTypeId;
 
