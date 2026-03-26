@@ -1,6 +1,5 @@
 package com.ceiba.fashtoll.user.mapper;
 
-import com.ceiba.fashtoll.user.dto.UserDTO;
 import com.ceiba.fashtoll.user.dto.UserCreateRequest;
 import com.ceiba.fashtoll.user.dto.UserResponse;
 import com.ceiba.fashtoll.user.dto.UserUpdateRequest;
