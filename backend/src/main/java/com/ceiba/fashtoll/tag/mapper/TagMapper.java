@@ -1,6 +1,5 @@
 package com.ceiba.fashtoll.tag.mapper;
 
-import com.ceiba.fashtoll.tag.dto.TagDTO;
 import com.ceiba.fashtoll.tag.dto.TagRequest;
 import com.ceiba.fashtoll.tag.dto.TagResponse;
 import com.ceiba.fashtoll.tag.entity.Tag;
