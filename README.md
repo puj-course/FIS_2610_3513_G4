@@ -25,6 +25,7 @@
 - **Base de Datos:** PostgreSQL, Flyway
 - **DevOps:** GitHub Actions, Docker, SonarQube
 - **Control de versiones:** Git
+- **Otros:** JWT, OpenAPI, Swagger
 
 ---
 
