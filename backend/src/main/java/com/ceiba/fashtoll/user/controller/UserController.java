@@ -1,7 +1,10 @@
 package com.ceiba.fashtoll.user.controller;
 
-import com.ceiba.fashtoll.user.dto.UserDTO;
+import com.ceiba.fashtoll.user.dto.UserCreateRequest;
+import com.ceiba.fashtoll.user.dto.UserResponse;
+import com.ceiba.fashtoll.user.dto.UserUpdateRequest;
 import com.ceiba.fashtoll.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,24 +26,24 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDTO> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public UserDTO getUserById(@PathVariable Long id) {
+    public UserResponse getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        UserDTO newUser = userService.createUser(userDTO);
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserCreateRequest request) {
+        UserResponse newUser = userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
     @PutMapping("/{id}")
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUserDTO) {
-        return userService.updateUser(id, updatedUserDTO);
+    public UserResponse updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequest request) {
+        return userService.updateUser(id, request);
     }
 
     @DeleteMapping("/{id}")

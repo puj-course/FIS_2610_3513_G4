@@ -1,7 +1,9 @@
 package com.ceiba.fashtoll.product.controller;
 
-import com.ceiba.fashtoll.product.dto.ProductTypeDTO;
+import com.ceiba.fashtoll.product.dto.ProductTypeRequest;
+import com.ceiba.fashtoll.product.dto.ProductTypeResponse;
 import com.ceiba.fashtoll.product.service.ProductTypeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,26 +24,26 @@ public class ProductTypeController {
     }
 
     @GetMapping
-    public List<ProductTypeDTO> getAllProductTypes() {
+    public List<ProductTypeResponse> getAllProductTypes() {
         return productTypeService.getAllProductTypes();
     }
 
     @GetMapping("/{id}")
-    public ProductTypeDTO getProductTypeById(@PathVariable Long id) {
+    public ProductTypeResponse getProductTypeById(@PathVariable Long id) {
         return productTypeService.getProductTypeById(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<ProductTypeDTO> createProductType(@RequestBody ProductTypeDTO productTypeDTO) {
-        ProductTypeDTO newProductType = productTypeService.createProductType(productTypeDTO);
+    public ResponseEntity<ProductTypeResponse> createProductType(@Valid @RequestBody ProductTypeRequest request) {
+        ProductTypeResponse newProductType = productTypeService.createProductType(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProductType);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ProductTypeDTO updateProductType(@PathVariable Long id, @RequestBody ProductTypeDTO updatedProductTypeDTO) {
-        return productTypeService.updateProductType(id, updatedProductTypeDTO);
+    public ProductTypeResponse updateProductType(@PathVariable Long id, @Valid @RequestBody ProductTypeRequest request) {
+        return productTypeService.updateProductType(id, request);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

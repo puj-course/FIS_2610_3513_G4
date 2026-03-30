@@ -1,6 +1,6 @@
-package com.ceiba.fashtoll.product.dto;
+package com.ceiba.fashtoll.tag.dto;
 
-import com.ceiba.fashtoll.enums.Category;
+import com.ceiba.fashtoll.enums.TagType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductTypeDTO {
+public class TagResponse {
     private Long id;
     private String name;
-    private Category category;
+    private TagType type;
 }

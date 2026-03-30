@@ -1,11 +1,13 @@
 package com.ceiba.fashtoll.tag.service;
 
-import com.ceiba.fashtoll.tag.dto.TagDTO;
+import com.ceiba.fashtoll.tag.dto.TagRequest;
+import com.ceiba.fashtoll.tag.dto.TagResponse;
 import com.ceiba.fashtoll.tag.entity.Tag;
 import com.ceiba.fashtoll.tag.mapper.TagMapper;
 import com.ceiba.fashtoll.tag.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,31 +24,33 @@ public class TagService {
         this.tagMapper = tagMapper;
     }
 
-    public List<TagDTO> getAllTags() {
+    public List<TagResponse> getAllTags() {
         return tagRepository.findAll().stream()
-                .map(tagMapper::toDTO)
+                .map(tagMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public TagDTO getTagById(Long id) {
+    public TagResponse getTagById(Long id) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Etiqueta no encontrada: " + id));
-        return tagMapper.toDTO(tag);
+        return tagMapper.toResponse(tag);
     }
 
-    public TagDTO createTag(TagDTO tagDTO) {
-        Tag tag = tagMapper.toEntity(tagDTO);
+    @Transactional
+    public TagResponse createTag(TagRequest request) {
+        Tag tag = tagMapper.toEntity(request);
         Tag savedTag = tagRepository.save(tag);
-        return tagMapper.toDTO(savedTag);
+        return tagMapper.toResponse(savedTag);
     }
 
-    public TagDTO updateTag(Long id, TagDTO updatedTagDTO) {
+    @Transactional
+    public TagResponse updateTag(Long id, TagRequest request) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Etiqueta no encontrada: " + id));
-        tag.setName(updatedTagDTO.getName());
-        tag.setType(updatedTagDTO.getType());
+
+        tagMapper.updateEntity(request, tag);
         Tag savedTag = tagRepository.save(tag);
-        return tagMapper.toDTO(savedTag);
+        return tagMapper.toResponse(savedTag);
     }
 
     public void deleteTag(Long id) {

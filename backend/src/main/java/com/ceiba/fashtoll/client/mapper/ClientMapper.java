@@ -1,26 +1,42 @@
 package com.ceiba.fashtoll.client.mapper;
 
-import com.ceiba.fashtoll.client.dto.ClientDTO;
+import com.ceiba.fashtoll.client.dto.*;
 import com.ceiba.fashtoll.client.entity.Client;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ClientMapper {
 
-    public ClientDTO toDTO(Client client) {
+    public ClientResponse toResponse(Client client) {
         if (client == null) return null;
-        ClientDTO dto = new ClientDTO();
-        dto.setId(client.getId());
-        dto.setName(client.getName());
-        dto.setUserId(client.getUser() != null ? client.getUser().getId() : null);
-        return dto;
+        ClientResponse response = new ClientResponse();
+        response.setId(client.getId());
+        response.setName(client.getName());
+        response.setUserId(client.getUser() != null ? client.getUser().getId() : null);
+        return response;
     }
 
-    public Client toEntity(ClientDTO dto) {
-        if (dto == null) return null;
+    public ClientProfileResponse toProfileResponse(Client client) {
+        if (client == null) return null;
+        ClientProfileResponse response = new ClientProfileResponse();
+        response.setName(client.getName());
+        response.setEmail(client.getUser() != null ? client.getUser().getEmail() : null);
+        return response;
+    }
+
+    public Client toEntity(ClientCreateRequest request) {
+        if (request == null) return null;
         Client client = new Client();
-        client.setId(dto.getId());
-        client.setName(dto.getName());
+        client.setName(request.getName());
         return client;
+    }
+
+    public void updateEntityFromAdmin(ClientUpdateRequest request, Client client) {
+        if (request == null || client == null) return;
+        client.setName(request.getName());
+    }
+    public void updateEntityFromProfile(ClientProfileUpdateRequest request, Client client) {
+        if (request == null || client == null) return;
+        client.setName(request.getName());
     }
 }

@@ -1,7 +1,5 @@
-package com.ceiba.fashtoll.auth.dto;
+package com.ceiba.fashtoll.brand.dto;
 
-import com.ceiba.fashtoll.enums.Role;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,27 +10,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
-    @NotBlank(message = "El email es obligatorio")
-    @Email(message = "Debe ser un email válido")
-    private String email;
-
-    @NotBlank(message = "La contraseña es obligatoria")
-    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
-    private String password;
-
-    @NotNull(message = "El rol es obligatorio")
-    private Role role;
-
-    @NotBlank(message = "El nombre es obligatorio")
+public class BrandAdminUpdateRequest {
+    @NotBlank(message = "El nombre de la marca es obligatorio")
     @Size(max = 100, message = "El nombre no puede exceder los 100 caracteres")
     private String name;
-
-    // Campos exclusivos para marcas
 
     @Size(max = 500, message = "La URL de la imagen no puede exceder los 500 caracteres")
     private String pictureUrl;
 
     @Size(max = 255, message = "El link oficial no puede exceder los 255 caracteres")
     private String linkOfficial;
+
+    @NotNull(message = "El estado de verificación es obligatorio")
+    private Boolean isVerified;
 }

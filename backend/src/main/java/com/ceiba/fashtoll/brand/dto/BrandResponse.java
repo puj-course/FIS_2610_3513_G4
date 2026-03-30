@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BrandDTO {
+public class BrandResponse {
     private Long id;
     private String name;
     private String pictureUrl;

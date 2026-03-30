@@ -1,14 +1,14 @@
 package com.ceiba.fashtoll.brand.service;
 
-import com.ceiba.fashtoll.brand.dto.BrandDTO;
-import com.ceiba.fashtoll.brand.dto.BrandProfileDTO;
+import com.ceiba.fashtoll.brand.dto.*;
 import com.ceiba.fashtoll.brand.entity.Brand;
-import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.brand.mapper.BrandMapper;
 import com.ceiba.fashtoll.brand.repository.BrandRepository;
+import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,48 +27,52 @@ public class BrandService {
         this.brandMapper = brandMapper;
     }
 
-    public List<BrandDTO> getAllBrands() {
+    public List<BrandResponse> getAllBrands() {
         return brandRepository.findAll().stream()
-                .map(brandMapper::toDTO)
+                .map(brandMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public BrandDTO getBrandById(Long id) {
-        Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
-        return brandMapper.toDTO(brand);
+    public List<BrandPublicResponse> getAllPublicBrands() {
+        return brandRepository.findAll().stream()
+                .map(brandMapper::toPublicResponse)
+                .collect(Collectors.toList());
     }
 
-    public BrandDTO createBrand(BrandDTO brandDTO) {
-        Brand brand = brandMapper.toEntity(brandDTO);
-        if (brand.getFollowers() == null) brand.setFollowers(0);
-        if (brand.getRating() == null) brand.setRating(0.0);
-        if (brand.getIsVerified() == null) brand.setIsVerified(false);
-        if (brandDTO.getUserId() != null) {
-            User user = userRepository.findById(brandDTO.getUserId())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + brandDTO.getUserId()));
-            brand.setUser(user);
-        }
-        Brand savedBrand = brandRepository.save(brand);
-        return brandMapper.toDTO(savedBrand);
-    }
-
-    public BrandDTO updateBrand(Long id, BrandDTO updatedBrandDTO) {
+    public BrandResponse getBrandById(Long id) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
-        brand.setName(updatedBrandDTO.getName());
-        brand.setPictureUrl(updatedBrandDTO.getPictureUrl());
-        brand.setLinkOfficial(updatedBrandDTO.getLinkOfficial());
-        brand.setFollowers(updatedBrandDTO.getFollowers());
-        brand.setRating(updatedBrandDTO.getRating());
-        brand.setIsVerified(updatedBrandDTO.getIsVerified());
-        if (updatedBrandDTO.getUserId() != null) {
-            User user = userRepository.findById(updatedBrandDTO.getUserId())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + updatedBrandDTO.getUserId()));
-            brand.setUser(user);
-        }
+        return brandMapper.toResponse(brand);
+    }
+
+    public BrandPublicResponse getPublicBrandById(Long id) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
+        return brandMapper.toPublicResponse(brand);
+    }
+
+    @Transactional
+    public BrandResponse createBrand(BrandCreateRequest request) {
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + request.getUserId()));
+
+        Brand brand = brandMapper.toEntity(request);
+        brand.setUser(user);
+        brand.setFollowers(0);
+        brand.setRating(0.0);
+        brand.setIsVerified(false);
         Brand savedBrand = brandRepository.save(brand);
-        return brandMapper.toDTO(savedBrand);
+        return brandMapper.toResponse(savedBrand);
+    }
+
+    @Transactional
+    public BrandResponse updateBrandAdmin(Long id, BrandAdminUpdateRequest request) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
+
+        brandMapper.updateEntityFromAdmin(request, brand);
+        Brand savedBrand = brandRepository.save(brand);
+        return brandMapper.toResponse(savedBrand);
     }
 
     public void deleteBrand(Long id) {
@@ -77,30 +81,23 @@ public class BrandService {
         brandRepository.delete(brand);
     }
 
-    public BrandProfileDTO getProfile(Long userId) {
+    public BrandProfileResponse getProfile(Long userId) {
         Brand brand = brandRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
-        return new BrandProfileDTO(
-                brand.getName(),
-                brand.getUser().getEmail(),
-                brand.getPictureUrl(),
-                brand.getLinkOfficial(),
-                brand.getFollowers(),
-                brand.getRating(),
-                brand.getIsVerified()
-        );
+        return brandMapper.toProfileResponse(brand);
     }
 
-    public BrandProfileDTO updateProfile(Long userId, BrandProfileDTO profileDTO) {
+    @Transactional
+    public BrandProfileResponse updateProfile(Long userId, BrandProfileUpdateRequest request) {
         Brand brand = brandRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
-        brand.setName(profileDTO.getName());
-        brand.setPictureUrl(profileDTO.getPictureUrl());
-        brand.setLinkOfficial(profileDTO.getLinkOfficial());
-        brandRepository.save(brand);
-        return getProfile(userId);
+
+        brandMapper.updateEntityFromProfile(request, brand);
+        Brand savedBrand = brandRepository.save(brand);
+        return brandMapper.toProfileResponse(savedBrand);
     }
 
+    @Transactional
     public void verifyBrand(Long id, boolean verified) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada"));

@@ -3,6 +3,7 @@ package com.ceiba.fashtoll.product.dto;
 import com.ceiba.fashtoll.enums.Color;
 import com.ceiba.fashtoll.enums.Gender;
 import com.ceiba.fashtoll.enums.GeneralFit;
+import com.ceiba.fashtoll.tag.dto.TagResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,13 +11,14 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
+public class ProductResponse {
     private Long id;
+    private Long brandId;
+    private ProductTypeResponse productType;
     private String name;
     private String description;
     private BigDecimal price;
@@ -27,8 +29,6 @@ public class ProductDTO {
     private Double rating;
     private String linkProduct;
     private LocalDateTime createdAt;
-    private Long brandId;
-    private Long productTypeId;
     private List<String> imageUrls;
-    private Set<Long> tagIds;
+    private List<TagResponse> tags;
 }

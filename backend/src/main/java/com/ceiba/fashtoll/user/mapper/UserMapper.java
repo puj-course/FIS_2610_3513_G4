@@ -1,33 +1,38 @@
 package com.ceiba.fashtoll.user.mapper;
 
-import com.ceiba.fashtoll.user.dto.UserDTO;
+import com.ceiba.fashtoll.user.dto.UserCreateRequest;
+import com.ceiba.fashtoll.user.dto.UserResponse;
+import com.ceiba.fashtoll.user.dto.UserUpdateRequest;
 import com.ceiba.fashtoll.user.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public UserDTO toDTO(User user) {
+    public UserResponse toResponse(User user) {
         if (user == null) return null;
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setEmail(user.getEmail());
-        dto.setPassword(user.getPassword());
-        dto.setRole(user.getRole());
-        dto.setCreatedAt(user.getCreatedAt());
-        dto.setIsActive(user.getIsActive());
-        return dto;
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        response.setRole(user.getRole());
+        response.setCreatedAt(user.getCreatedAt());
+        response.setIsActive(user.getIsActive());
+        return response;
     }
 
-    public User toEntity(UserDTO dto) {
-        if (dto == null) return null;
+    public User toEntity(UserCreateRequest request) {
+        if (request == null) return null;
         User user = new User();
-        user.setId(dto.getId());
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-        user.setRole(dto.getRole());
-        user.setCreatedAt(dto.getCreatedAt());
-        user.setIsActive(dto.getIsActive());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
         return user;
+    }
+
+    public void updateEntity(UserUpdateRequest request, User user) {
+        if (request == null || user == null) return;
+        user.setEmail(request.getEmail());
+        user.setRole(request.getRole());
+        user.setIsActive(request.getIsActive());
     }
 }

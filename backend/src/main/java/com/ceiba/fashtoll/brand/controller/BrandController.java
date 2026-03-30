@@ -1,13 +1,15 @@
 package com.ceiba.fashtoll.brand.controller;
 
-import com.ceiba.fashtoll.brand.dto.BrandDTO;
-import com.ceiba.fashtoll.brand.dto.BrandProfileDTO;
+import com.ceiba.fashtoll.brand.dto.*;
 import com.ceiba.fashtoll.brand.service.BrandService;
-import com.ceiba.fashtoll.product.dto.ProductDTO;
+import com.ceiba.fashtoll.product.dto.ProductCreateRequest;
+import com.ceiba.fashtoll.product.dto.ProductResponse;
+import com.ceiba.fashtoll.product.dto.ProductUpdateRequest;
 import com.ceiba.fashtoll.product.service.ProductService;
 import com.ceiba.fashtoll.user.dto.PasswordChangeRequestDTO;
 import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,47 +35,51 @@ public class BrandController {
     }
 
     @GetMapping("/profile")
-    public BrandProfileDTO getProfile(Authentication authentication) {
+    public BrandProfileResponse getProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return brandService.getProfile(user.getId());
     }
 
     @PutMapping("/profile")
-    public BrandProfileDTO updateProfile(Authentication authentication, @RequestBody BrandProfileDTO profileDTO) {
+    public BrandProfileResponse updateProfile(Authentication authentication,
+                                              @Valid @RequestBody BrandProfileUpdateRequest request) {
         User user = (User) authentication.getPrincipal();
-        return brandService.updateProfile(user.getId(), profileDTO);
+        return brandService.updateProfile(user.getId(), request);
     }
 
     @PutMapping("/password")
-    public ResponseEntity<Void> changePassword(Authentication authentication, @RequestBody PasswordChangeRequestDTO request) {
+    public ResponseEntity<Void> changePassword(Authentication authentication,
+                                               @Valid @RequestBody PasswordChangeRequestDTO request) {
         User user = (User) authentication.getPrincipal();
         userService.changePassword(user.getId(), request);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/my-products")
-    public List<ProductDTO> getMyProducts(Authentication authentication) {
+    public List<ProductResponse> getMyProducts(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return productService.getProductsByBrand(user.getId());
     }
 
     @GetMapping("/my-products/{id}")
-    public ProductDTO getMyProduct(Authentication authentication, @PathVariable Long id) {
+    public ProductResponse getMyProduct(Authentication authentication, @PathVariable Long id) {
         User user = (User) authentication.getPrincipal();
         return productService.getProductByBrand(user.getId(), id);
     }
 
     @PostMapping("/my-products")
-    public ResponseEntity<ProductDTO> createMyProduct(Authentication authentication, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductResponse> createMyProduct(Authentication authentication,
+                                                           @Valid @RequestBody ProductCreateRequest request) {
         User user = (User) authentication.getPrincipal();
-        ProductDTO newProduct = productService.createBrandProduct(user.getId(), productDTO);
+        ProductResponse newProduct = productService.createBrandProduct(user.getId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     @PutMapping("/my-products/{id}")
-    public ProductDTO updateMyProduct(Authentication authentication, @PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    public ProductResponse updateMyProduct(Authentication authentication, @PathVariable Long id,
+                                           @Valid @RequestBody ProductUpdateRequest request) {
         User user = (User) authentication.getPrincipal();
-        return productService.updateBrandProduct(user.getId(), id, productDTO);
+        return productService.updateBrandProduct(user.getId(), id, request);
     }
 
     @DeleteMapping("/my-products/{id}")
@@ -83,29 +89,39 @@ public class BrandController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/public")
+    public List<BrandPublicResponse> getAllPublicBrands() {
+        return brandService.getAllPublicBrands();
+    }
+
+    @GetMapping("/public/{id}")
+    public BrandPublicResponse getPublicBrandById(@PathVariable Long id) {
+        return brandService.getPublicBrandById(id);
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<BrandDTO> getAllBrands() {
+    public List<BrandResponse> getAllBrands() {
         return brandService.getAllBrands();
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public BrandDTO getBrandById(@PathVariable Long id) {
+    public BrandResponse getBrandById(@PathVariable Long id) {
         return brandService.getBrandById(id);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<BrandDTO> createBrand(@RequestBody BrandDTO brandDTO) {
-        BrandDTO newBrand = brandService.createBrand(brandDTO);
+    public ResponseEntity<BrandResponse> createBrand(@Valid @RequestBody BrandCreateRequest request) {
+        BrandResponse newBrand = brandService.createBrand(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newBrand);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public BrandDTO updateBrand(@PathVariable Long id, @RequestBody BrandDTO updatedBrandDTO) {
-        return brandService.updateBrand(id, updatedBrandDTO);
+    public BrandResponse updateBrand(@PathVariable Long id, @Valid @RequestBody BrandAdminUpdateRequest request) {
+        return brandService.updateBrandAdmin(id, request);
     }
 
     @DeleteMapping("/{id}")

@@ -1,14 +1,14 @@
 package com.ceiba.fashtoll.client.service;
 
-import com.ceiba.fashtoll.client.dto.ClientDTO;
-import com.ceiba.fashtoll.client.dto.ClientProfileDTO;
+import com.ceiba.fashtoll.client.dto.*;
 import com.ceiba.fashtoll.client.entity.Client;
-import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.client.mapper.ClientMapper;
 import com.ceiba.fashtoll.client.repository.ClientRepository;
+import com.ceiba.fashtoll.user.entity.User;
 import com.ceiba.fashtoll.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,40 +27,38 @@ public class ClientService {
         this.clientMapper = clientMapper;
     }
 
-    public List<ClientDTO> getAllClients() {
+    public List<ClientResponse> getAllClients() {
         return clientRepository.findAll().stream()
-                .map(clientMapper::toDTO)
+                .map(clientMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public ClientDTO getClientById(Long id) {
+    public ClientResponse getClientById(Long id) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado: " + id));
-        return clientMapper.toDTO(client);
+        return clientMapper.toResponse(client);
     }
 
-    public ClientDTO createClient(ClientDTO clientDTO) {
-        Client client = clientMapper.toEntity(clientDTO);
-        if (clientDTO.getUserId() != null) {
-            User user = userRepository.findById(clientDTO.getUserId())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + clientDTO.getUserId()));
-            client.setUser(user);
-        }
+    @Transactional
+    public ClientResponse createClient(ClientCreateRequest request) {
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + request.getUserId()));
+
+        Client client = clientMapper.toEntity(request);
+        client.setUser(user);
+
         Client savedClient = clientRepository.save(client);
-        return clientMapper.toDTO(savedClient);
+        return clientMapper.toResponse(savedClient);
     }
 
-    public ClientDTO updateClient(Long id, ClientDTO updatedClientDTO) {
+    @Transactional
+    public ClientResponse updateClient(Long id, ClientUpdateRequest request) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado: " + id));
-        client.setName(updatedClientDTO.getName());
-        if (updatedClientDTO.getUserId() != null) {
-            User user = userRepository.findById(updatedClientDTO.getUserId())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + updatedClientDTO.getUserId()));
-            client.setUser(user);
-        }
+
+        clientMapper.updateEntityFromAdmin(request, client);
         Client savedClient = clientRepository.save(client);
-        return clientMapper.toDTO(savedClient);
+        return clientMapper.toResponse(savedClient);
     }
 
     public void deleteClient(Long id) {
@@ -69,17 +67,19 @@ public class ClientService {
         clientRepository.delete(client);
     }
 
-    public ClientProfileDTO getProfile(Long userId) {
+    public ClientProfileResponse getProfile(Long userId) {
         Client client = clientRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        return new ClientProfileDTO(client.getName(), client.getUser().getEmail());
+        return clientMapper.toProfileResponse(client);
     }
 
-    public ClientProfileDTO updateProfile(Long userId, ClientProfileDTO profileDTO) {
+    @Transactional
+    public ClientProfileResponse updateProfile(Long userId, ClientProfileUpdateRequest request) {
         Client client = clientRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        client.setName(profileDTO.getName());
-        clientRepository.save(client);
-        return new ClientProfileDTO(client.getName(), client.getUser().getEmail());
+
+        clientMapper.updateEntityFromProfile(request, client);
+        Client savedClient = clientRepository.save(client);
+        return clientMapper.toProfileResponse(savedClient);
     }
 }

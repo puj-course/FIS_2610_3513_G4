@@ -1,7 +1,8 @@
 package com.ceiba.fashtoll.product.controller;
 
-import com.ceiba.fashtoll.product.dto.ProductDTO;
+import com.ceiba.fashtoll.product.dto.*;
 import com.ceiba.fashtoll.product.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,26 +23,26 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public ProductDTO getProductById(@PathVariable Long id) {
+    public ProductResponse getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        ProductDTO newProduct = productService.createProduct(productDTO);
+    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductCreateRequest request) {
+        ProductResponse newProduct = productService.createProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ProductDTO updateProduct(@PathVariable Long id, @RequestBody ProductDTO updatedProductDTO) {
-        return productService.updateProduct(id, updatedProductDTO);
+    public ProductResponse updateProduct(@PathVariable Long id, @Valid @RequestBody ProductAdminUpdateRequest request) {
+        return productService.updateProduct(id, request);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
