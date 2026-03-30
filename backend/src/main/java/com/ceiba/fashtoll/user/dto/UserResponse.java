@@ -10,10 +10,9 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class UserResponse {
     private Long id;
     private String email;
-    private String password;
     private Role role;
     private LocalDateTime createdAt;
     private Boolean isActive;

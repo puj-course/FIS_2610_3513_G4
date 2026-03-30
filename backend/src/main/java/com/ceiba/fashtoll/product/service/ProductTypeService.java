@@ -1,11 +1,13 @@
 package com.ceiba.fashtoll.product.service;
 
-import com.ceiba.fashtoll.product.dto.ProductTypeDTO;
+import com.ceiba.fashtoll.product.dto.ProductTypeRequest;
+import com.ceiba.fashtoll.product.dto.ProductTypeResponse;
 import com.ceiba.fashtoll.product.entity.ProductType;
 import com.ceiba.fashtoll.product.mapper.ProductTypeMapper;
 import com.ceiba.fashtoll.product.repository.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,31 +24,33 @@ public class ProductTypeService {
         this.productTypeMapper = productTypeMapper;
     }
 
-    public List<ProductTypeDTO> getAllProductTypes() {
+    public List<ProductTypeResponse> getAllProductTypes() {
         return productTypeRepository.findAll().stream()
-                .map(productTypeMapper::toDTO)
+                .map(productTypeMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public ProductTypeDTO getProductTypeById(Long id) {
+    public ProductTypeResponse getProductTypeById(Long id) {
         ProductType productType = productTypeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + id));
-        return productTypeMapper.toDTO(productType);
+        return productTypeMapper.toResponse(productType);
     }
 
-    public ProductTypeDTO createProductType(ProductTypeDTO productTypeDTO) {
-        ProductType productType = productTypeMapper.toEntity(productTypeDTO);
+    @Transactional
+    public ProductTypeResponse createProductType(ProductTypeRequest request) {
+        ProductType productType = productTypeMapper.toEntity(request);
         ProductType savedProductType = productTypeRepository.save(productType);
-        return productTypeMapper.toDTO(savedProductType);
+        return productTypeMapper.toResponse(savedProductType);
     }
 
-    public ProductTypeDTO updateProductType(Long id, ProductTypeDTO updatedProductTypeDTO) {
+    @Transactional
+    public ProductTypeResponse updateProductType(Long id, ProductTypeRequest request) {
         ProductType productType = productTypeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + id));
-        productType.setName(updatedProductTypeDTO.getName());
-        productType.setCategory(updatedProductTypeDTO.getCategory());
+
+        productTypeMapper.updateEntity(request, productType);
         ProductType savedProductType = productTypeRepository.save(productType);
-        return productTypeMapper.toDTO(savedProductType);
+        return productTypeMapper.toResponse(savedProductType);
     }
 
     public void deleteProductType(Long id) {

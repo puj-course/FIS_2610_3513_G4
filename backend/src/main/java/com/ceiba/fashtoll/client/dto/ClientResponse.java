@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientDTO {
+public class ClientResponse {
     private Long id;
     private String name;
     private Long userId;

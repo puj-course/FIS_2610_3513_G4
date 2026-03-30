@@ -1,12 +1,13 @@
 package com.ceiba.fashtoll.tag.controller;
 
-import com.ceiba.fashtoll.tag.dto.TagDTO;
+import com.ceiba.fashtoll.tag.dto.TagRequest;
+import com.ceiba.fashtoll.tag.dto.TagResponse;
 import com.ceiba.fashtoll.tag.service.TagService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,26 +24,26 @@ public class TagController {
     }
 
     @GetMapping
-    public List<TagDTO> getAllTags() {
+    public List<TagResponse> getAllTags() {
         return tagService.getAllTags();
     }
 
     @GetMapping("/{id}")
-    public TagDTO getTagById(@PathVariable Long id) {
+    public TagResponse getTagById(@PathVariable Long id) {
         return tagService.getTagById(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<TagDTO> createTag(@RequestBody TagDTO tagDTO) {
-        TagDTO newTag = tagService.createTag(tagDTO);
+    public ResponseEntity<TagResponse> createTag(@Valid @RequestBody TagRequest request) {
+        TagResponse newTag = tagService.createTag(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTag);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public TagDTO updateTag(@PathVariable Long id, @RequestBody TagDTO updatedTagDTO) {
-        return tagService.updateTag(id, updatedTagDTO);
+    public TagResponse updateTag(@PathVariable Long id, @Valid @RequestBody TagRequest request) {
+        return tagService.updateTag(id, request);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
