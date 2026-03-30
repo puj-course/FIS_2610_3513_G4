@@ -9,6 +9,7 @@ import com.ceiba.fashtoll.product.entity.ProductType;
 import com.ceiba.fashtoll.product.mapper.ProductMapper;
 import com.ceiba.fashtoll.product.repository.ProductRepository;
 import com.ceiba.fashtoll.product.repository.ProductTypeRepository;
+import com.ceiba.fashtoll.search.service.ProductSearchService;
 import com.ceiba.fashtoll.tag.entity.Tag;
 import com.ceiba.fashtoll.tag.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,18 @@ public class ProductService {
     private final ProductTypeRepository productTypeRepository;
     private final ProductMapper productMapper;
     private final TagRepository tagRepository;
+    private final ProductSearchService productSearchService;
 
     @Autowired
     public ProductService(ProductRepository productRepository, BrandRepository brandRepository,
                           ProductTypeRepository productTypeRepository, ProductMapper productMapper,
-                          TagRepository tagRepository) {
+                          TagRepository tagRepository, ProductSearchService productSearchService) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.productTypeRepository = productTypeRepository;
         this.productMapper = productMapper;
         this.tagRepository = tagRepository;
+        this.productSearchService = productSearchService;
     }
 
     public List<ProductResponse> getAllProducts() {
@@ -86,6 +89,7 @@ public class ProductService {
         }
 
         Product savedProduct = productRepository.save(product);
+        productSearchService.indexProduct(savedProduct);
         return productMapper.toResponse(savedProduct);
     }
 
@@ -126,6 +130,7 @@ public class ProductService {
         }
 
         Product savedProduct = productRepository.save(product);
+        productSearchService.indexProduct(savedProduct);
         return productMapper.toResponse(savedProduct);
     }
 
@@ -133,6 +138,7 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
         productRepository.delete(product);
+        productSearchService.deleteProduct(id);
     }
 
     public List<ProductResponse> getProductsByBrand(Long brandId) {
@@ -186,6 +192,7 @@ public class ProductService {
         }
 
         Product savedProduct = productRepository.save(product);
+        productSearchService.indexProduct(savedProduct);
         return productMapper.toResponse(savedProduct);
     }
 
@@ -224,6 +231,7 @@ public class ProductService {
         }
 
         Product savedProduct = productRepository.save(product);
+        productSearchService.indexProduct(savedProduct);
         return productMapper.toResponse(savedProduct);
     }
 
@@ -236,5 +244,6 @@ public class ProductService {
         }
 
         productRepository.delete(product);
+        productSearchService.deleteProduct(productId);
     }
 }
