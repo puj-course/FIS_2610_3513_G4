@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.searchEngine.tag.dto;
+package com.ceiba.fashtoll.worldModel.tag.dto;
 
 import com.ceiba.fashtoll.utilities.enums.TagType;
 import lombok.AllArgsConstructor;

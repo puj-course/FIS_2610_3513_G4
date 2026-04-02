@@ -1,28 +1,21 @@
-package com.ceiba.fashtoll.searchEngine.tag.entity;
+package com.ceiba.fashtoll.worldModel.tag.dto;
 
 import com.ceiba.fashtoll.utilities.enums.TagType;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "tags")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Tag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@AllArgsConstructor
+public class TagRequest {
     @NotBlank(message = "El nombre de la etiqueta es obligatorio")
-    @Size(max = 50)
+    @Size(max = 50, message = "El nombre no puede exceder los 50 caracteres")
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
+    @NotNull(message = "El tipo de etiqueta es obligatorio")
     private TagType type;
 }

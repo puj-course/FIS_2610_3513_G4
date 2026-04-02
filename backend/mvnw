@@ -266,7 +266,7 @@ if [ -d "$TMP_DOWNLOAD_DIR/$distributionUrlNameMain" ]; then
   fi
 fi
 
-# If not found, elasticSearch for any directory with the Maven executable (for snapshots)
+# If not found, elasticsearch for any directory with the Maven executable (for snapshots)
 if [ -z "$actualDistributionDir" ]; then
   # enable globbing to iterate over items
   set +f

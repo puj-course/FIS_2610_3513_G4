@@ -1,13 +1,13 @@
-package com.ceiba.fashtoll.searchEngine.elasticSearch.service;
+package com.ceiba.fashtoll.searchEngine.elasticsearch.service;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.ceiba.fashtoll.worldModel.product.entity.Product;
 import com.ceiba.fashtoll.worldModel.product.repository.ProductRepository;
-import com.ceiba.fashtoll.searchEngine.elasticSearch.document.ProductDocument;
-import com.ceiba.fashtoll.searchEngine.elasticSearch.dto.ProductSearchRequest;
-import com.ceiba.fashtoll.searchEngine.elasticSearch.dto.ProductSearchResponse;
-import com.ceiba.fashtoll.searchEngine.elasticSearch.repository.ProductSearchRepository;
+import com.ceiba.fashtoll.searchEngine.elasticsearch.document.ProductDocument;
+import com.ceiba.fashtoll.searchEngine.elasticsearch.dto.ProductSearchRequest;
+import com.ceiba.fashtoll.searchEngine.elasticsearch.dto.ProductSearchResponse;
+import com.ceiba.fashtoll.searchEngine.elasticsearch.repository.ProductSearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;

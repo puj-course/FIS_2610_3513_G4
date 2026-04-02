@@ -1,8 +1,8 @@
-package com.ceiba.fashtoll.searchEngine.elasticSearch.controller;
+package com.ceiba.fashtoll.searchEngine.elasticsearch.controller;
 
-import com.ceiba.fashtoll.searchEngine.elasticSearch.dto.ProductSearchRequest;
-import com.ceiba.fashtoll.searchEngine.elasticSearch.dto.ProductSearchResponse;
-import com.ceiba.fashtoll.searchEngine.elasticSearch.service.ProductSearchService;
+import com.ceiba.fashtoll.searchEngine.elasticsearch.dto.ProductSearchRequest;
+import com.ceiba.fashtoll.searchEngine.elasticsearch.dto.ProductSearchResponse;
+import com.ceiba.fashtoll.searchEngine.elasticsearch.service.ProductSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

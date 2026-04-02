@@ -1,8 +1,8 @@
-package com.ceiba.fashtoll.searchEngine.tag.mapper;
+package com.ceiba.fashtoll.worldModel.tag.mapper;
 
-import com.ceiba.fashtoll.searchEngine.tag.dto.TagRequest;
-import com.ceiba.fashtoll.searchEngine.tag.dto.TagResponse;
-import com.ceiba.fashtoll.searchEngine.tag.entity.Tag;
+import com.ceiba.fashtoll.worldModel.tag.dto.TagRequest;
+import com.ceiba.fashtoll.worldModel.tag.dto.TagResponse;
+import com.ceiba.fashtoll.worldModel.tag.entity.Tag;
 import org.springframework.stereotype.Component;
 
 @Component

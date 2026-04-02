@@ -3,7 +3,7 @@ package com.ceiba.fashtoll.worldModel.product.dto;
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
 import com.ceiba.fashtoll.utilities.enums.GeneralFit;
-import com.ceiba.fashtoll.searchEngine.tag.dto.TagResponse;
+import com.ceiba.fashtoll.worldModel.tag.dto.TagResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

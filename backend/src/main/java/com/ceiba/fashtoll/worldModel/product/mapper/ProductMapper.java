@@ -5,7 +5,7 @@ import com.ceiba.fashtoll.worldModel.product.dto.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dto.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.dto.ProductUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.entity.Product;
-import com.ceiba.fashtoll.searchEngine.tag.mapper.TagMapper;
+import com.ceiba.fashtoll.worldModel.tag.mapper.TagMapper;
 import com.ceiba.fashtoll.worldModel.product.entity.ProductImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

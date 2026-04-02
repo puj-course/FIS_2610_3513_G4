@@ -1,6 +1,6 @@
-package com.ceiba.fashtoll.searchEngine.tag.repository;
+package com.ceiba.fashtoll.worldModel.tag.repository;
 
-import com.ceiba.fashtoll.searchEngine.tag.entity.Tag;
+import com.ceiba.fashtoll.worldModel.tag.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,10 +1,10 @@
-package com.ceiba.fashtoll.searchEngine.tag.service;
+package com.ceiba.fashtoll.worldModel.tag.service;
 
-import com.ceiba.fashtoll.searchEngine.tag.dto.TagRequest;
-import com.ceiba.fashtoll.searchEngine.tag.dto.TagResponse;
-import com.ceiba.fashtoll.searchEngine.tag.entity.Tag;
-import com.ceiba.fashtoll.searchEngine.tag.mapper.TagMapper;
-import com.ceiba.fashtoll.searchEngine.tag.repository.TagRepository;
+import com.ceiba.fashtoll.worldModel.tag.dto.TagRequest;
+import com.ceiba.fashtoll.worldModel.tag.dto.TagResponse;
+import com.ceiba.fashtoll.worldModel.tag.entity.Tag;
+import com.ceiba.fashtoll.worldModel.tag.mapper.TagMapper;
+import com.ceiba.fashtoll.worldModel.tag.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

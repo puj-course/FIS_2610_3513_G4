@@ -4,6 +4,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "com.ceiba.fashtoll.elasticSearch.repository")
+@EnableElasticsearchRepositories(basePackages = "com.ceiba.fashtoll.elasticsearch.repository")
 public class ElasticsearchConfig {
 }

@@ -1,6 +1,6 @@
-package com.ceiba.fashtoll.searchEngine.elasticSearch.dto;
+package com.ceiba.fashtoll.searchEngine.elasticsearch.dto;
 
-import com.ceiba.fashtoll.searchEngine.elasticSearch.document.ProductDocument;
+import com.ceiba.fashtoll.searchEngine.elasticsearch.document.ProductDocument;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
