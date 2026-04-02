@@ -1,7 +1,6 @@
 package com.ceiba.fashtoll.worldModel.client;
 
 import com.ceiba.fashtoll.worldModel.client.dtos.*;
-import com.ceiba.fashtoll.worldModel.user.User;
 import com.ceiba.fashtoll.worldModel.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,15 +64,15 @@ public class ClientService {
         clientRepository.delete(client);
     }
 
-    public ClientProfileResponse getProfile(Long userId) {
-        Client client = clientRepository.findById(userId)
+    public ClientProfileResponse getProfile(Long id) {
+        Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
         return clientMapper.toProfileResponse(client);
     }
 
     @Transactional
-    public ClientProfileResponse updateProfile(Long userId, ClientProfileUpdateRequest request) {
-        Client client = clientRepository.findById(userId)
+    public ClientProfileResponse updateProfile(Long id, ClientProfileUpdateRequest request) {
+        Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
         clientMapper.updateEntityFromProfile(request, client);

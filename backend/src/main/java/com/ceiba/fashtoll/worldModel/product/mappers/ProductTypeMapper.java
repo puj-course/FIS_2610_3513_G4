@@ -1,8 +1,8 @@
-package com.ceiba.fashtoll.worldModel.product.mapper;
+package com.ceiba.fashtoll.worldModel.product.mappers;
 
-import com.ceiba.fashtoll.worldModel.product.dto.ProductTypeRequest;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductTypeResponse;
-import com.ceiba.fashtoll.worldModel.product.entity.ProductType;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeResponse;
+import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,12 +1,12 @@
-package com.ceiba.fashtoll.worldModel.product.controller;
+package com.ceiba.fashtoll.worldModel.product.controllers;
 
 //import com.ceiba.fashtoll.worldModel.product.dtos.*;
 //utiliza solo estos dtos? o utiliza todos
-import com.ceiba.fashtoll.worldModel.product.dto.ProductAdminUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductCreateRequest;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductResponse;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 
-import com.ceiba.fashtoll.worldModel.product.service.ProductService;
+import com.ceiba.fashtoll.worldModel.product.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

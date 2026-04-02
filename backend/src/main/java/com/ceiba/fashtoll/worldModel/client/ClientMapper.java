@@ -18,7 +18,7 @@ public class ClientMapper {
         if (client == null) return null;
         ClientProfileResponse response = new ClientProfileResponse();
         response.setName(client.getName());
-        response.setEmail(client.getUser() != null ? client.getUser().getEmail() : null);
+        response.setEmail(client.getEmail());
         return response;
     }
 

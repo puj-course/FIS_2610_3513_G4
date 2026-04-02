@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product.entity;
+package com.ceiba.fashtoll.worldModel.product.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

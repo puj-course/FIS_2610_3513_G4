@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product.dto;
+package com.ceiba.fashtoll.worldModel.product.dtos;
 
 import com.ceiba.fashtoll.utilities.enums.Category;
 import lombok.AllArgsConstructor;

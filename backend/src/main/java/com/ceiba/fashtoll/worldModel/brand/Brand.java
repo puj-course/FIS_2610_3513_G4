@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.worldModel.brand;
 
-import com.ceiba.fashtoll.worldModel.product.entity.Product;
+import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

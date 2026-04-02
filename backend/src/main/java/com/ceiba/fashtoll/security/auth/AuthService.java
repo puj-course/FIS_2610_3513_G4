@@ -41,34 +41,50 @@ public class AuthService {
             throw new RuntimeException("El email ya está registrado");
         }
 
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
-        user.setIsActive(true);
-
-        User savedUser = userRepository.save(user);
+        String token;
 
         if (request.getRole() == Role.CLIENT) {
             Client client = new Client();
-            client.setUser(savedUser);
+            client.setEmail(request.getEmail());
+            client.setPassword(passwordEncoder.encode(request.getPassword()));
             client.setName(request.getName());
+            client.setRole(request.getRole());
+            client.setIsActive(true);
+
             clientRepository.save(client);
+            userRepository.save(client);
+
+            token = jwtProvider.generateToken(client);
+
+            return AuthResponse.builder()
+                    .token(token)
+                    .email(client.getEmail())
+                    .role(client.getRole().name())
+                    .build();
+
         } else if (request.getRole() == Role.BRAND) {
             Brand brand = new Brand();
-            brand.setUser(savedUser);
+            brand.setEmail(request.getEmail());
+            brand.setPassword(passwordEncoder.encode(request.getPassword()));
             brand.setName(request.getName());
+            brand.setRole(request.getRole());
+            brand.setIsActive(true);
             brand.setPictureUrl(request.getPictureUrl());
             brand.setLinkOfficial(request.getLinkOfficial());
+
             brandRepository.save(brand);
+            userRepository.save(brand);
+
+            token = jwtProvider.generateToken(brand);
+
+            return AuthResponse.builder()
+                    .token(token)
+                    .email(brand.getEmail())
+                    .role(brand.getRole().name())
+                    .build();
         }
 
-        String token = jwtProvider.generateToken(savedUser);
-        return AuthResponse.builder()
-                .token(token)
-                .email(savedUser.getEmail())
-                .role(savedUser.getRole().name())
-                .build();
+        return null;
     }
 
     public AuthResponse login(LoginRequest request) {

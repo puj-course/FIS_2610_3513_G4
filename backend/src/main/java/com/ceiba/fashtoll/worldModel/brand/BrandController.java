@@ -1,10 +1,10 @@
 package com.ceiba.fashtoll.worldModel.brand;
 
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductCreateRequest;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductResponse;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.service.ProductService;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
+import com.ceiba.fashtoll.worldModel.product.services.ProductService;
 import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
 import com.ceiba.fashtoll.worldModel.user.User;
 import com.ceiba.fashtoll.worldModel.user.UserService;

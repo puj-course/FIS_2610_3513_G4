@@ -1,8 +1,8 @@
-package com.ceiba.fashtoll.worldModel.product.controller;
+package com.ceiba.fashtoll.worldModel.product.controllers;
 
-import com.ceiba.fashtoll.worldModel.product.dto.ProductTypeRequest;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductTypeResponse;
-import com.ceiba.fashtoll.worldModel.product.service.ProductTypeService;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeResponse;
+import com.ceiba.fashtoll.worldModel.product.services.ProductTypeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

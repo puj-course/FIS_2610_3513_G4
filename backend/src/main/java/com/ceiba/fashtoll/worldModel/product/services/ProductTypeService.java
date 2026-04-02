@@ -1,10 +1,10 @@
-package com.ceiba.fashtoll.worldModel.product.service;
+package com.ceiba.fashtoll.worldModel.product.services;
 
-import com.ceiba.fashtoll.worldModel.product.dto.ProductTypeRequest;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductTypeResponse;
-import com.ceiba.fashtoll.worldModel.product.entity.ProductType;
-import com.ceiba.fashtoll.worldModel.product.mapper.ProductTypeMapper;
-import com.ceiba.fashtoll.worldModel.product.repository.ProductTypeRepository;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeResponse;
+import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
+import com.ceiba.fashtoll.worldModel.product.mappers.ProductTypeMapper;
+import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,42 +1,34 @@
-package com.ceiba.fashtoll.worldModel.product.dto;
+package com.ceiba.fashtoll.worldModel.product.dtos;
 
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
 import com.ceiba.fashtoll.utilities.enums.GeneralFit;
-import jakarta.validation.constraints.*;
+import com.ceiba.fashtoll.worldModel.tag.dto.TagResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductUpdateRequest {
-    @NotNull(message = "El ID del tipo de producto es obligatorio")
-    private Long productTypeId;
-
-    @NotBlank(message = "El nombre del producto es obligatorio")
-    @Size(max = 150, message = "El nombre no puede exceder los 150 caracteres")
+public class ProductResponse {
+    private Long id;
+    private Long brandId;
+    private ProductTypeResponse productType;
     private String name;
-
     private String description;
-
-    @NotNull(message = "El precio es obligatorio")
-    @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser mayor a 0")
     private BigDecimal price;
-
     private GeneralFit generalFit;
     private Gender gender;
     private Color color;
     private Boolean available;
-
-    @Size(max = 500)
+    private Double rating;
     private String linkProduct;
-
+    private LocalDateTime createdAt;
     private List<String> imageUrls;
-    private Set<Long> tagIds;
+    private List<TagResponse> tags;
 }

@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product.entity;
+package com.ceiba.fashtoll.worldModel.product.entities;
 
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.utilities.enums.Color;

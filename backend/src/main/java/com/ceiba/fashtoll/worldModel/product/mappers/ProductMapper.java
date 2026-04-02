@@ -1,12 +1,12 @@
-package com.ceiba.fashtoll.worldModel.product.mapper;
+package com.ceiba.fashtoll.worldModel.product.mappers;
 
-import com.ceiba.fashtoll.worldModel.product.dto.ProductAdminUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductCreateRequest;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductResponse;
-import com.ceiba.fashtoll.worldModel.product.dto.ProductUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.entity.Product;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
+import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.tag.mapper.TagMapper;
-import com.ceiba.fashtoll.worldModel.product.entity.ProductImage;
+import com.ceiba.fashtoll.worldModel.product.entities.ProductImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

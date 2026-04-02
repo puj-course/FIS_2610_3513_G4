@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product.dto;
+package com.ceiba.fashtoll.worldModel.product.dtos;
 
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
@@ -15,8 +15,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductAdminUpdateRequest {
-    @NotNull(message = "El ID de la marca es obligatorio")
+public class ProductCreateRequest {
+
     private Long brandId;
 
     @NotNull(message = "El ID del tipo de producto es obligatorio")
@@ -35,7 +35,7 @@ public class ProductAdminUpdateRequest {
     private GeneralFit generalFit;
     private Gender gender;
     private Color color;
-    private Boolean available;
+    private Boolean available = true;
 
     @Size(max = 500)
     private String linkProduct;

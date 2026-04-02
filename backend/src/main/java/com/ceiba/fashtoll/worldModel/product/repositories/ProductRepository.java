@@ -1,7 +1,7 @@
-package com.ceiba.fashtoll.worldModel.product.repository;
+package com.ceiba.fashtoll.worldModel.product.repositories;
 
 import com.ceiba.fashtoll.worldModel.brand.Brand;
-import com.ceiba.fashtoll.worldModel.product.entity.Product;
+import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
