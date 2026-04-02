@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 public class BrandService {
 
     private final BrandRepository brandRepository;
-    private final UserRepository userRepository;
+    //private final UserRepository userRepository;
     private final BrandMapper brandMapper;
 
     @Autowired
     public BrandService(BrandRepository brandRepository, UserRepository userRepository, BrandMapper brandMapper) {
         this.brandRepository = brandRepository;
-        this.userRepository = userRepository;
+        //this.userRepository = userRepository;
         this.brandMapper = brandMapper;
     }
 
@@ -39,27 +39,28 @@ public class BrandService {
     public BrandResponse getBrandById(Long id) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
+
         return brandMapper.toResponse(brand);
     }
 
     public BrandPublicResponse getPublicBrandById(Long id) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
+
         return brandMapper.toPublicResponse(brand);
     }
 
     @Transactional
     public BrandResponse createBrand(BrandCreateRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + request.getUserId()));
-
         Brand brand = brandMapper.toEntity(request);
-        brand.setUser(user);
         brand.setFollowers(0);
         brand.setRating(0.0);
         brand.setIsVerified(false);
-        Brand savedBrand = brandRepository.save(brand);
-        return brandMapper.toResponse(savedBrand);
+        //Brand savedBrand = brandRepository.save(brand);
+        brandRepository.save(brand);
+        //return brandMapper.toResponse(savedBrand);
+
+        return brandMapper.toResponse(brand);
     }
 
     @Transactional
@@ -69,6 +70,7 @@ public class BrandService {
 
         brandMapper.updateEntityFromAdmin(request, brand);
         Brand savedBrand = brandRepository.save(brand);
+
         return brandMapper.toResponse(savedBrand);
     }
 
@@ -81,6 +83,7 @@ public class BrandService {
     public BrandProfileResponse getProfile(Long userId) {
         Brand brand = brandRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+
         return brandMapper.toProfileResponse(brand);
     }
 
@@ -91,6 +94,7 @@ public class BrandService {
 
         brandMapper.updateEntityFromProfile(request, brand);
         Brand savedBrand = brandRepository.save(brand);
+
         return brandMapper.toProfileResponse(savedBrand);
     }
 

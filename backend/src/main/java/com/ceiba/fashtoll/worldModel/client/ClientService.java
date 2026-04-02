@@ -5,7 +5,6 @@ import com.ceiba.fashtoll.worldModel.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,13 +12,13 @@ import java.util.stream.Collectors;
 public class ClientService {
 
     private final ClientRepository clientRepository;
-    private final UserRepository userRepository;
+    //private final UserRepository userRepository;
     private final ClientMapper clientMapper;
 
     @Autowired
     public ClientService(ClientRepository clientRepository, UserRepository userRepository, ClientMapper clientMapper) {
         this.clientRepository = clientRepository;
-        this.userRepository = userRepository;
+        //this.userRepository = userRepository;
         this.clientMapper = clientMapper;
     }
 

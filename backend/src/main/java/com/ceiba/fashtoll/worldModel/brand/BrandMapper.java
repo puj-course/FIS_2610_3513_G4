@@ -16,7 +16,7 @@ public class BrandMapper {
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
         response.setIsVerified(brand.getIsVerified());
-        response.setUserId(brand.getUser() != null ? brand.getUser().getId() : null);
+
         return response;
     }
 
@@ -24,12 +24,13 @@ public class BrandMapper {
         if (brand == null) return null;
         BrandPublicResponse response = new BrandPublicResponse();
         response.setName(brand.getName());
-        response.setEmail(brand.getUser() != null ? brand.getUser().getEmail() : null);
+        response.setEmail(brand.getEmail());
         response.setPictureUrl(brand.getPictureUrl());
         response.setLinkOfficial(brand.getLinkOfficial());
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
         response.setIsVerified(brand.getIsVerified());
+
         return response;
     }
 
@@ -37,12 +38,13 @@ public class BrandMapper {
         if (brand == null) return null;
         BrandProfileResponse response = new BrandProfileResponse();
         response.setName(brand.getName());
-        response.setEmail(brand.getUser() != null ? brand.getUser().getEmail() : null);
+        response.setEmail(brand.getEmail());
         response.setPictureUrl(brand.getPictureUrl());
         response.setLinkOfficial(brand.getLinkOfficial());
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
         response.setIsVerified(brand.getIsVerified());
+
         return response;
     }
 
@@ -52,6 +54,7 @@ public class BrandMapper {
         brand.setName(request.getName());
         brand.setPictureUrl(request.getPictureUrl());
         brand.setLinkOfficial(request.getLinkOfficial());
+
         return brand;
     }
 

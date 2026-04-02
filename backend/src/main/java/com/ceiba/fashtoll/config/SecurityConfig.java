@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.utilities.config;
+package com.ceiba.fashtoll.config;
 
 import com.ceiba.fashtoll.security.UserDetailsServiceImpl;
 import com.ceiba.fashtoll.security.jwt.JwtFilter;

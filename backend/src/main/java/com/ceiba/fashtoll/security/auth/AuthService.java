@@ -52,7 +52,6 @@ public class AuthService {
             client.setIsActive(true);
 
             clientRepository.save(client);
-            userRepository.save(client);
 
             token = jwtProvider.generateToken(client);
 
@@ -73,7 +72,6 @@ public class AuthService {
             brand.setLinkOfficial(request.getLinkOfficial());
 
             brandRepository.save(brand);
-            userRepository.save(brand);
 
             token = jwtProvider.generateToken(brand);
 
