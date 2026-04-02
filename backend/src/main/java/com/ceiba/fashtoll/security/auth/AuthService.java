@@ -31,7 +31,6 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-
         // como puedo registrar un admin?
         if (request.getRole() == Role.ADMIN) {
             throw new RuntimeException("No se permite el registro manual de administradores");
@@ -42,6 +41,26 @@ public class AuthService {
         }
 
         String token;
+
+        // ESTO ES PROVICIONAL, HAY QUE CAMBIARLO
+        // Ahora en la base hay 2 admins, user: gonso, passwd: gonso123; y user:admin , passwd: admin123
+        if (request.getRole() == Role.ADMIN) {
+            User user = new User();
+            user.setEmail(request.getEmail());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setName(request.getName());
+            user.setRole(request.getRole());
+
+            userRepository.save(user);
+
+            token = jwtProvider.generateToken(user);
+
+            return AuthResponse.builder()
+                    .token(token)
+                    .email(user.getEmail())
+                    .role(user.getRole().name())
+                    .build();
+        }
 
         if (request.getRole() == Role.CLIENT) {
             Client client = new Client();
@@ -60,7 +79,6 @@ public class AuthService {
                     .email(client.getEmail())
                     .role(client.getRole().name())
                     .build();
-
         } else if (request.getRole() == Role.BRAND) {
             Brand brand = new Brand();
             brand.setEmail(request.getEmail());
