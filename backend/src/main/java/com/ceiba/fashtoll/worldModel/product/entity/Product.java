@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.worldModel.product.entity;
 
-import com.ceiba.fashtoll.worldModel.brand.entity.Brand;
+import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
 import com.ceiba.fashtoll.utilities.enums.GeneralFit;

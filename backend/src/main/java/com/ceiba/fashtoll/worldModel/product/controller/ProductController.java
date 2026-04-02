@@ -1,7 +1,7 @@
 package com.ceiba.fashtoll.worldModel.product.controller;
 
-//import com.ceiba.fashtoll.worldModel.product.dto.*;
-//utiliza solo estos dto? o utiliza todos
+//import com.ceiba.fashtoll.worldModel.product.dtos.*;
+//utiliza solo estos dtos? o utiliza todos
 import com.ceiba.fashtoll.worldModel.product.dto.ProductAdminUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.dto.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dto.ProductResponse;

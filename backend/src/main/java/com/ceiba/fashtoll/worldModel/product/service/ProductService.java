@@ -1,7 +1,7 @@
 package com.ceiba.fashtoll.worldModel.product.service;
 
-import com.ceiba.fashtoll.worldModel.brand.entity.Brand;
-import com.ceiba.fashtoll.worldModel.brand.repository.BrandRepository;
+import com.ceiba.fashtoll.worldModel.brand.Brand;
+import com.ceiba.fashtoll.worldModel.brand.BrandRepository;
 import com.ceiba.fashtoll.worldModel.product.dto.ProductAdminUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.dto.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dto.ProductResponse;
