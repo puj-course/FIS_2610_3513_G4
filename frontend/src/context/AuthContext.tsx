@@ -4,12 +4,14 @@ interface AuthUser {
   email: string;
   role: string;
   token: string;
+  name?: string;
 }
 
 interface AuthContextType {
   user: AuthUser | null;
   login: (userData: AuthUser) => void;
   logout: () => void;
+  updateUserName: (newName: string) => void;
   isLoading: boolean;
 }
 
@@ -43,8 +45,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("fashtoll_user");
   };
 
+  const updateUserName = (newName: string) => {
+    if (user) {
+      const updatedUser = { ...user, name: newName };
+      setUser(updatedUser);
+      localStorage.setItem("fashtoll_user", JSON.stringify(updatedUser));
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUserName, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -71,7 +71,7 @@ export function Navbar() {
                   className="flex items-center space-x-2 p-1 pl-3 rounded-full bg-[#F3F4F6] text-[#0A0A0A] hover:bg-[#EEF0F3] transition-colors border border-[#E5E7EB]"
                 >
                   <span className="text-sm font-bold hidden sm:block">
-                    {user.email.split('@')[0]}
+                    {user.name || user.email.split('@')[0]}
                   </span>
                   <div className="p-1.5 rounded-full bg-white shadow-sm">
                     <User className="h-5 w-5" />
