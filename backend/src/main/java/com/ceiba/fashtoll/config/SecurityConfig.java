@@ -41,6 +41,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // TODO: Restrigir a solo Admin
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/products/search").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/product-types/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/tags/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
