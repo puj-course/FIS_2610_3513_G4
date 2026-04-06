@@ -19,10 +19,10 @@
 ---
 
 ## 🛠️ Tecnologías Utilizadas
-- **Frontend:** JavaScript, React
+- **Frontend:** JavaScript, TypeScript, React, Vite, Axios
 - **Backend:** Java, Spring Boot
 - **Construcción:** Maven
-- **Base de Datos:** PostgreSQL, Flyway
+- **Base de Datos:** PostgreSQL, Flyway, Elasticsearch
 - **DevOps:** GitHub Actions, Docker, SonarQube
 - **Control de versiones:** Git
 - **Otros:** JWT, OpenAPI, Swagger
@@ -89,6 +89,7 @@ FIS_2610_3513_G4/
 - Java 25
 - Maven
 - Docker Desktop
+- Node.js 18+
 
 ## 💻 Clonar el repositorio
 ```text
@@ -96,19 +97,27 @@ git clone https://github.com/puj-course/FIS_2610_3513_G4.git
 cd FIS_2610_3513_G4
 ```
 
-## 🐋 Ejecución de PostgreSQL con Docker
-Para desplegar el servicio de base de datos PostgreSQL se debe instalar Docker Desktop y ejecutar este comando en la raíz del proyecto:
+## 🐋 Ejecución de PostgreSQL y Elasticsearch con Docker
+Para desplegar los servicios de base de datos PostgreSQL e indexación de Elasticsearch, se debe instalar Docker Desktop y ejecutar este comando en la raíz del proyecto:
 ```text
 docker compose up -d
 ```
-La base de datos estará disponible en el puerto 5432.
+La base de datos PostgreSQL estará disponible en el puerto 5432. El índice de Elasticsearch estará disponible en el puerto 9200.
 
-## ▶️ Ejecución de la Aplicación con IDE
+## ▶️ Ejecución de la API Spring Boot con IDE
 Abrir el proyecto con cualquier IDE compatible y ejecutarlo. En IntelliJ IDEA:
 ```text
 Open Project -> FIS_2610_3513_G4 -> Run 'FashtollApplication'
 ```
-La aplicación estará disponible en el puerto 8080.
+La API estará disponible en el puerto 8080.
+
+## 🖼️ Ejecución del frontend con npm
+Ejecutar los siguientes comandos desde la raíz del proyecto para correr la aplicación React.
+```text
+cd frontend
+npm run dev
+```
+La interfaz de inicio estará disponible en la ruta http://localhost:5173/.
 
 ## 🧪 Ejecución de pruebas (Próximamente)
 ```text

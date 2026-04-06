@@ -37,6 +37,12 @@ public class ProductDocument {
     @Field(type = FieldType.Keyword)
     private String brandName;
 
+    @Field(type = FieldType.Keyword, index = false)
+    private String brandPictureUrl;
+
+    @Field(type = FieldType.Boolean)
+    private Boolean brandIsVerified;
+
     @Field(type = FieldType.Keyword)
     private String productTypeName;
 
