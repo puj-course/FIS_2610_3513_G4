@@ -12,6 +12,8 @@ assignees: ''
 - 
 ### 🎯 ¿Qué voy a hacer hoy?
 - 
+### 🎯 ¿Qué logre hacer hoy?
+- 
 ### 🛑 ¿Tengo algún impedimento?
 - [ ] No
 - [ ] Sí (Describir: )
