@@ -34,8 +34,6 @@
 FIS_2610_3513_G4/
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md
-│   │   ├── feature_request.md
 │   ├── PULL_REQUEST_TEMPLATE.md
 │   └── workflows/
 │       ├── ci.yml
@@ -46,7 +44,13 @@ FIS_2610_3513_G4/
 ├── docs/
 │   ├── api/
 │   ├── architecture/
-│   └── user_guide/
+│   ├── design/
+│   ├── dynamic view/
+│   ├── learning process/
+│   ├── requirements/
+│   ├── Scrum/
+│   ├── user_guide/
+│   └── Presentación-Inicial-Proyecto.pdf/
 ├── jupyter/
 │   ├── notebooks/
 │   │   ├── exploration.ipynb
@@ -67,6 +71,8 @@ FIS_2610_3513_G4/
 │   │       └── java/
 │   └── pom.xml
 ├── frontend/                # Frontend (React)
+│   ├── public/
+│   └── src/
 ├── temp/
 │   ├── temp_file.txt
 │   └── temp_data/
@@ -79,6 +85,7 @@ FIS_2610_3513_G4/
 ├── CONTRIBUTING.md
 ├── Dockerfile
 ├── docker-compose.yml
+├── flyway.conf
 └── Makefile
 ```
 
