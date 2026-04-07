@@ -7,3 +7,9 @@ El diagrama ira cambiando conforme se vaya desarrollando el proyecto.
 <p align="center">
   <img src="https://github.com/puj-course/FIS_2610_3513_G4/blob/features-Alejandro/docs/architecture/assets/v1%20-%20Search%20Engine%20Class%20Diagram.png" alt="Fashtoll Search Engine class diagram v1" width="1000">
 </p>
+
+### Version 2:
+
+<p align="center">
+  <img src="https://github.com/puj-course/FIS_2610_3513_G4/blob/features-Alejandro/docs/architecture/assets/v2%20-%20Search%20Engine%20Class%20Diagram.png" alt="Fashtoll Search Engine class diagram v2" width="1000">
+</p>
