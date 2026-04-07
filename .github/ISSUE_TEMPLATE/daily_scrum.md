@@ -2,7 +2,7 @@
 name: Daily Scrum
 about: Seguimiento diario del equipo
 title: 'Daily Scrum - [FECHA]'
-labels: 'daily'
+labels: 'SCRUM'
 assignees: ''
 ---
 
