@@ -12,7 +12,7 @@ import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
-import com.ceiba.fashtoll.searchEngine.elasticsearch.service.ProductSearchService;
+import com.ceiba.fashtoll.searchEngine.ProductSearchService;
 import com.ceiba.fashtoll.worldModel.tag.entity.Tag;
 import com.ceiba.fashtoll.worldModel.tag.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
