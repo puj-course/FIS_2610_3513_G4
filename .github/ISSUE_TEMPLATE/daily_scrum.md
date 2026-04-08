@@ -2,7 +2,7 @@
 name: Daily Scrum
 about: Seguimiento diario del equipo
 title: 'Daily Scrum - [FECHA]'
-labels: 'daily'
+labels: 'SCRUM'
 assignees: ''
 ---
 
@@ -11,6 +11,8 @@ assignees: ''
 ### ✅ ¿Qué logré ayer?
 - 
 ### 🎯 ¿Qué voy a hacer hoy?
+- 
+### 🎯 ¿Qué logre hacer hoy?
 - 
 ### 🛑 ¿Tengo algún impedimento?
 - [ ] No

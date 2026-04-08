@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.security;
 
-import com.ceiba.fashtoll.user.repository.UserRepository;
+import com.ceiba.fashtoll.worldModel.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
