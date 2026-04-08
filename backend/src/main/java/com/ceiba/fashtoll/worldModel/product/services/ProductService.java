@@ -10,9 +10,11 @@ import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductImage;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
+import com.ceiba.fashtoll.worldModel.product.observer.EventType;
+import com.ceiba.fashtoll.worldModel.product.observer.ProductEvent;
+import com.ceiba.fashtoll.worldModel.product.observer.ProductEventPublisher;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
-import com.ceiba.fashtoll.searchEngine.ProductSearchService;
 import com.ceiba.fashtoll.worldModel.tag.entity.Tag;
 import com.ceiba.fashtoll.worldModel.tag.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +34,18 @@ public class ProductService {
     private final ProductTypeRepository productTypeRepository;
     private final ProductMapper productMapper;
     private final TagRepository tagRepository;
-    private final ProductSearchService productSearchService;
+    private final ProductEventPublisher productEventPublisher;
 
     @Autowired
     public ProductService(ProductRepository productRepository, BrandRepository brandRepository,
                           ProductTypeRepository productTypeRepository, ProductMapper productMapper,
-                          TagRepository tagRepository, ProductSearchService productSearchService) {
+                          TagRepository tagRepository, ProductEventPublisher productEventPublisher) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.productTypeRepository = productTypeRepository;
         this.productMapper = productMapper;
         this.tagRepository = tagRepository;
-        this.productSearchService = productSearchService;
+        this.productEventPublisher = productEventPublisher;
     }
 
     public List<ProductResponse> getAllProducts() {
@@ -92,7 +94,7 @@ public class ProductService {
         }
 
         Product savedProduct = productRepository.save(product);
-        productSearchService.indexProduct(savedProduct);
+        productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
         return productMapper.toResponse(savedProduct);
     }
 
@@ -133,7 +135,7 @@ public class ProductService {
         }
 
         Product savedProduct = productRepository.save(product);
-        productSearchService.indexProduct(savedProduct);
+        productEventPublisher.notify(new ProductEvent(savedProduct, EventType.UPDATED));
         return productMapper.toResponse(savedProduct);
     }
 
@@ -141,7 +143,7 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
         productRepository.delete(product);
-        productSearchService.deleteProduct(id);
+        productEventPublisher.notify(new ProductEvent(product, EventType.DELETED));
     }
 
     public List<ProductResponse> getProductsByBrand(Long brandId) {
@@ -195,7 +197,7 @@ public class ProductService {
         }
 
         Product savedProduct = productRepository.save(product);
-        productSearchService.indexProduct(savedProduct);
+        productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
         return productMapper.toResponse(savedProduct);
     }
 
@@ -234,7 +236,7 @@ public class ProductService {
         }
 
         Product savedProduct = productRepository.save(product);
-        productSearchService.indexProduct(savedProduct);
+        productEventPublisher.notify(new ProductEvent(savedProduct, EventType.UPDATED));
         return productMapper.toResponse(savedProduct);
     }
 
@@ -247,6 +249,6 @@ public class ProductService {
         }
 
         productRepository.delete(product);
-        productSearchService.deleteProduct(productId);
+        productEventPublisher.notify(new ProductEvent(product, EventType.DELETED));
     }
 }
