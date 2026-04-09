@@ -6,6 +6,13 @@ labels: 'SCRUM'
 assignees: ''
 ---
 
+# Daily Scrum - [FECHA]
+
+## ⚡ Sprint N | [FECHA INICIO] - [FECHA FINAL]
+
+Por cada miembro del equipo, responder a este issue con los resultados del Daily Scrum, siguiendo esta plantilla:
+
+```
 ## 👤 Participante: [Nombre]
 
 ### ✅ ¿Qué logré ayer?
@@ -17,5 +24,4 @@ assignees: ''
 ### 🛑 ¿Tengo algún impedimento?
 - [ ] No
 - [ ] Sí (Describir: )
-
----
+```
