@@ -4,5 +4,11 @@ public enum Category {
     TOPS,
     BOTTOMS,
     OUTERWEAR,
-    FULL_BODY
+    FULL_BODY;
+
+    /*
+    public void matchCategory(String category) {
+
+    }
+     */
 }

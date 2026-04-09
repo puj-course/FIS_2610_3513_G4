@@ -1,8 +1,8 @@
-package com.ceiba.fashtoll.searchEngine.elasticsearch.controller;
+package com.ceiba.fashtoll.searchEngine;
 
-import com.ceiba.fashtoll.searchEngine.elasticsearch.dto.ProductSearchRequest;
-import com.ceiba.fashtoll.searchEngine.elasticsearch.dto.ProductSearchResponse;
-import com.ceiba.fashtoll.searchEngine.elasticsearch.service.ProductSearchService;
+import com.ceiba.fashtoll.searchEngine.dto.ProductSearchRequest;
+import com.ceiba.fashtoll.searchEngine.dto.ProductSearchResponse;
+import com.ceiba.fashtoll.searchEngine.dto.SearchEngineResultPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +19,14 @@ public class ProductSearchController {
     @Autowired
     public ProductSearchController(ProductSearchService productSearchService) {
         this.productSearchService = productSearchService;
+    }
+
+    // no tiene que ser necesariamente un string, pues eso implicaria
+    // cambiar la url con cada busqueda, me gustaria que tomara como parametro
+    // el cuerpo del request, el cuerpo crudo en formato de texto.
+    @PostMapping
+    public ProductSearchResponse searchProducts(@RequestBody String query){
+        return this.productSearchService.search(query);
     }
 
     /**

@@ -1,13 +1,12 @@
-package com.ceiba.fashtoll.searchEngine.elasticsearch.service;
+package com.ceiba.fashtoll.searchEngine;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import com.ceiba.fashtoll.searchEngine.dto.SearchEngineResultPage;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
-import com.ceiba.fashtoll.searchEngine.elasticsearch.document.ProductDocument;
-import com.ceiba.fashtoll.searchEngine.elasticsearch.dto.ProductSearchRequest;
-import com.ceiba.fashtoll.searchEngine.elasticsearch.dto.ProductSearchResponse;
-import com.ceiba.fashtoll.searchEngine.elasticsearch.repository.ProductSearchRepository;
+import com.ceiba.fashtoll.searchEngine.dto.ProductSearchRequest;
+import com.ceiba.fashtoll.searchEngine.dto.ProductSearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
@@ -25,14 +24,24 @@ public class ProductSearchService {
     private final ProductSearchRepository productSearchRepository;
     private final ElasticsearchOperations elasticsearchOperations;
     private final ProductRepository productRepository;
+    private final SearchEngine searchEngine;
 
     @Autowired
     public ProductSearchService(ProductSearchRepository productSearchRepository,
                                 ElasticsearchOperations elasticsearchOperations,
-                                ProductRepository productRepository) {
+                                ProductRepository productRepository,
+                                SearchEngine searchEngine) {
+
         this.productSearchRepository = productSearchRepository;
         this.elasticsearchOperations = elasticsearchOperations;
         this.productRepository = productRepository;
+        this.searchEngine = searchEngine;
+    }
+
+    public ProductSearchResponse search(String query){
+        this.searchEngine.processQuery(query);
+
+        return null;
     }
 
     /**

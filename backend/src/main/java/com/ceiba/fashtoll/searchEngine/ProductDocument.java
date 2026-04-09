@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.searchEngine.elasticsearch.document;
+package com.ceiba.fashtoll.searchEngine;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
