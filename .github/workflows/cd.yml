@@ -11,6 +11,16 @@ jobs:
   check-bats-version:
     runs-on: ubuntu-latest
 
+    services:
+      fashtoll-db-connection:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: fashtoll_db
+          POSTGRES_USER: dev_user
+          POSTGRES_PASSWORD: dev_password
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
