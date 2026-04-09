@@ -1,0 +1,20 @@
+name: Continuous-Deployment
+run-name: ${{ github.actor }} is executing the CD workflow
+on:
+  pull_request:
+    branches: ["main"]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Build with Maven (backend)
+        run: mvn clean package
+        working-directory: backend/
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: fashtoll-jar
