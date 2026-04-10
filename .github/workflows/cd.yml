@@ -1,0 +1,45 @@
+name: Continuous-Deployment
+run-name: ${{ github.actor }} is executing the CD workflow
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  deploy-project:
+    runs-on: ubuntu-latest
+
+    services:
+      fashtoll-db-connection:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: fashtoll_db
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build with Maven (backend)
+        run: mvn clean package
+        working-directory: backend/
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: fashtoll-jar
+          path: backend/target/*.jar
