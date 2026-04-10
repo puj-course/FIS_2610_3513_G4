@@ -8,8 +8,18 @@ on:
     branches: ["main"]
 
 jobs:
-  check-bats-version:
+  deploy-project:
     runs-on: ubuntu-latest
+
+    services:
+      fashtoll-db-connection:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: fashtoll_db
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     steps:
       - name: Checkout
@@ -24,6 +34,9 @@ jobs:
       - name: Build with Maven (backend)
         run: mvn clean package
         working-directory: backend/
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
       - name: Upload JAR
         uses: actions/upload-artifact@v4
