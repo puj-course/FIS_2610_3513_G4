@@ -22,6 +22,6 @@ public class SearchEngine {         //la clase implementa el patron estructural 
     }
 
     public void processQuery(String rawQuery){
-        this.analyzer.characterFilter(rawQuery);
+        String cleanQuery = this.analyzer.characterFilter(rawQuery);
     }
 }
