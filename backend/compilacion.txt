@@ -1,0 +1,50 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.ceiba:fashtoll >-------------------------
+[INFO] Building fashtoll 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.5.0:clean (default-clean) @ fashtoll ---
+[INFO] Deleting /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fashtoll ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ fashtoll ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 97 source files with javac [debug parameters release 21] to target/classes
+[INFO] -------------------------------------------------------------
+[WARNING] COMPILATION WARNING : 
+[INFO] -------------------------------------------------------------
+[WARNING] /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/src/main/java/com/ceiba/fashtoll/worldModel/client/Client.java:[16,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/src/main/java/com/ceiba/fashtoll/worldModel/brand/Brand.java:[17,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[INFO] 2 warnings 
+[INFO] -------------------------------------------------------------
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/src/main/java/com/ceiba/fashtoll/searchEngine/Analyzer.java:[6,33] cannot find symbol
+  symbol:   class SpanishStemmer
+  location: package org.tartarus.snowball.ext
+[INFO] 1 error
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.843 s
+[INFO] Finished at: 2026-04-10T09:32:43-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile (default-compile) on project fashtoll: Compilation failure
+[ERROR] /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/src/main/java/com/ceiba/fashtoll/searchEngine/Analyzer.java:[6,33] cannot find symbol
+[ERROR]   symbol:   class SpanishStemmer
+[ERROR]   location: package org.tartarus.snowball.ext
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

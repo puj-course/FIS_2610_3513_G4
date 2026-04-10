@@ -6,6 +6,9 @@ import com.ceiba.fashtoll.searchEngine.rankingComponent.RankingComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class SearchEngine {         //la clase implementa el patron estructural Façade
     private CrawlingComponent crawlingComponent;
@@ -22,6 +25,9 @@ public class SearchEngine {         //la clase implementa el patron estructural 
     }
 
     public void processQuery(String rawQuery){
+        List<String> keyWords = new ArrayList<>();
+
         String cleanQuery = this.analyzer.characterFilter(rawQuery);
+        this.analyzer.obtainKeyWords(cleanQuery);
     }
 }

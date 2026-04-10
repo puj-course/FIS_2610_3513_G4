@@ -5,10 +5,4 @@ public enum Category {
     BOTTOMS,
     OUTERWEAR,
     FULL_BODY;
-
-    /*
-    public void matchCategory(String category) {
-
-    }
-     */
 }
