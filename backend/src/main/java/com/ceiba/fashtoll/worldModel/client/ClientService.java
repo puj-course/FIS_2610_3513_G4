@@ -1,5 +1,6 @@
 package com.ceiba.fashtoll.worldModel.client;
 
+import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
 import com.ceiba.fashtoll.worldModel.client.dtos.*;
 import com.ceiba.fashtoll.worldModel.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ClientService {
 
     public ClientResponse getClientById(Long id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", id));
         return clientMapper.toResponse(client);
     }
 
@@ -50,7 +51,7 @@ public class ClientService {
     @Transactional
     public ClientResponse updateClient(Long id, ClientUpdateRequest request) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", id));
 
         clientMapper.updateEntityFromAdmin(request, client);
         Client savedClient = clientRepository.save(client);
@@ -59,20 +60,20 @@ public class ClientService {
 
     public void deleteClient(Long id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", id));
         clientRepository.delete(client);
     }
 
     public ClientProfileResponse getProfile(Long id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", id));
         return clientMapper.toProfileResponse(client);
     }
 
     @Transactional
     public ClientProfileResponse updateProfile(Long id, ClientProfileUpdateRequest request) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", id));
 
         clientMapper.updateEntityFromProfile(request, client);
         Client savedClient = clientRepository.save(client);

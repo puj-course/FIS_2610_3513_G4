@@ -1,5 +1,6 @@
 package com.ceiba.fashtoll.worldModel.product.services;
 
+import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.worldModel.brand.BrandRepository;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
@@ -56,17 +57,17 @@ public class ProductService {
 
     public ProductResponse getProductById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", id));
         return productMapper.toResponse(product);
     }
 
     @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
         Brand brand = brandRepository.findById(request.getBrandId())
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + request.getBrandId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Marca","id",request.getBrandId()));
 
         ProductType productType = productTypeRepository.findById(request.getProductTypeId())
-                .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + request.getProductTypeId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Tipo de producto","id", request.getProductTypeId()));
 
         Product product = productMapper.toEntity(request);
         product.setBrand(brand);
@@ -101,19 +102,19 @@ public class ProductService {
     @Transactional
     public ProductResponse updateProduct(Long id, ProductAdminUpdateRequest request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", id));
 
         productMapper.updateEntityFromAdmin(request, product);
 
         if (request.getBrandId() != null) {
             Brand brand = brandRepository.findById(request.getBrandId())
-                    .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + request.getBrandId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Marca", "id", request.getBrandId()));
             product.setBrand(brand);
         }
 
         if (request.getProductTypeId() != null) {
             ProductType productType = productTypeRepository.findById(request.getProductTypeId())
-                    .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + request.getProductTypeId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Tipo de producto", "id", request.getProductTypeId()));
             product.setProductType(productType);
         }
 
@@ -141,7 +142,7 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", id));
         productRepository.delete(product);
         productEventPublisher.notify(new ProductEvent(product, EventType.DELETED));
     }
@@ -154,11 +155,7 @@ public class ProductService {
 
     public ProductResponse getProductByBrand(Long brandId, Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + productId));
-
-        if (!product.getBrand().getId().equals(brandId)) {
-            throw new RuntimeException("No tiene permisos para ver este producto");
-        }
+                .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", productId));
 
         return productMapper.toResponse(product);
     }
@@ -166,10 +163,10 @@ public class ProductService {
     @Transactional
     public ProductResponse createBrandProduct(Long brandId, ProductCreateRequest request) {
         Brand brand = brandRepository.findById(brandId)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + brandId));
+                .orElseThrow(() -> new ResourceNotFoundException("Brand","id",request.getBrandId()));
 
         ProductType productType = productTypeRepository.findById(request.getProductTypeId())
-                .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + request.getProductTypeId()));
+                .orElseThrow(() -> new ResourceNotFoundException("ProductType","id", request.getProductTypeId()));
 
         Product product = productMapper.toEntity(request);
         product.setBrand(brand);
@@ -204,17 +201,13 @@ public class ProductService {
     @Transactional
     public ProductResponse updateBrandProduct(Long brandId, Long productId, ProductUpdateRequest request) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + productId));
-
-        if (!product.getBrand().getId().equals(brandId)) {
-            throw new RuntimeException("No tiene permisos para actualizar este producto");
-        }
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", productId));
 
         productMapper.updateEntityFromBrand(request, product);
 
         if (request.getProductTypeId() != null) {
             ProductType productType = productTypeRepository.findById(request.getProductTypeId())
-                    .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + request.getProductTypeId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("ProductType","id", request.getProductTypeId()));
             product.setProductType(productType);
         }
 
@@ -242,11 +235,7 @@ public class ProductService {
 
     public void deleteBrandProduct(Long brandId, Long productId) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + productId));
-
-        if (!product.getBrand().getId().equals(brandId)) {
-            throw new RuntimeException("No tiene permisos para eliminar este producto");
-        }
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", productId));
 
         productRepository.delete(product);
         productEventPublisher.notify(new ProductEvent(product, EventType.DELETED));
