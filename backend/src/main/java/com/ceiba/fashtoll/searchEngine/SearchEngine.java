@@ -29,5 +29,7 @@ public class SearchEngine {         //la clase implementa el patron estructural 
 
         String cleanQuery = this.analyzer.characterFilter(rawQuery);
         keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+
+        //
     }
 }

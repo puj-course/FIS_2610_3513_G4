@@ -1,7 +1,7 @@
 package com.ceiba.fashtoll.worldModel.brand;
 
+import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
-import com.ceiba.fashtoll.worldModel.user.User;
 import com.ceiba.fashtoll.worldModel.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,14 +38,14 @@ public class BrandService {
 
     public BrandResponse getBrandById(Long id) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
 
         return brandMapper.toResponse(brand);
     }
 
     public BrandPublicResponse getPublicBrandById(Long id) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
 
         return brandMapper.toPublicResponse(brand);
     }
@@ -66,7 +66,7 @@ public class BrandService {
     @Transactional
     public BrandResponse updateBrandAdmin(Long id, BrandAdminUpdateRequest request) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
 
         brandMapper.updateEntityFromAdmin(request, brand);
         Brand savedBrand = brandRepository.save(brand);
@@ -76,21 +76,21 @@ public class BrandService {
 
     public void deleteBrand(Long id) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
         brandRepository.delete(brand);
     }
 
-    public BrandProfileResponse getProfile(Long userId) {
-        Brand brand = brandRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+    public BrandProfileResponse getProfile(Long brandId) {
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("marca","id", brandId));
 
         return brandMapper.toProfileResponse(brand);
     }
 
     @Transactional
-    public BrandProfileResponse updateProfile(Long userId, BrandProfileUpdateRequest request) {
-        Brand brand = brandRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+    public BrandProfileResponse updateProfile(Long brandId, BrandProfileUpdateRequest request) {
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("marca","id",brandId));
 
         brandMapper.updateEntityFromProfile(request, brand);
         Brand savedBrand = brandRepository.save(brand);
@@ -101,7 +101,7 @@ public class BrandService {
     @Transactional
     public void verifyBrand(Long id, boolean verified) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
         brand.setIsVerified(verified);
         brandRepository.save(brand);
     }

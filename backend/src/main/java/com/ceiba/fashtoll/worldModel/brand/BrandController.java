@@ -33,12 +33,14 @@ public class BrandController {
         this.productService = productService;
     }
 
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @GetMapping("/profile")
     public BrandProfileResponse getProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return brandService.getProfile(user.getId());
     }
 
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @PutMapping("/profile")
     public BrandProfileResponse updateProfile(Authentication authentication,
                                               @Valid @RequestBody BrandProfileUpdateRequest request) {
@@ -46,6 +48,7 @@ public class BrandController {
         return brandService.updateProfile(user.getId(), request);
     }
 
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @PutMapping("/password")
     public ResponseEntity<Void> changePassword(Authentication authentication,
                                                @Valid @RequestBody PasswordChangeRequestDTO request) {
@@ -54,18 +57,21 @@ public class BrandController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @GetMapping("/my-products")
     public List<ProductResponse> getMyProducts(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return productService.getProductsByBrand(user.getId());
     }
 
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @GetMapping("/my-products/{id}")
     public ProductResponse getMyProduct(Authentication authentication, @PathVariable Long id) {
         User user = (User) authentication.getPrincipal();
         return productService.getProductByBrand(user.getId(), id);
     }
 
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @PostMapping("/my-products")
     public ResponseEntity<ProductResponse> createMyProduct(Authentication authentication,
                                                            @Valid @RequestBody ProductCreateRequest request) {
@@ -74,6 +80,7 @@ public class BrandController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @PutMapping("/my-products/{id}")
     public ProductResponse updateMyProduct(Authentication authentication, @PathVariable Long id,
                                            @Valid @RequestBody ProductUpdateRequest request) {
@@ -81,6 +88,7 @@ public class BrandController {
         return productService.updateBrandProduct(user.getId(), id, request);
     }
 
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @DeleteMapping("/my-products/{id}")
     public ResponseEntity<Void> deleteMyProduct(Authentication authentication, @PathVariable Long id) {
         User user = (User) authentication.getPrincipal();
@@ -88,11 +96,13 @@ public class BrandController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @GetMapping("/public")
     public List<BrandPublicResponse> getAllPublicBrands() {
         return brandService.getAllPublicBrands();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @GetMapping("/public/{id}")
     public BrandPublicResponse getPublicBrandById(@PathVariable Long id) {
         return brandService.getPublicBrandById(id);
