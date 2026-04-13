@@ -1,19 +1,18 @@
 import { useState, useMemo } from "react";
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Navbar } from "../components/Navbar";
 import { getProductById } from "../services/productDetailService";
 import type { TagDetail } from "../services/productDetailService";
-import type { Product } from "../services/searchService";
+import { type Product } from "../services/searchService";
+import { getPublicBrandById } from "../services/brandPublicService";
 import {
   ChevronLeft,
   ChevronRight,
   Star,
   ExternalLink,
-  CheckCircle2,
   ImageIcon,
   ArrowLeft,
-  Loader2,
   ShoppingBag,
   Tag,
   Ruler,
@@ -24,7 +23,9 @@ import {
   AlertCircle,
   Heart,
   Package,
+  Building2,
 } from "lucide-react";
+import { VerifiedBadge } from "../components/ui/VerifiedBadge";
 import { Button } from "../components/ui/button";
 
 // ──────────────────────────────────────────────
@@ -169,6 +170,7 @@ function StarRating({
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const location = useLocation();
   const stateProduct = location.state?.product as Product | undefined;
 
@@ -181,7 +183,7 @@ export default function ProductDetail() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const product = stateProduct ?? null;
+
   const isLoading = !stateProduct && isDetailLoading;
 
   const images: string[] = useMemo(() => {
@@ -236,9 +238,18 @@ export default function ProductDetail() {
   const productTypeName =
     stateProduct?.productTypeName ?? detail?.productType?.name ?? "";
 
-  const brandName = stateProduct?.brandName ?? "";
-  const brandPictureUrl = stateProduct?.brandPictureUrl ?? "";
-  const brandIsVerified = stateProduct?.brandIsVerified ?? false;
+  const brandId = stateProduct?.brandId ?? detail?.brandId;
+
+  // Fetch brand detail if not provided in state
+  const { data: brandDetail } = useQuery({
+    queryKey: ["brandPublic", brandId],
+    queryFn: () => getPublicBrandById(brandId!),
+    enabled: !!brandId && !stateProduct,
+  });
+
+  const brandName = stateProduct?.brandName ?? brandDetail?.name ?? "";
+  const brandPictureUrl = stateProduct?.brandPictureUrl ?? brandDetail?.pictureUrl ?? "";
+  const brandIsVerified = stateProduct?.brandIsVerified ?? brandDetail?.isVerified ?? false;
 
   const formattedDate = createdAt
     ? new Date(createdAt).toLocaleDateString("es-CO", {
@@ -585,9 +596,10 @@ export default function ProductDetail() {
               </h2>
             </div>
             <div
-              className="inline-flex items-center gap-5 p-6 bg-white rounded-[28px] border border-gray-100 shadow-sm cursor-pointer hover:shadow-md hover:border-gray-200 transition-all duration-300 group"
+              onClick={() => brandId && navigate(`/marcas/${brandId}`)}
+              className="inline-flex items-center gap-5 p-6 bg-white rounded-[28px] border border-gray-100 shadow-sm cursor-pointer hover:shadow-md hover:border-blue-200 transition-all duration-300 group"
               role="button"
-              title="Ver perfil de la marca (próximamente)"
+              title={`Ver perfil de ${brandName}`}
             >
               {/* Avatar */}
               <div className="relative">
@@ -600,31 +612,29 @@ export default function ProductDetail() {
                     />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center text-white text-xl font-black">
-                      {brandName.charAt(0).toUpperCase()}
+                      {brandName ? brandName.charAt(0).toUpperCase() : <Building2 className="h-8 w-8" />}
                     </div>
                   )}
                 </div>
                 {brandIsVerified && (
-                  <div className="absolute -bottom-1 -right-1 bg-[#38BDF8] p-1 rounded-full border-2 border-white shadow-sm">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-white fill-white" />
-                  </div>
+                  <VerifiedBadge size="sm" className="absolute -bottom-1 -right-1 z-20" />
                 )}
               </div>
               {/* Info */}
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-black text-[#0A0A0A] group-hover:text-blue-700 transition-colors capitalize">
-                    {brandName.toLowerCase()}
+              <div className="flex flex-col min-w-0 flex-1">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <span className="text-lg font-black text-[#0A0A0A] group-hover:text-blue-700 transition-colors capitalize truncate">
+                    {brandName?.toLowerCase() || "Cargando..."}
                   </span>
-                  {brandIsVerified && (
-                    <CheckCircle2 className="h-5 w-5 text-[#38BDF8] flex-shrink-0" />
+                  {!!brandIsVerified && (
+                    <VerifiedBadge size="md" className="flex-shrink-0 z-20" />
                   )}
                 </div>
                 <span className="text-xs font-semibold text-[#9CA3AF]">
                   {brandIsVerified ? "Marca verificada" : "Marca en Fashtoll"}
                 </span>
               </div>
-              <div className="ml-auto text-[#9CA3AF] group-hover:text-[#0A0A0A] transition-colors">
+              <div className="ml-auto text-[#9CA3AF] group-hover:text-blue-600 group-hover:translate-x-1 transition-all">
                 <ChevronRight className="h-5 w-5" />
               </div>
             </div>

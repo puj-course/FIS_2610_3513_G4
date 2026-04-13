@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BrandPublicResponse {
+    private Long id;
     private String name;
     private String email; // TODO: Es necesario?
     private String pictureUrl;
