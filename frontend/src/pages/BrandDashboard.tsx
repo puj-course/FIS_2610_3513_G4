@@ -24,7 +24,6 @@ import {
   Plus, 
   Users, 
   Star, 
-  CheckCircle2, 
   ExternalLink,
   Loader2,
   Edit,
@@ -35,6 +34,7 @@ import {
   Check,
   Eye
 } from "lucide-react";
+import { VerifiedBadge } from "../components/ui/VerifiedBadge";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -309,9 +309,7 @@ export default function BrandDashboard() {
                       )}
                     </div>
                     {profile?.isVerified && (
-                      <div className="absolute -bottom-2 -right-2 bg-[#38BDF8] text-white p-1.5 rounded-full border-4 border-white">
-                        <CheckCircle2 className="h-5 w-5 fill-current" />
-                      </div>
+                      <VerifiedBadge size="lg" className="absolute -bottom-2 -right-2 border-4 border-white rounded-full bg-white shadow-lg" />
                     )}
                   </div>
                   
@@ -319,7 +317,7 @@ export default function BrandDashboard() {
                     <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-2">
                        <div className="flex items-center gap-2 justify-center md:justify-start">
                          <h1 className="text-4xl font-black tracking-tight text-[#0A0A0A]">{profile?.name}</h1>
-                         {profile?.isVerified && <CheckCircle2 className="h-6 w-6 text-[#38BDF8]" />}
+                         {profile?.isVerified && <VerifiedBadge size="md" />}
                        </div>
                     </div>
                     <div className="flex flex-wrap justify-center md:justify-start gap-4">
