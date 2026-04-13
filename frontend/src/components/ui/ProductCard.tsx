@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import type { Product } from "../../services/searchService";
 import { Card, CardContent } from "../ui/card";
 import { Star, ChevronLeft, ChevronRight, Heart, CheckCircle2, ImageIcon } from "lucide-react";
@@ -25,6 +26,11 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
+    <Link
+      to={`/productos/${product.id}`}
+      state={{ product }}
+      className="block h-full"
+    >
     <Card className="group relative overflow-hidden rounded-[32px] border-none bg-white/40 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgb(0,0,0,0.1)] transition-all duration-500 animate-fade-in group/card h-full flex flex-col hover:-translate-y-1">
       {/* Carrusel de Imágenes */}
       <div className="relative aspect-[4/5] overflow-hidden bg-[#F8F9FA]">
@@ -159,5 +165,6 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </CardContent>
     </Card>
+    </Link>
   );
 }

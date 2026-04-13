@@ -32,7 +32,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Check
+  Check,
+  Eye
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -767,6 +768,7 @@ export default function BrandDashboard() {
 function ProductCard({ product, onEdit, onDelete, translateEnum }: any) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [];
+  const navigate = useNavigate();
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -830,6 +832,34 @@ function ProductCard({ product, onEdit, onDelete, translateEnum }: any) {
             <Button variant="outline" size="sm" className="flex-1 rounded-xl h-10 font-bold border-gray-200" onClick={onEdit}>
               <Edit className="h-4 w-4 mr-2" />
               Editar
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-blue-500 hover:bg-blue-50 rounded-xl h-10 w-10"
+              title="Ver página del producto"
+              onClick={() => navigate(`/productos/${product.id}`, { state: { product: {
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                productTypeName: product.productType?.name ?? "",
+                category: product.productType?.category ?? "",
+                generalFit: product.generalFit,
+                gender: product.gender,
+                color: product.color,
+                available: product.available,
+                rating: product.rating,
+                linkProduct: product.linkProduct,
+                imageUrls: product.imageUrls,
+                tags: Array.isArray(product.tags) ? product.tags.map((t: any) => t.name ?? t) : [],
+                createdAt: product.createdAt,
+                brandName: "",
+                brandPictureUrl: "",
+                brandIsVerified: false,
+              }}})}
+            >
+              <Eye className="h-4 w-4" />
             </Button>
             <Button variant="ghost" size="sm" className="text-red-500 hover:bg-red-50 rounded-xl h-10 w-10" onClick={onDelete}>
               <Trash2 className="h-4 w-4" />
