@@ -24,7 +24,6 @@ import {
   Plus, 
   Users, 
   Star, 
-  CheckCircle2, 
   ExternalLink,
   Loader2,
   Edit,
@@ -32,8 +31,10 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Check
+  Check,
+  Eye
 } from "lucide-react";
+import { VerifiedBadge } from "../components/ui/VerifiedBadge";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -308,9 +309,7 @@ export default function BrandDashboard() {
                       )}
                     </div>
                     {profile?.isVerified && (
-                      <div className="absolute -bottom-2 -right-2 bg-[#38BDF8] text-white p-1.5 rounded-full border-4 border-white">
-                        <CheckCircle2 className="h-5 w-5 fill-current" />
-                      </div>
+                      <VerifiedBadge size="lg" className="absolute -bottom-2 -right-2 border-4 border-white rounded-full bg-white shadow-lg" />
                     )}
                   </div>
                   
@@ -318,7 +317,7 @@ export default function BrandDashboard() {
                     <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-2">
                        <div className="flex items-center gap-2 justify-center md:justify-start">
                          <h1 className="text-4xl font-black tracking-tight text-[#0A0A0A]">{profile?.name}</h1>
-                         {profile?.isVerified && <CheckCircle2 className="h-6 w-6 text-[#38BDF8]" />}
+                         {profile?.isVerified && <VerifiedBadge size="md" />}
                        </div>
                     </div>
                     <div className="flex flex-wrap justify-center md:justify-start gap-4">
@@ -767,6 +766,7 @@ export default function BrandDashboard() {
 function ProductCard({ product, onEdit, onDelete, translateEnum }: any) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [];
+  const navigate = useNavigate();
 
   const nextImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -830,6 +830,34 @@ function ProductCard({ product, onEdit, onDelete, translateEnum }: any) {
             <Button variant="outline" size="sm" className="flex-1 rounded-xl h-10 font-bold border-gray-200" onClick={onEdit}>
               <Edit className="h-4 w-4 mr-2" />
               Editar
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-blue-500 hover:bg-blue-50 rounded-xl h-10 w-10"
+              title="Ver página del producto"
+              onClick={() => navigate(`/productos/${product.id}`, { state: { product: {
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                productTypeName: product.productType?.name ?? "",
+                category: product.productType?.category ?? "",
+                generalFit: product.generalFit,
+                gender: product.gender,
+                color: product.color,
+                available: product.available,
+                rating: product.rating,
+                linkProduct: product.linkProduct,
+                imageUrls: product.imageUrls,
+                tags: Array.isArray(product.tags) ? product.tags.map((t: any) => t.name ?? t) : [],
+                createdAt: product.createdAt,
+                brandName: "",
+                brandPictureUrl: "",
+                brandIsVerified: false,
+              }}})}
+            >
+              <Eye className="h-4 w-4" />
             </Button>
             <Button variant="ghost" size="sm" className="text-red-500 hover:bg-red-50 rounded-xl h-10 w-10" onClick={onDelete}>
               <Trash2 className="h-4 w-4" />

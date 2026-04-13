@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Product } from "../../services/searchService";
 import { Card, CardContent } from "../ui/card";
-import { Star, ChevronLeft, ChevronRight, Heart, CheckCircle2, ImageIcon } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight, Heart, ImageIcon } from "lucide-react";
+import { VerifiedBadge } from "./VerifiedBadge";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [];
   const hasMultipleImages = images.length > 1;
@@ -25,6 +28,10 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
+    <div
+      onClick={() => navigate(`/productos/${product.id}`, { state: { product } })}
+      className="block h-full cursor-pointer"
+    >
     <Card className="group relative overflow-hidden rounded-[32px] border-none bg-white/40 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgb(0,0,0,0.1)] transition-all duration-500 animate-fade-in group/card h-full flex flex-col hover:-translate-y-1">
       {/* Carrusel de Imágenes */}
       <div className="relative aspect-[4/5] overflow-hidden bg-[#F8F9FA]">
@@ -126,38 +133,52 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Brand Info & Price */}
-        <div className="flex items-center justify-between pt-3 border-t border-gray-100/60">
-          <div className="flex flex-col">
-            <span className="text-[11px] font-medium text-[#9CA3AF]">Precio</span>
-            <span className="text-xl font-bold text-[#0A0A0A] tracking-tight">
-              ${product.price.toLocaleString('es-CO')}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2.5 group/brand cursor-pointer">
-            <div className="flex flex-col items-end">
-              <div className="flex items-center gap-1">
-                <span className="text-[12px] font-bold text-[#0A0A0A] group-hover/brand:text-blue-600 transition-colors capitalize">
-                  {product.brandName.toLowerCase()}
-                </span>
-                {product.brandIsVerified && (
-                  <CheckCircle2 className="h-3.5 w-3.5 fill-blue-500 text-white" />
+        <div className="flex items-center justify-between mt-auto">
+          <div 
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/marcas/${product.brandId}`);
+            }}
+            className="flex items-center gap-2 group/brand hover:bg-gray-100 p-1.5 pr-3 rounded-full transition-all min-w-0 max-w-[72%]"
+            title={`Ver perfil de ${product.brandName}`}
+          >
+            <div className="relative">
+              <div className="h-6 w-6 rounded-full overflow-hidden bg-[#0A0A0A] border border-white shadow-sm transition-transform group-hover/brand:scale-110">
+                {product.brandPictureUrl ? (
+                  <img 
+                    src={product.brandPictureUrl} 
+                    alt={product.brandName} 
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-[10px] font-black text-white">
+                    {product.brandName?.charAt(0).toUpperCase()}
+                  </div>
                 )}
               </div>
-            </div>
-            
-            <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-100 border border-black/5 shadow-sm transition-transform group-hover/brand:scale-110">
-              {product.brandPictureUrl ? (
-                <img src={product.brandPictureUrl} alt={product.brandName} className="h-full w-full object-cover" />
-              ) : (
-                <div className="h-full w-full flex items-center justify-center bg-[#0A0A0A] text-white text-[11px] font-bold">
-                  {product.brandName?.charAt(0).toUpperCase()}
-                </div>
+              {product.brandIsVerified && (
+                <VerifiedBadge size="xs" className="absolute -bottom-0.5 -right-0.5" />
               )}
             </div>
+            <div className="flex items-center gap-1 min-w-0">
+              <span className="text-[10px] font-black uppercase tracking-wider text-[#0A0A0A] truncate">
+                {product.brandName}
+              </span>
+              {!!product.brandIsVerified && (
+                <VerifiedBadge size="sm" className="flex-shrink-0" />
+              )}
+            </div>
+          </div>
+          
+          {/* Price Badge */}
+          <div className="px-4 py-1.5 bg-[#0A0A0A] rounded-full shadow-lg transform transition-transform group-hover/card:scale-110">
+            <span className="text-sm font-black text-white italic">
+              ${product.price ? product.price.toLocaleString("es-CO") : "0"}
+            </span>
           </div>
         </div>
       </CardContent>
     </Card>
+    </div>
   );
 }

@@ -23,6 +23,7 @@ public class BrandMapper {
     public BrandPublicResponse toPublicResponse(Brand brand) {
         if (brand == null) return null;
         BrandPublicResponse response = new BrandPublicResponse();
+        response.setId(brand.getId());
         response.setName(brand.getName());
         response.setEmail(brand.getEmail());
         response.setPictureUrl(brand.getPictureUrl());
