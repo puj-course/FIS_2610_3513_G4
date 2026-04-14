@@ -3,5 +3,5 @@ Este es el diagrama de componentes del motor de busquedad que se implementara, t
 El diagrama ira cambiando conforme se vaya desarrollando el proyecto.
 
 <p align="center">
-  <img src="" alt="Fashtoll Search Engine class diagram v1" width="1000">
+  <img src="https://github.com/puj-course/FIS_2610_3513_G4/raw/main/docs/architecture/assets/v1%20-%20Search%20Engine%20Component%20Diagram.png" alt="Fashtoll Search Engine class diagram v1" width="1000">
 </p>
