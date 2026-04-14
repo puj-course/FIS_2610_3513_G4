@@ -592,7 +592,27 @@
 
 ---
 
+### [POST] /api/products/search/reindex
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: string<br> |
+
 ### [GET] /api/products/search
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: string<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
+
+### [GET] /api/products/search/elastic-search
 #### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -615,26 +635,6 @@
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
-
-### [POST] /api/products/search
-#### Request Body
-
-| Required | Schema |
-| -------- | ------ |
-|  Yes | **application/json**: string<br> |
-
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
-
-### [POST] /api/products/search/reindex
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
 
 ---
 
@@ -919,40 +919,6 @@
 | imageUrls | [ string ] |  | No |
 | tagIds | [ long ] |  | No |
 
-#### ProductDocument Schema
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | long |  | No |
-| name | string |  | No |
-| description | string |  | No |
-| brandId | long |  | No |
-| brandName | string |  | No |
-| brandPictureUrl | string |  | No |
-| brandIsVerified | boolean |  | No |
-| productTypeName | string |  | No |
-| category | string |  | No |
-| price | double |  | No |
-| generalFit | string |  | No |
-| gender | string |  | No |
-| color | string |  | No |
-| available | boolean |  | No |
-| rating | double |  | No |
-| linkProduct | string |  | No |
-| imageUrls | [ string ] |  | No |
-| tags | [ string ] |  | No |
-| createdAt | dateTime |  | No |
-
-#### ProductSearchResponse Schema
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| products | [ [ProductDocument](#productdocument-schema) ] |  | No |
-| currentPage | integer |  | No |
-| totalPages | integer |  | No |
-| totalResults | long |  | No |
-| pageSize | integer |  | No |
-
 #### ClientCreateRequest Schema
 
 | Name | Type | Description | Required |
@@ -994,6 +960,40 @@
 | ---- | ---- | ----------- | -------- |
 | email | string (email) |  | Yes |
 | password | string |  | Yes |
+
+#### ProductDocument Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | long |  | No |
+| name | string |  | No |
+| description | string |  | No |
+| brandId | long |  | No |
+| brandName | string |  | No |
+| brandPictureUrl | string |  | No |
+| brandIsVerified | boolean |  | No |
+| productTypeName | string |  | No |
+| category | string |  | No |
+| price | double |  | No |
+| generalFit | string |  | No |
+| gender | string |  | No |
+| color | string |  | No |
+| available | boolean |  | No |
+| rating | double |  | No |
+| linkProduct | string |  | No |
+| imageUrls | [ string ] |  | No |
+| tags | [ string ] |  | No |
+| createdAt | dateTime |  | No |
+
+#### ProductSearchResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| products | [ [ProductDocument](#productdocument-schema) ] |  | No |
+| currentPage | integer |  | No |
+| totalPages | integer |  | No |
+| totalResults | long |  | No |
+| pageSize | integer |  | No |
 
 #### BrandPublicResponse Schema
 
