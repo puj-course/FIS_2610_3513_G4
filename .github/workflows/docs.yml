@@ -9,6 +9,8 @@ on:
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     services:
       postgres:
@@ -30,6 +32,8 @@ jobs:
         env:
           discovery.type: single-node
           xpack.security.enabled: "false"
+          node.store.allow_mmap: "false"
+          ES_JAVA_OPTS: "-Xms512m -Xmx512m"
         ports:
           - 9200:9200
         options: >-
