@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import { User, Mail, LogOut, Heart, Store, Lock, Save, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import * as clientService from "../services/clientService";
@@ -30,15 +30,15 @@ export default function ClientProfile() {
     enabled: !!user?.token,
   });
 
-  // Sync name from profile data
-  useEffect(() => {
-    if (profile?.name) {
-      setName(profile.name);
-      if (user && user.name !== profile.name) {
-        updateUserName(profile.name);
-      }
+  // Sync name from profile data using "set during render" pattern
+  const [prevProfileName, setPrevProfileName] = useState<string | null>(null);
+  if (profile?.name && profile.name !== prevProfileName) {
+    setPrevProfileName(profile.name);
+    setName(profile.name);
+    if (user && user.name !== profile.name) {
+      updateUserName(profile.name);
     }
-  }, [profile, user, updateUserName]);
+  }
 
   // Mutations
   const updateNameMutation = useMutation({
@@ -64,8 +64,8 @@ export default function ClientProfile() {
       setConfirmPassword("");
       setTimeout(() => setMessage(null), 3000);
     },
-    onError: (error: any) => {
-      const errorMsg = error.response?.data?.message || "Error al cambiar la contraseña";
+    onError: (error: unknown) => {
+      const errorMsg = (error as {response?: {data?: {message?: string}}})?.response?.data?.message || "Error al cambiar la contraseña";
       setMessage({ type: "error", text: errorMsg });
       setTimeout(() => setMessage(null), 3000);
     }

@@ -6,7 +6,8 @@ import { Label } from "../ui/label";
 import { Building2, Loader2, Link as LinkIcon } from "lucide-react";
 import { register } from "../../services/authService";
 
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
+import type { AuthUser } from "../../context/AuthTypes";
 
 export function RegisterFormBrand() {
   const navigate = useNavigate();
@@ -50,10 +51,11 @@ export function RegisterFormBrand() {
       });
 
       // Auto-login
-      login(response);
+      login(response as AuthUser);
       navigate("/perfil-marca");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Ocurrió un error en el registro de la marca");
+    } catch (err: unknown) {
+      const errorMsg = (err as { response?: { data?: { message?: string } } }).response?.data?.message;
+      setError(errorMsg || "Ocurrió un error en el registro de la marca");
     } finally {
       setLoading(false);
     }
