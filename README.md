@@ -19,8 +19,8 @@
 ---
 
 ## 🛠️ Tecnologías Utilizadas
-- **Frontend:** JavaScript, TypeScript, React, Vite, Axios
-- **Backend:** Java, Spring Boot
+- **Frontend:** TypeScript, React, Vite, Tailwind CSS, Axios
+- **Backend:** Java, Spring Boot, Spring Security
 - **Construcción:** Maven
 - **Base de Datos:** PostgreSQL, Flyway, Elasticsearch
 - **DevOps:** GitHub Actions, Docker, SonarQube
@@ -122,6 +122,8 @@ La API estará disponible en el puerto 8080.
 Ejecutar los siguientes comandos desde la raíz del proyecto para correr la aplicación React.
 ```text
 cd frontend
+npm install
+npm run build
 npm run dev
 ```
 La interfaz de inicio estará disponible en la ruta http://localhost:5173/.

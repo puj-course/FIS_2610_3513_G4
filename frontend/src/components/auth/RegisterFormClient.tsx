@@ -6,7 +6,8 @@ import { Label } from "../ui/label";
 import { User, Loader2 } from "lucide-react";
 import { register } from "../../services/authService";
 
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
+import type { AuthUser } from "../../context/AuthTypes";
 
 export function RegisterFormClient() {
   const navigate = useNavigate();
@@ -46,10 +47,11 @@ export function RegisterFormClient() {
       });
       
       // Auto-login
-      login(response);
+      login(response as AuthUser);
       navigate("/perfil");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Ocurrió un error en el registro");
+    } catch (err: unknown) {
+      const errorMsg = (err as { response?: { data?: { message?: string } } }).response?.data?.message;
+      setError(errorMsg || "Ocurrió un error en el registro");
     } finally {
       setLoading(false);
     }
