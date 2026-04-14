@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
+      id-token: write
 
     services:
       postgres:
@@ -101,3 +103,44 @@ jobs:
         with:
           commit_message: "docs: update api documentation [skip ci]"
           file_pattern: 'docs/api/*'
+
+      - name: Prepare Scalar Documentation for GitHub Pages
+        run: |
+          mkdir -p public
+          cp docs/api/api-docs.json public/api-docs.json
+          cat <<EOF > public/index.html
+          <!doctype html>
+          <html>
+            <head>
+              <title>Documentación Fashtoll API</title>
+              <meta charset="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <style>
+                body { margin: 0; }
+              </style>
+            </head>
+            <body>
+              <script id="api-reference" data-url="./api-docs.json" data-configuration='{"theme": "deepSpace"}'></script>
+              <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+            </body>
+          </html>
+          EOF
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public/
+
+  deploy:
+    needs: generate-docs
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
