@@ -2,7 +2,7 @@ package com.ceiba.fashtoll.searchEngine;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import com.ceiba.fashtoll.searchEngine.dto.SearchEngineResultPage;
+import com.ceiba.fashtoll.searchEngine.repositories.ProductSearchRepository;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.searchEngine.dto.ProductSearchRequest;

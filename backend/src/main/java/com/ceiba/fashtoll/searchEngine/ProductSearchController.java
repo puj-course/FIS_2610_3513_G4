@@ -21,10 +21,7 @@ public class ProductSearchController {
         this.productSearchService = productSearchService;
     }
 
-    // no tiene que ser necesariamente un string, pues eso implicaria
-    // cambiar la url con cada busqueda, me gustaria que tomara como parametro
-    // el cuerpo del request, el cuerpo crudo en formato de texto.
-    @PostMapping
+    @GetMapping
     public ProductSearchResponse searchProducts(@RequestBody String query){
         return this.productSearchService.search(query);
     }
@@ -34,7 +31,7 @@ public class ProductSearchController {
      * Soporta búsqueda por keywords, filtros y paginación.
      * No requiere autenticación.
      */
-    @GetMapping
+    @GetMapping("/elastic-search")
     public ProductSearchResponse searchProducts(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String productTypeName,
