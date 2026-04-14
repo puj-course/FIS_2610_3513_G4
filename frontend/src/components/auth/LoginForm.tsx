@@ -7,6 +7,7 @@ import { LogIn, Loader2 } from "lucide-react";
 
 import { login as loginService } from "../../services/authService";
 import { useAuth } from "../../hooks/useAuth";
+import type { AuthUser } from "../../context/AuthTypes";
 
 export function LoginForm() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export function LoginForm() {
 
     try {
       const response = await loginService(formData);
-      login(response as any);
+      login(response as AuthUser);
       
       // Redirigir según el rol
       switch (response.role) {

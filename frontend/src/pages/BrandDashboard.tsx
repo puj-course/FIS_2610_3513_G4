@@ -15,7 +15,7 @@ import {
   updateProduct,
   deleteProduct
 } from "../services/brandService";
-import type { BrandProfile, ProductManagement, UpdateBrandData, PasswordData } from "../services/brandService";
+import type { BrandProfile, ProductManagement, UpdateBrandData, PasswordData, ProductRequest } from "../services/brandService";
 import { getProductTypes, getTags } from "../services/productService";
 import type { ProductType, Tag } from "../services/productService";
 import { 
@@ -130,7 +130,7 @@ export default function BrandDashboard() {
   });
 
   const createProductMutation = useMutation({
-    mutationFn: (data: Partial<ProductManagement>) => createProduct(user?.token || "", data),
+    mutationFn: (data: ProductRequest) => createProduct(user?.token || "", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["brandProducts"] });
       alert("Producto creado con éxito");
@@ -139,7 +139,7 @@ export default function BrandDashboard() {
   });
 
   const updateProductMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number, data: Partial<ProductManagement> }) => updateProduct(user?.token || "", id, data),
+    mutationFn: ({ id, data }: { id: number, data: ProductRequest }) => updateProduct(user?.token || "", id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["brandProducts"] });
       alert("Producto actualizado con éxito");
@@ -253,9 +253,9 @@ export default function BrandDashboard() {
     };
 
     if (editingProduct) {
-      updateProductMutation.mutate({ id: editingProduct.id, data: finalData as any });
+      updateProductMutation.mutate({ id: editingProduct.id, data: finalData as ProductRequest });
     } else {
-      createProductMutation.mutate(finalData as any);
+      createProductMutation.mutate(finalData as ProductRequest);
     }
   };
 

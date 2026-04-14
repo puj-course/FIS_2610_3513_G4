@@ -49,6 +49,20 @@ export interface ProductManagement {
     createdAt: string;
 }
 
+export interface ProductRequest {
+    name: string;
+    description: string;
+    price: number;
+    available: boolean;
+    imageUrls: string[];
+    linkProduct?: string;
+    productTypeId: number;
+    generalFit: string;
+    gender: string;
+    color: string;
+    tagIds: number[];
+}
+
 export const getBrandProfile = async (token: string): Promise<BrandProfile> => {
     const response = await axios.get(`${API_URL}/profile`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -76,14 +90,14 @@ export const getMyProducts = async (token: string): Promise<ProductManagement[]>
     return response.data;
 };
 
-export const createProduct = async (token: string, data: Partial<ProductManagement>): Promise<ProductManagement> => {
+export const createProduct = async (token: string, data: ProductRequest): Promise<ProductManagement> => {
     const response = await axios.post(`${API_URL}/my-products`, data, {
         headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;
 };
 
-export const updateProduct = async (token: string, id: number, data: Partial<ProductManagement>): Promise<ProductManagement> => {
+export const updateProduct = async (token: string, id: number, data: ProductRequest): Promise<ProductManagement> => {
     const response = await axios.put(`${API_URL}/my-products/${id}`, data, {
         headers: { Authorization: `Bearer ${token}` }
     });

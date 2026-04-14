@@ -7,6 +7,7 @@ import { User, Loader2 } from "lucide-react";
 import { register } from "../../services/authService";
 
 import { useAuth } from "../../hooks/useAuth";
+import type { AuthUser } from "../../context/AuthTypes";
 
 export function RegisterFormClient() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export function RegisterFormClient() {
       });
       
       // Auto-login
-      login(response as any);
+      login(response as AuthUser);
       navigate("/perfil");
     } catch (err: unknown) {
       const errorMsg = (err as { response?: { data?: { message?: string } } }).response?.data?.message;

@@ -7,6 +7,7 @@ import { Building2, Loader2, Link as LinkIcon } from "lucide-react";
 import { register } from "../../services/authService";
 
 import { useAuth } from "../../hooks/useAuth";
+import type { AuthUser } from "../../context/AuthTypes";
 
 export function RegisterFormBrand() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ export function RegisterFormBrand() {
       });
 
       // Auto-login
-      login(response as any);
+      login(response as AuthUser);
       navigate("/perfil-marca");
     } catch (err: unknown) {
       const errorMsg = (err as { response?: { data?: { message?: string } } }).response?.data?.message;
