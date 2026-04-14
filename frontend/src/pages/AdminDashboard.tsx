@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import { reindexProducts } from "../services/searchService";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -36,7 +36,7 @@ export default function AdminDashboard() {
     try {
       const res = await reindexProducts(user?.token || "");
       setMessage(`Sincronización: ${res}`);
-    } catch (e) {
+    } catch {
       setMessage("Error al sincronizar con Elasticsearch");
     } finally {
       setReindexing(false);

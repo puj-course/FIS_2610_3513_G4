@@ -120,7 +120,7 @@ export default function Catalog() {
       }
     });
 
-    return Object.fromEntries(Object.entries(groups).filter(([_, v]) => v.length > 0));
+    return Object.fromEntries(Object.entries(groups).filter(([, v]) => v.length > 0));
   }, [tags]);
 
   const handleKeywordSearch = (e?: React.FormEvent) => {

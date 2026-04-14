@@ -5,7 +5,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import { 
   getBrandProfile, 
   getMyProducts, 
@@ -15,7 +15,7 @@ import {
   updateProduct,
   deleteProduct
 } from "../services/brandService";
-import type { BrandProfile } from "../services/brandService";
+import type { BrandProfile, ProductManagement, UpdateBrandData, PasswordData } from "../services/brandService";
 import { getProductTypes, getTags } from "../services/productService";
 import type { ProductType, Tag } from "../services/productService";
 import { 
@@ -36,7 +36,7 @@ import {
 } from "lucide-react";
 import { VerifiedBadge } from "../components/ui/VerifiedBadge";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export default function BrandDashboard() {
   const { user, logout } = useAuth();
@@ -46,10 +46,10 @@ export default function BrandDashboard() {
   // Modals state
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [editingProduct, setEditingProduct] = useState<ProductManagement | null>(null);
 
   // Forms state
-  const [profileForm, setProfileForm] = useState({
+  const [profileForm, setProfileForm] = useState<UpdateBrandData>({
     name: "",
     pictureUrl: "",
     linkOfficial: ""
@@ -59,7 +59,13 @@ export default function BrandDashboard() {
     newPassword: "",
     confirmPassword: ""
   });
-  const [productForm, setProductForm] = useState<any>({
+  
+  interface ProductFormValues extends Partial<ProductManagement> {
+    productTypeId: string;
+    tagIds: number[];
+  }
+
+  const [productForm, setProductForm] = useState<ProductFormValues>({
     name: "",
     description: "",
     price: 0,
@@ -80,7 +86,7 @@ export default function BrandDashboard() {
     enabled: !!user?.token,
   });
 
-  const { data: products, isLoading: isProductsLoading } = useQuery<any[]>({
+  const { data: products, isLoading: isProductsLoading } = useQuery<ProductManagement[]>({
     queryKey: ["brandProducts"],
     queryFn: () => getMyProducts(user?.token || ""),
     enabled: !!user?.token,
@@ -100,25 +106,31 @@ export default function BrandDashboard() {
 
   // Mutations
   const updateProfileMutation = useMutation({
-    mutationFn: (data: any) => updateBrandProfile(user?.token || "", data),
+    mutationFn: (data: UpdateBrandData) => updateBrandProfile(user?.token || "", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["brandProfile"] });
       alert("Perfil actualizado con éxito");
+      setIsEditProfileOpen(false);
+    },
+    onError: () => {
+      alert("Error al actualizar el perfil");
       setIsEditProfileOpen(false);
     }
   });
 
   const changePasswordMutation = useMutation({
-    mutationFn: (data: any) => changeBrandPassword(user?.token || "", data),
+    mutationFn: (data: PasswordData) => changeBrandPassword(user?.token || "", data),
     onSuccess: () => {
       alert("Contraseña cambiada con éxito");
       setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
     },
-    onError: () => alert("Error al cambiar la contraseña. Verifica tu contraseña actual.")
+    onError: () => {
+      alert("Error al cambiar la contraseña. Verifica tu contraseña actual.");
+    }
   });
 
   const createProductMutation = useMutation({
-    mutationFn: (data: any) => createProduct(user?.token || "", data),
+    mutationFn: (data: Partial<ProductManagement>) => createProduct(user?.token || "", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["brandProducts"] });
       alert("Producto creado con éxito");
@@ -127,7 +139,7 @@ export default function BrandDashboard() {
   });
 
   const updateProductMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number, data: any }) => updateProduct(user?.token || "", id, data),
+    mutationFn: ({ id, data }: { id: number, data: Partial<ProductManagement> }) => updateProduct(user?.token || "", id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["brandProducts"] });
       alert("Producto actualizado con éxito");
@@ -143,18 +155,28 @@ export default function BrandDashboard() {
     }
   });
 
-  // Effects for initial form values
-  useEffect(() => {
-    if (profile) {
-      setProfileForm({
-        name: profile.name,
-        pictureUrl: profile.pictureUrl || "",
-        linkOfficial: profile.linkOfficial || ""
-      });
-    }
-  }, [profile]);
+  // Sync form with profile data using "set during render" pattern
+  const [prevProfileData, setPrevProfileData] = useState<{name: string, pic: string, link: string} | null>(null);
+  
+  if (profile && (!prevProfileData || 
+      prevProfileData.name !== profile.name || 
+      prevProfileData.pic !== (profile.pictureUrl || "") || 
+      prevProfileData.link !== (profile.linkOfficial || ""))) {
+    setPrevProfileData({
+      name: profile.name,
+      pic: profile.pictureUrl || "",
+      link: profile.linkOfficial || ""
+    });
+    setProfileForm({
+      name: profile.name,
+      pictureUrl: profile.pictureUrl || "",
+      linkOfficial: profile.linkOfficial || ""
+    });
+  }
 
-  useEffect(() => {
+  const [prevEditingProduct, setPrevEditingProduct] = useState<ProductManagement | null>(null);
+  if (editingProduct !== prevEditingProduct) {
+    setPrevEditingProduct(editingProduct);
     if (editingProduct) {
       setProductForm({
         name: editingProduct.name,
@@ -167,7 +189,7 @@ export default function BrandDashboard() {
         available: editingProduct.available,
         linkProduct: editingProduct.linkProduct || "",
         imageUrls: editingProduct.imageUrls.length > 0 ? [...editingProduct.imageUrls, ""] : [""],
-        tagIds: Array.isArray(editingProduct.tags) ? editingProduct.tags.map((t: any) => t.id) : []
+        tagIds: Array.isArray(editingProduct.tags) ? editingProduct.tags.map((t) => t.id) : []
       });
     } else {
       setProductForm({
@@ -184,7 +206,7 @@ export default function BrandDashboard() {
         tagIds: []
       });
     }
-  }, [editingProduct]);
+  }
 
   const handleLogout = () => {
     if (window.confirm("¿Estás seguro de que quieres cerrar sesión?")) {
@@ -216,20 +238,29 @@ export default function BrandDashboard() {
     });
   };
 
-  const handleSaveProduct = (e: React.FormEvent) => {
+  const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
-    const finalImageUrls = productForm.imageUrls.filter((url: string) => url.trim() !== "");
-    const data = { ...productForm, imageUrls: finalImageUrls };
-    
+    if (!productForm.productTypeId) {
+      alert("Por favor selecciona un tipo de producto");
+      return;
+    }
+
+    const finalImageUrls = (productForm.imageUrls || []).filter((url: string) => url.trim() !== "");
+    const finalData = {
+      ...productForm,
+      productTypeId: parseInt(productForm.productTypeId),
+      imageUrls: finalImageUrls
+    };
+
     if (editingProduct) {
-      updateProductMutation.mutate({ id: editingProduct.id, data });
+      updateProductMutation.mutate({ id: editingProduct.id, data: finalData as any });
     } else {
-      createProductMutation.mutate(data);
+      createProductMutation.mutate(finalData as any);
     }
   };
 
   const handleImageUrlChange = (index: number, value: string) => {
-    const newUrls = [...productForm.imageUrls];
+    const newUrls = [...(productForm.imageUrls || [])];
     newUrls[index] = value;
     
     // Add new empty field if last one is filled
@@ -241,23 +272,14 @@ export default function BrandDashboard() {
   };
 
   const toggleTag = (tagId: number) => {
-    const newTags = productForm.tagIds.includes(tagId)
-      ? productForm.tagIds.filter((id: number) => id !== tagId)
-      : [...productForm.tagIds, tagId];
+    const newTags = (productForm.tagIds || []).includes(tagId)
+      ? (productForm.tagIds || []).filter((id: number) => id !== tagId)
+      : [...(productForm.tagIds || []), tagId];
     setProductForm({ ...productForm, tagIds: newTags });
   };
 
-  const getTagColor = (type: string) => {
-    switch (type) {
-      case "STYLE": return "bg-purple-100 text-purple-700 border-purple-200";
-      case "FIT": return "bg-orange-100 text-orange-700 border-orange-200";
-      case "OCCASION": return "bg-blue-100 text-blue-700 border-blue-200";
-      default: return "bg-gray-100 text-gray-700 border-gray-200";
-    }
-  };
-
   const translateEnum = (value: string) => {
-    const translations: any = {
+    const translations: Record<string, string> = {
       // GeneralFit
       "SLIM": "Slim",
       "REGULAR": "Regular",
@@ -679,18 +701,18 @@ export default function BrandDashboard() {
                     <div className="space-y-2">
                       <Label className="font-bold">Enlaces de Imágenes</Label>
                       <div className="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
-                        {productForm.imageUrls.map((url: string, index: number) => (
+                        {(productForm.imageUrls || []).map((url: string, index: number) => (
                           <div key={index} className="flex gap-2">
                              <Input
                               value={url}
-                              onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                               onChange={(e) => handleImageUrlChange(index, e.target.value)}
                               placeholder={`URL de imagen ${index + 1}`}
                               className="rounded-xl border-gray-200 h-10 text-sm"
                             />
-                            {index < productForm.imageUrls.length - 1 && url !== "" && (
+                            {index < (productForm.imageUrls || []).length - 1 && url !== "" && (
                                <button 
                                 type="button" 
-                                onClick={() => setProductForm({...productForm, imageUrls: productForm.imageUrls.filter((_:any, i:any) => i !== index)})}
+                                onClick={() => setProductForm({...productForm, imageUrls: (productForm.imageUrls || []).filter((_, i) => i !== index)})}
                                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
                                >
                                  <X className="h-4 w-4" />
@@ -704,16 +726,20 @@ export default function BrandDashboard() {
                     <div className="space-y-4">
                       <Label className="font-bold">Tags</Label>
                       <div className="flex flex-wrap gap-2 mb-4 p-4 bg-gray-50 rounded-2xl min-h-12 border border-dashed border-gray-200">
-                        {productForm.tagIds.length === 0 ? (
+                        {(productForm.tagIds || []).length === 0 ? (
                           <span className="text-gray-400 text-sm font-semibold italic">No hay tags seleccionados</span>
                         ) : (
-                          productForm.tagIds.map((id: number) => {
+                          (productForm.tagIds || []).map((id: number) => {
                             const tag = tags?.find((t: Tag) => t.id === id);
                             if (!tag) return null;
                             return (
-                              <span key={id} className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black border ${getTagColor(tag.type)}`}>
+                              <span key={id} className="inline-flex items-center px-3 py-1 rounded-full bg-white border border-gray-200 text-xs font-bold text-[#0A0A0A] shadow-sm animate-fade-in">
                                 {tag.name}
-                                <button type="button" onClick={() => toggleTag(id)}>
+                                <button
+                                  type="button"
+                                  onClick={() => toggleTag(id)}
+                                  className="ml-2 text-gray-400 hover:text-red-500 transition-colors"
+                                >
                                   <X className="h-3 w-3" />
                                 </button>
                               </span>
@@ -721,25 +747,20 @@ export default function BrandDashboard() {
                           })
                         )}
                       </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-y-auto max-h-60 p-2 border rounded-2xl bg-white focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
                         {tags?.map((t: Tag) => (
                           <button
                             key={t.id}
                             type="button"
                             onClick={() => toggleTag(t.id)}
-                            className={`text-left p-2 rounded-xl text-xs font-bold transition-all border ${
-                              productForm.tagIds.includes(t.id)
-                                ? "bg-black text-white border-black"
-                                : "bg-white text-gray-500 border-gray-100 hover:border-gray-300"
+                            className={`flex items-center justify-between p-2.5 rounded-xl border text-xs font-semibold transition-all ${
+                              (productForm.tagIds || []).includes(t.id)
+                                ? "bg-blue-50 border-blue-200 text-blue-700 shadow-sm"
+                                : "bg-gray-50 border-gray-100 text-[#5F6670] hover:bg-gray-100 hover:border-gray-200"
                             }`}
                           >
-                            <div className="flex items-center justify-between">
-                              <div className="truncate pr-1">
-                                <p className="truncate">{t.name}</p>
-                                <p className={`text-[10px] opacity-70`}>{translateEnum(t.type)}</p>
-                              </div>
-                              {productForm.tagIds.includes(t.id) && <Check className="h-3 w-3 flex-shrink-0" />}
-                            </div>
+                            <span className="truncate mr-2">{t.name}</span>
+                            {(productForm.tagIds || []).includes(t.id) && <Check className="h-3 w-3 flex-shrink-0" />}
                           </button>
                         ))}
                       </div>
@@ -763,7 +784,14 @@ export default function BrandDashboard() {
   );
 }
 
-function ProductCard({ product, onEdit, onDelete, translateEnum }: any) {
+interface ProductCardProps {
+  product: ProductManagement;
+  onEdit: () => void;
+  onDelete: () => void;
+  translateEnum: (val: string) => string;
+}
+
+function ProductCard({ product, onEdit, onDelete, translateEnum }: ProductCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [];
   const navigate = useNavigate();
@@ -795,7 +823,7 @@ function ProductCard({ product, onEdit, onDelete, translateEnum }: any) {
               </div>
             )}
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
-              {images.map((_: any, idx: number) => (
+              {images.map((_unused: string, idx: number) => (
                 <div key={idx} className={`h-1 rounded-full transition-all ${idx === currentImageIndex ? "w-4 bg-white" : "w-1 bg-white/50"}`} />
               ))}
             </div>
@@ -818,7 +846,7 @@ function ProductCard({ product, onEdit, onDelete, translateEnum }: any) {
           </div>
 
           <div className="flex flex-wrap gap-1">
-             {product.tags?.slice(0, 3).map((tag: any) => (
+             {product.tags?.slice(0, 3).map((tag) => (
                <span key={tag.id} className="text-[10px] font-bold px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md">
                  {tag.name}
                </span>
@@ -850,7 +878,7 @@ function ProductCard({ product, onEdit, onDelete, translateEnum }: any) {
                 rating: product.rating,
                 linkProduct: product.linkProduct,
                 imageUrls: product.imageUrls,
-                tags: Array.isArray(product.tags) ? product.tags.map((t: any) => t.name ?? t) : [],
+                tags: Array.isArray(product.tags) ? product.tags.map((t) => t.name ?? t) : [],
                 createdAt: product.createdAt,
                 brandName: "",
                 brandPictureUrl: "",

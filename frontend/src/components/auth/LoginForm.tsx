@@ -6,7 +6,7 @@ import { Label } from "../ui/label";
 import { LogIn, Loader2 } from "lucide-react";
 
 import { login as loginService } from "../../services/authService";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 export function LoginForm() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export function LoginForm() {
 
     try {
       const response = await loginService(formData);
-      login(response);
+      login(response as any);
       
       // Redirigir según el rol
       switch (response.role) {
@@ -42,8 +42,9 @@ export function LoginForm() {
         default:
           navigate("/");
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Credenciales inválidas");
+    } catch (err: unknown) {
+      const errorMsg = (err as { response?: { data?: { message?: string } } }).response?.data?.message;
+      setError(errorMsg || "Credenciales inválidas");
     } finally {
       setLoading(false);
     }

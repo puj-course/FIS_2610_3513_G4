@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, User, LogIn, UserPlus, LogOut, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 export function Navbar() {
   const { user, logout } = useAuth();
