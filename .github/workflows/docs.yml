@@ -37,10 +37,10 @@ jobs:
         ports:
           - 9200:9200
         options: >-
-          --health-cmd "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'"
+          --health-cmd "curl -sf http://localhost:9200/_cluster/health"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 15
 
     steps:
       - uses: actions/checkout@v4
