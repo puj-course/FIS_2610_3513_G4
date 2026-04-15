@@ -1,0 +1,223 @@
+name: Sync User Story Status
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  sync-parent-story:
+    name: Move User Story to Done if all sub-issues are closed
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Check and sync parent User Story
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PROJECT_TOKEN }}
+          script: |
+            const OWNER         = 'puj-course';
+            const REPO          = 'FIS_2610_3513_G4';
+            const PROJECT_NUMBER = 62;
+            const CLOSED_ISSUE  = context.payload.issue.number;
+
+            console.log(`🔍 Issue #${CLOSED_ISSUE} cerrado. Buscando Historia de Usuario padre...`);
+
+            // ──────────────────────────────────────────────────────────────────
+            // PASO 1: Buscar issues que rastrean al issue cerrado (padres).
+            //         Filtrar los que tengan el label "User Story".
+            // ──────────────────────────────────────────────────────────────────
+            const parentResult = await github.graphql(`
+              query GetParent($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $number) {
+                    trackedInIssues(first: 5) {
+                      nodes {
+                        number
+                        title
+                        labels(first: 20) {
+                          nodes { name }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, { owner: OWNER, repo: REPO, number: CLOSED_ISSUE });
+
+            const parentIssues = parentResult.repository.issue.trackedInIssues.nodes;
+            const userStoryParent = parentIssues.find(issue =>
+              issue.labels.nodes.some(label => label.name === 'User Story')
+            );
+
+            if (!userStoryParent) {
+              console.log('ℹ️ El issue no tiene padre con label "User Story". Nada que hacer.');
+              return;
+            }
+
+            const parentNumber = userStoryParent.number;
+            console.log(`✅ Historia de Usuario padre encontrada: #${parentNumber} — "${userStoryParent.title}"`);
+
+            // ──────────────────────────────────────────────────────────────────
+            // PASO 2: Obtener todos los sub-issues del padre y verificar
+            //         si todos están cerrados.
+            // ──────────────────────────────────────────────────────────────────
+            const subIssuesResult = await github.graphql(`
+              query GetSubIssues($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $number) {
+                    trackedIssues(first: 50) {
+                      nodes {
+                        number
+                        title
+                        state
+                      }
+                    }
+                  }
+                }
+              }
+            `, { owner: OWNER, repo: REPO, number: parentNumber });
+
+            const subIssues = subIssuesResult.repository.issue.trackedIssues.nodes;
+
+            if (subIssues.length === 0) {
+              console.log('⚠️ El padre no tiene sub-issues registrados. Terminando.');
+              return;
+            }
+
+            const openSubIssues = subIssues.filter(i => i.state === 'OPEN');
+            const closedCount   = subIssues.length - openSubIssues.length;
+
+            console.log(`📊 Progreso: ${closedCount}/${subIssues.length} sub-issues cerrados.`);
+
+            if (openSubIssues.length > 0) {
+              console.log(`ℹ️ Quedan ${openSubIssues.length} sub-issues abiertos. No se mueve el padre todavía.`);
+              return;
+            }
+
+            console.log('🎯 ¡Todos los sub-issues están cerrados! Moviendo Historia de Usuario a Done...');
+
+            // ──────────────────────────────────────────────────────────────────
+            // PASO 3: Obtener metadata del proyecto:
+            //         - ID del proyecto
+            //         - ID del campo "Status"
+            //         - ID de la opción "Done"
+            // ──────────────────────────────────────────────────────────────────
+            const projectMeta = await github.graphql(`
+              query GetProjectMeta($org: String!, $projectNumber: Int!) {
+                organization(login: $org) {
+                  projectV2(number: $projectNumber) {
+                    id
+                    fields(first: 20) {
+                      nodes {
+                        ... on ProjectV2SingleSelectField {
+                          id
+                          name
+                          options { id name }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, { org: OWNER, projectNumber: PROJECT_NUMBER });
+
+            const project     = projectMeta.organization.projectV2;
+            const projectId   = project.id;
+            const statusField = project.fields.nodes.find(f => f.name === 'Status');
+
+            if (!statusField) {
+              core.setFailed('❌ Campo "Status" no encontrado en el proyecto.');
+              return;
+            }
+
+            const doneOption = statusField.options.find(o => o.name === 'Done');
+            if (!doneOption) {
+              core.setFailed('❌ Opción "Done" no encontrada en el campo Status.');
+              return;
+            }
+
+            console.log(`📋 Project ID: ${projectId}`);
+            console.log(`📋 Status Field ID: ${statusField.id} | Done Option ID: ${doneOption.id}`);
+
+            // ──────────────────────────────────────────────────────────────────
+            // PASO 4: Buscar el item del issue padre dentro del proyecto.
+            //         Usamos projectItems para obtener el item ID directamente
+            //         desde el issue, filtrado por número de proyecto.
+            // ──────────────────────────────────────────────────────────────────
+            const parentItemResult = await github.graphql(`
+              query GetParentItem($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $number) {
+                    projectItems(first: 10) {
+                      nodes {
+                        id
+                        project { number }
+                      }
+                    }
+                  }
+                }
+              }
+            `, { owner: OWNER, repo: REPO, number: parentNumber });
+
+            const projectItem = parentItemResult.repository.issue.projectItems.nodes.find(
+              item => item.project.number === PROJECT_NUMBER
+            );
+
+            if (!projectItem) {
+              console.log(`⚠️ La Historia de Usuario #${parentNumber} no está en el Project #${PROJECT_NUMBER}. No se puede mover.`);
+              return;
+            }
+
+            const itemId = projectItem.id;
+            console.log(`🔗 Item ID en el proyecto: ${itemId}`);
+
+            // ──────────────────────────────────────────────────────────────────
+            // PASO 5: Actualizar el campo Status del item a "Done".
+            // ──────────────────────────────────────────────────────────────────
+            await github.graphql(`
+              mutation UpdateStatus(
+                $projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!
+              ) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId
+                  itemId:    $itemId
+                  fieldId:   $fieldId
+                  value:     { singleSelectOptionId: $optionId }
+                }) {
+                  projectV2Item { id }
+                }
+              }
+            `, {
+              projectId: projectId,
+              itemId:    itemId,
+              fieldId:   statusField.id,
+              optionId:  doneOption.id,
+            });
+
+            console.log(`✅ Historia de Usuario #${parentNumber} movida a Done en el proyecto.`);
+
+            // ──────────────────────────────────────────────────────────────────
+            // PASO 6: Publicar comentario en el issue padre.
+            // ──────────────────────────────────────────────────────────────────
+            const taskList = subIssues
+              .map(i => `- #${i.number} — ${i.title}`)
+              .join('\n');
+
+            await github.rest.issues.createComment({
+              owner:        OWNER,
+              repo:         REPO,
+              issue_number: parentNumber,
+              body: [
+                '## ✅ Historia de Usuario completada automáticamente',
+                '',
+                'Todos los sub-issues (tareas) han sido cerrados:',
+                '',
+                taskList,
+                '',
+                `Esta Historia de Usuario fue movida automáticamente a **Done** en el [tablero del proyecto](https://github.com/orgs/${OWNER}/projects/${PROJECT_NUMBER}). 🎉`,
+              ].join('\n'),
+            });
+
+            console.log(`💬 Comentario publicado en #${parentNumber}.`);
