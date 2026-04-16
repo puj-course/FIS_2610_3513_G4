@@ -212,7 +212,7 @@ public class ProductSearchService {
                 .description(product.getDescription())
                 .brandId(product.getBrand() != null ? product.getBrand().getId() : null)
                 .brandName(product.getBrand() != null ? product.getBrand().getName() : null)
-                .brandPictureUrl(product.getBrand() != null ? product.getBrand().getPictureUrl() : null)
+                .brandPictureUrl(product.getBrand() != null ? product.getBrand().getPictureURL() : null)
                 .brandIsVerified(product.getBrand() != null ? product.getBrand().getIsVerified() : null)
                 .productTypeName(product.getProductType() != null ? product.getProductType().getName() : null)
                 .category(product.getProductType() != null && product.getProductType().getCategory() != null

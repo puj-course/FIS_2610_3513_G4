@@ -1,8 +1,11 @@
 package com.ceiba.fashtoll.worldModel.client;
 
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
+import com.ceiba.fashtoll.security.auth.AuthService;
+import com.ceiba.fashtoll.security.auth.dtos.RegisterRequest;
+import com.ceiba.fashtoll.utilities.enums.Role;
+import com.ceiba.fashtoll.worldModel.brand.dtos.BrandDTO;
 import com.ceiba.fashtoll.worldModel.client.dtos.*;
-import com.ceiba.fashtoll.worldModel.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +16,14 @@ import java.util.stream.Collectors;
 public class ClientService {
 
     private final ClientRepository clientRepository;
-    //private final UserRepository userRepository;
     private final ClientMapper clientMapper;
+    private final AuthService authService;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, UserRepository userRepository, ClientMapper clientMapper) {
+    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, AuthService authService) {
         this.clientRepository = clientRepository;
-        //this.userRepository = userRepository;
         this.clientMapper = clientMapper;
+        this.authService = authService;
     }
 
     public List<ClientResponse> getAllClients() {
@@ -78,5 +81,17 @@ public class ClientService {
         clientMapper.updateEntityFromProfile(request, client);
         Client savedClient = clientRepository.save(client);
         return clientMapper.toProfileResponse(savedClient);
+    }
+
+    public void injectClientsFromJSON(List<ClientDTO>  clientDTOs) {
+        for (ClientDTO clientDTO : clientDTOs) {
+            RegisterRequest registerRequest = new RegisterRequest();
+            registerRequest.setEmail(clientDTO.email());
+            registerRequest.setPassword(clientDTO.password());
+            registerRequest.setRole(Role.categorize(clientDTO.role()));
+            registerRequest.setName(clientDTO.name());
+
+            this.authService.clientRegister(registerRequest);
+        }
     }
 }

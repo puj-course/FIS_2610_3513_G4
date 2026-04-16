@@ -45,26 +45,6 @@ public class AuthService {
 
         String token;
 
-        // ESTO ES PROVICIONAL, HAY QUE CAMBIARLO
-        // Ahora en la base hay 2 admins, user: gonso, passwd: gonso123; y user:admin , passwd: admin123
-        if (request.getRole() == Role.ADMIN) {
-            User user = new User();
-            user.setEmail(request.getEmail());
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-            user.setName(request.getName());
-            user.setRole(request.getRole());
-
-            userRepository.save(user);
-
-            token = jwtProvider.generateToken(user);
-
-            return AuthResponse.builder()
-                    .token(token)
-                    .email(user.getEmail())
-                    .role(user.getRole().name())
-                    .build();
-        }
-
         if (request.getRole() == Role.CLIENT) {
             Client client = new Client();
             client.setEmail(request.getEmail());
@@ -89,7 +69,7 @@ public class AuthService {
             brand.setName(request.getName());
             brand.setRole(request.getRole());
             brand.setIsActive(true);
-            brand.setPictureUrl(request.getPictureUrl());
+            brand.setPictureURL(request.getPictureURL());
             brand.setLinkOfficial(request.getLinkOfficial());
 
             brandRepository.save(brand);
@@ -104,6 +84,39 @@ public class AuthService {
         }
 
         return null;
+    }
+
+    public void brandRegister (RegisterRequest request){
+        Brand brand = new Brand();
+        brand.setEmail(request.getEmail());
+        brand.setPassword(passwordEncoder.encode(request.getPassword()));
+        brand.setName(request.getName());
+        brand.setRole(request.getRole());
+        brand.setIsActive(true);
+        brand.setPictureURL(request.getPictureURL());
+        brand.setLinkOfficial(request.getLinkOfficial());
+
+        brandRepository.save(brand);
+    }
+
+    public void clientRegister (RegisterRequest request){
+        Client client = new Client();
+        client.setEmail(request.getEmail());
+        client.setPassword(passwordEncoder.encode(request.getPassword()));
+        client.setName(request.getName());
+        client.setRole(request.getRole());
+
+        clientRepository.save(client);
+    }
+
+    public void adminRegister (RegisterRequest request){
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setName(request.getName());
+        user.setRole(request.getRole());
+
+        userRepository.save(user);
     }
 
     public AuthResponse login(LoginRequest request) {

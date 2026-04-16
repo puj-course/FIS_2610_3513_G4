@@ -1,9 +1,8 @@
-package com.ceiba.fashtoll.worldModel.user.controllers;
+package com.ceiba.fashtoll.worldModel.user;
 
 import com.ceiba.fashtoll.worldModel.user.dtos.UserCreateRequest;
 import com.ceiba.fashtoll.worldModel.user.dtos.UserResponse;
 import com.ceiba.fashtoll.worldModel.user.dtos.UserUpdateRequest;
-import com.ceiba.fashtoll.worldModel.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,11 +1,16 @@
 package com.ceiba.fashtoll.worldModel.brand;
 
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
+import com.ceiba.fashtoll.security.auth.AuthService;
+import com.ceiba.fashtoll.security.auth.dtos.RegisterRequest;
+import com.ceiba.fashtoll.utilities.enums.Role;
+import com.ceiba.fashtoll.worldModel.admin.dtos.AdminOperationResponse;
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
 import com.ceiba.fashtoll.worldModel.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,14 +19,14 @@ import java.util.stream.Collectors;
 public class BrandService {
 
     private final BrandRepository brandRepository;
-    //private final UserRepository userRepository;
     private final BrandMapper brandMapper;
+    private final AuthService authService;
 
     @Autowired
-    public BrandService(BrandRepository brandRepository, UserRepository userRepository, BrandMapper brandMapper) {
+    public BrandService(BrandRepository brandRepository, BrandMapper brandMapper, AuthService authService) {
         this.brandRepository = brandRepository;
-        //this.userRepository = userRepository;
         this.brandMapper = brandMapper;
+        this.authService = authService;
     }
 
     public List<BrandResponse> getAllBrands() {
@@ -104,5 +109,19 @@ public class BrandService {
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
         brand.setIsVerified(verified);
         brandRepository.save(brand);
+    }
+
+    public void injectBrandsFromJSON(List<BrandDTO>  brandDTOs) {
+        for (BrandDTO brandDTO : brandDTOs) {
+            RegisterRequest registerRequest = new RegisterRequest();
+            registerRequest.setEmail(brandDTO.email());
+            registerRequest.setPassword(brandDTO.password());
+            registerRequest.setRole(Role.categorize(brandDTO.role()));
+            registerRequest.setName(brandDTO.name());
+            registerRequest.setLinkOfficial(brandDTO.linkOfficial());
+            registerRequest.setPictureURL(brandDTO.pictureURL());
+
+            this.authService.brandRegister(registerRequest);
+        }
     }
 }

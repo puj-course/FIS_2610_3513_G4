@@ -1,0 +1,58 @@
+[
+  {
+    "email": "adidas@example.com",
+    "password": "passwd123",
+    "role": "BRAND",
+    "name": "Adidas",
+    "linkOfficial": "https://www.adidas.co",
+    "pictureURL": "https://brand.assets.adidas.com/image/upload/v1/logo-black.png"
+  },
+  {
+    "email": "nike@example.com",
+    "password": "passwd123",
+    "role": "BRAND",
+    "name": "Nike",
+    "linkOfficial": "https://www.nike.com.co",
+    "pictureURL": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg"
+  },
+  {
+    "email": "arturo.calle@example.com",
+    "password": "passwd123",
+    "role": "BRAND",
+    "name": "Arturo Calle",
+    "linkOfficial": "https://www.arturocalle.com",
+    "pictureURL": "https://arturocalle.vteximg.com.br/arquivos/logo-arturo-calle.png"
+  },
+  {
+    "email": "zara@example.com",
+    "password": "passwd123",
+    "role": "BRAND",
+    "name": "Zara",
+    "linkOfficial": "https://www.zara.com/co/",
+    "pictureURL": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Zara_Logo.svg"
+  },
+  {
+    "email": "leonisa@example.com",
+    "password": "passwd123",
+    "role": "BRAND",
+    "name": "Leonisa",
+    "linkOfficial": "https://www.leonisa.com/co/",
+    "pictureURL": "https://leonisa.vteximg.com.br/arquivos/logo-leonisa.png"
+  },
+  {
+    "email": "patprimo@example.com",
+    "password": "passwd123",
+    "role": "BRAND",
+    "name": "PatPrimo",
+    "linkOfficial": "https://www.patprimo.com",
+    "pictureURL": "https://patprimo.vteximg.com.br/arquivos/logo-patprimo.png"
+  },
+  {
+    "email": "hm@example.com",
+    "password": "passwd123",
+    "role": "BRAND",
+    "name": "H&M",
+    "linkOfficial": "https://www2.hm.com/es_co/",
+    "pictureURL": "https://upload.wikimedia.org/wikipedia/commons/5/53/H%26M-Logo.svg"
+  }
+]
