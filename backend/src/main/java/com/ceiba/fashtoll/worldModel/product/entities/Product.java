@@ -1,5 +1,6 @@
 package com.ceiba.fashtoll.worldModel.product.entities;
 
+import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken;
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
@@ -82,4 +83,12 @@ public class Product {
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags = new HashSet<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "product_tokens",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "token_id")
+    )
+    private Set<SearchToken> tokens = new HashSet<>();
 }

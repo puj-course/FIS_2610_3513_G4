@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.searchEngine;
+package com.ceiba.fashtoll.utilities;
 
 import org.springframework.stereotype.Component;
 import java.text.Normalizer;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Component
 public class Analyzer {
-    public String characterFilter(String rawQuery){
+    public static String characterFilter(String rawQuery){
         //filtro de etiquetas HTML
         String cleanQuery = rawQuery.replaceAll("<[^>]+>", " ");
         //filtro de &nbsp; representa un espacio normal en la web
@@ -33,7 +33,7 @@ public class Analyzer {
         return cleanQuery;
     }
 
-    public List<String> obtainKeyWords(String query){
+    public static List<String> obtainKeyWords(String query){
         query = query.toLowerCase();
         String[] words = query.split(" ");
         List<String> keyWords = new ArrayList<>();
