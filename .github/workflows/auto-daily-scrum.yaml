@@ -1,0 +1,54 @@
+name: Daily Scrum auto writting
+run-name: ${{ github.actor }} is auto-writting his Daily scrum
+
+on: 
+  push: 
+    branches: ['features-*']
+
+permissions:
+  issues: write
+  contents: read
+
+jobs: 
+  auto-write-daily:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+
+      - name: Buscar el issue del daily scrum
+        id: search
+        run: |
+          export TZ="America/Bogota"
+          TODAY=$(date +'%Y-%m-%d')
+          echo "Buscando Daily Scrum para la fecha: $TODAY"
+
+          ISSUE_NUM=$(gh issue list --search "Daily Scrum in:title created:$TODAY" --label "SCRUM" --state open --json number --jq '.[0].number')
+
+          echo "ISSUE_NUMBER=$ISSUE_NUM" >> $GITHUB_ENV
+          
+      - name: Escribir el daily scrum
+        if: env.ISSUE_NUMBER != '' && env.ISSUE_NUMBER != 'null'
+        run: |
+          cat << 'EOF' > comment.md
+          #Daily generado por workflow
+          **Autor:** @${{ github.actor }}
+          
+          ## 👤 Participante: @${{ github.actor }}
+
+          ### ✅ ¿Qué logré ayer?
+          - 
+          ### 🎯 ¿Qué voy a hacer hoy?
+          - 
+          ### 🎯 ¿Qué logre hacer hoy?
+          * ${{ join(github.event.commits.*.message, '\n* ') }}
+          ### 🛑 ¿Tengo algún impedimento?
+          - [ ] No
+          - [ ] Sí (Describir: )
+          EOF
+
+          gh issue comment ${{ env.ISSUE_NUMBER }} --body-file comment.md
+
+          
