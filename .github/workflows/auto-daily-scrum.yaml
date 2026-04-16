@@ -22,9 +22,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: debugging
-        run: | 
-          ls -la
+      - name: Imprime la fecha y hora con zona horaria que tiene el bot
+        run: date
 
       - name: Buscar el issue del daily scrum
         id: search
