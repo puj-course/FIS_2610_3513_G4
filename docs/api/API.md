@@ -665,57 +665,6 @@
 | 200 | OK | ***/***: [AuthResponse](#authresponse-schema)<br> |
 
 ---
-
-### [GET] /
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
-### [PUT] /
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
-### [POST] /
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
-### [DELETE] /
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
-### [OPTIONS] /
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
-### [HEAD] /
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
-### [PATCH] /
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
----
 ### Schemas
 
 #### UserUpdateRequest Schema
@@ -841,7 +790,7 @@
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | name | string |  | Yes |
-| pictureUrl | string |  | No |
+| pictureURL | string |  | No |
 | linkOfficial | string |  | No |
 | isVerified | boolean |  | Yes |
 
@@ -851,7 +800,7 @@
 | ---- | ---- | ----------- | -------- |
 | id | long |  | No |
 | name | string |  | No |
-| pictureUrl | string |  | No |
+| pictureURL | string |  | No |
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
@@ -862,7 +811,7 @@
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | name | string |  | Yes |
-| pictureUrl | string |  | No |
+| pictureURL | string |  | No |
 | linkOfficial | string |  | No |
 
 #### BrandProfileResponse Schema
@@ -871,7 +820,7 @@
 | ---- | ---- | ----------- | -------- |
 | name | string |  | No |
 | email | string |  | No |
-| pictureUrl | string |  | No |
+| pictureURL | string |  | No |
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
@@ -929,9 +878,8 @@
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| userId | long |  | Yes |
 | name | string |  | Yes |
-| pictureUrl | string |  | No |
+| pictureURL | string |  | No |
 | linkOfficial | string |  | No |
 
 #### RegisterRequest Schema
@@ -942,7 +890,7 @@
 | password | string |  | Yes |
 | role | string, <br>**Available values:** "CLIENT", "BRAND", "ADMIN" | *Enum:* `"CLIENT"`, `"BRAND"`, `"ADMIN"` | Yes |
 | name | string |  | Yes |
-| pictureUrl | string |  | No |
+| pictureURL | string |  | No |
 | linkOfficial | string |  | No |
 
 #### AuthResponse Schema
@@ -1007,7 +955,7 @@
 | id | long |  | No |
 | name | string |  | No |
 | email | string |  | No |
-| pictureUrl | string |  | No |
+| pictureURL | string |  | No |
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
