@@ -17,6 +17,8 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
 
       - name: Buscar el issue del daily scrum
         id: search
