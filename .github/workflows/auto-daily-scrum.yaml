@@ -32,7 +32,7 @@ jobs:
           echo "Buscando Daily Scrum para la fecha: $TODAY"
 
           ISSUE_NUM=$(gh issue list --search "Daily Scrum in:title created:$TODAY" --label "SCRUM" --state open --json number --jq '.[0].number')
-
+          echo "El numero de issue del daily scrum es: $ISSUE_NUM"
           echo "ISSUE_NUMBER=$ISSUE_NUM" >> $GITHUB_ENV
           
       - name: Escribir el daily scrum
