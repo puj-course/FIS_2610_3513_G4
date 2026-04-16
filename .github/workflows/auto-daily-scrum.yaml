@@ -31,7 +31,7 @@ jobs:
           TODAY=$(date +'%Y-%m-%d')
           echo "Buscando Daily Scrum para la fecha: $TODAY"
 
-          ISSUE_NUM=$(gh issue list --repo ${{ github.repository }} --search "Daily Scrum in:title created:$TODAY" --label "SCRUM" --state open --json number --jq '.[0].number')
+          ISSUE_NUM=$(gh issue list --search "Daily Scrum in:title created:$TODAY" --label "SCRUM" --state open --json number --jq '.[0].number')
 
           echo "ISSUE_NUMBER=$ISSUE_NUM" >> $GITHUB_ENV
           
@@ -55,6 +55,6 @@ jobs:
           - [ ] Sí (Describir: )
           EOF
 
-          gh issue comment ${{ env.ISSUE_NUMBER }} --repo ${{ github.repository }} --body-file comment.md
+          gh issue comment ${{ env.ISSUE_NUMBER }} --body-file comment.md
 
           
