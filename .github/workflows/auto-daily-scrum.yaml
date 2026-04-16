@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Clonar el repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: debugging
         run: | 
@@ -37,7 +39,7 @@ jobs:
       - name: Escribir el daily scrum
         if: env.ISSUE_NUMBER != '' && env.ISSUE_NUMBER != 'null'
         run: |
-          jq -r '.commits[] | "- [\(.id | .[0:7])](\(.url)) - \(.message | split("\n")[0])"' ${{ github.event_path }} > commit_log.md
+          git log --pretty=format:"%H, %s" origin/main..HEAD > commit_log.md
           
           cat << 'EOF' > comment.md
           *Daily generado por workflow*
@@ -49,7 +51,6 @@ jobs:
           ### 🎯 ¿Qué voy a hacer hoy?
           - 
           ### 🎯 ¿Qué logre hacer hoy?
-          - 
           EOF
 
           cat commit_log.md >> comment.md
@@ -62,4 +63,7 @@ jobs:
 
           gh issue comment ${{ env.ISSUE_NUMBER }} --body-file comment.md
 
-          
+
+
+
+      
