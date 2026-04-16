@@ -2,11 +2,14 @@ package com.ceiba.fashtoll.searchEngine;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchResponse;
 import com.ceiba.fashtoll.searchEngine.repositories.ProductSearchRepository;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
+import com.ceiba.fashtoll.worldModel.product.entities.ProductImage;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
-import com.ceiba.fashtoll.searchEngine.dto.ProductSearchRequest;
-import com.ceiba.fashtoll.searchEngine.dto.ProductSearchResponse;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchRequest;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchResponse;
+import com.ceiba.fashtoll.worldModel.tag.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
@@ -15,6 +18,8 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,16 +44,23 @@ public class ProductSearchService {
     }
 
     public ProductSearchResponse search(String query){
-        this.searchEngine.processQuery(query);
+        List<Product> searchResultProducts = this.searchEngine.processQuery(query);
+        List<ProductDocument> searchResponseProducts = new ArrayList<>();
 
-        return null;
+        for(Product p: searchResultProducts){
+            ProductDocument nP = this.mapToDocument(p);
+
+            searchResponseProducts.add(nP);
+        }
+
+        return new ProductSearchResponse(searchResponseProducts);
     }
 
     /**
      * Buscar productos usando Elasticsearch con búsqueda Full-Text por keywords,
      * filtros estrictos (AND), y tags coincidentes (OR con scoring).
      */
-    public ProductSearchResponse search(ProductSearchRequest request) {
+    public ProductElasticSearchResponse search(ProductElasticSearchRequest request) {
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
 
         BoolQuery.Builder boolQueryBuilder = new BoolQuery.Builder();
@@ -148,7 +160,7 @@ public class ProductSearchService {
         long totalResults = searchHits.getTotalHits();
         int totalPages = (int) Math.ceil((double) totalResults / request.getSize());
 
-        return ProductSearchResponse.builder()
+        return ProductElasticSearchResponse.builder()
                 .products(products)
                 .currentPage(request.getPage())
                 .totalPages(totalPages)
@@ -205,7 +217,7 @@ public class ProductSearchService {
                 .productTypeName(product.getProductType() != null ? product.getProductType().getName() : null)
                 .category(product.getProductType() != null && product.getProductType().getCategory() != null
                         ? product.getProductType().getCategory().name() : null)
-                .price(product.getPrice() != null ? product.getPrice().doubleValue() : null)
+                .price(product.getPrice() != null ? product.getPrice() : null)
                 .generalFit(product.getGeneralFit() != null ? product.getGeneralFit().name() : null)
                 .gender(product.getGender() != null ? product.getGender().name() : null)
                 .color(product.getColor() != null ? product.getColor().name() : null)

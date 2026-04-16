@@ -5,7 +5,7 @@ import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
 import com.ceiba.fashtoll.utilities.enums.GeneralFit;
-import com.ceiba.fashtoll.worldModel.tag.entity.Tag;
+import com.ceiba.fashtoll.worldModel.tag.Tag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

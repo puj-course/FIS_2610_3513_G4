@@ -1,8 +1,7 @@
-package com.ceiba.fashtoll.worldModel.tag.controller;
+package com.ceiba.fashtoll.worldModel.tag;
 
 import com.ceiba.fashtoll.worldModel.tag.dto.TagRequest;
 import com.ceiba.fashtoll.worldModel.tag.dto.TagResponse;
-import com.ceiba.fashtoll.worldModel.tag.service.TagService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

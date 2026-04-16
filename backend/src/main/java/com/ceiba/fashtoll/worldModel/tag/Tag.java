@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.tag.entity;
+package com.ceiba.fashtoll.worldModel.tag;
 
 import com.ceiba.fashtoll.utilities.enums.TagType;
 import jakarta.persistence.*;

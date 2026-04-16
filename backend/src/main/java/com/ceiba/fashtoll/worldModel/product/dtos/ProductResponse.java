@@ -4,6 +4,7 @@ import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
 import com.ceiba.fashtoll.utilities.enums.GeneralFit;
 import com.ceiba.fashtoll.worldModel.tag.dto.TagResponse;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class ProductResponse {
     private Boolean available;
     private Double rating;
     private String linkProduct;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
     private List<String> imageUrls;
     private List<TagResponse> tags;

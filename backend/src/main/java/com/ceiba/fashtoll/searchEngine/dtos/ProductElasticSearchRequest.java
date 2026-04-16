@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.searchEngine.dto;
+package com.ceiba.fashtoll.searchEngine.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSearchRequest {
+public class ProductElasticSearchRequest {
     private String keyword;
     private String productTypeName;
     private String category;

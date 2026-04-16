@@ -1,8 +1,7 @@
-package com.ceiba.fashtoll.worldModel.tag.mapper;
+package com.ceiba.fashtoll.worldModel.tag;
 
 import com.ceiba.fashtoll.worldModel.tag.dto.TagRequest;
 import com.ceiba.fashtoll.worldModel.tag.dto.TagResponse;
-import com.ceiba.fashtoll.worldModel.tag.entity.Tag;
 import org.springframework.stereotype.Component;
 
 @Component

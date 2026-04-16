@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class ProductDocument {
     private String category;
 
     @Field(type = FieldType.Double)
-    private Double price;
+    private BigDecimal price;
 
     @Field(type = FieldType.Keyword)
     private String generalFit;
