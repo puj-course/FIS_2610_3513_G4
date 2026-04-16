@@ -22,52 +22,65 @@ jobs:
             const PROJECT_NUMBER = 62;
             const CLOSED_ISSUE  = context.payload.issue.number;
 
+            // Header requerido para la API de sub-issues de GitHub
+            const SUB_ISSUES_HEADERS = { 'GraphQL-Features': 'sub_issues' };
+
             console.log(`🔍 Issue #${CLOSED_ISSUE} cerrado. Buscando Historia de Usuario padre...`);
 
             // ──────────────────────────────────────────────────────────────────
-            // PASO 1: Buscar issues que rastrean al issue cerrado (padres).
-            //         Filtrar los que tengan el label "User Story".
+            // PASO 1: Buscar el issue padre usando el campo `parent` de la API
+            //         de sub-issues. Requiere el header GraphQL-Features: sub_issues.
             // ──────────────────────────────────────────────────────────────────
-            const parentResult = await github.graphql(`
+            const parentQuery = `
               query GetParent($owner: String!, $repo: String!, $number: Int!) {
                 repository(owner: $owner, name: $repo) {
                   issue(number: $number) {
-                    trackedInIssues(first: 5) {
-                      nodes {
-                        number
-                        title
-                        labels(first: 20) {
-                          nodes { name }
-                        }
+                    parent {
+                      number
+                      title
+                      labels(first: 20) {
+                        nodes { name }
                       }
                     }
                   }
                 }
               }
-            `, { owner: OWNER, repo: REPO, number: CLOSED_ISSUE });
+            `;
 
-            const parentIssues = parentResult.repository.issue.trackedInIssues.nodes;
-            const userStoryParent = parentIssues.find(issue =>
-              issue.labels.nodes.some(label => label.name === 'User Story')
-            );
+            const parentResp = await github.request('POST /graphql', {
+              query: parentQuery,
+              variables: { owner: OWNER, repo: REPO, number: CLOSED_ISSUE },
+              headers: SUB_ISSUES_HEADERS,
+            });
 
-            if (!userStoryParent) {
-              console.log('ℹ️ El issue no tiene padre con label "User Story". Nada que hacer.');
+            const parentIssue = parentResp.data.data.repository.issue.parent;
+
+            if (!parentIssue) {
+              console.log('ℹ️ El issue no tiene padre (sub-issue). Nada que hacer.');
               return;
             }
 
-            const parentNumber = userStoryParent.number;
-            console.log(`✅ Historia de Usuario padre encontrada: #${parentNumber} — "${userStoryParent.title}"`);
+            const hasUserStoryLabel = parentIssue.labels.nodes.some(
+              label => label.name === 'User Story'
+            );
+
+            if (!hasUserStoryLabel) {
+              console.log(`ℹ️ El issue padre #${parentIssue.number} no tiene label "User Story". Nada que hacer.`);
+              return;
+            }
+
+            const parentNumber = parentIssue.number;
+            console.log(`✅ Historia de Usuario padre encontrada: #${parentNumber} — "${parentIssue.title}"`);
 
             // ──────────────────────────────────────────────────────────────────
             // PASO 2: Obtener todos los sub-issues del padre y verificar
             //         si todos están cerrados.
             // ──────────────────────────────────────────────────────────────────
-            const subIssuesResult = await github.graphql(`
+            const subIssuesQuery = `
               query GetSubIssues($owner: String!, $repo: String!, $number: Int!) {
                 repository(owner: $owner, name: $repo) {
                   issue(number: $number) {
-                    trackedIssues(first: 50) {
+                    subIssues(first: 50) {
                       nodes {
                         number
                         title
@@ -77,9 +90,15 @@ jobs:
                   }
                 }
               }
-            `, { owner: OWNER, repo: REPO, number: parentNumber });
+            `;
 
-            const subIssues = subIssuesResult.repository.issue.trackedIssues.nodes;
+            const subIssuesResp = await github.request('POST /graphql', {
+              query: subIssuesQuery,
+              variables: { owner: OWNER, repo: REPO, number: parentNumber },
+              headers: SUB_ISSUES_HEADERS,
+            });
+
+            const subIssues = subIssuesResp.data.data.repository.issue.subIssues.nodes;
 
             if (subIssues.length === 0) {
               console.log('⚠️ El padre no tiene sub-issues registrados. Terminando.');
