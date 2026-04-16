@@ -27,7 +27,6 @@ jobs:
       - name: Buscar el issue del daily scrum
         id: search
         run: |
-          export TZ="America/Bogota"
           TODAY=$(date +'%Y-%m-%d')
           echo "Buscando Daily Scrum para la fecha: $TODAY"
 
