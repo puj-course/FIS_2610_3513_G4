@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.searchEngine.dto;
+package com.ceiba.fashtoll.searchEngine.dtos;
 
 import com.ceiba.fashtoll.searchEngine.ProductDocument;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSearchResponse {
+public class ProductElasticSearchResponse {
     private List<ProductDocument> products;
     private int currentPage;
     private int totalPages;

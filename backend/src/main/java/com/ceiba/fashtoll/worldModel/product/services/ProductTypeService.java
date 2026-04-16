@@ -1,5 +1,6 @@
 package com.ceiba.fashtoll.worldModel.product.services;
 
+import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeResponse;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
@@ -46,16 +47,16 @@ public class ProductTypeService {
     @Transactional
     public ProductTypeResponse updateProductType(Long id, ProductTypeRequest request) {
         ProductType productType = productTypeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("tipo de producto", "id", id));
 
-        productTypeMapper.updateEntity(request, productType);
+        boolean result = productTypeMapper.updateEntity(request, productType);
         ProductType savedProductType = productTypeRepository.save(productType);
         return productTypeMapper.toResponse(savedProductType);
     }
 
     public void deleteProductType(Long id) {
         ProductType productType = productTypeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tipo de producto no encontrado: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("tipo de producto", "id", id));
         productTypeRepository.delete(productType);
     }
 }

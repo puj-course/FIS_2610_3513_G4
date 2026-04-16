@@ -1,5 +1,8 @@
 package com.ceiba.fashtoll.security.auth;
 
+import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.DuplicatedResourceException;
+import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
+import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.UnauthorizedException;
 import com.ceiba.fashtoll.security.auth.dtos.AuthResponse;
 import com.ceiba.fashtoll.security.auth.dtos.LoginRequest;
 import com.ceiba.fashtoll.security.auth.dtos.RegisterRequest;
@@ -33,11 +36,11 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
         // como puedo registrar un admin?
         if (request.getRole() == Role.ADMIN) {
-            throw new RuntimeException("No se permite el registro manual de administradores");
+            throw new UnauthorizedException("registro","admin's");
         }
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("El email ya está registrado");
+            throw new DuplicatedResourceException("email","la base de datos de usuarios");
         }
 
         String token;
@@ -109,7 +112,7 @@ public class AuthService {
         );
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("email", "la base de datos de usuarios"));
 
         String token = jwtProvider.generateToken(user);
         return AuthResponse.builder()

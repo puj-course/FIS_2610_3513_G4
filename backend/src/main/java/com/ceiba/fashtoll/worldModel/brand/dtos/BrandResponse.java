@@ -15,5 +15,4 @@ public class BrandResponse {
     private Integer followers;
     private Double rating;
     private Boolean isVerified;
-    private Long userId;
 }

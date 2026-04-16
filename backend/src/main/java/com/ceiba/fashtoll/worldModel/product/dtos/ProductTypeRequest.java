@@ -17,5 +17,5 @@ public class ProductTypeRequest {
     private String name;
 
     @NotNull(message = "La categoría es obligatoria")
-    private Category category;
+    private String category;
 }

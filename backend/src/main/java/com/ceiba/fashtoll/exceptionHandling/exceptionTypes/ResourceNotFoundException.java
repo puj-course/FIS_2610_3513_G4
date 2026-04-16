@@ -7,7 +7,6 @@ public class ResourceNotFoundException extends RuntimeException{
     }
 
     public ResourceNotFoundException(String resourceName, String fieldName) {
-        // Esto generará un mensaje como: "ProductType no fue encontrado con id : 6"
         super(String.format("El recurso '%s' parte de '%s' no fue encontrado", resourceName, fieldName));
     }
 }

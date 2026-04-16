@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
-public class SceneManagerController {
+public class InitialThingsToDo {
 
     //pendiente
     @RequestMapping

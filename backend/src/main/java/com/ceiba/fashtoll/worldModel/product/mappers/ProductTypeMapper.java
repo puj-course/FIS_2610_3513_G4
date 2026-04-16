@@ -1,5 +1,6 @@
 package com.ceiba.fashtoll.worldModel.product.mappers;
 
+import com.ceiba.fashtoll.utilities.enums.Category;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductTypeResponse;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
@@ -21,13 +22,16 @@ public class ProductTypeMapper {
         if (request == null) return null;
         ProductType type = new ProductType();
         type.setName(request.getName());
-        type.setCategory(request.getCategory());
+        type.setCategory(Category.categorize(request.getCategory()));
+
         return type;
     }
 
-    public void updateEntity(ProductTypeRequest request, ProductType type) {
-        if (request == null || type == null) return;
+    public boolean updateEntity(ProductTypeRequest request, ProductType type) {
+        if (request == null || type == null) return false;
         type.setName(request.getName());
-        type.setCategory(request.getCategory());
+        type.setCategory(Category.categorize(request.getCategory()));
+
+        return true;
     }
 }
