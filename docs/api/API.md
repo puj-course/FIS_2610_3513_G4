@@ -634,7 +634,7 @@
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
+| 200 | OK | ***/***: [ProductElasticSearchResponse](#productelasticsearchresponse-schema)<br> |
 
 ---
 
@@ -801,7 +801,7 @@
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | name | string |  | Yes |
-| category | string, <br>**Available values:** "TOPS", "BOTTOMS", "OUTERWEAR", "FULL_BODY" | *Enum:* `"TOPS"`, `"BOTTOMS"`, `"OUTERWEAR"`, `"FULL_BODY"` | Yes |
+| category | string |  | Yes |
 
 #### ClientUpdateRequest Schema
 
@@ -856,7 +856,6 @@
 | followers | integer |  | No |
 | rating | double |  | No |
 | isVerified | boolean |  | No |
-| userId | long |  | No |
 
 #### BrandProfileUpdateRequest Schema
 
@@ -974,7 +973,7 @@
 | brandIsVerified | boolean |  | No |
 | productTypeName | string |  | No |
 | category | string |  | No |
-| price | double |  | No |
+| price | number |  | No |
 | generalFit | string |  | No |
 | gender | string |  | No |
 | color | string |  | No |
@@ -986,6 +985,12 @@
 | createdAt | dateTime |  | No |
 
 #### ProductSearchResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| searchedProducts | [ [ProductDocument](#productdocument-schema) ] |  | No |
+
+#### ProductElasticSearchResponse Schema
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
