@@ -39,7 +39,7 @@ jobs:
       - name: Escribir el daily scrum
         if: env.ISSUE_NUMBER != '' && env.ISSUE_NUMBER != 'null'
         run: |
-          git log --pretty=format:"%H, %s" origin/main..HEAD > commit_log.md
+          git log --pretty=format:"- %H, %s" origin/main..HEAD > commit_log.md
           
           cat << 'EOF' > comment.md
           *Daily generado por workflow*
