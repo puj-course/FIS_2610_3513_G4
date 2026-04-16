@@ -42,7 +42,7 @@ jobs:
           # Leemos el archivo ${{ github.event_path }} para obtener los commits.
           # Usamos un filtro de jq para formatear cada commit como Markdown: '- [SHAcorto](URL) - Mensaje'
           # Guardamos el resultado en un archivo temporal llamado commit_log.md
-          jq -r '.commits[] | "- [\(.sha | .[0:7])](\(.url)) - \(.message)"' ${{ github.event_path }} > commit_log.md
+          jq -r '.commits[] | "- [\(.id | .[0:7])](\(.url)) - \(.message | split("\n")[0])"' ${{ github.event_path }} > commit_log.md
           
           cat << 'EOF' > comment.md
           *Daily generado por workflow*
