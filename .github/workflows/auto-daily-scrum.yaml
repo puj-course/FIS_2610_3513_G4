@@ -20,6 +20,10 @@ jobs:
       - name: Clonar el repositorio
         uses: actions/checkout@v4
 
+      - name: debugging
+        run: | 
+          ls -la
+
       - name: Buscar el issue del daily scrum
         id: search
         run: |
