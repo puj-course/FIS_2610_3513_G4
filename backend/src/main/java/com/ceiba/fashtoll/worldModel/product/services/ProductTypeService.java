@@ -46,17 +46,24 @@ public class ProductTypeService {
 
     @Transactional
     public ProductTypeResponse updateProductType(Long id, ProductTypeRequest request) {
-        ProductType productType = productTypeRepository.findById(id)
+        ProductType productType = this.productTypeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("tipo de producto", "id", id));
 
-        boolean result = productTypeMapper.updateEntity(request, productType);
-        ProductType savedProductType = productTypeRepository.save(productType);
-        return productTypeMapper.toResponse(savedProductType);
+        boolean result = this.productTypeMapper.updateEntity(request, productType);
+        ProductType savedProductType = this.productTypeRepository.save(productType);
+        return this.productTypeMapper.toResponse(savedProductType);
     }
 
     public void deleteProductType(Long id) {
-        ProductType productType = productTypeRepository.findById(id)
+        ProductType productType = this.productTypeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("tipo de producto", "id", id));
-        productTypeRepository.delete(productType);
+        this.productTypeRepository.delete(productType);
+    }
+
+    @Transactional
+    public void injectProductTypeFromJson(List<ProductTypeRequest> productTypesDTOs) {
+        for(ProductTypeRequest productTypeDTO : productTypesDTOs) {
+            this.productTypeRepository.save(this.productTypeMapper.toEntity(productTypeDTO));
+        }
     }
 }

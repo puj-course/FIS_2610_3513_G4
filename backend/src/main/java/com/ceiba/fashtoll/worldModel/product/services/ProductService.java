@@ -240,4 +240,43 @@ public class ProductService {
         productRepository.delete(product);
         productEventPublisher.notify(new ProductEvent(product, EventType.DELETED));
     }
+
+    @Transactional
+    public void injectBrandProductFromJson(Long brandId, List<ProductCreateRequest> productsDTOs) {
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("Brand","id", brandId));
+
+        for(ProductCreateRequest productDTO : productsDTOs) {
+            ProductType productType = productTypeRepository.findById(productDTO.getProductTypeId())
+                    .orElseThrow(() -> new ResourceNotFoundException("ProductType","id", productDTO.getProductTypeId()));
+
+            Product product = productMapper.toEntity(productDTO);
+            product.setBrand(brand);
+            product.setProductType(productType);
+
+            if (product.getAvailable() == null) product.setAvailable(true);
+            if (product.getRating() == null) product.setRating(0.0);
+
+            // Imágenes
+            if (productDTO.getImageUrls() != null) {
+                List<ProductImage> images = productDTO.getImageUrls().stream()
+                        .map(url -> {
+                            ProductImage img = new ProductImage();
+                            img.setImageUrl(url);
+                            img.setProduct(product);
+                            return img;
+                        }).collect(Collectors.toList());
+                product.setImages(images);
+            }
+
+            // Tags
+            if (productDTO.getTagIds() != null && !productDTO.getTagIds().isEmpty()) {
+                Set<Tag> tags = new HashSet<>(tagRepository.findAllById(productDTO.getTagIds()));
+                product.setTags(tags);
+            }
+
+            Product savedProduct = productRepository.save(product);
+            productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
+        }
+    }
 }

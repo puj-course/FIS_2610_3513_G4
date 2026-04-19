@@ -1,6 +1,5 @@
 package com.ceiba.fashtoll.worldModel.product.dtos;
 
-import com.ceiba.fashtoll.utilities.enums.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

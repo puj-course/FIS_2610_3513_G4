@@ -5,7 +5,7 @@
     "role": "BRAND",
     "name": "Adidas",
     "linkOfficial": "https://www.adidas.co",
-    "pictureURL": "https://brand.assets.adidas.com/image/upload/v1/logo-black.png"
+    "pictureURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/960px-Adidas_Logo.svg.png"
   },
   {
     "email": "nike@example.com",
@@ -21,7 +21,7 @@
     "role": "BRAND",
     "name": "Arturo Calle",
     "linkOfficial": "https://www.arturocalle.com",
-    "pictureURL": "https://arturocalle.vteximg.com.br/arquivos/logo-arturo-calle.png"
+    "pictureURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Arturo_Calle_logo.svg/1280px-Arturo_Calle_logo.svg.png"
   },
   {
     "email": "zara@example.com",
@@ -37,7 +37,7 @@
     "role": "BRAND",
     "name": "Leonisa",
     "linkOfficial": "https://www.leonisa.com/co/",
-    "pictureURL": "https://leonisa.vteximg.com.br/arquivos/logo-leonisa.png"
+    "pictureURL": "https://cosmocentro.com/wp-content/uploads/2016/07/Leonisa_LogoTipo_2024_pages-to-jpg-0002.jpg"
   },
   {
     "email": "patprimo@example.com",
@@ -52,7 +52,7 @@
     "password": "passwd123",
     "role": "BRAND",
     "name": "H&M",
-    "linkOfficial": "https://www2.hm.com/es_co/",
+    "linkOfficial": "https://co.hm.com",
     "pictureURL": "https://upload.wikimedia.org/wikipedia/commons/5/53/H%26M-Logo.svg"
   }
 ]
