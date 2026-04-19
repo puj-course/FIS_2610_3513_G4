@@ -709,9 +709,9 @@
 | name | string |  | Yes |
 | description | string |  | No |
 | price | number |  | Yes |
-| generalFit | string, <br>**Available values:** "SLIM", "REGULAR", "LOOSE" | *Enum:* `"SLIM"`, `"REGULAR"`, `"LOOSE"` | No |
+| generalFit | string, <br>**Available values:** "COMPRESSION", "SKINNY", "SLIM", "REGULAR", "RELAXED", "LOOSE", "OVERSIZED", "OTHER" | *Enum:* `"COMPRESSION"`, `"SKINNY"`, `"SLIM"`, `"REGULAR"`, `"RELAXED"`, `"LOOSE"`, `"OVERSIZED"`, `"OTHER"` | No |
 | gender | string, <br>**Available values:** "MALE", "FEMALE", "UNISEX" | *Enum:* `"MALE"`, `"FEMALE"`, `"UNISEX"` | No |
-| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "GREEN", "BLUE", "PURPLE", "RED", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"GREEN"`, `"BLUE"`, `"PURPLE"`, `"RED"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
+| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "CREAM", "GREEN", "BLUE", "NAVY", "TURQUOISE", "PURPLE", "RED", "MAROON", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"CREAM"`, `"GREEN"`, `"BLUE"`, `"NAVY"`, `"TURQUOISE"`, `"PURPLE"`, `"RED"`, `"MAROON"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
 | available | boolean |  | No |
 | linkProduct | string |  | No |
 | imageUrls | [ string ] |  | No |
@@ -727,9 +727,9 @@
 | name | string |  | No |
 | description | string |  | No |
 | price | number |  | No |
-| generalFit | string, <br>**Available values:** "SLIM", "REGULAR", "LOOSE" | *Enum:* `"SLIM"`, `"REGULAR"`, `"LOOSE"` | No |
+| generalFit | string, <br>**Available values:** "COMPRESSION", "SKINNY", "SLIM", "REGULAR", "RELAXED", "LOOSE", "OVERSIZED", "OTHER" | *Enum:* `"COMPRESSION"`, `"SKINNY"`, `"SLIM"`, `"REGULAR"`, `"RELAXED"`, `"LOOSE"`, `"OVERSIZED"`, `"OTHER"` | No |
 | gender | string, <br>**Available values:** "MALE", "FEMALE", "UNISEX" | *Enum:* `"MALE"`, `"FEMALE"`, `"UNISEX"` | No |
-| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "GREEN", "BLUE", "PURPLE", "RED", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"GREEN"`, `"BLUE"`, `"PURPLE"`, `"RED"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
+| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "CREAM", "GREEN", "BLUE", "NAVY", "TURQUOISE", "PURPLE", "RED", "MAROON", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"CREAM"`, `"GREEN"`, `"BLUE"`, `"NAVY"`, `"TURQUOISE"`, `"PURPLE"`, `"RED"`, `"MAROON"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
 | available | boolean |  | No |
 | rating | double |  | No |
 | linkProduct | string |  | No |
@@ -743,7 +743,7 @@
 | ---- | ---- | ----------- | -------- |
 | id | long |  | No |
 | name | string |  | No |
-| category | string, <br>**Available values:** "TOPS", "BOTTOMS", "OUTERWEAR", "FULL_BODY" | *Enum:* `"TOPS"`, `"BOTTOMS"`, `"OUTERWEAR"`, `"FULL_BODY"` | No |
+| category | string, <br>**Available values:** "TOPS", "BOTTOMS", "FOOTWEAR", "OUTERWEAR", "ACCESSORIES", "FULL_BODY" | *Enum:* `"TOPS"`, `"BOTTOMS"`, `"FOOTWEAR"`, `"OUTERWEAR"`, `"ACCESSORIES"`, `"FULL_BODY"` | No |
 
 #### ProductTypeRequest Schema
 
@@ -834,9 +834,9 @@
 | name | string |  | Yes |
 | description | string |  | No |
 | price | number |  | Yes |
-| generalFit | string, <br>**Available values:** "SLIM", "REGULAR", "LOOSE" | *Enum:* `"SLIM"`, `"REGULAR"`, `"LOOSE"` | No |
+| generalFit | string, <br>**Available values:** "COMPRESSION", "SKINNY", "SLIM", "REGULAR", "RELAXED", "LOOSE", "OVERSIZED", "OTHER" | *Enum:* `"COMPRESSION"`, `"SKINNY"`, `"SLIM"`, `"REGULAR"`, `"RELAXED"`, `"LOOSE"`, `"OVERSIZED"`, `"OTHER"` | No |
 | gender | string, <br>**Available values:** "MALE", "FEMALE", "UNISEX" | *Enum:* `"MALE"`, `"FEMALE"`, `"UNISEX"` | No |
-| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "GREEN", "BLUE", "PURPLE", "RED", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"GREEN"`, `"BLUE"`, `"PURPLE"`, `"RED"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
+| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "CREAM", "GREEN", "BLUE", "NAVY", "TURQUOISE", "PURPLE", "RED", "MAROON", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"CREAM"`, `"GREEN"`, `"BLUE"`, `"NAVY"`, `"TURQUOISE"`, `"PURPLE"`, `"RED"`, `"MAROON"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
 | available | boolean |  | No |
 | linkProduct | string |  | No |
 | imageUrls | [ string ] |  | No |
@@ -859,9 +859,9 @@
 | name | string |  | Yes |
 | description | string |  | No |
 | price | number |  | Yes |
-| generalFit | string, <br>**Available values:** "SLIM", "REGULAR", "LOOSE" | *Enum:* `"SLIM"`, `"REGULAR"`, `"LOOSE"` | No |
+| generalFit | string, <br>**Available values:** "COMPRESSION", "SKINNY", "SLIM", "REGULAR", "RELAXED", "LOOSE", "OVERSIZED", "OTHER" | *Enum:* `"COMPRESSION"`, `"SKINNY"`, `"SLIM"`, `"REGULAR"`, `"RELAXED"`, `"LOOSE"`, `"OVERSIZED"`, `"OTHER"` | No |
 | gender | string, <br>**Available values:** "MALE", "FEMALE", "UNISEX" | *Enum:* `"MALE"`, `"FEMALE"`, `"UNISEX"` | No |
-| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "GREEN", "BLUE", "PURPLE", "RED", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"GREEN"`, `"BLUE"`, `"PURPLE"`, `"RED"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
+| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "CREAM", "GREEN", "BLUE", "NAVY", "TURQUOISE", "PURPLE", "RED", "MAROON", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"CREAM"`, `"GREEN"`, `"BLUE"`, `"NAVY"`, `"TURQUOISE"`, `"PURPLE"`, `"RED"`, `"MAROON"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
 | available | boolean |  | No |
 | linkProduct | string |  | No |
 | imageUrls | [ string ] |  | No |
