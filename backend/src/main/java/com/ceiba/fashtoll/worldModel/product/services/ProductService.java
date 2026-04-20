@@ -242,15 +242,15 @@ public class ProductService {
     }
 
     @Transactional
-    public void injectBrandProductFromJson(Long brandId, List<ProductCreateRequest> productsDTOs) {
-        Brand brand = brandRepository.findById(brandId)
-                .orElseThrow(() -> new ResourceNotFoundException("Brand","id", brandId));
+    public void injectBrandProductFromJson(String brandName, List<ProductCreateRequest> productsDTOs) {
+        Brand brand = brandRepository.findByName(brandName)
+                .orElseThrow(() -> new ResourceNotFoundException("Brand","id", brandName));
 
         for(ProductCreateRequest productDTO : productsDTOs) {
-            ProductType productType = productTypeRepository.findById(productDTO.getProductTypeId())
+            ProductType productType = this.productTypeRepository.findById(productDTO.getProductTypeId())
                     .orElseThrow(() -> new ResourceNotFoundException("ProductType","id", productDTO.getProductTypeId()));
 
-            Product product = productMapper.toEntity(productDTO);
+            Product product = this.productMapper.toEntity(productDTO);
             product.setBrand(brand);
             product.setProductType(productType);
 
@@ -275,8 +275,8 @@ public class ProductService {
                 product.setTags(tags);
             }
 
-            Product savedProduct = productRepository.save(product);
-            productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
+            Product savedProduct = this.productRepository.save(product);
+            this.productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
         }
     }
 }

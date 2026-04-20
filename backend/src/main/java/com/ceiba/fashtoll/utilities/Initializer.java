@@ -62,7 +62,7 @@ public class Initializer implements CommandLineRunner{
             switch(args[0]){
                 case "upload-products":
                     logger.info("Se va a inyectar productos desde el archivo: " + args[1]);
-                    this.rearProductJson(args[1], Long.valueOf(args[2]));
+                    this.rearProductJson(args[1], args[2]);
 
                     break;
                 case "upload-product-types":
@@ -165,7 +165,7 @@ public class Initializer implements CommandLineRunner{
         }
     }
 
-    public void rearProductJson(String fileName, Long brandID) {
+    public void rearProductJson(String fileName, String brandName) {
         ObjectMapper objectMapper = new ObjectMapper();
         this.setResource(fileName);
 
@@ -177,7 +177,7 @@ public class Initializer implements CommandLineRunner{
                     }
             );
             try{
-                this.productService.injectBrandProductFromJson(brandID, productList);
+                this.productService.injectBrandProductFromJson(brandName, productList);
             } catch (ResourceNotFoundException e){
                 logger.error(e.getMessage());
             }

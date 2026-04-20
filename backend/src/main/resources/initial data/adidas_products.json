@@ -2,12 +2,12 @@
   {
     "name": "Tenis Stan Smith Clásicos",
     "description": "Un ícono del calzado deportivo con un diseño minimalista, parte superior de cuero sintético y materiales reciclados de alto rendimiento.",
-    "price": 449950.00,
+    "price": 649950.00,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "WHITE",
-    "available": "true",
-    "linkProduct": "https://www.adidas.co/tenis-stan-smith/FX5502.html",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/tenis-stan-smith-unisex/M20325.html",
     "productTypeId": 13
   },
   {
@@ -17,7 +17,7 @@
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BLACK",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/tenis-samba-og/B75806.html",
     "productTypeId": 13
   },
@@ -28,7 +28,7 @@
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "BLUE",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/camiseta-adicolor-classics-3-tiras/GN3495.html",
     "productTypeId": 1
   },
@@ -39,7 +39,7 @@
     "generalFit": "LOOSE",
     "gender": "UNISEX",
     "color": "GREY",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/hoodie-adicolor-essentials/HK0100.html",
     "productTypeId": 18
   },
@@ -50,7 +50,7 @@
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "ORANGE",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/pantalon-de-sudadera-adicolor-classics-beckenbauer/HB9532.html",
     "productTypeId": 12
   },
@@ -61,7 +61,7 @@
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "NAVY",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/chaqueta-tiro-23-league/HS3487.html",
     "productTypeId": 19
   },
@@ -72,7 +72,7 @@
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "WHITE",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/tenis-superstar/EG4958.html",
     "productTypeId": 13
   },
@@ -83,7 +83,7 @@
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "BLACK",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/gorra-trefoil-baseball/EC3603.html",
     "productTypeId": 27
   },
@@ -94,7 +94,7 @@
     "generalFit": "REGULAR",
     "gender": "FEMALE",
     "color": "BLACK",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/shorts-adicolor-classics-3-tiras/GN3504.html",
     "productTypeId": 9
   },
@@ -105,7 +105,7 @@
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "WHITE",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/tenis-ultraboost-light/HQ6339.html",
     "productTypeId": 13
   },
@@ -116,7 +116,7 @@
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "WHITE",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/camiseta-polo-pique/HN0403.html",
     "productTypeId": 4
   },
@@ -127,7 +127,7 @@
     "generalFit": "LOOSE",
     "gender": "MALE",
     "color": "BLACK",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/rompevientos-adicolor-classics/GN2851.html",
     "productTypeId": 22
   },
@@ -138,7 +138,7 @@
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "RED",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/tenis-gazelle/BB5476.html",
     "productTypeId": 13
   },
@@ -149,7 +149,7 @@
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "GREY",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/camiseta-own-the-run/HB7454.html",
     "productTypeId": 1
   },
@@ -160,7 +160,7 @@
     "generalFit": "SLIM",
     "gender": "FEMALE",
     "color": "BLACK",
-    "available": "true",
+    "available": true,
     "linkProduct": "https://www.adidas.co/vestido-adicolor-classics-tank/H06629.html",
     "productTypeId": 28
   }
