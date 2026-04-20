@@ -1,0 +1,167 @@
+[
+  {
+    "name": "Camisa Oxford Clásica",
+    "description": "Camisa de manga larga confeccionada en tejido Oxford de algodón. Cuello con botones y bolsillo en el pecho, ideal para un look casual de oficina.",
+    "price": 129900.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "BLUE",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/camisa-oxford-azul-para-hombre-72120005-24/p",
+    "productTypeId": 1
+  },
+  {
+    "name": "Pantalón Chino Slim Fit",
+    "description": "Pantalón tipo chino elaborado en algodón con elastano. Silueta ajustada que ofrece comodidad y versatilidad para el día a día.",
+    "price": 139900.00,
+    "generalFit": "SLIM",
+    "gender": "MALE",
+    "color": "BEIGE",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/pantalon-chino-slim-beige-para-hombre-72220102-12/p",
+    "productTypeId": 8
+  },
+  {
+    "name": "Saco Cuello Redondo en Algodón",
+    "description": "Saco ligero tejido en algodón de tacto suave. Perfecto para climas templados o como prenda de superposición.",
+    "price": 99900.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "GREY",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/saco-cuello-redondo-gris-para-hombre-72420001-41/p",
+    "productTypeId": 23
+  },
+  {
+    "name": "Vestido Midi Camisero",
+    "description": "Vestido de silueta camisera con ajuste de lazo en la cintura. Estampado delicado ideal para una tarde de sol.",
+    "price": 159900.00,
+    "generalFit": "REGULAR",
+    "gender": "FEMALE",
+    "color": "MULTICOLOR",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/vestido-midi-camisero-estampado-para-mujer-11110005-99/p",
+    "productTypeId": 28
+  },
+  {
+    "name": "Polo Básica Piqué",
+    "description": "Camiseta tipo polo con cuello tejido y aberturas laterales. Elaborada en piqué de alta calidad que mantiene su forma.",
+    "price": 79900.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "NAVY",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/camiseta-polo-azul-oscuro-para-hombre-72120010-21/p",
+    "productTypeId": 4
+  },
+  {
+    "name": "Blusa en Lino Cuello V",
+    "description": "Blusa ligera de manga corta elaborada en mezcla de lino. Frescura y elegancia para climas cálidos.",
+    "price": 89900.00,
+    "generalFit": "RELAXED",
+    "gender": "FEMALE",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/blusa-lino-blanca-para-mujer-11120008-01/p",
+    "productTypeId": 3
+  },
+  {
+    "name": "Chaqueta Acolchada Ultraligera",
+    "description": "Chaqueta tipo puffer de peso ligero, fácil de empacar. Cuello alto y bolsillos funcionales con cremallera.",
+    "price": 249900.00,
+    "generalFit": "REGULAR",
+    "gender": "UNISEX",
+    "color": "BLACK",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/chaqueta-acolchada-negra-para-hombre-72420105-10/p",
+    "productTypeId": 19
+  },
+  {
+    "name": "Camiseta Cuello Redondo Básica",
+    "description": "Camiseta de manga corta elaborada en algodón premium. Un básico infaltable para cualquier combinación casual.",
+    "price": 49900.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/camiseta-cuello-redondo-blanca-para-hombre-72120200-01/p",
+    "productTypeId": 1
+  },
+  {
+    "name": "Pantalón Palazzo Estampado",
+    "description": "Pantalón de bota ancha con pretina elástica en la parte posterior. Caída fluida que aporta elegancia y frescura.",
+    "price": 129900.00,
+    "generalFit": "LOOSE",
+    "gender": "FEMALE",
+    "color": "GREEN",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/pantalon-palazzo-verde-estampado-para-mujer-11130002-31/p",
+    "productTypeId": 8
+  },
+  {
+    "name": "Gorra Clásica de Seis Paneles",
+    "description": "Gorra de béisbol con ajuste posterior y logo bordado a tono. Accesorio ideal para días de sol.",
+    "price": 39900.00,
+    "generalFit": "REGULAR",
+    "gender": "UNISEX",
+    "color": "BLACK",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/gorra-negra-unisex-72520001-10/p",
+    "productTypeId": 27
+  },
+  {
+    "name": "Jean Slim Fit Lavado Oscuro",
+    "description": "Pantalón denim de silueta ajustada con cinco bolsillos. El tono oscuro lo hace perfecto tanto para el día como para la noche.",
+    "price": 149900.00,
+    "generalFit": "SLIM",
+    "gender": "MALE",
+    "color": "BLUE",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/jean-slim-azul-oscuro-para-hombre-72220005-21/p",
+    "productTypeId": 7
+  },
+  {
+    "name": "Buzo Hoodie Sport",
+    "description": "Buzo con capucha y bolsillo tipo canguro. Elaborado en felpa suave para máxima comodidad deportiva.",
+    "price": 119900.00,
+    "generalFit": "LOOSE",
+    "gender": "UNISEX",
+    "color": "RED",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/buzo-hoodie-rojo-para-hombre-72420008-51/p",
+    "productTypeId": 18
+  },
+  {
+    "name": "Falda Midi Cruzada",
+    "description": "Falda de largo medio con diseño cruzado y anudado lateral. Tejido ligero con movimiento natural.",
+    "price": 109900.00,
+    "generalFit": "REGULAR",
+    "gender": "FEMALE",
+    "color": "PINK",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/falda-midi-rosada-para-mujer-11130008-61/p",
+    "productTypeId": 10
+  },
+  {
+    "name": "Cinturón de Cuero Formal",
+    "description": "Cinturón de cuero legítimo con hebilla metálica clásica. El complemento ideal para pantalones de vestir.",
+    "price": 89900.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "BROWN",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/cinturon-cuero-cafe-para-hombre-72520101-44/p",
+    "productTypeId": 26
+  },
+  {
+    "name": "Pantalón Jogger Comfort",
+    "description": "Jogger de bota ajustada con cintura elástica. Mezcla de algodón que garantiza libertad de movimiento.",
+    "price": 99900.00,
+    "generalFit": "RELAXED",
+    "gender": "UNISEX",
+    "color": "GREY",
+    "available": true,
+    "linkProduct": "https://www.patprimo.com/pantalon-jogger-gris-para-hombre-72220108-41/p",
+    "productTypeId": 12
+  }
+]

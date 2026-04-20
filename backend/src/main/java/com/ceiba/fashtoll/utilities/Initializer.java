@@ -48,6 +48,10 @@ public class Initializer implements CommandLineRunner{
         this.resource = resourceLoader.getResource("classpath:initial data/" + file);
     }
 
+    public void setProductsResource(String file) {
+        this.resource = resourceLoader.getResource("classpath:initial data/products/" + file);
+    }
+
     @Override
     public void run(String... args){
         if (args.length == 0) {
@@ -60,34 +64,45 @@ public class Initializer implements CommandLineRunner{
             }
         } else {
             switch(args[0]){
+                case "inject-initial-data":
+                    System.out.println();
+                    logger.info("Se inyectaran datos iniciales de: admins, marcas, clientes, tipos de producto, y productos de cada marca");
+                    this.injectInitialData();
+
+                    break;
                 case "upload-products":
+                    System.out.println();
                     logger.info("Se va a inyectar productos desde el archivo: " + args[1]);
-                    this.rearProductJson(args[1], args[2]);
+                    this.readProductJson(args[1], args[2].replace("-"," "));
 
                     break;
                 case "upload-product-types":
+                    System.out.println();
                     logger.info("Se va a inyectar tipos de producto desde el archivo: " + args[1]);
                     this.readProductTypesJson(args[1]);
 
                     break;
                 case "admins-register":
+                    System.out.println();
                     logger.info("Se va a inyectar los dos ADMINS");
                     this.adminsRegister();
 
                     break;
                 case "upload-clients":
+                    System.out.println();
                     logger.info("Se va a inyectar clientes desde el archivo: " + args[1]);
                     this.readClientsJson(args[1]);
 
                     break;
                 case "upload-brands":
+                    System.out.println();
                     logger.info("Se va a inyectar marcas desde el archivo: " + args[1]);
                     this.readBrandsJson(args[1]);
 
                     break;
                 default:
                     try{
-                        throw new RuntimeException("Argumento invalido");
+                        throw new RuntimeException("Argumento: " + args[0] + " invalido");
                     } catch (RuntimeException e){
                         System.out.println();
                         logger.error("Error en el arranque de Fashtoll por consola: " + e.getMessage());
@@ -97,6 +112,20 @@ public class Initializer implements CommandLineRunner{
                     break;
             }
         }
+    }
+
+    public void injectInitialData(){
+        this.adminsRegister();
+        this.readBrandsJson("brands.json");
+        this.readClientsJson("clients.json");
+        this.readProductTypesJson("product_types.json");
+        this.readProductJson("adidas_products.json", "Adidas");
+        this.readProductJson("nike_products.json", "Nike");
+        this.readProductJson("arturo-calle_products.json", "Arturo Calle");
+        this.readProductJson("zara_products.json", "Zara");
+        this.readProductJson("leonisa_products.json", "Leonisa");
+        this.readProductJson("patprimo_products.json", "PatPrimo");
+        this.readProductJson("hm_products.json", "H&M");
     }
 
     public void readBrandsJson(String fileName) {
@@ -115,7 +144,6 @@ public class Initializer implements CommandLineRunner{
             logger.info("Marcas cargadas exitosamente: {}", brandList.size());
             System.out.println();
         } catch (IOException e) {
-            System.out.println();
             logger.error("Error al procesar el archivo {}: {}", fileName, e.getMessage());
             System.out.println();
         }
@@ -137,7 +165,6 @@ public class Initializer implements CommandLineRunner{
             logger.info("Clientes cargados exitosamente: {}", clientList.size());
             System.out.println();
         } catch (IOException e) {
-            System.out.println();
             logger.error("Error al procesar el archivo {}: {}", fileName, e.getMessage());
             System.out.println();
         }
@@ -159,15 +186,14 @@ public class Initializer implements CommandLineRunner{
             logger.info("Tipos de productos cargados exitosamente: {}", productTypesList.size());
             System.out.println();
         } catch (IOException e) {
-            System.out.println();
             logger.error("Error al procesar el archivo {}: {}", fileName, e.getMessage());
             System.out.println();
         }
     }
 
-    public void rearProductJson(String fileName, String brandName) {
+    public void readProductJson(String fileName, String brandName) {
         ObjectMapper objectMapper = new ObjectMapper();
-        this.setResource(fileName);
+        this.setProductsResource(fileName);
 
         try (java.io.InputStream inputStream = this.resource.getInputStream()) {
 
@@ -186,7 +212,6 @@ public class Initializer implements CommandLineRunner{
             logger.info("Productos cargados exitosamente: {}", productList.size());
             System.out.println();
         } catch (IOException e) {
-            System.out.println();
             logger.error("Error al procesar el archivo {}: {}", fileName, e.getMessage());
             System.out.println();
         }
@@ -208,7 +233,6 @@ public class Initializer implements CommandLineRunner{
 
         this.authService.adminRegister(adminRequest);
 
-        System.out.println();
         logger.info("Admins registrados exitosamente");
         System.out.println();
     }
