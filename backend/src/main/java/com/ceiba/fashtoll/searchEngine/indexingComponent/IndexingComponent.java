@@ -3,10 +3,10 @@ package com.ceiba.fashtoll.searchEngine.indexingComponent;
 import com.ceiba.fashtoll.utilities.Analyzer;
 import com.ceiba.fashtoll.searchEngine.repositories.SearchTokenRepository;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
-import com.ceiba.fashtoll.worldModel.product.observer.EventType;
-import com.ceiba.fashtoll.worldModel.product.observer.ProductEvent;
-import com.ceiba.fashtoll.worldModel.product.observer.ProductEventPublisher;
-import com.ceiba.fashtoll.worldModel.product.observer.ProductObserver;
+import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
+import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
+import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
+import com.ceiba.fashtoll.worldModel.product.Observer.ProductObserver;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.springframework.stereotype.Component;
 

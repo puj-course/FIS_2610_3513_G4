@@ -73,8 +73,7 @@ public class Product {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImage> images = new ArrayList<>();
+    private List<String> images = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

@@ -3,17 +3,20 @@ package com.ceiba.fashtoll.worldModel.product.services;
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.worldModel.brand.BrandRepository;
+import com.ceiba.fashtoll.worldModel.product.Builder.ProductBuilder;
+import com.ceiba.fashtoll.worldModel.product.Builder.ProductDirector;
+import com.ceiba.fashtoll.worldModel.product.Builder.builders.SimpleProductBuilder;
+import com.ceiba.fashtoll.worldModel.product.Builder.ProductDetails;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
-import com.ceiba.fashtoll.worldModel.product.entities.ProductImage;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
-import com.ceiba.fashtoll.worldModel.product.observer.EventType;
-import com.ceiba.fashtoll.worldModel.product.observer.ProductEvent;
-import com.ceiba.fashtoll.worldModel.product.observer.ProductEventPublisher;
+import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
+import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
+import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
 import com.ceiba.fashtoll.worldModel.tag.Tag;
@@ -24,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,16 +44,21 @@ public class ProductService {
     private final TagRepository tagRepository;
     private final ProductEventPublisher productEventPublisher;
 
+    private ProductBuilder builder;
+    private ProductDirector director;
+
     @Autowired
     public ProductService(ProductRepository productRepository, BrandRepository brandRepository,
                           ProductTypeRepository productTypeRepository, ProductMapper productMapper,
-                          TagRepository tagRepository, ProductEventPublisher productEventPublisher) {
+                          TagRepository tagRepository, ProductEventPublisher productEventPublisher, ProductBuilder builder, ProductDirector director) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.productTypeRepository = productTypeRepository;
         this.productMapper = productMapper;
         this.tagRepository = tagRepository;
         this.productEventPublisher = productEventPublisher;
+        this.builder = builder;
+        this.director = director;
     }
 
     public List<ProductResponse> getAllProducts() {
@@ -71,38 +80,12 @@ public class ProductService {
 
     @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
-        Brand brand = brandRepository.findById(request.getBrandId())
-                .orElseThrow(() -> new ResourceNotFoundException("Marca","id",request.getBrandId()));
+        this.builder = new SimpleProductBuilder();
+        this.director = new ProductDirector(this.builder);
+        this.director.makeSimpleProduct(request);
+        Product product = this.builder.getResult();
 
-        ProductType productType = productTypeRepository.findById(request.getProductTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Tipo de producto","id", request.getProductTypeId()));
-
-        Product product = productMapper.toEntity(request);
-        product.setBrand(brand);
-        product.setProductType(productType);
-
-        if (product.getAvailable() == null) product.setAvailable(true);
-        if (product.getRating() == null) product.setRating(0.0);
-
-        // Imágenes
-        if (request.getImageUrls() != null) {
-            List<ProductImage> images = request.getImageUrls().stream()
-                    .map(url -> {
-                        ProductImage img = new ProductImage();
-                        img.setImageUrl(url);
-                        img.setProduct(product);
-                        return img;
-                    }).collect(Collectors.toList());
-            product.setImages(images);
-        }
-
-        // Tags
-        if (request.getTagIds() != null && !request.getTagIds().isEmpty()) {
-            Set<Tag> tags = new HashSet<>(tagRepository.findAllById(request.getTagIds()));
-            product.setTags(tags);
-        }
-
-        Product savedProduct = productRepository.save(product);
+        Product savedProduct = this.productRepository.save(product);
         productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
 
         this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
@@ -134,10 +117,7 @@ public class ProductService {
         if (request.getImageUrls() != null) {
             product.getImages().clear(); // Se borran las antiguas
             request.getImageUrls().forEach(url -> {
-                ProductImage img = new ProductImage();
-                img.setImageUrl(url);
-                img.setProduct(product);
-                product.getImages().add(img);
+                product.getImages().add(url);
             });
         }
 
@@ -200,14 +180,7 @@ public class ProductService {
 
         // Imágenes
         if (request.getImageUrls() != null) {
-            List<ProductImage> images = request.getImageUrls().stream()
-                    .map(url -> {
-                        ProductImage img = new ProductImage();
-                        img.setImageUrl(url);
-                        img.setProduct(product);
-                        return img;
-                    }).collect(Collectors.toList());
-            product.setImages(images);
+            product.setImages(request.getImageUrls());
         }
 
         // Tags
@@ -240,12 +213,9 @@ public class ProductService {
 
         // Images
         if (request.getImageUrls() != null) {
-            product.getImages().clear();
+            product.getImages().clear(); // Se borran las antiguas
             request.getImageUrls().forEach(url -> {
-                ProductImage img = new ProductImage();
-                img.setImageUrl(url);
-                img.setProduct(product);
-                product.getImages().add(img);
+                product.getImages().add(url);
             });
         }
 
@@ -293,14 +263,7 @@ public class ProductService {
 
             // Imágenes
             if (productDTO.getImageUrls() != null) {
-                List<ProductImage> images = productDTO.getImageUrls().stream()
-                        .map(url -> {
-                            ProductImage img = new ProductImage();
-                            img.setImageUrl(url);
-                            img.setProduct(product);
-                            return img;
-                        }).collect(Collectors.toList());
-                product.setImages(images);
+                product.setImages(productDTO.getImageUrls());
             }
 
             // Tags

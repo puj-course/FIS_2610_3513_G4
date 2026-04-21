@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product.observer;
+package com.ceiba.fashtoll.worldModel.product.Observer;
 
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import lombok.Getter;

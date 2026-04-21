@@ -1,9 +1,9 @@
 package com.ceiba.fashtoll.searchEngine;
 
-import com.ceiba.fashtoll.worldModel.product.observer.EventType;
-import com.ceiba.fashtoll.worldModel.product.observer.ProductEvent;
-import com.ceiba.fashtoll.worldModel.product.observer.ProductEventPublisher;
-import com.ceiba.fashtoll.worldModel.product.observer.ProductObserver;
+import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
+import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
+import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
+import com.ceiba.fashtoll.worldModel.product.Observer.ProductObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

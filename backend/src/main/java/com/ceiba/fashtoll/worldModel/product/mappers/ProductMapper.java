@@ -39,9 +39,7 @@ public class ProductMapper {
 
         if (product.getImages() != null) {
             response.setImageUrls(
-                    product.getImages().stream()
-                            .map(ProductImage::getImageUrl)
-                            .collect(Collectors.toList())
+                    product.getImages()
             );
         }
 
