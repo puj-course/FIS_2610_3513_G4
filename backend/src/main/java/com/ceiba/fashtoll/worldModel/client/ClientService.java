@@ -4,11 +4,15 @@ import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundExcep
 import com.ceiba.fashtoll.security.auth.AuthService;
 import com.ceiba.fashtoll.security.auth.dtos.RegisterRequest;
 import com.ceiba.fashtoll.utilities.enums.Role;
-import com.ceiba.fashtoll.worldModel.brand.dtos.BrandDTO;
 import com.ceiba.fashtoll.worldModel.client.dtos.*;
+import com.ceiba.fashtoll.worldModel.user.User;
+import com.ceiba.fashtoll.worldModel.user.UserService;
+import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -21,12 +25,14 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
     private final AuthService authService;
+    private final UserService userService;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, AuthService authService) {
+    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, AuthService authService, UserService userService) {
         this.clientRepository = clientRepository;
         this.clientMapper = clientMapper;
         this.authService = authService;
+        this.userService = userService;
     }
 
     public List<ClientResponse> getAllClients() {
@@ -97,6 +103,12 @@ public class ClientService {
         this.logger.info("Se actualizo el perfil del cliente '" + savedClient.getName() + "' con id: " + id);
 
         return clientMapper.toProfileResponse(savedClient);
+    }
+
+    public ResponseEntity<Void> changePassword(Authentication authentication, PasswordChangeRequestDTO request) {
+        User user = (User) authentication.getPrincipal();
+        userService.changePassword(user.getId(), request);
+        return ResponseEntity.noContent().build();
     }
 
     public void injectClientsFromJSON(List<ClientDTO>  clientDTOs) {

@@ -4,16 +4,22 @@ import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundExcep
 import com.ceiba.fashtoll.security.auth.AuthService;
 import com.ceiba.fashtoll.security.auth.dtos.RegisterRequest;
 import com.ceiba.fashtoll.utilities.enums.Role;
-import com.ceiba.fashtoll.worldModel.admin.dtos.AdminOperationResponse;
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
-import com.ceiba.fashtoll.worldModel.user.UserRepository;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
+import com.ceiba.fashtoll.worldModel.product.services.ProductService;
+import com.ceiba.fashtoll.worldModel.user.User;
+import com.ceiba.fashtoll.worldModel.user.UserService;
+import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,12 +30,16 @@ public class BrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
     private final AuthService authService;
+    private final UserService userService;
+    private final ProductService productService;
 
     @Autowired
-    public BrandService(BrandRepository brandRepository, BrandMapper brandMapper, AuthService authService) {
+    public BrandService(BrandRepository brandRepository, BrandMapper brandMapper, AuthService authService, UserService userService, ProductService productService) {
         this.brandRepository = brandRepository;
         this.brandMapper = brandMapper;
         this.authService = authService;
+        this.userService = userService;
+        this.productService = productService;
     }
 
     public List<BrandResponse> getAllBrands() {
@@ -122,6 +132,40 @@ public class BrandService {
         this.logger.info("Se actualizo el perfil de la marca '" + brand.getName() + "' con id: " + brand.getId());
 
         return brandMapper.toProfileResponse(savedBrand);
+    }
+
+    public boolean changePassword(Authentication authentication, PasswordChangeRequestDTO request){
+        User user = (User) authentication.getPrincipal();
+        userService.changePassword(user.getId(), request);
+
+        return true;
+    }
+
+    public List<ProductResponse> getMyProducts(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return productService.getProductsByBrand(user.getId());
+    }
+
+    public ProductResponse getMyProduct(Authentication authentication, Long id) {
+        User user = (User) authentication.getPrincipal();
+        return productService.getProductByBrand(user.getId(), id);
+    }
+
+    public ResponseEntity<ProductResponse> createMyProduct(Authentication authentication, ProductCreateRequest request) {
+        User user = (User) authentication.getPrincipal();
+        ProductResponse newProduct = productService.createBrandProduct(user.getId(), request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
+    }
+
+    public ProductResponse updateMyProduct(Authentication authentication, Long id, ProductUpdateRequest request) {
+        User user = (User) authentication.getPrincipal();
+        return productService.updateBrandProduct(user.getId(), id, request);
+    }
+
+    public ResponseEntity<Void> deleteMyProduct(Authentication authentication, Long id) {
+        User user = (User) authentication.getPrincipal();
+        productService.deleteBrandProduct(user.getId(), id);
+        return ResponseEntity.noContent().build();
     }
 
     @Transactional

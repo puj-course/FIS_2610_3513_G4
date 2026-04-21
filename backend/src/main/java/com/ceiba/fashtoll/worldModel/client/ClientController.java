@@ -3,7 +3,6 @@ package com.ceiba.fashtoll.worldModel.client;
 import com.ceiba.fashtoll.worldModel.client.dtos.*;
 import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
 import com.ceiba.fashtoll.worldModel.user.User;
-import com.ceiba.fashtoll.worldModel.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +19,10 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
-    private final UserService userService;
 
     @Autowired
-    public ClientController(ClientService clientService, UserService userService) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
-        this.userService = userService;
     }
 
     @GetMapping("/profile")
@@ -44,9 +41,7 @@ public class ClientController {
     @PutMapping("/password")
     public ResponseEntity<Void> changePassword(Authentication authentication,
                                                @Valid @RequestBody PasswordChangeRequestDTO request) {
-        User user = (User) authentication.getPrincipal();
-        userService.changePassword(user.getId(), request);
-        return ResponseEntity.noContent().build();
+        return this.clientService.changePassword(authentication, request);
     }
 
     @GetMapping
