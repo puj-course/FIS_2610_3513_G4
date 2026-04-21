@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Brand extends User {
     @Column(name = "picture_url", length = 500)
-    private String pictureUrl;
+    private String pictureURL;
 
     @Column(name = "link_official", length = 255)
     private String linkOfficial;

@@ -1,0 +1,167 @@
+[
+  {
+    "name": "Tenis Stan Smith Clásicos",
+    "description": "Un ícono del calzado deportivo con un diseño minimalista, parte superior de cuero sintético y materiales reciclados de alto rendimiento.",
+    "price": 649950.00,
+    "generalFit": "REGULAR",
+    "gender": "UNISEX",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/tenis-stan-smith-unisex/M20325.html",
+    "productTypeId": 13
+  },
+  {
+    "name": "Tenis Samba OG",
+    "description": "Nacidos en las canchas de fútbol, estos tenis son un pilar del estilo urbano con su clásica puntera de gamuza y suela de caucho color caramelo.",
+    "price": 499950.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "BLACK",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/tenis-samba-og/B75806.html",
+    "productTypeId": 13
+  },
+  {
+    "name": "Camiseta Adicolor Classics 3 Tiras",
+    "description": "Camiseta de algodón suave con el estilo auténtico de las 3 tiras en las mangas y el logo del Trifolio bordado en el pecho.",
+    "price": 149950.00,
+    "generalFit": "SLIM",
+    "gender": "MALE",
+    "color": "BLUE",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/camiseta-adicolor-classics-3-tiras/GN3495.html",
+    "productTypeId": 1
+  },
+  {
+    "name": "Hoodie Adicolor Essentials Fleece",
+    "description": "Buzo con capucha confeccionado en felpa francesa suave para una comodidad absoluta durante todo el día.",
+    "price": 279950.00,
+    "generalFit": "LOOSE",
+    "gender": "UNISEX",
+    "color": "GREY",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/hoodie-adicolor-essentials/HK0100.html",
+    "productTypeId": 18
+  },
+  {
+    "name": "Pantalón de Sudadera Beckenbauer",
+    "description": "Inspirado en un diseño de los archivos de 1967, este pantalón de sudadera luce un corte ajustado y planchado frontal.",
+    "price": 329950.00,
+    "generalFit": "SLIM",
+    "gender": "MALE",
+    "color": "ORANGE",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/pantalon-de-sudadera-adicolor-classics-beckenbauer/HB9532.html",
+    "productTypeId": 12
+  },
+  {
+    "name": "Chaqueta Tiro 23 League",
+    "description": "Chaqueta deportiva con tecnología de absorción AEROREADY, ideal para entrenamientos intensos o para el uso diario.",
+    "price": 249950.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "NAVY",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/chaqueta-tiro-23-league/HS3487.html",
+    "productTypeId": 19
+  },
+  {
+    "name": "Tenis Superstar",
+    "description": "Los legendarios tenis de la puntera de caucho con relieve que han definido la cultura urbana durante décadas.",
+    "price": 449950.00,
+    "generalFit": "REGULAR",
+    "gender": "UNISEX",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/tenis-superstar/EG4958.html",
+    "productTypeId": 13
+  },
+  {
+    "name": "Gorra Trefoil Baseball",
+    "description": "Gorra de béisbol clásica con el logo del Trifolio bordado y tira trasera ajustable para un calce perfecto.",
+    "price": 89950.00,
+    "generalFit": "REGULAR",
+    "gender": "UNISEX",
+    "color": "BLACK",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/gorra-trefoil-baseball/EC3603.html",
+    "productTypeId": 27
+  },
+  {
+    "name": "Shorts Adicolor Classics 3 Tiras",
+    "description": "Shorts deportivos cómodos fabricados en tejido de punto de algodón suave, perfectos para el descanso o la calle.",
+    "price": 129950.00,
+    "generalFit": "REGULAR",
+    "gender": "FEMALE",
+    "color": "BLACK",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/shorts-adicolor-classics-3-tiras/GN3504.html",
+    "productTypeId": 9
+  },
+  {
+    "name": "Tenis Ultraboost Light",
+    "description": "Nuestros Ultraboost más ligeros hasta la fecha, con cápsulas BOOST que retornan energía infinita en cada paso.",
+    "price": 899950.00,
+    "generalFit": "SLIM",
+    "gender": "MALE",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/tenis-ultraboost-light/HQ6339.html",
+    "productTypeId": 13
+  },
+  {
+    "name": "Camiseta Polo Piqué",
+    "description": "Un polo clásico con cuello acanalado y un tejido de piqué de algodón que aporta una textura elegante y deportiva.",
+    "price": 179950.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/camiseta-polo-pique/HN0403.html",
+    "productTypeId": 4
+  },
+  {
+    "name": "Rompevientos Adicolor Classics",
+    "description": "Chaqueta ligera diseñada para protegerte del viento con un estilo retro inspirado en los años 80.",
+    "price": 349950.00,
+    "generalFit": "LOOSE",
+    "gender": "MALE",
+    "color": "BLACK",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/rompevientos-adicolor-classics/GN2851.html",
+    "productTypeId": 22
+  },
+  {
+    "name": "Tenis Gazelle",
+    "description": "La reedición definitiva de los Gazelle de 1991, manteniendo las texturas y materiales del modelo original en gamuza.",
+    "price": 499950.00,
+    "generalFit": "REGULAR",
+    "gender": "UNISEX",
+    "color": "RED",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/tenis-gazelle/BB5476.html",
+    "productTypeId": 13
+  },
+  {
+    "name": "Camiseta Own the Run",
+    "description": "Camiseta de running técnica con paneles de malla transpirable y detalles reflectantes para correr con poca luz.",
+    "price": 139950.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "GREY",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/camiseta-own-the-run/HB7454.html",
+    "productTypeId": 1
+  },
+  {
+    "name": "Vestido Adicolor Classics",
+    "description": "Vestido tipo camiseta con corte ajustado que celebra la herencia deportiva de Adidas con comodidad moderna.",
+    "price": 199950.00,
+    "generalFit": "SLIM",
+    "gender": "FEMALE",
+    "color": "BLACK",
+    "available": true,
+    "linkProduct": "https://www.adidas.co/vestido-adicolor-classics-tank/H06629.html",
+    "productTypeId": 28
+  }
+]

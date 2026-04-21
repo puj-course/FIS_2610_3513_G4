@@ -21,5 +21,4 @@ public class ProductEvent {
         this.product = product;
         this.type = type;
     }
-
 }

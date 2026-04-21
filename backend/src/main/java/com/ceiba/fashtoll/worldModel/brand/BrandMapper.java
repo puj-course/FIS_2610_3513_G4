@@ -11,7 +11,7 @@ public class BrandMapper {
         BrandResponse response = new BrandResponse();
         response.setId(brand.getId());
         response.setName(brand.getName());
-        response.setPictureUrl(brand.getPictureUrl());
+        response.setPictureURL(brand.getPictureURL());
         response.setLinkOfficial(brand.getLinkOfficial());
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
@@ -26,7 +26,7 @@ public class BrandMapper {
         response.setId(brand.getId());
         response.setName(brand.getName());
         response.setEmail(brand.getEmail());
-        response.setPictureUrl(brand.getPictureUrl());
+        response.setPictureURL(brand.getPictureURL());
         response.setLinkOfficial(brand.getLinkOfficial());
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
@@ -40,7 +40,7 @@ public class BrandMapper {
         BrandProfileResponse response = new BrandProfileResponse();
         response.setName(brand.getName());
         response.setEmail(brand.getEmail());
-        response.setPictureUrl(brand.getPictureUrl());
+        response.setPictureURL(brand.getPictureURL());
         response.setLinkOfficial(brand.getLinkOfficial());
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
@@ -53,7 +53,7 @@ public class BrandMapper {
         if (request == null) return null;
         Brand brand = new Brand();
         brand.setName(request.getName());
-        brand.setPictureUrl(request.getPictureUrl());
+        brand.setPictureURL(request.getPictureURL());
         brand.setLinkOfficial(request.getLinkOfficial());
 
         return brand;
@@ -62,14 +62,14 @@ public class BrandMapper {
     public void updateEntityFromAdmin(BrandAdminUpdateRequest request, Brand brand) {
         if (request == null || brand == null) return;
         brand.setName(request.getName());
-        brand.setPictureUrl(request.getPictureUrl());
+        brand.setPictureURL(request.getPictureURL());
         brand.setLinkOfficial(request.getLinkOfficial());
         brand.setIsVerified(request.getIsVerified());
     }
     public void updateEntityFromProfile(BrandProfileUpdateRequest request, Brand brand) {
         if (request == null || brand == null) return;
         brand.setName(request.getName());
-        brand.setPictureUrl(request.getPictureUrl());
+        brand.setPictureURL(request.getPictureURL());
         brand.setLinkOfficial(request.getLinkOfficial());
     }
 }

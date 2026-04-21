@@ -18,6 +18,8 @@ import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
 import com.ceiba.fashtoll.worldModel.tag.Tag;
 import com.ceiba.fashtoll.worldModel.tag.TagRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
     private final ProductTypeRepository productTypeRepository;
@@ -50,6 +53,8 @@ public class ProductService {
     }
 
     public List<ProductResponse> getAllProducts() {
+        this.logger.info("Se devolvieron todos los productos");
+
         return productRepository.findAll().stream()
                 .map(productMapper::toResponse)
                 .collect(Collectors.toList());
@@ -58,6 +63,9 @@ public class ProductService {
     public ProductResponse getProductById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", id));
+
+        this.logger.info("Se devolvio el producto '" + product.getName() + "' con id: " + id);
+
         return productMapper.toResponse(product);
     }
 
@@ -96,6 +104,10 @@ public class ProductService {
 
         Product savedProduct = productRepository.save(product);
         productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se creo el producto '" + savedProduct.getName() + "' con id: " + savedProduct.getId());
+
         return productMapper.toResponse(savedProduct);
     }
 
@@ -137,6 +149,10 @@ public class ProductService {
 
         Product savedProduct = productRepository.save(product);
         productEventPublisher.notify(new ProductEvent(savedProduct, EventType.UPDATED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se actualizo el producto '" + savedProduct.getName() + "' con id: " + savedProduct.getId());
+
         return productMapper.toResponse(savedProduct);
     }
 
@@ -145,9 +161,14 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", id));
         productRepository.delete(product);
         productEventPublisher.notify(new ProductEvent(product, EventType.DELETED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se elimino el producto '" + product.getName() + "' con id: " + product.getId());
     }
 
     public List<ProductResponse> getProductsByBrand(Long brandId) {
+        this.logger.info("Se devolvieron todos los productos de la marca con id: " + brandId);
+
         return productRepository.findByBrandId(brandId).stream()
                 .map(productMapper::toResponse)
                 .collect(Collectors.toList());
@@ -156,6 +177,8 @@ public class ProductService {
     public ProductResponse getProductByBrand(Long brandId, Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", productId));
+
+        this.logger.info("Se devolvio el producto '" + product.getName() + "' con id: " + product.getId() + " de la marca con id: " + brandId);
 
         return productMapper.toResponse(product);
     }
@@ -195,6 +218,10 @@ public class ProductService {
 
         Product savedProduct = productRepository.save(product);
         productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se creo el producto '" + product.getName() + "' con id: " + product.getId() + " de la marca '" + brand.getName() + "'");
+
         return productMapper.toResponse(savedProduct);
     }
 
@@ -230,6 +257,10 @@ public class ProductService {
 
         Product savedProduct = productRepository.save(product);
         productEventPublisher.notify(new ProductEvent(savedProduct, EventType.UPDATED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se actualizo el producto '" + product.getName() + "' con id: " + product.getId() + " de la marca con id: " + brandId);
+
         return productMapper.toResponse(savedProduct);
     }
 
@@ -239,5 +270,47 @@ public class ProductService {
 
         productRepository.delete(product);
         productEventPublisher.notify(new ProductEvent(product, EventType.DELETED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se elimino el producto '" + product.getName() + "' con id: " + product.getId() + " de la marca con id: " + brandId);
+    }
+
+    @Transactional
+    public void injectBrandProductFromJson(String brandName, List<ProductCreateRequest> productsDTOs) {
+        Brand brand = brandRepository.findByName(brandName)
+                .orElseThrow(() -> new ResourceNotFoundException("Brand","id", brandName));
+
+        for(ProductCreateRequest productDTO : productsDTOs) {
+            ProductType productType = this.productTypeRepository.findById(productDTO.getProductTypeId())
+                    .orElseThrow(() -> new ResourceNotFoundException("ProductType","id", productDTO.getProductTypeId()));
+
+            Product product = this.productMapper.toEntity(productDTO);
+            product.setBrand(brand);
+            product.setProductType(productType);
+
+            if (product.getAvailable() == null) product.setAvailable(true);
+            if (product.getRating() == null) product.setRating(0.0);
+
+            // Imágenes
+            if (productDTO.getImageUrls() != null) {
+                List<ProductImage> images = productDTO.getImageUrls().stream()
+                        .map(url -> {
+                            ProductImage img = new ProductImage();
+                            img.setImageUrl(url);
+                            img.setProduct(product);
+                            return img;
+                        }).collect(Collectors.toList());
+                product.setImages(images);
+            }
+
+            // Tags
+            if (productDTO.getTagIds() != null && !productDTO.getTagIds().isEmpty()) {
+                Set<Tag> tags = new HashSet<>(tagRepository.findAllById(productDTO.getTagIds()));
+                product.setTags(tags);
+            }
+
+            Product savedProduct = this.productRepository.save(product);
+            this.productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
+        }
     }
 }

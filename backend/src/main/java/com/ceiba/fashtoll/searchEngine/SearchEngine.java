@@ -1,6 +1,5 @@
 package com.ceiba.fashtoll.searchEngine;
 
-import com.ceiba.fashtoll.searchEngine.crawlingComponent.CrawlingComponent;
 import com.ceiba.fashtoll.searchEngine.indexingComponent.IndexingComponent;
 import com.ceiba.fashtoll.searchEngine.rankingComponent.RankingComponent;
 import com.ceiba.fashtoll.utilities.Analyzer;
@@ -13,15 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SearchEngine {         //la clase implementa el patron estructural Façade
-    private CrawlingComponent crawlingComponent;
+public class SearchEngine {
     private IndexingComponent indexingComponent;
     private RankingComponent rankingComponent;
     private final ProductRepository productRepository;
 
     @Autowired
-    public SearchEngine(CrawlingComponent crawlingComponent, IndexingComponent indexingComponent, RankingComponent rankingComponent, Analyzer analyzer, ProductRepository productRepository) {
-        this.crawlingComponent = crawlingComponent;
+    public SearchEngine(IndexingComponent indexingComponent, RankingComponent rankingComponent, Analyzer analyzer, ProductRepository productRepository) {
         this.indexingComponent = indexingComponent;
         this.rankingComponent = rankingComponent;
         this.productRepository = productRepository;

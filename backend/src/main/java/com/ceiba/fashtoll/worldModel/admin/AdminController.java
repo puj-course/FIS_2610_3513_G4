@@ -1,5 +1,6 @@
-package com.ceiba.fashtoll.worldModel.user.controllers;
+package com.ceiba.fashtoll.worldModel.admin;
 
+import com.ceiba.fashtoll.worldModel.admin.dtos.AdminOperationResponse;
 import com.ceiba.fashtoll.worldModel.brand.BrandService;
 import com.ceiba.fashtoll.worldModel.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,4 +28,10 @@ public class AdminController {
         brandService.verifyBrand(id, verified);
         return ResponseEntity.noContent().build();
     }
+
+    /*
+    @PostMapping("brands/")
+    public AdminOperationResponse injectBrandsFromJSON(@RequestBody String json){
+        return this.brandService.injectBrandsFromJSON(json);
+    }*/
 }

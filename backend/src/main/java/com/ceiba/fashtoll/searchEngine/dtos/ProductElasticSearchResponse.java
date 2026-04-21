@@ -1,6 +1,5 @@
 package com.ceiba.fashtoll.searchEngine.dtos;
 
-import com.ceiba.fashtoll.searchEngine.ProductDocument;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

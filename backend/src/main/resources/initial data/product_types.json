@@ -1,0 +1,37 @@
+[
+  { "name": "T-Shirts", "category": "TOPS" },
+  { "name": "Crop Tops", "category": "TOPS" },
+  { "name": "Blouses", "category": "TOPS" },
+  { "name": "Polo Shirts", "category": "TOPS" },
+  { "name": "Tank Tops", "category": "TOPS" },
+  { "name": "Graphic Tees", "category": "TOPS" },
+
+  { "name": "Jeans", "category": "BOTTOMS" },
+  { "name": "Cargo Pants", "category": "BOTTOMS" },
+  { "name": "Shorts", "category": "BOTTOMS" },
+  { "name": "Skirts", "category": "BOTTOMS" },
+  { "name": "Leggings", "category": "BOTTOMS" },
+  { "name": "Joggers", "category": "BOTTOMS" },
+
+  { "name": "Tennis Shoes", "category": "FOOTWEAR" },
+  { "name": "Boots", "category": "FOOTWEAR" },
+  { "name": "Sandals", "category": "FOOTWEAR" },
+  { "name": "Heels", "category": "FOOTWEAR" },
+  { "name": "Loafers", "category": "FOOTWEAR" },
+
+  { "name": "Hoodies", "category": "OUTERWEAR" },
+  { "name": "Jackets", "category": "OUTERWEAR" },
+  { "name": "Coats", "category": "OUTERWEAR" },
+  { "name": "Blazers", "category": "OUTERWEAR" },
+  { "name": "Windbreakers", "category": "OUTERWEAR" },
+  { "name": "Cardigans", "category": "OUTERWEAR" },
+
+  { "name": "Sunglasses", "category": "ACCESSORIES" },
+  { "name": "Watches", "category": "ACCESSORIES" },
+  { "name": "Belts", "category": "ACCESSORIES" },
+  { "name": "Caps", "category": "ACCESSORIES" },
+
+  { "name": "Dresses", "category": "FULL_BODY" },
+  { "name": "Jumpsuits", "category": "FULL_BODY" },
+  { "name": "Overalls", "category": "FULL_BODY" }
+]
