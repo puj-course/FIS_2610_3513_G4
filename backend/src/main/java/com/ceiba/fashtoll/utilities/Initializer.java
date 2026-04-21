@@ -26,7 +26,7 @@ import java.io.IOException;
 
 @Component
 public class Initializer implements CommandLineRunner{
-    private static final Logger logger = LoggerFactory.getLogger(Initializer.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private ResourceLoader resourceLoader;
     private Resource resource;

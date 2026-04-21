@@ -15,6 +15,8 @@ import com.ceiba.fashtoll.security.jwt.JwtProvider;
 import com.ceiba.fashtoll.worldModel.user.User;
 import com.ceiba.fashtoll.worldModel.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final UserRepository userRepository;
     private final ClientRepository clientRepository;
     private final BrandRepository brandRepository;
@@ -57,6 +60,8 @@ public class AuthService {
 
             token = jwtProvider.generateToken(client);
 
+            this.logger.info("El cliente '" + client.getName() + "' con email '" + client.getEmail() + "' se registro correctamente");
+
             return AuthResponse.builder()
                     .token(token)
                     .email(client.getEmail())
@@ -75,6 +80,8 @@ public class AuthService {
             brandRepository.save(brand);
 
             token = jwtProvider.generateToken(brand);
+
+            this.logger.info("La marca '" + brand.getName() + "' con email '" + brand.getEmail() + "' se registro correctamente");
 
             return AuthResponse.builder()
                     .token(token)
@@ -128,6 +135,9 @@ public class AuthService {
                 .orElseThrow(() -> new ResourceNotFoundException("email", "la base de datos de usuarios"));
 
         String token = jwtProvider.generateToken(user);
+
+        this.logger.info("El usuario '" + user.getName() + "' con email '" + user.getEmail() + "' inicio sesion.");
+
         return AuthResponse.builder()
                 .token(token)
                 .email(user.getEmail())

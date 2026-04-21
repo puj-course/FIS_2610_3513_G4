@@ -7,6 +7,8 @@ import com.ceiba.fashtoll.utilities.enums.Role;
 import com.ceiba.fashtoll.worldModel.admin.dtos.AdminOperationResponse;
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
 import com.ceiba.fashtoll.worldModel.user.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class BrandService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
     private final AuthService authService;
@@ -30,12 +33,16 @@ public class BrandService {
     }
 
     public List<BrandResponse> getAllBrands() {
+        this.logger.info("Se devolvieron todas las marcas");
+
         return brandRepository.findAll().stream()
                 .map(brandMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
     public List<BrandPublicResponse> getAllPublicBrands() {
+        this.logger.info("Se devolvieron todas las marcas publicas");
+
         return brandRepository.findAll().stream()
                 .map(brandMapper::toPublicResponse)
                 .collect(Collectors.toList());
@@ -45,12 +52,16 @@ public class BrandService {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
 
+        this.logger.info("Se devolvio la marca '" + brand.getName() + "' con id: " + brand.getId());
+
         return brandMapper.toResponse(brand);
     }
 
     public BrandPublicResponse getPublicBrandById(Long id) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
+
+        this.logger.info("Se devolvio la marca publica '" + brand.getName() + "' con id: " + brand.getId());
 
         return brandMapper.toPublicResponse(brand);
     }
@@ -65,6 +76,8 @@ public class BrandService {
         brandRepository.save(brand);
         //return brandMapper.toResponse(savedBrand);
 
+        this.logger.info("Se creo la marca '" + brand.getName() + "' con id: " + brand.getId());
+
         return brandMapper.toResponse(brand);
     }
 
@@ -76,6 +89,8 @@ public class BrandService {
         brandMapper.updateEntityFromAdmin(request, brand);
         Brand savedBrand = brandRepository.save(brand);
 
+        this.logger.info("Se actualizo la marca '" + brand.getName() + "' con id: " + brand.getId());
+
         return brandMapper.toResponse(savedBrand);
     }
 
@@ -83,11 +98,15 @@ public class BrandService {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
         brandRepository.delete(brand);
+
+        this.logger.info("Se elimino la marca '" + brand.getName() + "' con id: " + brand.getId());
     }
 
     public BrandProfileResponse getProfile(Long brandId) {
         Brand brand = brandRepository.findById(brandId)
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id", brandId));
+
+        this.logger.info("Se devolvio el perfil de la marca '" + brand.getName() + "' con id: " + brand.getId());
 
         return brandMapper.toProfileResponse(brand);
     }
@@ -100,6 +119,8 @@ public class BrandService {
         brandMapper.updateEntityFromProfile(request, brand);
         Brand savedBrand = brandRepository.save(brand);
 
+        this.logger.info("Se actualizo el perfil de la marca '" + brand.getName() + "' con id: " + brand.getId());
+
         return brandMapper.toProfileResponse(savedBrand);
     }
 
@@ -109,6 +130,8 @@ public class BrandService {
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
         brand.setIsVerified(verified);
         brandRepository.save(brand);
+
+        this.logger.info("Se verifico la  marca '" + brand.getName() + "' con id: " + brand.getId());
     }
 
     public void injectBrandsFromJSON(List<BrandDTO>  brandDTOs) {

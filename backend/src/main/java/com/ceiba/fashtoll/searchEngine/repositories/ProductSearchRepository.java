@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.searchEngine.repositories;
 
-import com.ceiba.fashtoll.searchEngine.ProductDocument;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductDocument;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 

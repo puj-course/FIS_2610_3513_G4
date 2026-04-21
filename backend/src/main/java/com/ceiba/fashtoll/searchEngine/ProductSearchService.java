@@ -2,14 +2,15 @@ package com.ceiba.fashtoll.searchEngine;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductDocument;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchResponse;
 import com.ceiba.fashtoll.searchEngine.repositories.ProductSearchRepository;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
-import com.ceiba.fashtoll.worldModel.product.entities.ProductImage;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchRequest;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchResponse;
-import com.ceiba.fashtoll.worldModel.tag.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
@@ -18,7 +19,6 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductSearchService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ProductSearchRepository productSearchRepository;
     private final ElasticsearchOperations elasticsearchOperations;
     private final ProductRepository productRepository;
@@ -52,6 +53,8 @@ public class ProductSearchService {
 
             searchResponseProducts.add(nP);
         }
+
+        this.logger.info("Se buscaron productos con el query '" + query + "'");
 
         return new ProductSearchResponse(searchResponseProducts);
     }
@@ -160,6 +163,8 @@ public class ProductSearchService {
         long totalResults = searchHits.getTotalHits();
         int totalPages = (int) Math.ceil((double) totalResults / request.getSize());
 
+        this.logger.info("Se buscaron productos con el query '" + request.toString() + "' con elastic search");
+
         return ProductElasticSearchResponse.builder()
                 .products(products)
                 .currentPage(request.getPage())
@@ -176,6 +181,8 @@ public class ProductSearchService {
     public void indexProduct(Product product) {
         ProductDocument document = mapToDocument(product);
         productSearchRepository.save(document);
+
+        this.logger.info("Se indexo el producto '" + product.getName() + "' con el id: " + product.getId());
     }
 
     /**
@@ -184,6 +191,8 @@ public class ProductSearchService {
      */
     public void deleteProduct(Long id) {
         productSearchRepository.deleteById(id);
+
+        this.logger.info("Se elimino el producto con id: " + id + " del repositorio de elastic search");
     }
 
     /**
@@ -200,12 +209,16 @@ public class ProductSearchService {
                 .map(this::mapToDocument)
                 .collect(Collectors.toList());
         productSearchRepository.saveAll(documents);
+
+        this.logger.info("Se reindexaron todos los productos del repositorio de elastic search");
     }
 
     /**
      * Mapea una entidad JPA Product a un ProductDocument de Elasticsearch
      */
     private ProductDocument mapToDocument(Product product) {
+        this.logger.info("Se mapeo el producto '" + product.getName() + "' con el id: " + product.getId() + " a un 'ProductDocument'");
+
         return ProductDocument.builder()
                 .id(product.getId())
                 .name(product.getName())
