@@ -238,9 +238,7 @@ public class ProductSearchService {
                 .rating(product.getRating())
                 .linkProduct(product.getLinkProduct())
                 .imageUrls(product.getImages() != null
-                        ? product.getImages().stream()
-                            .map(img -> img.getImageUrl())
-                            .collect(Collectors.toList())
+                        ? product.getImages()
                         : List.of())
                 .tags(product.getTags() != null
                         ? product.getTags().stream()

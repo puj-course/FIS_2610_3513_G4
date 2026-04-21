@@ -20,6 +20,7 @@ public class ProductDirector {
     }
 
     public void makeSimpleProduct(ProductCreateRequest request){
+        this.builder.reset();
         boolean available = false;
         if(request.getAvailable() != null) available = request.getAvailable();
 

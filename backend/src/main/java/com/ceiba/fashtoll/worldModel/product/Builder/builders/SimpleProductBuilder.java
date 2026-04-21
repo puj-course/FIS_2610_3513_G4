@@ -14,22 +14,19 @@ import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Scope("prototype")
 public class SimpleProductBuilder implements ProductBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final BrandRepository brandRepository;
     private final ProductTypeRepository productTypeRepository;
     private Product product;
-
-    public SimpleProductBuilder(){
-        this.brandRepository = null;
-        this.productTypeRepository = null;
-    }
 
     @Autowired
     public SimpleProductBuilder(BrandRepository brandRepository, ProductTypeRepository productTypeRepository) {

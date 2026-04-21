@@ -23,6 +23,7 @@ import com.ceiba.fashtoll.worldModel.tag.Tag;
 import com.ceiba.fashtoll.worldModel.tag.TagRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,20 +45,20 @@ public class ProductService {
     private final TagRepository tagRepository;
     private final ProductEventPublisher productEventPublisher;
 
-    private ProductBuilder builder;
+    @Autowired
+    private ObjectProvider<ProductBuilder> builderProvider;
     private ProductDirector director;
 
     @Autowired
     public ProductService(ProductRepository productRepository, BrandRepository brandRepository,
                           ProductTypeRepository productTypeRepository, ProductMapper productMapper,
-                          TagRepository tagRepository, ProductEventPublisher productEventPublisher, ProductBuilder builder, ProductDirector director) {
+                          TagRepository tagRepository, ProductEventPublisher productEventPublisher, ProductDirector director) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.productTypeRepository = productTypeRepository;
         this.productMapper = productMapper;
         this.tagRepository = tagRepository;
         this.productEventPublisher = productEventPublisher;
-        this.builder = builder;
         this.director = director;
     }
 
@@ -80,10 +81,11 @@ public class ProductService {
 
     @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
-        this.builder = new SimpleProductBuilder();
-        this.director = new ProductDirector(this.builder);
+
+        ProductBuilder builder = builderProvider.getObject();
+        this.director = new ProductDirector(builder);
         this.director.makeSimpleProduct(request);
-        Product product = this.builder.getResult();
+        Product product = builder.getResult();
 
         Product savedProduct = this.productRepository.save(product);
         productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
