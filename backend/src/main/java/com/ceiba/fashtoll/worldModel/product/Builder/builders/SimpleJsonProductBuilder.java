@@ -16,10 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
-@Component
+@Component("simpleJsonBuilder")
 @Scope("prototype")
 public class SimpleJsonProductBuilder implements ProductBuilder {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

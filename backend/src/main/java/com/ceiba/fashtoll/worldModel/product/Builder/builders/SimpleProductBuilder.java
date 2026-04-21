@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+@Component("simpleBuilder")
 @Scope("prototype")
 public class SimpleProductBuilder implements ProductBuilder {
 

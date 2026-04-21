@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,22 +42,24 @@ public class ProductService {
     private final ProductMapper productMapper;
     private final TagRepository tagRepository;
     private final ProductEventPublisher productEventPublisher;
-
     @Autowired
-    private ObjectProvider<ProductBuilder> builderProvider;
+    @Qualifier("simpleBuilder")
+    private ObjectProvider<ProductBuilder> simpleBuilderProvider;
+    @Autowired
+    @Qualifier("simpleJsonBuilder")
+    private ObjectProvider<ProductBuilder> simpleJsonBuilderProvider;
     private ProductDirector director;
 
     @Autowired
     public ProductService(ProductRepository productRepository, BrandRepository brandRepository,
                           ProductTypeRepository productTypeRepository, ProductMapper productMapper,
-                          TagRepository tagRepository, ProductEventPublisher productEventPublisher, ProductDirector director) {
+                          TagRepository tagRepository, ProductEventPublisher productEventPublisher) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.productTypeRepository = productTypeRepository;
         this.productMapper = productMapper;
         this.tagRepository = tagRepository;
         this.productEventPublisher = productEventPublisher;
-        this.director = director;
     }
 
     public List<ProductResponse> getAllProducts() {
@@ -79,7 +82,7 @@ public class ProductService {
     @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
 
-        ProductBuilder builder = builderProvider.getObject();
+        ProductBuilder builder = simpleBuilderProvider.getObject();
         this.director = new ProductDirector(builder);
         this.director.makeSimpleProduct(request);
         Product product = builder.getResult();
@@ -164,7 +167,7 @@ public class ProductService {
 
     @Transactional
     public ProductResponse createBrandProduct(Long brandId, ProductCreateRequest request) {
-        ProductBuilder builder = builderProvider.getObject();
+        ProductBuilder builder = simpleBuilderProvider.getObject();
         this.director = new ProductDirector(builder);
         this.director.makeSimpleProduct(request);
         Product product = builder.getResult();
@@ -233,7 +236,7 @@ public class ProductService {
         this.logger.info("Este builder no asocia Brand al producto, pues busca la marca una sola vez");
 
         for(ProductCreateRequest productDTO : productsDTOs) {
-            ProductBuilder builder = builderProvider.getObject();
+            ProductBuilder builder = simpleJsonBuilderProvider.getObject();
             this.director = new ProductDirector(builder);
             this.director.makeJsonSimpleProduct(productDTO, brand);
             Product product = builder.getResult();

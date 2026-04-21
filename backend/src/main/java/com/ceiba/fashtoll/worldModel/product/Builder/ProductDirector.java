@@ -3,6 +3,7 @@ package com.ceiba.fashtoll.worldModel.product.Builder;
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ public class ProductDirector {
     private ProductBuilder builder;
 
     @Autowired
-    public ProductDirector(ProductBuilder builder) {
+    public ProductDirector(@Qualifier("simpleBuilder") ProductBuilder builder) {
         this.builder = builder;
     }
 
