@@ -2,6 +2,8 @@ package com.ceiba.fashtoll.searchEngine;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.SearchEngine;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.SimpleSearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductDocument;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchResponse;
 import com.ceiba.fashtoll.searchEngine.repositories.ProductSearchRepository;
@@ -30,22 +32,21 @@ public class ProductSearchService {
     private final ProductSearchRepository productSearchRepository;
     private final ElasticsearchOperations elasticsearchOperations;
     private final ProductRepository productRepository;
-    private final SearchEngine searchEngine;
+    private final SimpleSearchEngine simpleSearchEngine;
 
     @Autowired
     public ProductSearchService(ProductSearchRepository productSearchRepository,
                                 ElasticsearchOperations elasticsearchOperations,
-                                ProductRepository productRepository,
-                                SearchEngine searchEngine) {
+                                ProductRepository productRepository, SimpleSearchEngine simpleSearchEngine) {
 
         this.productSearchRepository = productSearchRepository;
         this.elasticsearchOperations = elasticsearchOperations;
         this.productRepository = productRepository;
-        this.searchEngine = searchEngine;
+        this.simpleSearchEngine = simpleSearchEngine;
     }
 
     public ProductSearchResponse search(String query){
-        List<Product> searchResultProducts = this.searchEngine.processQuery(query);
+        List<Product> searchResultProducts = this.simpleSearchEngine.processQuery(query);
         List<ProductDocument> searchResponseProducts = new ArrayList<>();
 
         for(Product p: searchResultProducts){
