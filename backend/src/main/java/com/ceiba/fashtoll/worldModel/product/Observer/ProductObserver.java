@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product.observer;
+package com.ceiba.fashtoll.worldModel.product.Observer;
 
 /**
  * Interfaz Observer del patrón GoF (Comportamental).

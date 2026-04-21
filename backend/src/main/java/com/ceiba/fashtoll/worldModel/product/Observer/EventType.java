@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product.observer;
+package com.ceiba.fashtoll.worldModel.product.Observer;
 
 /**
  * Enumeración que representa los tipos de eventos de dominio

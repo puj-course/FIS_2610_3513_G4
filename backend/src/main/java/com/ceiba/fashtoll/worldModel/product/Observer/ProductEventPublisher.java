@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product.observer;
+package com.ceiba.fashtoll.worldModel.product.Observer;
 
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class ProductEventPublisher {
     private final List<ProductObserver> observers = new ArrayList<>();
 
     /**
-     * Suscribe un observer. A partir de este momento será notificado
+     * Suscribe un Observer. A partir de este momento será notificado
      * de todos los eventos futuros que publique este Subject.
      *
      * @param observer el objeto que desea observar los cambios de producto.
@@ -31,7 +31,7 @@ public class ProductEventPublisher {
     }
 
     /**
-     * Cancela la suscripción de un observer.
+     * Cancela la suscripción de un Observer.
      * Desde este momento dejará de recibir notificaciones.
      *
      * @param observer el objeto que desea dejar de observar.
