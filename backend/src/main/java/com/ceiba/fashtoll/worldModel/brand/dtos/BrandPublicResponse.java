@@ -11,7 +11,7 @@ public class BrandPublicResponse {
     private Long id;
     private String name;
     private String email; // TODO: Es necesario?
-    private String pictureUrl;
+    private String pictureURL;
     private String linkOfficial;
     private Integer followers;
     private Double rating;

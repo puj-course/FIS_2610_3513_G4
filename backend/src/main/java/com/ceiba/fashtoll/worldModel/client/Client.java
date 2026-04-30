@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Client extends User{
     //esto es lo que lo diferencia de User
-    private List<String> wishlists = new ArrayList<>();
+    private List<String> wishList = new ArrayList<>();
 
     /* Cuando exista Wishlist
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)

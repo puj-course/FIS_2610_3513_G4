@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.searchEngine.elasticsearch.config;
 
-import com.ceiba.fashtoll.searchEngine.ProductDocument;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;

@@ -1,8 +1,8 @@
 package com.ceiba.fashtoll.searchEngine;
 
-import com.ceiba.fashtoll.searchEngine.dto.ProductSearchRequest;
-import com.ceiba.fashtoll.searchEngine.dto.ProductSearchResponse;
-import com.ceiba.fashtoll.searchEngine.dto.SearchEngineResultPage;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchRequest;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchResponse;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,10 +21,7 @@ public class ProductSearchController {
         this.productSearchService = productSearchService;
     }
 
-    // no tiene que ser necesariamente un string, pues eso implicaria
-    // cambiar la url con cada busqueda, me gustaria que tomara como parametro
-    // el cuerpo del request, el cuerpo crudo en formato de texto.
-    @PostMapping
+    @GetMapping
     public ProductSearchResponse searchProducts(@RequestBody String query){
         return this.productSearchService.search(query);
     }
@@ -34,8 +31,8 @@ public class ProductSearchController {
      * Soporta búsqueda por keywords, filtros y paginación.
      * No requiere autenticación.
      */
-    @GetMapping
-    public ProductSearchResponse searchProducts(
+    @GetMapping("/elastic-search")
+    public ProductElasticSearchResponse searchProducts(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String productTypeName,
             @RequestParam(required = false) String category,
@@ -49,7 +46,7 @@ public class ProductSearchController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size
     ) {
-        ProductSearchRequest request = ProductSearchRequest.builder()
+        ProductElasticSearchRequest request = ProductElasticSearchRequest.builder()
                 .keyword(keyword)
                 .productTypeName(productTypeName)
                 .category(category)

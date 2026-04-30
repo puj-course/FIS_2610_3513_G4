@@ -1,10 +1,11 @@
 package com.ceiba.fashtoll.worldModel.product.entities;
 
+import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken;
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
 import com.ceiba.fashtoll.utilities.enums.GeneralFit;
-import com.ceiba.fashtoll.worldModel.tag.entity.Tag;
+import com.ceiba.fashtoll.worldModel.tag.Tag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -72,8 +73,7 @@ public class Product {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImage> images = new ArrayList<>();
+    private List<String> images = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -82,4 +82,12 @@ public class Product {
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags = new HashSet<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "product_tokens",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "token_id")
+    )
+    private Set<SearchToken> tokens = new HashSet<>();
 }

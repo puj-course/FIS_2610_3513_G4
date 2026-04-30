@@ -1,6 +1,7 @@
 package com.ceiba.fashtoll.worldModel.user.dtos;
 
 import com.ceiba.fashtoll.utilities.enums.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class UserResponse {
     private Long id;
     private String email;
     private Role role;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
     private Boolean isActive;
 }
