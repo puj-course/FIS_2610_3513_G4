@@ -1,0 +1,92 @@
+[
+  {
+    "email": "alejandro.gonzalez@example.com",
+    "password": "ale123",
+    "role": "CLIENT",
+    "name": "Alejandro Gonzalez"
+  },
+  {
+    "email": "valentina.rios@example.com",
+    "password": "valen789",
+    "role": "CLIENT",
+    "name": "Valentina Rios"
+  },
+  {
+    "email": "mateo.franco@example.com",
+    "password": "mateo456",
+    "role": "CLIENT",
+    "name": "Mateo Franco"
+  },
+  {
+    "email": "isabella.castro@example.com",
+    "password": "isa123",
+    "role": "CLIENT",
+    "name": "Isabella Castro"
+  },
+  {
+    "email": "juan.perez@example.com",
+    "password": "juanp123",
+    "role": "CLIENT",
+    "name": "Juan Perez"
+  },
+  {
+    "email": "mariana.lopez@example.com",
+    "password": "mariana789",
+    "role": "CLIENT",
+    "name": "Mariana Lopez"
+  },
+  {
+    "email": "santiago.gomez@example.com",
+    "password": "santi456",
+    "role": "CLIENT",
+    "name": "Santiago Gomez"
+  },
+  {
+    "email": "paula.restrepo@example.com",
+    "password": "paula123",
+    "role": "CLIENT",
+    "name": "Paula Andrea Restrepo"
+  },
+  {
+    "email": "carlos.diaz@example.com",
+    "password": "carlos456",
+    "role": "CLIENT",
+    "name": "Carlos Alberto Diaz"
+  },
+  {
+    "email": "sofia.ruiz@example.com",
+    "password": "sofia789",
+    "role": "CLIENT",
+    "name": "Sofia Milena Ruiz"
+  },
+  {
+    "email": "daniel.ortiz@example.com",
+    "password": "daniel123",
+    "role": "CLIENT",
+    "name": "Daniel Felipe Ortiz"
+  },
+  {
+    "email": "luciana.herrera@example.com",
+    "password": "luci456",
+    "role": "CLIENT",
+    "name": "Luciana Herrera"
+  },
+  {
+    "email": "nicolas.jaramillo@example.com",
+    "password": "nico789",
+    "role": "CLIENT",
+    "name": "Nicolas Jaramillo"
+  },
+  {
+    "email": "elena.vargas@example.com",
+    "password": "elena123",
+    "role": "CLIENT",
+    "name": "Elena Maria Vargas"
+  },
+  {
+    "email": "sebastian.quintero@example.com",
+    "password": "sebas456",
+    "role": "CLIENT",
+    "name": "Sebastian Quintero"
+  }
+]

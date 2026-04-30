@@ -5,7 +5,7 @@ import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
-import com.ceiba.fashtoll.worldModel.tag.mapper.TagMapper;
+import com.ceiba.fashtoll.worldModel.tag.TagMapper;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -39,9 +39,7 @@ public class ProductMapper {
 
         if (product.getImages() != null) {
             response.setImageUrls(
-                    product.getImages().stream()
-                            .map(ProductImage::getImageUrl)
-                            .collect(Collectors.toList())
+                    product.getImages()
             );
         }
 

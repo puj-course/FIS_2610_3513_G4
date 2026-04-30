@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class BrandProfileResponse {
     private String name;
     private String email;
-    private String pictureUrl;
+    private String pictureURL;
     private String linkOfficial;
     private Integer followers;
     private Double rating;

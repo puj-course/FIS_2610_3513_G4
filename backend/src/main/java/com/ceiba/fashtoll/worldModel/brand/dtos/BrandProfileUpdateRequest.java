@@ -15,7 +15,7 @@ public class BrandProfileUpdateRequest {
     private String name;
 
     @Size(max = 500, message = "La URL de la imagen no puede exceder los 500 caracteres")
-    private String pictureUrl;
+    private String pictureURL;
 
     @Size(max = 255, message = "El link oficial no puede exceder los 255 caracteres")
     private String linkOfficial;

@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 public class BrandResponse {
     private Long id;
     private String name;
-    private String pictureUrl;
+    private String pictureURL;
     private String linkOfficial;
     private Integer followers;
     private Double rating;
     private Boolean isVerified;
-    private Long userId;
 }

@@ -1,0 +1,167 @@
+[
+  {
+    "name": "Sujetador Reductor de Alta Compresión",
+    "description": "Brasier con copas de cobertura total y refuerzo en X en la espalda para mejorar la postura. Ideal para busto grande.",
+    "price": 105900.00,
+    "generalFit": "COMPRESSION",
+    "gender": "FEMALE",
+    "color": "BEIGE",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/brasier-reductor-de-postura-y-soporte-de-espalda/",
+    "productTypeId": 28
+  },
+  {
+    "name": "Faja Body Busto Libre",
+    "description": "Faja reductora de abdomen y cintura con cargaderas ajustables y cierre frontal. Invisible bajo la ropa.",
+    "price": 189900.00,
+    "generalFit": "COMPRESSION",
+    "gender": "FEMALE",
+    "color": "BLACK",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/faja-body-reductor-abdomen-cintura/",
+    "productTypeId": 28
+  },
+  {
+    "name": "Panty Clásico de Algodón",
+    "description": "Panty de silueta clásica elaborado en algodón elástico para mayor frescura y comodidad diaria.",
+    "price": 32900.00,
+    "generalFit": "REGULAR",
+    "gender": "FEMALE",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/panty-clasico-en-algodon-elastico/",
+    "productTypeId": 28
+  },
+  {
+    "name": "Leggings de Control Abdominal",
+    "description": "Leggings deportivos con banda ancha en la cintura para aplanar el abdomen. Tela de secado rápido.",
+    "price": 125900.00,
+    "generalFit": "SLIM",
+    "gender": "FEMALE",
+    "color": "NAVY",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/leggings-deportivos-control-abdomen/",
+    "productTypeId": 11
+  },
+  {
+    "name": "Bóxer Masculino de Microfibra",
+    "description": "Bóxer largo de la línea Leo, con ajuste ergonómico y material transpirable de alta tecnología.",
+    "price": 45900.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "BLUE",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/boxer-largo-en-microfibra-ajuste-perfecto/",
+    "productTypeId": 12
+  },
+  {
+    "name": "Top Deportivo de Alto Soporte",
+    "description": "Top para ejercicio de alto impacto con copas prehormadas y espalda atlética para mayor libertad de movimiento.",
+    "price": 89900.00,
+    "generalFit": "COMPRESSION",
+    "gender": "FEMALE",
+    "color": "RED",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/top-deportivo-alto-impacto-soporte-total/",
+    "productTypeId": 5
+  },
+  {
+    "name": "Panty Brasilera sin Costuras",
+    "description": "Tanga tipo brasilera con cortes láser para que no se marque en la ropa ajustada.",
+    "price": 28900.00,
+    "generalFit": "SKINNY",
+    "gender": "FEMALE",
+    "color": "PINK",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/panty-brasilera-sin-costuras-cortes-laser/",
+    "productTypeId": 28
+  },
+  {
+    "name": "Traje de Baño Enterizo Moldeador",
+    "description": "Bañador de una sola pieza con control suave de abdomen y copas removibles.",
+    "price": 165900.00,
+    "generalFit": "SLIM",
+    "gender": "FEMALE",
+    "color": "MULTICOLOR",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/traje-de-bano-enterizo-control-abdomen/",
+    "productTypeId": 28
+  },
+  {
+    "name": "Camiseta de Control para Hombre",
+    "description": "Camiseta interior con refuerzo en abdomen y espalda para mejorar la postura y comprimir la zona media.",
+    "price": 98900.00,
+    "generalFit": "COMPRESSION",
+    "gender": "MALE",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/camiseta-reductora-hombre-control-abdomen/",
+    "productTypeId": 1
+  },
+  {
+    "name": "Brasier Balconet con Encaje",
+    "description": "Brasier con arco y copas con encaje delicado. Ideal para usar con escotes pronunciados.",
+    "price": 92900.00,
+    "generalFit": "REGULAR",
+    "gender": "FEMALE",
+    "color": "PURPLE",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/brasier-balconet-copas-con-encaje/",
+    "productTypeId": 28
+  },
+  {
+    "name": "Short de Control Levanta Cola",
+    "description": "Panty tipo short con costuras especiales que realzan los glúteos de forma natural.",
+    "price": 75900.00,
+    "generalFit": "COMPRESSION",
+    "gender": "FEMALE",
+    "color": "CREAM",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/panty-short-reductor-levanta-cola/",
+    "productTypeId": 9
+  },
+  {
+    "name": "Brasier Deportivo Post-Quirúrgico",
+    "description": "Brasier de abrochadura frontal con alto nivel de soporte, recomendado para recuperación o deportes intensos.",
+    "price": 112900.00,
+    "generalFit": "COMPRESSION",
+    "gender": "FEMALE",
+    "color": "WHITE",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/brasier-postquirurgico-soporte-frontal/",
+    "productTypeId": 28
+  },
+  {
+    "name": "Bóxer Leo en Algodón",
+    "description": "Bóxer medio de ajuste clásico con elástico suave en la cintura que no marca la piel.",
+    "price": 38900.00,
+    "generalFit": "REGULAR",
+    "gender": "MALE",
+    "color": "GREY",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/boxer-medio-en-algodón-leo/",
+    "productTypeId": 12
+  },
+  {
+    "name": "Panty de Talle Alto Moldeador",
+    "description": "Cubre hasta la base del busto, moldeando cintura y abdomen alto. Banda de silicona para evitar que se ruede.",
+    "price": 86900.00,
+    "generalFit": "COMPRESSION",
+    "gender": "FEMALE",
+    "color": "BEIGE",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/panty-faja-talle-alto-siliconada/",
+    "productTypeId": 28
+  },
+  {
+    "name": "Pareo de Playa Estampado",
+    "description": "Accesorio ligero y versátil para complementar el traje de baño en días de sol.",
+    "price": 59900.00,
+    "generalFit": "LOOSE",
+    "gender": "FEMALE",
+    "color": "TURQUOISE",
+    "available": true,
+    "linkProduct": "https://www.leonisa.com/co/productos/pareo-playa-estampado-suave/",
+    "productTypeId": 28
+  }
+]

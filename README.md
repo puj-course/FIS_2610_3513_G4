@@ -19,8 +19,8 @@
 ---
 
 ## 🛠️ Tecnologías Utilizadas
-- **Frontend:** JavaScript, TypeScript, React, Vite, Axios
-- **Backend:** Java, Spring Boot
+- **Frontend:** TypeScript, React, Vite, Tailwind CSS, Axios
+- **Backend:** Java, Spring Boot, Spring Security
 - **Construcción:** Maven
 - **Base de Datos:** PostgreSQL, Flyway, Elasticsearch
 - **DevOps:** GitHub Actions, Docker, SonarQube
@@ -118,10 +118,15 @@ Open Project -> FIS_2610_3513_G4 -> Run 'FashtollApplication'
 ```
 La API estará disponible en el puerto 8080.
 
+### 📚 Documentación de la API en Scalar
+Adicionalmente, puedes abrir [esta página](https://puj-course.github.io/FIS_2610_3513_G4/) que muestra la documentación de la API a partir de OpenAPI y Swagger. Es una interfaz llamativa y moderna en Scalar para conocer cómo funciona la API, sus endpoints y empezar a probarla rápidamente. Este sitio se genera automáticamente gracias GitHub Pages y un pipeline de itegración continua con GitHub Actions.
+
 ## 🖼️ Ejecución del frontend con npm
 Ejecutar los siguientes comandos desde la raíz del proyecto para correr la aplicación React.
 ```text
 cd frontend
+npm install
+npm run build
 npm run dev
 ```
 La interfaz de inicio estará disponible en la ruta http://localhost:5173/.
