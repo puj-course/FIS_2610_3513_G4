@@ -1,0 +1,80 @@
+name: Unit Tests — Fashtoll Backend
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'features-**'
+  pull_request:
+    branches:
+      - main
+      - develop
+      - 'features-**'
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  run-unit-tests:
+    name: Ejecutar pruebas unitarias
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17 (Temurin) con caché Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Dar permisos de ejecución al Maven Wrapper
+        run: chmod +x ./mvnw
+        working-directory: backend
+
+      - name: Ejecutar pruebas unitarias con Maven Surefire
+        run: ./mvnw test --no-transfer-progress -DskipTests=false
+        working-directory: backend
+      
+      - name: Generar reporte HTML de Surefire
+        if: always()
+        run: >
+          ./mvnw surefire-report:report-only
+          --no-transfer-progress
+          -DshowSuccess=true
+        working-directory: backend
+
+      - name: Publicar resumen de resultados JUnit en GitHub
+        if: always()
+        uses: mikepenz/action-junit-report@v4
+        with:
+          report_paths: 'backend/target/surefire-reports/TEST-*.xml'
+          fail_on_failure: false
+          require_tests: true
+          check_name: 'Resultados de Pruebas Unitarias — Fashtoll'
+          detailed_summary: true
+          include_passed: true
+
+      - name: Subir reporte HTML (artefacto)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-html
+          path: backend/target/site/surefire-report.html
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Subir resultados XML de Surefire (artefacto)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-xml
+          path: backend/target/surefire-reports/
+          retention-days: 30
+          if-no-files-found: warn
