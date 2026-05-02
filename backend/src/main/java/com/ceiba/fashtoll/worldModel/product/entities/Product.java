@@ -70,8 +70,7 @@ public class Product {
     private String linkProduct;
 
     @Column(name = "created_at")
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    private LocalDateTime lastTimeEdited;
 
     private List<String> images = new ArrayList<>();
 

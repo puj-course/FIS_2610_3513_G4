@@ -8,8 +8,10 @@ import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.worldModel.brand.BrandRepository;
 import com.ceiba.fashtoll.worldModel.product.Builder.ProductBuilder;
 import com.ceiba.fashtoll.worldModel.product.Builder.ProductDetails;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
+import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +27,14 @@ public class SimpleProductBuilder implements ProductBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final BrandRepository brandRepository;
+    private final ProductRepository productRepository;
     private final ProductTypeRepository productTypeRepository;
     private Product result;
 
     @Autowired
-    public SimpleProductBuilder(BrandRepository brandRepository, ProductTypeRepository productTypeRepository) {
+    public SimpleProductBuilder(BrandRepository brandRepository, ProductRepository productRepository, ProductTypeRepository productTypeRepository) {
         this.brandRepository = brandRepository;
+        this.productRepository = productRepository;
         this.productTypeRepository = productTypeRepository;
     }
 
@@ -41,10 +45,12 @@ public class SimpleProductBuilder implements ProductBuilder {
 
     @Override
     public void associateBrand(Long brandId) {
-        Brand brand = this.brandRepository.findById(brandId)
-                .orElseThrow(() -> new ResourceNotFoundException("Marca","id",brandId));
+        if(brandId != null) {
+            Brand brand = this.brandRepository.findById(brandId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Marca","id",brandId));
 
-        this.result.setBrand(brand);
+            this.result.setBrand(brand);
+        }
     }
 
     @Override
@@ -57,21 +63,22 @@ public class SimpleProductBuilder implements ProductBuilder {
         this.result.setPrice(productDetails.price());
         this.result.setAvailable(productDetails.available());
         this.result.setRating(productDetails.rating());
-        this.result.setCreatedAt(productDetails.createdAt());
+        this.result.setLastTimeEdited(productDetails.createdAt());
     }
 
     @Override
     public void putOfficialLink(String linkOfficial) {
-        this.result.setLinkProduct("");
-        this.logger.info("El producto '" + this.result.getName() + "' con id: " + this.result.getId() + " NO TIENE LINK");
+        this.result.setLinkProduct(linkOfficial);
     }
 
     @Override
     public void putProductType(Long productTypeId) {
-        ProductType productType = this.productTypeRepository.findById(productTypeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Tipo de producto","id", productTypeId));
+        if(productTypeId != null){
+            ProductType productType = this.productTypeRepository.findById(productTypeId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Tipo de producto","id", productTypeId));
 
-        this.result.setProductType(productType);
+            this.result.setProductType(productType);
+        }
     }
 
     @Override
@@ -94,7 +101,9 @@ public class SimpleProductBuilder implements ProductBuilder {
     }
 
     @Override
-    public void updateProduct() {
+    public void adminUpdateProduct(Long productId) {
+        this.result = this.productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", productId));
     }
 
     public Product getResult(){

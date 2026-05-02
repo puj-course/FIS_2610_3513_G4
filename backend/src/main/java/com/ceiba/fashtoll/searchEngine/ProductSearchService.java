@@ -246,7 +246,7 @@ public class ProductSearchService {
                             .map(tag -> tag.getName())
                             .collect(Collectors.toList())
                         : List.of())
-                .createdAt(product.getCreatedAt())
+                .createdAt(product.getLastTimeEdited())
                 .build();
     }
 }

@@ -28,6 +28,9 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.projectKey>fashtoll</sonar.projectKey>
+		<sonar.projectName>Fashtoll</sonar.projectName>
 	</properties>
 	<dependencies>
 

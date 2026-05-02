@@ -10,14 +10,12 @@ import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
-import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
-import com.ceiba.fashtoll.worldModel.tag.Tag;
 import com.ceiba.fashtoll.worldModel.tag.TagRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,9 +33,7 @@ public class ProductService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
-    private final ProductTypeRepository productTypeRepository;
     private final ProductMapper productMapper;
-    private final TagRepository tagRepository;
     private final ProductEventPublisher productEventPublisher;
     @Autowired
     @Qualifier("simpleBuilder")
@@ -51,14 +44,10 @@ public class ProductService {
     private ProductDirector director;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, BrandRepository brandRepository,
-                          ProductTypeRepository productTypeRepository, ProductMapper productMapper,
-                          TagRepository tagRepository, ProductEventPublisher productEventPublisher) {
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, ProductMapper productMapper, ProductEventPublisher productEventPublisher) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
-        this.productTypeRepository = productTypeRepository;
         this.productMapper = productMapper;
-        this.tagRepository = tagRepository;
         this.productEventPublisher = productEventPublisher;
     }
 
@@ -81,7 +70,6 @@ public class ProductService {
 
     @Transactional
     public ProductResponse createProduct(ProductCreateRequest request) {
-
         ProductBuilder builder = simpleBuilderProvider.getObject();
         this.director = new ProductDirector(builder);
         this.director.makeSimpleProduct(request);
@@ -97,43 +85,17 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse updateProduct(Long id, ProductAdminUpdateRequest request) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", id));
-
-        productMapper.updateEntityFromAdmin(request, product);
-
-        if (request.getBrandId() != null) {
-            Brand brand = brandRepository.findById(request.getBrandId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Marca", "id", request.getBrandId()));
-            product.setBrand(brand);
-        }
-
-        if (request.getProductTypeId() != null) {
-            ProductType productType = productTypeRepository.findById(request.getProductTypeId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Tipo de producto", "id", request.getProductTypeId()));
-            product.setProductType(productType);
-        }
-
-        // Imágenes
-        if (request.getImageUrls() != null) {
-            product.getImages().clear(); // Se borran las antiguas
-            request.getImageUrls().forEach(url -> {
-                product.getImages().add(url);
-            });
-        }
-
-        // Tags
-        if (request.getTagIds() != null) {
-            Set<Tag> tags = new HashSet<>(tagRepository.findAllById(request.getTagIds()));
-            product.setTags(tags);
-        }
+    public ProductResponse updateProduct(Long productId, ProductAdminUpdateRequest request) {
+        ProductBuilder builder = simpleBuilderProvider.getObject();
+        this.director = new ProductDirector(builder);
+        this.director.adminUpdateSimpleProduct(productId, request);
+        Product product = builder.getResult();
 
         Product savedProduct = productRepository.save(product);
         productEventPublisher.notify(new ProductEvent(savedProduct, EventType.UPDATED));
 
         this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
-        this.logger.info("Se actualizo el producto '" + savedProduct.getName() + "' con id: " + savedProduct.getId());
+        this.logger.info("Se actualizo el producto '" + savedProduct.getName() + "' con productId: " + savedProduct.getId());
 
         return productMapper.toResponse(savedProduct);
     }
@@ -183,30 +145,10 @@ public class ProductService {
 
     @Transactional
     public ProductResponse updateBrandProduct(Long brandId, Long productId, ProductUpdateRequest request) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", productId));
-
-        productMapper.updateEntityFromBrand(request, product);
-
-        if (request.getProductTypeId() != null) {
-            ProductType productType = productTypeRepository.findById(request.getProductTypeId())
-                    .orElseThrow(() -> new ResourceNotFoundException("ProductType","id", request.getProductTypeId()));
-            product.setProductType(productType);
-        }
-
-        // Images
-        if (request.getImageUrls() != null) {
-            product.getImages().clear(); // Se borran las antiguas
-            request.getImageUrls().forEach(url -> {
-                product.getImages().add(url);
-            });
-        }
-
-        // Tags
-        if (request.getTagIds() != null) {
-            Set<Tag> tags = new HashSet<>(tagRepository.findAllById(request.getTagIds()));
-            product.setTags(tags);
-        }
+        ProductBuilder builder = simpleBuilderProvider.getObject();
+        this.director = new ProductDirector(builder);
+        this.director.updateSimpleProduct(brandId, productId, request);
+        Product product = builder.getResult();
 
         Product savedProduct = productRepository.save(product);
         productEventPublisher.notify(new ProductEvent(savedProduct, EventType.UPDATED));
