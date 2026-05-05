@@ -35,6 +35,10 @@ public class ProductService {
     private final BrandRepository brandRepository;
     private final ProductMapper productMapper;
     private final ProductEventPublisher productEventPublisher;
+
+    private final ProductTypeRepository productTypeRepository;
+    private final TagRepository tagRepository;
+
     @Autowired
     @Qualifier("simpleBuilder")
     private ObjectProvider<ProductBuilder> simpleBuilderProvider;
@@ -49,6 +53,17 @@ public class ProductService {
         this.brandRepository = brandRepository;
         this.productMapper = productMapper;
         this.productEventPublisher = productEventPublisher;
+        this.productTypeRepository = null;
+        this.tagRepository = null;
+    }
+
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, ProductTypeRepository productTypeRepository, ProductMapper productMapper, TagRepository tagRepository, ProductEventPublisher productEventPublisher) {
+        this.productRepository = productRepository;
+        this.brandRepository = brandRepository;
+        this.productMapper = productMapper;
+        this.productEventPublisher = productEventPublisher;
+        this.productTypeRepository = productTypeRepository;
+        this.tagRepository = tagRepository;
     }
 
     public List<ProductResponse> getAllProducts() {
