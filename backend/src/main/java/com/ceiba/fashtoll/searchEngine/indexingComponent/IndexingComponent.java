@@ -33,7 +33,7 @@ public class IndexingComponent implements ProductObserver {
     public Set<SearchToken> storeInfo(List<String> keyWords) {
         Set<SearchToken> searchTokens = new HashSet<>();
         for (String keyWord : keyWords) {
-            SearchToken token =this.searchTokenRepository.findByToken(keyWord)
+            SearchToken token = this.searchTokenRepository.findByToken(keyWord)
                     .orElseGet(() -> {
                         SearchToken newToken = new SearchToken();
                         newToken.setToken(keyWord);

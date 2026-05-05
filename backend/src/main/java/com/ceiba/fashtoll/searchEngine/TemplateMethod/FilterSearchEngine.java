@@ -7,18 +7,22 @@ import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SimpleSearchEngine extends SearchEngine {
+public class FilterSearchEngine extends SearchEngine {
 
     @Autowired
-    public SimpleSearchEngine(IndexingComponent indexingComponent, RankingComponent rankingComponent, ProductRepository productRepository) {
+    public FilterSearchEngine(IndexingComponent indexingComponent, RankingComponent rankingComponent, ProductRepository productRepository) {
         super(indexingComponent, rankingComponent, productRepository);
     }
 
     @Override
     protected List<Product> returnResults(List<String> keyWords, QueryFilters filters) {
-        return this.productRepository.findBySearchTokens(keyWords);
+        List<String> wordFilters = new ArrayList<>();
+
+        return this.productRepository.findByFilter(keyWords, filters);
     }
 }

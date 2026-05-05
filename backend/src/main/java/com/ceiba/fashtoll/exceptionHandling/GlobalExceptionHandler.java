@@ -56,4 +56,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException exception) {
+        ApiError apiError = new ApiError(
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_ACCEPTABLE);
+    }
 }
