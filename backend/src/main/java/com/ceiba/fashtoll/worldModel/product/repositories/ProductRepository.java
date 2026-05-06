@@ -27,7 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     // Spring Expression Language syntaxis :#{#nombre_parametro.nombre_atributo}
     // : indica que es un parametro, # indica que es una expresion de SpEl, {} delimita la expresion
-    // LA BUSQUEDA POR FILTROS DEBO HACERLA EN FILTER SEARCH ENGINE
-    @Query("SELECT p FROM Product p WHERE p.productType.name == :#{#filters.productType()}")
-    List<Product> findByFilter(@Param("words") List<String> words, @Param("filters") QueryFilters filters);
+    // no era necesario esto, solo era necesario heredar JpaSpecificationExecutor
+    //@Query("SELECT p FROM Product p WHERE p.productType.name == :#{#filters.productType()}")
+    //List<Product> findByFilter(@Param("words") List<String> words, @Param("filters") QueryFilters filters);
 }

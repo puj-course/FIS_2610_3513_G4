@@ -28,7 +28,7 @@ public class ProductSearchController {
     }
 
     @GetMapping
-    public ProductSearchResponse filterSearchProducts(@RequestParam ProductSearchRequest request){
+    public ProductSearchResponse filterSearchProducts(@RequestBody ProductSearchRequest request){
         return this.productSearchService.filterSearch(request);
     }
 
