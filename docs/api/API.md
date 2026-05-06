@@ -604,6 +604,19 @@
 
 | Required | Schema |
 | -------- | ------ |
+|  Yes | **application/json**: [ProductSearchRequest](#productsearchrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
+
+### [GET] /api/products/search/simple-search
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
 |  Yes | **application/json**: string<br> |
 
 #### Responses
@@ -907,6 +920,14 @@
 | ---- | ---- | ----------- | -------- |
 | email | string (email) |  | Yes |
 | password | string |  | Yes |
+
+#### ProductSearchRequest Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| query | string |  | No |
+| productType | string |  | No |
+| category | string |  | No |
 
 #### ProductDocument Schema
 
