@@ -2,15 +2,18 @@ package com.ceiba.fashtoll.worldModel.client;
 
 import com.ceiba.fashtoll.worldModel.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import com.ceiba.fashtoll.worldModel.brand.Brand;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "clients")
 @Data
@@ -23,6 +26,7 @@ public class Client extends User{
     /* Cuando exista Wishlist
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Wishlist> wishlists = new ArrayList<>();
+    */
 
     @ManyToMany
     @JoinTable(
@@ -31,5 +35,4 @@ public class Client extends User{
             inverseJoinColumns = @JoinColumn(name = "brand_id")
     )
     private Set<Brand> followedBrands = new HashSet<>();
-    */
 }
