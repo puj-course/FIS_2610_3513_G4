@@ -146,6 +146,7 @@ public class ProductService {
     public ProductResponse createBrandProduct(Long brandId, ProductCreateRequest request) {
         ProductBuilder builder = simpleBuilderProvider.getObject();
         this.director = new ProductDirector(builder);
+        request.setBrandId(brandId);
         this.director.makeSimpleProduct(request);
         Product product = builder.getResult();
 
