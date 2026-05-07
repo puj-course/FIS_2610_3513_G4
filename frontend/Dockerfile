@@ -17,13 +17,15 @@ LABEL org.opencontainers.image.title="Fashtoll Frontend" \
       org.opencontainers.image.vendor="Ceiba" \
       org.opencontainers.image.source="https://github.com/nicojoya/FIS_2610_3513_G4"
 
+RUN apk add --no-cache curl
+
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-    CMD wget -qO- http://localhost:80 > /dev/null || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
