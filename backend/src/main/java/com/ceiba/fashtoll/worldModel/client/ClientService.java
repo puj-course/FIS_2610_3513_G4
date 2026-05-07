@@ -8,6 +8,10 @@ import com.ceiba.fashtoll.worldModel.client.dtos.*;
 import com.ceiba.fashtoll.worldModel.user.User;
 import com.ceiba.fashtoll.worldModel.user.UserService;
 import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
+import com.ceiba.fashtoll.worldModel.brand.Brand;
+import com.ceiba.fashtoll.worldModel.brand.BrandRepository;
+import com.ceiba.fashtoll.worldModel.brand.BrandMapper;
+import com.ceiba.fashtoll.worldModel.brand.dtos.BrandPublicResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +30,17 @@ public class ClientService {
     private final ClientMapper clientMapper;
     private final AuthService authService;
     private final UserService userService;
+    private final BrandRepository brandRepository;
+    private final BrandMapper brandMapper;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, AuthService authService, UserService userService) {
+    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, AuthService authService, UserService userService, BrandRepository brandRepository, BrandMapper brandMapper) {
         this.clientRepository = clientRepository;
         this.clientMapper = clientMapper;
         this.authService = authService;
         this.userService = userService;
+        this.brandRepository = brandRepository;
+        this.brandMapper = brandMapper;
     }
 
     public List<ClientResponse> getAllClients() {
@@ -121,5 +129,48 @@ public class ClientService {
 
             this.authService.clientRegister(registerRequest);
         }
+    }
+
+    @Transactional
+    public void followBrand(Long clientId, Long brandId) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", clientId));
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("marca", "id", brandId));
+
+        if (!client.getFollowedBrands().contains(brand)) {
+            client.getFollowedBrands().add(brand);
+            brand.setFollowers(brand.getFollowers() + 1);
+            clientRepository.save(client);
+            brandRepository.save(brand);
+            this.logger.info("El cliente '" + client.getName() + "' comenzo a seguir la marca '" + brand.getName() + "'");
+        }
+    }
+
+    @Transactional
+    public void unfollowBrand(Long clientId, Long brandId) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", clientId));
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new ResourceNotFoundException("marca", "id", brandId));
+
+        if (client.getFollowedBrands().contains(brand)) {
+            client.getFollowedBrands().remove(brand);
+            brand.setFollowers(Math.max(0, brand.getFollowers() - 1));
+            clientRepository.save(client);
+            brandRepository.save(brand);
+            this.logger.info("El cliente '" + client.getName() + "' dejo de seguir la marca '" + brand.getName() + "'");
+        }
+    }
+
+    public List<BrandPublicResponse> getFollowedBrands(Long clientId) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", clientId));
+
+        this.logger.info("Se devolvieron las marcas seguidas por el cliente '" + client.getName() + "'");
+
+        return client.getFollowedBrands().stream()
+                .map(brandMapper::toPublicResponse)
+                .collect(Collectors.toList());
     }
 }
