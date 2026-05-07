@@ -36,7 +36,14 @@ public abstract class SearchEngine {
 
         QueryFilters filters = new QueryFilters(
                 request.productType(),
-                request.category()
+                request.category(),
+                request.generalFit(),
+                request.gender(),
+                request.color(),
+                //request.available(),
+                request.minPrice(),
+                request.maxPrice(),
+                request.tags()
         );
 
         return this.returnResults(keyWords, filters);
