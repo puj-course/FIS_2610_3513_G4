@@ -928,6 +928,12 @@
 | query | string |  | No |
 | productType | string |  | No |
 | category | string |  | No |
+| generalFit | string |  | No |
+| gender | string |  | No |
+| color | string |  | No |
+| minPrice | double |  | No |
+| maxPrice | double |  | No |
+| tags | [ string ] |  | No |
 
 #### ProductDocument Schema
 
