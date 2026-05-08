@@ -3,6 +3,7 @@ package com.ceiba.fashtoll.worldModel.client;
 import com.ceiba.fashtoll.worldModel.client.dtos.*;
 import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
 import com.ceiba.fashtoll.worldModel.user.User;
+import com.ceiba.fashtoll.worldModel.brand.dtos.BrandPublicResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,27 @@ public class ClientController {
     public ResponseEntity<Void> changePassword(Authentication authentication,
                                                @Valid @RequestBody PasswordChangeRequestDTO request) {
         return this.clientService.changePassword(authentication, request);
+    }
+
+    @PostMapping("/profile/following/{brandId}")
+    public ResponseEntity<Void> followBrand(Authentication authentication, @PathVariable Long brandId) {
+        User user = (User) authentication.getPrincipal();
+        clientService.followBrand(user.getId(), brandId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/profile/following/{brandId}")
+    public ResponseEntity<Void> unfollowBrand(Authentication authentication, @PathVariable Long brandId) {
+        User user = (User) authentication.getPrincipal();
+        clientService.unfollowBrand(user.getId(), brandId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/profile/following")
+    public ResponseEntity<List<BrandPublicResponse>> getFollowedBrands(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        List<BrandPublicResponse> followedBrands = clientService.getFollowedBrands(user.getId());
+        return ResponseEntity.ok(followedBrands);
     }
 
     @GetMapping
