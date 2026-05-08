@@ -375,6 +375,39 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ClientResponse](#clientresponse-schema)<br> |
 
+### [POST] /api/clients/profile/following/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [DELETE] /api/clients/profile/following/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [GET] /api/clients/profile/following
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [BrandPublicResponse](#brandpublicresponse-schema) ]<br> |
+
 ---
 
 ### [GET] /api/brands/{id}
