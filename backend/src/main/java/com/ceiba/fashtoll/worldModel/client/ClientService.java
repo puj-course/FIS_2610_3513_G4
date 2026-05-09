@@ -12,6 +12,15 @@ import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.worldModel.brand.BrandRepository;
 import com.ceiba.fashtoll.worldModel.brand.BrandMapper;
 import com.ceiba.fashtoll.worldModel.brand.dtos.BrandPublicResponse;
+import com.ceiba.fashtoll.worldModel.wishlist.Wishlist;
+import com.ceiba.fashtoll.worldModel.wishlist.WishlistRepository;
+import com.ceiba.fashtoll.worldModel.wishlist.WishlistMapper;
+import com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistRequest;
+import com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse;
+import com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistDetailsResponse;
+import com.ceiba.fashtoll.worldModel.product.entities.Product;
+import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
+import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +41,23 @@ public class ClientService {
     private final UserService userService;
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
+    private final WishlistRepository wishlistRepository;
+    private final WishlistMapper wishlistMapper;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, AuthService authService, UserService userService, BrandRepository brandRepository, BrandMapper brandMapper) {
+    public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, AuthService authService,
+            UserService userService, BrandRepository brandRepository, BrandMapper brandMapper,
+            WishlistRepository wishlistRepository, WishlistMapper wishlistMapper, ProductRepository productRepository) {
         this.clientRepository = clientRepository;
         this.clientMapper = clientMapper;
         this.authService = authService;
         this.userService = userService;
         this.brandRepository = brandRepository;
         this.brandMapper = brandMapper;
+        this.wishlistRepository = wishlistRepository;
+        this.wishlistMapper = wishlistMapper;
+        this.productRepository = productRepository;
     }
 
     public List<ClientResponse> getAllClients() {
@@ -119,7 +136,7 @@ public class ClientService {
         return ResponseEntity.noContent().build();
     }
 
-    public void injectClientsFromJSON(List<ClientDTO>  clientDTOs) {
+    public void injectClientsFromJSON(List<ClientDTO> clientDTOs) {
         for (ClientDTO clientDTO : clientDTOs) {
             RegisterRequest registerRequest = new RegisterRequest();
             registerRequest.setEmail(clientDTO.email());
@@ -143,7 +160,8 @@ public class ClientService {
             brand.setFollowers(brand.getFollowers() + 1);
             clientRepository.save(client);
             brandRepository.save(brand);
-            this.logger.info("El cliente '" + client.getName() + "' comenzo a seguir la marca '" + brand.getName() + "'");
+            this.logger
+                    .info("El cliente '" + client.getName() + "' comenzo a seguir la marca '" + brand.getName() + "'");
         }
     }
 
@@ -172,5 +190,110 @@ public class ClientService {
         return client.getFollowedBrands().stream()
                 .map(brandMapper::toPublicResponse)
                 .collect(Collectors.toList());
+    }
+
+    public List<WishlistResponse> getWishlists(Long clientId) {
+        List<Wishlist> wishlists = wishlistRepository.findByClientId(clientId);
+        return wishlists.stream()
+                .map(wishlistMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public WishlistDetailsResponse getWishlist(Long clientId, Long wishlistId) {
+        Wishlist wishlist = wishlistRepository.findByIdAndClientId(wishlistId, clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("lista de deseos", "id", wishlistId));
+        return wishlistMapper.toDetailsResponse(wishlist);
+    }
+
+    @Transactional
+    public WishlistResponse createWishlist(Long clientId, WishlistRequest request) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("cliente", "id", clientId));
+
+        Wishlist wishlist = new Wishlist();
+        wishlist.setClient(client);
+        wishlist.setName(request.getName());
+
+        Wishlist savedWishlist = wishlistRepository.save(wishlist);
+        this.logger.info("El cliente con id " + clientId + " creo una lista de deseos llamada '"
+                + savedWishlist.getName() + "'");
+
+        return wishlistMapper.toResponse(savedWishlist);
+    }
+
+    @Transactional
+    public WishlistResponse updateWishlist(Long clientId, Long wishlistId, WishlistRequest request) {
+        Wishlist wishlist = wishlistRepository.findByIdAndClientId(wishlistId, clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("lista de deseos", "id", wishlistId));
+
+        wishlist.setName(request.getName());
+        Wishlist savedWishlist = wishlistRepository.save(wishlist);
+        this.logger.info("El cliente con id " + clientId + " actualizo la lista de deseos con id " + wishlistId);
+
+        return wishlistMapper.toResponse(savedWishlist);
+    }
+
+    @Transactional
+    public void deleteWishlist(Long clientId, Long wishlistId) {
+        Wishlist wishlist = wishlistRepository.findByIdAndClientId(wishlistId, clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("lista de deseos", "id", wishlistId));
+
+        Wishlist defaultWishlist = wishlistRepository.findFirstByClientIdOrderByIdAsc(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("lista de deseos por defecto", "cliente", clientId));
+
+        if (wishlist.getId().equals(defaultWishlist.getId())) {
+            throw new UnauthorizedException("eliminar", "la lista de deseos por defecto");
+        }
+
+        wishlistRepository.delete(wishlist);
+        this.logger.info("El cliente con id " + clientId + " elimino la lista de deseos con id " + wishlistId);
+    }
+
+    @Transactional
+    public void addToDefaultWishlist(Long clientId, Long productId) {
+        Wishlist defaultWishlist = wishlistRepository.findFirstByClientIdOrderByIdAsc(clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("lista de deseos por defecto", "cliente", clientId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("producto", "id", productId));
+
+        if (!defaultWishlist.getProducts().contains(product)) {
+            defaultWishlist.getProducts().add(product);
+            wishlistRepository.save(defaultWishlist);
+            this.logger.info("El cliente con id " + clientId + " guardo el producto con id " + productId
+                    + " en su lista por defecto");
+        }
+    }
+
+    @Transactional
+    public void addToWishlist(Long clientId, Long wishlistId, Long productId) {
+        Wishlist wishlist = wishlistRepository.findByIdAndClientId(wishlistId, clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("lista de deseos", "id", wishlistId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("producto", "id", productId));
+
+        if (!wishlist.getProducts().contains(product)) {
+            wishlist.getProducts().add(product);
+            wishlistRepository.save(wishlist);
+            this.logger.info("El cliente con id " + clientId + " guardo el producto con id " + productId
+                    + " en la lista de deseos con id " + wishlistId);
+        }
+    }
+
+    @Transactional
+    public void removeFromWishlist(Long clientId, Long wishlistId, Long productId) {
+        Wishlist wishlist = wishlistRepository.findByIdAndClientId(wishlistId, clientId)
+                .orElseThrow(() -> new ResourceNotFoundException("lista de deseos", "id", wishlistId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("producto", "id", productId));
+
+        if (wishlist.getProducts().contains(product)) {
+            wishlist.getProducts().remove(product);
+            wishlistRepository.save(wishlist);
+            this.logger.info("El cliente con id " + clientId + " elimino el producto con id " + productId
+                    + " de la lista de deseos con id " + wishlistId);
+        }
     }
 }
