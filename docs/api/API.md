@@ -342,6 +342,51 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ClientProfileResponse](#clientprofileresponse-schema)<br> |
 
+### [GET] /api/clients/profile/wishlists/{wishlistId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [WishlistDetailsResponse](#wishlistdetailsresponse-schema)<br> |
+
+### [PUT] /api/clients/profile/wishlists/{wishlistId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [WishlistRequest](#wishlistrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [WishlistResponse](#wishlistresponse-schema)<br> |
+
+### [DELETE] /api/clients/profile/wishlists/{wishlistId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
 ### [PUT] /api/clients/password
 #### Request Body
 
@@ -374,6 +419,67 @@
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ClientResponse](#clientresponse-schema)<br> |
+
+### [GET] /api/clients/profile/wishlists
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [WishlistResponse](#wishlistresponse-schema) ]<br> |
+
+### [POST] /api/clients/profile/wishlists
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [WishlistRequest](#wishlistrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [WishlistResponse](#wishlistresponse-schema)<br> |
+
+### [POST] /api/clients/profile/wishlists/{wishlistId}/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [DELETE] /api/clients/profile/wishlists/{wishlistId}/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [POST] /api/clients/profile/wishlists/default/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
 
 ### [POST] /api/clients/profile/following/{brandId}
 #### Parameters
@@ -811,6 +917,19 @@
 | name | string |  | No |
 | email | string |  | No |
 
+#### WishlistRequest Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| name | string |  | Yes |
+
+#### WishlistResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | long |  | No |
+| name | string |  | No |
+
 #### PasswordChangeRequestDTO Schema
 
 | Name | Type | Description | Required |
@@ -980,6 +1099,14 @@
 | totalPages | integer |  | No |
 | totalResults | long |  | No |
 | pageSize | integer |  | No |
+
+#### WishlistDetailsResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | long |  | No |
+| name | string |  | No |
+| products | [ [ProductResponse](#productresponse-schema) ] |  | No |
 
 #### BrandPublicResponse Schema
 
