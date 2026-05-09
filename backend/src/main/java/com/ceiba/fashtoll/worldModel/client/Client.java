@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import com.ceiba.fashtoll.worldModel.brand.Brand;
+import com.ceiba.fashtoll.worldModel.wishlist.Wishlist;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -20,13 +21,8 @@ import com.ceiba.fashtoll.worldModel.brand.Brand;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Client extends User{
-    //esto es lo que lo diferencia de User
-    private List<String> wishList = new ArrayList<>();
-
-    /* Cuando exista Wishlist
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wishlist> wishlists = new ArrayList<>();
-    */
 
     @ManyToMany
     @JoinTable(
@@ -35,4 +31,14 @@ public class Client extends User{
             inverseJoinColumns = @JoinColumn(name = "brand_id")
     )
     private Set<Brand> followedBrands = new HashSet<>();
+
+    @PrePersist
+    public void prePersist() {
+        if (this.wishlists.isEmpty()) {
+            Wishlist defaultWishlist = new Wishlist();
+            defaultWishlist.setName("Mis Favoritos");
+            defaultWishlist.setClient(this);
+            this.wishlists.add(defaultWishlist);
+        }
+    }
 }
