@@ -387,6 +387,134 @@
 | ---- | ----------- |
 | 200 | OK |
 
+### [GET] /api/clients/profile/reviews/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [PUT] /api/clients/profile/reviews/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ReviewRequest](#reviewrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [POST] /api/clients/profile/reviews/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ReviewRequest](#reviewrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [DELETE] /api/clients/profile/reviews/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [GET] /api/clients/profile/reviews/brands/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [PUT] /api/clients/profile/reviews/brands/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ReviewRequest](#reviewrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [POST] /api/clients/profile/reviews/brands/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ReviewRequest](#reviewrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [DELETE] /api/clients/profile/reviews/brands/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
 ### [PUT] /api/clients/password
 #### Request Body
 
@@ -506,6 +634,20 @@
 | Code | Description |
 | ---- | ----------- |
 | 200 | OK |
+
+### [GET] /api/clients/profile/reviews/products
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [ReviewResponse](#reviewresponse-schema) ]<br> |
+
+### [GET] /api/clients/profile/reviews/brands
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [ReviewResponse](#reviewresponse-schema) ]<br> |
 
 ### [GET] /api/clients/profile/following
 #### Responses
@@ -944,6 +1086,13 @@
 | ---- | ---- | ----------- | -------- |
 | id | long |  | No |
 | name | string |  | No |
+
+#### ReviewRequest Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| comment | string |  | No |
+| rating | integer |  | Yes |
 
 #### PasswordChangeRequestDTO Schema
 
