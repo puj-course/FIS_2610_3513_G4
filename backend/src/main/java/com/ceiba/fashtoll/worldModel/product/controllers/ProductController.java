@@ -7,6 +7,8 @@ import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 
 import com.ceiba.fashtoll.worldModel.product.services.ProductService;
+import com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse;
+import com.ceiba.fashtoll.worldModel.client.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +24,12 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final ClientService clientService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ClientService clientService) {
         this.productService = productService;
+        this.clientService = clientService;
     }
 
     @GetMapping
@@ -36,6 +40,11 @@ public class ProductController {
     @GetMapping("/{id}")
     public ProductResponse getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
+    }
+
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<List<ReviewResponse>> getProductReviews(@PathVariable Long id) {
+        return ResponseEntity.ok(clientService.getReviewsForProduct(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -58,3 +67,4 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 }
+
