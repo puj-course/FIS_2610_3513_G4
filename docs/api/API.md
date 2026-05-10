@@ -871,10 +871,12 @@
 | color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "CREAM", "GREEN", "BLUE", "NAVY", "TURQUOISE", "PURPLE", "RED", "MAROON", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"CREAM"`, `"GREEN"`, `"BLUE"`, `"NAVY"`, `"TURQUOISE"`, `"PURPLE"`, `"RED"`, `"MAROON"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
 | available | boolean |  | No |
 | rating | double |  | No |
+| reviewCount | integer |  | No |
 | linkProduct | string |  | No |
 | createdAt | dateTime |  | No |
 | imageUrls | [ string ] |  | No |
 | tags | [ [TagResponse](#tagresponse-schema) ] |  | No |
+| reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
 
 #### ProductTypeResponse Schema
 
@@ -883,6 +885,19 @@
 | id | long |  | No |
 | name | string |  | No |
 | category | string, <br>**Available values:** "TOPS", "BOTTOMS", "FOOTWEAR", "OUTERWEAR", "ACCESSORIES", "FULL_BODY" | *Enum:* `"TOPS"`, `"BOTTOMS"`, `"FOOTWEAR"`, `"OUTERWEAR"`, `"ACCESSORIES"`, `"FULL_BODY"` | No |
+
+#### ReviewResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | long |  | No |
+| clientId | long |  | No |
+| clientName | string |  | No |
+| targetId | long |  | No |
+| comment | string |  | No |
+| rating | integer |  | No |
+| createdAt | dateTime |  | No |
+| updatedAt | dateTime |  | No |
 
 #### ProductTypeRequest Schema
 
@@ -956,7 +971,9 @@
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
+| reviewCount | integer |  | No |
 | isVerified | boolean |  | No |
+| reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
 
 #### BrandProfileUpdateRequest Schema
 
@@ -976,7 +993,9 @@
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
+| reviewCount | integer |  | No |
 | isVerified | boolean |  | No |
+| reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
 
 #### ProductUpdateRequest Schema
 
@@ -1119,4 +1138,6 @@
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
+| reviewCount | integer |  | No |
 | isVerified | boolean |  | No |
+| reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
