@@ -1,10 +1,18 @@
 package com.ceiba.fashtoll.worldModel.brand;
 
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
+import com.ceiba.fashtoll.worldModel.review.mapper.ReviewMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 @Component
+@RequiredArgsConstructor
 public class BrandMapper {
+
+    private final ReviewMapper reviewMapper;
 
     public BrandResponse toResponse(Brand brand) {
         if (brand == null) return null;
@@ -15,7 +23,18 @@ public class BrandMapper {
         response.setLinkOfficial(brand.getLinkOfficial());
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
+        response.setReviewCount(brand.getReviewCount());
         response.setIsVerified(brand.getIsVerified());
+
+        if (brand.getReviews() != null) {
+            response.setReviews(
+                    brand.getReviews().stream()
+                            .map(reviewMapper::toResponse)
+                            .collect(Collectors.toList())
+            );
+        } else {
+            response.setReviews(new ArrayList<>());
+        }
 
         return response;
     }
@@ -30,7 +49,18 @@ public class BrandMapper {
         response.setLinkOfficial(brand.getLinkOfficial());
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
+        response.setReviewCount(brand.getReviewCount());
         response.setIsVerified(brand.getIsVerified());
+
+        if (brand.getReviews() != null) {
+            response.setReviews(
+                    brand.getReviews().stream()
+                            .map(reviewMapper::toResponse)
+                            .collect(Collectors.toList())
+            );
+        } else {
+            response.setReviews(new ArrayList<>());
+        }
 
         return response;
     }
@@ -44,7 +74,18 @@ public class BrandMapper {
         response.setLinkOfficial(brand.getLinkOfficial());
         response.setFollowers(brand.getFollowers());
         response.setRating(brand.getRating());
+        response.setReviewCount(brand.getReviewCount());
         response.setIsVerified(brand.getIsVerified());
+
+        if (brand.getReviews() != null) {
+            response.setReviews(
+                    brand.getReviews().stream()
+                            .map(reviewMapper::toResponse)
+                            .collect(Collectors.toList())
+            );
+        } else {
+            response.setReviews(new ArrayList<>());
+        }
 
         return response;
     }
@@ -73,3 +114,4 @@ public class BrandMapper {
         brand.setLinkOfficial(request.getLinkOfficial());
     }
 }
+

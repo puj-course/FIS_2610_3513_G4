@@ -22,6 +22,7 @@ CREATE TABLE brands (
     link_official VARCHAR(255),
     followers INTEGER DEFAULT 0,
     rating NUMERIC(2,1) DEFAULT 0,
+    review_count INTEGER DEFAULT 0,
     is_verified BOOLEAN DEFAULT FALSE
 );
 
@@ -43,6 +44,7 @@ CREATE TABLE products (
     color VARCHAR(30) NOT NULL CHECK (color IN ('WHITE', 'BLACK', 'GREY', 'BROWN', 'BEIGE', 'GREEN', 'BLUE', 'PURPLE', 'RED', 'ORANGE', 'PINK', 'YELLOW', 'GOLD', 'SILVER', 'MULTICOLOR', 'OTHER')),
     available BOOLEAN DEFAULT TRUE,
     rating NUMERIC(2,1) DEFAULT 0,
+    review_count INTEGER DEFAULT 0,
     link_product VARCHAR(500),
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -95,7 +97,9 @@ CREATE TABLE brand_reviews (
     brand_id BIGINT NOT NULL REFERENCES brands(id) ON DELETE CASCADE,
     comment TEXT,
     rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (client_id, brand_id)
 );
 
 CREATE TABLE product_reviews (
@@ -104,7 +108,9 @@ CREATE TABLE product_reviews (
     product_id BIGINT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     comment TEXT,
     rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (client_id, product_id)
 );
 
 CREATE INDEX idx_products_brand_id ON products(brand_id);

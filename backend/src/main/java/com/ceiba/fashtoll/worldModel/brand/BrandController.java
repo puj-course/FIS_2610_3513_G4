@@ -4,8 +4,10 @@ import com.ceiba.fashtoll.worldModel.brand.dtos.*;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
+import com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse;
 import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
 import com.ceiba.fashtoll.worldModel.user.User;
+import com.ceiba.fashtoll.worldModel.client.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,12 @@ import java.util.List;
 public class BrandController {
 
     private final BrandService brandService;
+    private final ClientService clientService;
 
     @Autowired
-    public BrandController(BrandService brandService) {
+    public BrandController(BrandService brandService, ClientService clientService) {
         this.brandService = brandService;
+        this.clientService = clientService;
     }
 
     @GetMapping
@@ -48,6 +52,12 @@ public class BrandController {
     @GetMapping("/public/{id}")
     public BrandPublicResponse getPublicBrandById(@PathVariable Long id) {
         return brandService.getPublicBrandById(id);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
+    @GetMapping("/public/{id}/reviews")
+    public ResponseEntity<List<ReviewResponse>> getPublicBrandReviews(@PathVariable Long id) {
+        return ResponseEntity.ok(clientService.getReviewsForBrand(id));
     }
 
     @PostMapping
@@ -128,3 +138,4 @@ public class BrandController {
         return this.brandService.deleteMyProduct(authentication, id);
     }
 }
+

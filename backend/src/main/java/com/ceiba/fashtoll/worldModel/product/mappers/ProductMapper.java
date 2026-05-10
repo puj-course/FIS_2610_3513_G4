@@ -5,8 +5,8 @@ import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
+import com.ceiba.fashtoll.worldModel.review.mapper.ReviewMapper;
 import com.ceiba.fashtoll.worldModel.tag.TagMapper;
-import com.ceiba.fashtoll.worldModel.product.entities.ProductImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +19,7 @@ public class ProductMapper {
 
     private final ProductTypeMapper productTypeMapper;
     private final TagMapper tagMapper;
+    private final ReviewMapper reviewMapper;
 
     public ProductResponse toResponse(Product product) {
         if (product == null) return null;
@@ -34,6 +35,7 @@ public class ProductMapper {
         response.setColor(product.getColor());
         response.setAvailable(product.getAvailable());
         response.setRating(product.getRating());
+        response.setReviewCount(product.getReviewCount());
         response.setLinkProduct(product.getLinkProduct());
         response.setCreatedAt(product.getCreatedAt());
 
@@ -51,6 +53,16 @@ public class ProductMapper {
             );
         } else {
             response.setTags(new ArrayList<>());
+        }
+
+        if (product.getReviews() != null) {
+            response.setReviews(
+                    product.getReviews().stream()
+                            .map(reviewMapper::toResponse)
+                            .collect(Collectors.toList())
+            );
+        } else {
+            response.setReviews(new ArrayList<>());
         }
 
         return response;

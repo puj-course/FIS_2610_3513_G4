@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/clients";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const API_URL = `${BASE_URL}/api/clients`;
 
 export interface ClientProfile {
   name: string;
