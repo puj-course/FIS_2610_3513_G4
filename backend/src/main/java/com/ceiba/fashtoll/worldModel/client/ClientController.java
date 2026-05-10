@@ -4,6 +4,8 @@ import com.ceiba.fashtoll.worldModel.client.dtos.*;
 import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
 import com.ceiba.fashtoll.worldModel.user.User;
 import com.ceiba.fashtoll.worldModel.brand.dtos.BrandPublicResponse;
+import com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest;
+import com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse;
 import com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistRequest;
 import com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse;
 import com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistDetailsResponse;
@@ -29,6 +31,8 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+    // ==================== PERFIL ====================
+
     @GetMapping("/profile")
     public ClientProfileResponse getProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -47,6 +51,8 @@ public class ClientController {
             @Valid @RequestBody PasswordChangeRequestDTO request) {
         return this.clientService.changePassword(authentication, request);
     }
+
+    // ==================== SEGUIMIENTO DE MARCAS ====================
 
     @PostMapping("/profile/following/{brandId}")
     public ResponseEntity<Void> followBrand(Authentication authentication, @PathVariable Long brandId) {
@@ -68,6 +74,8 @@ public class ClientController {
         List<BrandPublicResponse> followedBrands = clientService.getFollowedBrands(user.getId());
         return ResponseEntity.ok(followedBrands);
     }
+
+    // ==================== LISTAS DE DESEOS ====================
 
     @GetMapping("/profile/wishlists")
     public ResponseEntity<List<WishlistResponse>> getWishlists(Authentication authentication) {
@@ -126,6 +134,82 @@ public class ClientController {
         clientService.removeFromWishlist(user.getId(), wishlistId, productId);
         return ResponseEntity.noContent().build();
     }
+
+    // ==================== RESEÑAS DE MARCAS ====================
+
+    @GetMapping("/profile/reviews/brands")
+    public ResponseEntity<List<ReviewResponse>> getMyBrandReviews(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(clientService.getBrandReviews(user.getId()));
+    }
+
+    @GetMapping("/profile/reviews/brands/{brandId}")
+    public ResponseEntity<ReviewResponse> getMyBrandReview(Authentication authentication,
+            @PathVariable Long brandId) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(clientService.getBrandReview(user.getId(), brandId));
+    }
+
+    @PostMapping("/profile/reviews/brands/{brandId}")
+    public ResponseEntity<ReviewResponse> postBrandReview(Authentication authentication,
+            @PathVariable Long brandId, @Valid @RequestBody ReviewRequest request) {
+        User user = (User) authentication.getPrincipal();
+        ReviewResponse response = clientService.postBrandReview(user.getId(), brandId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping("/profile/reviews/brands/{brandId}")
+    public ResponseEntity<ReviewResponse> updateBrandReview(Authentication authentication,
+            @PathVariable Long brandId, @Valid @RequestBody ReviewRequest request) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(clientService.updateBrandReview(user.getId(), brandId, request));
+    }
+
+    @DeleteMapping("/profile/reviews/brands/{brandId}")
+    public ResponseEntity<Void> deleteBrandReview(Authentication authentication, @PathVariable Long brandId) {
+        User user = (User) authentication.getPrincipal();
+        clientService.deleteBrandReview(user.getId(), brandId);
+        return ResponseEntity.noContent().build();
+    }
+
+    // ==================== RESEÑAS DE PRODUCTOS ====================
+
+    @GetMapping("/profile/reviews/products")
+    public ResponseEntity<List<ReviewResponse>> getMyProductReviews(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(clientService.getProductReviews(user.getId()));
+    }
+
+    @GetMapping("/profile/reviews/products/{productId}")
+    public ResponseEntity<ReviewResponse> getMyProductReview(Authentication authentication,
+            @PathVariable Long productId) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(clientService.getProductReview(user.getId(), productId));
+    }
+
+    @PostMapping("/profile/reviews/products/{productId}")
+    public ResponseEntity<ReviewResponse> postProductReview(Authentication authentication,
+            @PathVariable Long productId, @Valid @RequestBody ReviewRequest request) {
+        User user = (User) authentication.getPrincipal();
+        ReviewResponse response = clientService.postProductReview(user.getId(), productId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping("/profile/reviews/products/{productId}")
+    public ResponseEntity<ReviewResponse> updateProductReview(Authentication authentication,
+            @PathVariable Long productId, @Valid @RequestBody ReviewRequest request) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(clientService.updateProductReview(user.getId(), productId, request));
+    }
+
+    @DeleteMapping("/profile/reviews/products/{productId}")
+    public ResponseEntity<Void> deleteProductReview(Authentication authentication, @PathVariable Long productId) {
+        User user = (User) authentication.getPrincipal();
+        clientService.deleteProductReview(user.getId(), productId);
+        return ResponseEntity.noContent().build();
+    }
+
+    // ==================== ADMIN ====================
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
