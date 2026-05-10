@@ -1,6 +1,7 @@
 package com.ceiba.fashtoll.worldModel.brand;
 
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
+import com.ceiba.fashtoll.worldModel.review.entity.BrandReview;
 import com.ceiba.fashtoll.worldModel.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -31,12 +32,19 @@ public class Brand extends User {
     @Min(0) @Max(5)
     private Double rating = 0.0;
 
+    @Column(name = "review_count")
+    private Integer reviewCount = 0;
+
     @Column(name = "is_verified")
     private Boolean isVerified = false;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     @JsonIgnore // Para que jackon no serialice los productos de la marca
     private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<BrandReview> reviews = new ArrayList<>();
 
     /* Cuando exista Tag
     @ManyToMany

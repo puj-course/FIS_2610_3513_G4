@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import com.ceiba.fashtoll.worldModel.brand.Brand;
+import com.ceiba.fashtoll.worldModel.review.entity.BrandReview;
+import com.ceiba.fashtoll.worldModel.review.entity.ProductReview;
 import com.ceiba.fashtoll.worldModel.wishlist.Wishlist;
 
 @EqualsAndHashCode(callSuper = true)
@@ -32,6 +34,12 @@ public class Client extends User{
     )
     private Set<Brand> followedBrands = new HashSet<>();
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BrandReview> brandReviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductReview> productReviews = new ArrayList<>();
+
     @PrePersist
     public void prePersist() {
         if (this.wishlists.isEmpty()) {
@@ -42,3 +50,4 @@ public class Client extends User{
         }
     }
 }
+
