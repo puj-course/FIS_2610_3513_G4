@@ -208,6 +208,19 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ProductResponse](#productresponse-schema)<br> |
 
+### [GET] /api/products/{id}/reviews
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [ReviewResponse](#reviewresponse-schema) ]<br> |
+
 ---
 
 ### [GET] /api/product-types/{id}
@@ -840,6 +853,19 @@
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [BrandPublicResponse](#brandpublicresponse-schema)<br> |
+
+### [GET] /api/brands/public/{id}/reviews
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [ReviewResponse](#reviewresponse-schema) ]<br> |
 
 ---
 
