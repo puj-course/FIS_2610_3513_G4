@@ -5,6 +5,7 @@ import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
 import com.ceiba.fashtoll.utilities.enums.GeneralFit;
+import com.ceiba.fashtoll.worldModel.review.entity.ProductReview;
 import com.ceiba.fashtoll.worldModel.tag.Tag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -66,6 +67,9 @@ public class Product {
     @Min(0) @Max(5)
     private Double rating = 0.0;
 
+    @Column(name = "review_count")
+    private Integer reviewCount = 0;
+
     @Column(name = "link_product", length = 500)
     private String linkProduct;
 
@@ -90,4 +94,8 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "token_id")
     )
     private Set<SearchToken> tokens = new HashSet<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<ProductReview> reviews = new ArrayList<>();
 }
