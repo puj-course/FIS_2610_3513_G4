@@ -37,7 +37,7 @@ public class ProductMapper {
         response.setRating(product.getRating());
         response.setReviewCount(product.getReviewCount());
         response.setLinkProduct(product.getLinkProduct());
-        response.setCreatedAt(product.getCreatedAt());
+        response.setCreatedAt(product.getLastTimeEdited());
 
         if (product.getImages() != null) {
             response.setImageUrls(

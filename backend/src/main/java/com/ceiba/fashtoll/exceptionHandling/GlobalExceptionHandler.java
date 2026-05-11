@@ -3,6 +3,7 @@ package com.ceiba.fashtoll.exceptionHandling;
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.DuplicatedResourceException;
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.UnauthorizedException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -56,4 +57,33 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException exception) {
+        ApiError apiError = new ApiError(
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        String message = "";
+        if (exception.getMessage().contains("evitar_duplicados")) {
+            message = "No se pueden crear productos duplicados";
+        }
+
+        ApiError apiError = new ApiError(
+                HttpStatus.CONFLICT.value(),
+                message,
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
 }

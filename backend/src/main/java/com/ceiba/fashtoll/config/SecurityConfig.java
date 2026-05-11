@@ -21,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 @Configuration
@@ -42,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // TODO: Restrigir a solo Admin
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/products/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/products/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/brands/public/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/product-types/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/tags/**").permitAll()

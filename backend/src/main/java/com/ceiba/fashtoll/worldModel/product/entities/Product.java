@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,7 +22,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products", uniqueConstraints = {
+        @UniqueConstraint(name = "evitar_duplicados", columnNames = {"name", "description"})
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -74,8 +75,7 @@ public class Product {
     private String linkProduct;
 
     @Column(name = "created_at")
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    private LocalDateTime lastTimeEdited;
 
     private List<String> images = new ArrayList<>();
 

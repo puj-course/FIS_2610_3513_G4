@@ -1,5 +1,6 @@
 package com.ceiba.fashtoll.searchEngine.TemplateMethod;
 
+import com.ceiba.fashtoll.searchEngine.dtos.QueryFilters;
 import com.ceiba.fashtoll.searchEngine.indexingComponent.IndexingComponent;
 import com.ceiba.fashtoll.searchEngine.rankingComponent.RankingComponent;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
@@ -17,7 +18,7 @@ public class SimpleSearchEngine extends SearchEngine {
     }
 
     @Override
-    protected List<Product> returnResults(List<String> keyWords) {
+    protected List<Product> returnResults(List<String> keyWords, QueryFilters filters) {
         return this.productRepository.findBySearchTokens(keyWords);
     }
 }

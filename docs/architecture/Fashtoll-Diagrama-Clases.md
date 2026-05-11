@@ -68,3 +68,10 @@ A lo largo del ciclo de desarrollo, la arquitectura se fue refinando, pasando de
 <p align="center">
   <img src="https://github.com/puj-course/FIS_2610_3513_G4/raw/main/docs/architecture/assets/v5%20-%20Fashtoll%20Class%20Diagram.png" alt="Fashtoll class diagram v5" width="1000">
 </p>
+
+### Version final:
+
+<p align="center">
+  <img src="https://github.com/puj-course/FIS_2610_3513_G4/raw/main/docs/architecture/assets/Fashtoll%20Class%20Diagram.png" alt="Fashtoll class diagram v5" width="1000">
+</p>
+

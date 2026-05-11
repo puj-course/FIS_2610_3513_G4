@@ -2,15 +2,12 @@ package com.ceiba.fashtoll.searchEngine;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import com.ceiba.fashtoll.searchEngine.TemplateMethod.SearchEngine;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.FilterSearchEngine;
 import com.ceiba.fashtoll.searchEngine.TemplateMethod.SimpleSearchEngine;
-import com.ceiba.fashtoll.searchEngine.dtos.ProductDocument;
-import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchResponse;
+import com.ceiba.fashtoll.searchEngine.dtos.*;
 import com.ceiba.fashtoll.searchEngine.repositories.ProductSearchRepository;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
-import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchRequest;
-import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,20 +30,22 @@ public class ProductSearchService {
     private final ElasticsearchOperations elasticsearchOperations;
     private final ProductRepository productRepository;
     private final SimpleSearchEngine simpleSearchEngine;
+    private final FilterSearchEngine filterSearchEngine;
 
     @Autowired
     public ProductSearchService(ProductSearchRepository productSearchRepository,
                                 ElasticsearchOperations elasticsearchOperations,
-                                ProductRepository productRepository, SimpleSearchEngine simpleSearchEngine) {
+                                ProductRepository productRepository, SimpleSearchEngine simpleSearchEngine, FilterSearchEngine filterSearchEngine) {
 
         this.productSearchRepository = productSearchRepository;
         this.elasticsearchOperations = elasticsearchOperations;
         this.productRepository = productRepository;
         this.simpleSearchEngine = simpleSearchEngine;
+        this.filterSearchEngine = filterSearchEngine;
     }
 
-    public ProductSearchResponse search(String query){
-        List<Product> searchResultProducts = this.simpleSearchEngine.processQuery(query);
+    public ProductSearchResponse simpleSearch(String query){
+        List<Product> searchResultProducts = this.simpleSearchEngine.processSimpleQuery(query);
         List<ProductDocument> searchResponseProducts = new ArrayList<>();
 
         for(Product p: searchResultProducts){
@@ -56,6 +55,21 @@ public class ProductSearchService {
         }
 
         this.logger.info("Se buscaron productos con el query '" + query + "'");
+
+        return new ProductSearchResponse(searchResponseProducts);
+    }
+
+    public ProductSearchResponse filterSearch(ProductSearchRequest request){
+        List<Product> searchResultProducts = this.filterSearchEngine.processFilterQuery(request);
+        List<ProductDocument> searchResponseProducts = new ArrayList<>();
+
+        for(Product p: searchResultProducts){
+            ProductDocument nP = this.mapToDocument(p);
+
+            searchResponseProducts.add(nP);
+        }
+
+        this.logger.info("Se buscaron productos con filtros y con el query '" + request.query() + "'");
 
         return new ProductSearchResponse(searchResponseProducts);
     }
@@ -246,7 +260,7 @@ public class ProductSearchService {
                             .map(tag -> tag.getName())
                             .collect(Collectors.toList())
                         : List.of())
-                .createdAt(product.getCreatedAt())
+                .createdAt(product.getLastTimeEdited())
                 .build();
     }
 }
