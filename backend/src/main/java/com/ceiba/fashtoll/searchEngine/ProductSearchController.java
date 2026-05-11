@@ -2,6 +2,7 @@ package com.ceiba.fashtoll.searchEngine;
 
 import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchRequest;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchResponse;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchRequest;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,14 @@ public class ProductSearchController {
         this.productSearchService = productSearchService;
     }
 
+    @GetMapping("/simple-search")
+    public ProductSearchResponse simpleSearchProducts(@RequestBody String query){
+        return this.productSearchService.simpleSearch(query);
+    }
+
     @GetMapping
-    public ProductSearchResponse searchProducts(@RequestBody String query){
-        return this.productSearchService.search(query);
+    public ProductSearchResponse filterSearchProducts(@RequestBody ProductSearchRequest request){
+        return this.productSearchService.filterSearch(request);
     }
 
     /**

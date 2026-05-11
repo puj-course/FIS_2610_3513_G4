@@ -1,5 +1,7 @@
 package com.ceiba.fashtoll.searchEngine.TemplateMethod;
 
+import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchRequest;
+import com.ceiba.fashtoll.searchEngine.dtos.QueryFilters;
 import com.ceiba.fashtoll.searchEngine.indexingComponent.IndexingComponent;
 import com.ceiba.fashtoll.searchEngine.rankingComponent.RankingComponent;
 import com.ceiba.fashtoll.utilities.Singleton.Analyzer;
@@ -21,12 +23,31 @@ public abstract class SearchEngine {
         this.analyzer = Analyzer.getInstance();
     }
 
-    public final List<Product> processQuery(String rawQuery){
+    public final List<Product> processSimpleQuery(String rawQuery){
         String cleanQuery = this.analyzer.characterFilter(rawQuery);
         List<String> keyWords = this.analyzer.obtainKeyWords(cleanQuery);
 
-        return this.returnResults(keyWords);
+        return this.returnResults(keyWords, null);
     }
 
-    protected abstract List<Product> returnResults(List<String> keyWords);
+    public final List<Product> processFilterQuery(ProductSearchRequest request){
+        String cleanQuery = this.analyzer.characterFilter(request.query());
+        List<String> keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+
+        QueryFilters filters = new QueryFilters(
+                request.productType(),
+                request.category(),
+                request.generalFit(),
+                request.gender(),
+                request.color(),
+                //request.available(),
+                request.minPrice(),
+                request.maxPrice(),
+                request.tags()
+        );
+
+        return this.returnResults(keyWords, filters);
+    }
+
+    protected abstract List<Product> returnResults(List<String> keyWords, QueryFilters filters);
 }

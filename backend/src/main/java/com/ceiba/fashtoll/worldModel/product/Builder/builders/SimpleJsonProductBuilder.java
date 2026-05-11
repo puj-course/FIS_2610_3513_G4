@@ -52,7 +52,7 @@ public class SimpleJsonProductBuilder implements ProductBuilder {
         this.product.setPrice(productDetails.price());
         this.product.setAvailable(productDetails.available());
         this.product.setRating(productDetails.rating());
-        this.product.setCreatedAt(productDetails.createdAt());
+        this.product.setLastTimeEdited(productDetails.createdAt());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class SimpleJsonProductBuilder implements ProductBuilder {
     }
 
     @Override
-    public void updateProduct() {
+    public void adminUpdateProduct(Long productId) {
     }
 
     public Product getResult(){

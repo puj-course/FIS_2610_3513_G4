@@ -153,7 +153,13 @@ public class BrandService {
 
     public ResponseEntity<ProductResponse> createMyProduct(Authentication authentication, ProductCreateRequest request) {
         User user = (User) authentication.getPrincipal();
-        ProductResponse newProduct = productService.createBrandProduct(user.getId(), request);
+        ProductResponse newProduct = new ProductResponse();
+        if (user != null) {
+            newProduct = productService.createBrandProduct(user.getId(), request);
+        } else {
+            this.logger.error("No hay una marca para asociar al producto a crear");
+            throw new ResourceNotFoundException("Marca","id",user.getId());
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
