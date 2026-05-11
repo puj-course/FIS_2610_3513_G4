@@ -1,0 +1,104 @@
+name: Docker Build & Push
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    name: Build & Push Docker Images — Fashtoll
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # ── 1. Código fuente ──────────────────────────────────────────────────
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      # ── 2. Build del Backend (Maven) ──────────────────────────────────────
+      - name: Configurar JDK 21 con caché Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Dar permisos de ejecución al Maven Wrapper
+        working-directory: ./backend
+        run: chmod +x mvnw
+
+      - name: Compilar JAR con Maven (sin tests)
+        working-directory: ./backend
+        run: ./mvnw clean package -DskipTests --no-transfer-progress
+
+      # ── 3. Build del Frontend (Node / Vite) ───────────────────────────────
+      - name: Configurar Node.js 20 con caché npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependencias del frontend
+        working-directory: ./frontend
+        run: npm ci --prefer-offline
+
+      - name: Build del frontend (TypeScript + Vite)
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          VITE_API_URL: http://localhost:8080
+
+      # ── 4. Configuración de Docker ────────────────────────────────────────
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Autenticarse en DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # ── 5. Imagen del Backend ─────────────────────────────────────────────
+      - name: Build y Push — fashtoll-backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/fashtoll-backend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/fashtoll-backend:sha-${{ github.sha }}
+          cache-from: type=gha,scope=fashtoll-backend
+          cache-to: type=gha,mode=max,scope=fashtoll-backend
+
+      # ── 6. Imagen del Frontend ────────────────────────────────────────────
+      - name: Build y Push — fashtoll-frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/fashtoll-frontend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/fashtoll-frontend:sha-${{ github.sha }}
+          build-args: |
+            VITE_API_URL=http://localhost:8080
+          cache-from: type=gha,scope=fashtoll-frontend
+          cache-to: type=gha,mode=max,scope=fashtoll-frontend
+
+      # ── 7. Resumen del workflow ───────────────────────────────────────────
+      - name: Publicar resumen del despliegue
+        run: |
+          echo "## 🐳 Imágenes Docker publicadas en DockerHub" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Imagen | Tags |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| \`${{ secrets.DOCKERHUB_USERNAME }}/fashtoll-backend\` | \`latest\`, \`sha-${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| \`${{ secrets.DOCKERHUB_USERNAME }}/fashtoll-frontend\` | \`latest\`, \`sha-${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Comandos para ejecutar el stack completo" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "docker compose up -d" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

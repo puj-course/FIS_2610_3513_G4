@@ -208,6 +208,19 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ProductResponse](#productresponse-schema)<br> |
 
+### [GET] /api/products/{id}/reviews
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [ReviewResponse](#reviewresponse-schema) ]<br> |
+
 ---
 
 ### [GET] /api/product-types/{id}
@@ -342,6 +355,179 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ClientProfileResponse](#clientprofileresponse-schema)<br> |
 
+### [GET] /api/clients/profile/wishlists/{wishlistId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [WishlistDetailsResponse](#wishlistdetailsresponse-schema)<br> |
+
+### [PUT] /api/clients/profile/wishlists/{wishlistId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [WishlistRequest](#wishlistrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [WishlistResponse](#wishlistresponse-schema)<br> |
+
+### [DELETE] /api/clients/profile/wishlists/{wishlistId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [GET] /api/clients/profile/reviews/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [PUT] /api/clients/profile/reviews/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ReviewRequest](#reviewrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [POST] /api/clients/profile/reviews/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ReviewRequest](#reviewrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [DELETE] /api/clients/profile/reviews/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [GET] /api/clients/profile/reviews/brands/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [PUT] /api/clients/profile/reviews/brands/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ReviewRequest](#reviewrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [POST] /api/clients/profile/reviews/brands/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ReviewRequest](#reviewrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ReviewResponse](#reviewresponse-schema)<br> |
+
+### [DELETE] /api/clients/profile/reviews/brands/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
 ### [PUT] /api/clients/password
 #### Request Body
 
@@ -374,6 +560,114 @@
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ClientResponse](#clientresponse-schema)<br> |
+
+### [GET] /api/clients/profile/wishlists
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [WishlistResponse](#wishlistresponse-schema) ]<br> |
+
+### [POST] /api/clients/profile/wishlists
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [WishlistRequest](#wishlistrequest-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [WishlistResponse](#wishlistresponse-schema)<br> |
+
+### [POST] /api/clients/profile/wishlists/{wishlistId}/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [DELETE] /api/clients/profile/wishlists/{wishlistId}/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| wishlistId | path |  | Yes | long |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [POST] /api/clients/profile/wishlists/default/products/{productId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| productId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [POST] /api/clients/profile/following/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [DELETE] /api/clients/profile/following/{brandId}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| brandId | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | OK |
+
+### [GET] /api/clients/profile/reviews/products
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [ReviewResponse](#reviewresponse-schema) ]<br> |
+
+### [GET] /api/clients/profile/reviews/brands
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [ReviewResponse](#reviewresponse-schema) ]<br> |
+
+### [GET] /api/clients/profile/following
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [BrandPublicResponse](#brandpublicresponse-schema) ]<br> |
 
 ---
 
@@ -560,6 +854,19 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [BrandPublicResponse](#brandpublicresponse-schema)<br> |
 
+### [GET] /api/brands/public/{id}/reviews
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id | path |  | Yes | long |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ [ReviewResponse](#reviewresponse-schema) ]<br> |
+
 ---
 
 ### [PUT] /api/admin/users/{id}/status
@@ -745,10 +1052,12 @@
 | color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "CREAM", "GREEN", "BLUE", "NAVY", "TURQUOISE", "PURPLE", "RED", "MAROON", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"CREAM"`, `"GREEN"`, `"BLUE"`, `"NAVY"`, `"TURQUOISE"`, `"PURPLE"`, `"RED"`, `"MAROON"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
 | available | boolean |  | No |
 | rating | double |  | No |
+| reviewCount | integer |  | No |
 | linkProduct | string |  | No |
 | createdAt | dateTime |  | No |
 | imageUrls | [ string ] |  | No |
 | tags | [ [TagResponse](#tagresponse-schema) ] |  | No |
+| reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
 
 #### ProductTypeResponse Schema
 
@@ -757,6 +1066,19 @@
 | id | long |  | No |
 | name | string |  | No |
 | category | string, <br>**Available values:** "TOPS", "BOTTOMS", "FOOTWEAR", "OUTERWEAR", "ACCESSORIES", "FULL_BODY" | *Enum:* `"TOPS"`, `"BOTTOMS"`, `"FOOTWEAR"`, `"OUTERWEAR"`, `"ACCESSORIES"`, `"FULL_BODY"` | No |
+
+#### ReviewResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | long |  | No |
+| clientId | long |  | No |
+| clientName | string |  | No |
+| targetId | long |  | No |
+| comment | string |  | No |
+| rating | integer |  | No |
+| createdAt | dateTime |  | No |
+| updatedAt | dateTime |  | No |
 
 #### ProductTypeRequest Schema
 
@@ -791,6 +1113,26 @@
 | name | string |  | No |
 | email | string |  | No |
 
+#### WishlistRequest Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| name | string |  | Yes |
+
+#### WishlistResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | long |  | No |
+| name | string |  | No |
+
+#### ReviewRequest Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| comment | string |  | No |
+| rating | integer |  | Yes |
+
 #### PasswordChangeRequestDTO Schema
 
 | Name | Type | Description | Required |
@@ -817,7 +1159,9 @@
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
+| reviewCount | integer |  | No |
 | isVerified | boolean |  | No |
+| reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
 
 #### BrandProfileUpdateRequest Schema
 
@@ -837,7 +1181,9 @@
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
+| reviewCount | integer |  | No |
 | isVerified | boolean |  | No |
+| reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
 
 #### ProductUpdateRequest Schema
 
@@ -975,6 +1321,14 @@
 | totalResults | long |  | No |
 | pageSize | integer |  | No |
 
+#### WishlistDetailsResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | long |  | No |
+| name | string |  | No |
+| products | [ [ProductResponse](#productresponse-schema) ] |  | No |
+
 #### BrandPublicResponse Schema
 
 | Name | Type | Description | Required |
@@ -986,4 +1340,6 @@
 | linkOfficial | string |  | No |
 | followers | integer |  | No |
 | rating | double |  | No |
+| reviewCount | integer |  | No |
 | isVerified | boolean |  | No |
+| reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
