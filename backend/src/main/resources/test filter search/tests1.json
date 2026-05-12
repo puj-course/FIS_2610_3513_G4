@@ -1,19 +1,19 @@
-{
+[{
   "query": "Camisa",
   "color": "BLUE"
-}
+},
 {
   "query": "Bomber",
   "gender": "UNISEX",
   "generalFit": "OVERSIZED"
-}
+},
 {
   "query": "Tenis",
   "color": "BLACK",
   "available": true,
   "minPrice": 400000.0,
   "maxPrice": 600000.0
-}
+},
 {
   "query": "Faja",
   "gender": "FEMALE",
@@ -21,7 +21,7 @@
   "color": "BLACK",
   "minPrice": 150000.0,
   "maxPrice": 200000.0
-}
+},
 {
   "query": "Adicolor",
   "productType": "HOODIE", NO
@@ -33,4 +33,13 @@
   "minPrice": 200000.0,
   "maxPrice": 300000.0,
   "tags": ["FLEECE", "ESSENTIALS"] NO
-}
+},
+  {
+    "query": "Adicolor",
+    "productType": "HOODIE",
+    "generalFit": "LOOSE",
+    "gender": "UNISEX",
+    "color": "GREY",
+    "minPrice": 200000.0,
+    "maxPrice": 300000.0
+  }]

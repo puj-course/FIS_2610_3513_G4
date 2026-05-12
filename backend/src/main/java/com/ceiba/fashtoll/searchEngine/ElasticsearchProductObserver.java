@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
  * Rol GoF: ConcreteObserver
  */
 @Component
-public class ElasticsearchProductObserver implements ProductObserver {
+public class ElasticsearchProductObserver /*implements ProductObserver*/ {
 
     private final ProductSearchService productSearchService;
 
@@ -30,7 +30,7 @@ public class ElasticsearchProductObserver implements ProductObserver {
     public ElasticsearchProductObserver(ProductSearchService productSearchService,
                                         ProductEventPublisher publisher) {
         this.productSearchService = productSearchService;
-        publisher.subscribe(this);
+        //publisher.subscribe(this);
     }
 
     /**
@@ -41,6 +41,7 @@ public class ElasticsearchProductObserver implements ProductObserver {
      *
      * @param event el evento publicado por ProductEventPublisher.
      */
+    /*
     @Override
     public void onProductEvent(ProductEvent event) {
         if (event.getType() == EventType.DELETED) {
@@ -49,4 +50,5 @@ public class ElasticsearchProductObserver implements ProductObserver {
             productSearchService.indexProduct(event.getProduct());
         }
     }
+     */
 }

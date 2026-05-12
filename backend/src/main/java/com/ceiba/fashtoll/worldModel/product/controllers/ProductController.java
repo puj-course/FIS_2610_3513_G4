@@ -48,16 +48,29 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductCreateRequest request) {
-        ProductResponse newProduct = productService.createProduct(request);
+    @PostMapping("/simple")
+    public ResponseEntity<ProductResponse> createSimpleProduct(@Valid @RequestBody ProductCreateRequest request) {
+        ProductResponse newProduct = productService.createSimpleProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
+    public ResponseEntity<ProductResponse> createCompleteProduct(@Valid @RequestBody ProductCreateRequest request) {
+        ProductResponse newProduct = productService.createCompleteProduct(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/simple/{id}")
+    public ProductResponse updateSimpleProduct(@PathVariable Long id, @Valid @RequestBody ProductAdminUpdateRequest request) {
+        return productService.updateSimpleProduct(id, request);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ProductResponse updateProduct(@PathVariable Long id, @Valid @RequestBody ProductAdminUpdateRequest request) {
-        return productService.updateProduct(id, request);
+    public ProductResponse updateCompleteProduct(@PathVariable Long id, @Valid @RequestBody ProductAdminUpdateRequest request) {
+        return productService.updateCompleteProduct(id, request);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

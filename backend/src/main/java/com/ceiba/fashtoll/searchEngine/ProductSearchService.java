@@ -1,7 +1,5 @@
 package com.ceiba.fashtoll.searchEngine;
 
-import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.ceiba.fashtoll.searchEngine.TemplateMethod.FilterSearchEngine;
 import com.ceiba.fashtoll.searchEngine.TemplateMethod.SimpleSearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.*;
@@ -12,10 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+/*
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+ */
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,19 +28,19 @@ import java.util.stream.Collectors;
 public class ProductSearchService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final ProductSearchRepository productSearchRepository;
-    private final ElasticsearchOperations elasticsearchOperations;
+    //private final ProductSearchRepository productSearchRepository;
+    //private final ElasticsearchOperations elasticsearchOperations;
     private final ProductRepository productRepository;
     private final SimpleSearchEngine simpleSearchEngine;
     private final FilterSearchEngine filterSearchEngine;
 
     @Autowired
-    public ProductSearchService(ProductSearchRepository productSearchRepository,
-                                ElasticsearchOperations elasticsearchOperations,
+    public ProductSearchService(/*ProductSearchRepository productSearchRepository,
+                                ElasticsearchOperations elasticsearchOperations,*/
                                 ProductRepository productRepository, SimpleSearchEngine simpleSearchEngine, FilterSearchEngine filterSearchEngine) {
 
-        this.productSearchRepository = productSearchRepository;
-        this.elasticsearchOperations = elasticsearchOperations;
+        //this.productSearchRepository = productSearchRepository;
+        //this.elasticsearchOperations = elasticsearchOperations;
         this.productRepository = productRepository;
         this.simpleSearchEngine = simpleSearchEngine;
         this.filterSearchEngine = filterSearchEngine;
@@ -78,6 +80,7 @@ public class ProductSearchService {
      * Buscar productos usando Elasticsearch con búsqueda Full-Text por keywords,
      * filtros estrictos (AND), y tags coincidentes (OR con scoring).
      */
+    /*
     public ProductElasticSearchResponse search(ProductElasticSearchRequest request) {
         PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
 
@@ -188,32 +191,36 @@ public class ProductSearchService {
                 .pageSize(request.getSize())
                 .build();
     }
-
+    */
     /**
      * Indexa o actualiza un Producto en Elasticsearch.
      * Llamado después de operaciones create/update en ProductService.
      */
+    /*
     public void indexProduct(Product product) {
         ProductDocument document = mapToDocument(product);
         productSearchRepository.save(document);
 
         this.logger.info("Se indexo el producto '" + product.getName() + "' con el id: " + product.getId());
     }
-
+    */
     /**
      * Elimina un Producto del index de Elasticsearch.
      * Llamado después de operaciones delete en ProductService.
      */
+    /*
     public void deleteProduct(Long id) {
         productSearchRepository.deleteById(id);
 
         this.logger.info("Se elimino el producto con id: " + id + " del repositorio de elastic search");
     }
+    */
 
     /**
      * Re-indexa TODOS los productos desde PostgreSQL hacia Elasticsearch.
      * Útil para la primera vez o en caso de desicronización
      */
+    /*
     public void reindexAll() {
         // Limpiar el index
         productSearchRepository.deleteAll();
@@ -227,6 +234,7 @@ public class ProductSearchService {
 
         this.logger.info("Se reindexaron todos los productos del repositorio de elastic search");
     }
+     */
 
     /**
      * Mapea una entidad JPA Product a un ProductDocument de Elasticsearch

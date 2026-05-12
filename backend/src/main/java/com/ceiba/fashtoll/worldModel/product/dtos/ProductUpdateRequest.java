@@ -38,5 +38,5 @@ public class ProductUpdateRequest {
     private String linkProduct;
 
     private List<String> imageUrls;
-    private List<Long> tagIds;
+    private List<String> tagIds;
 }

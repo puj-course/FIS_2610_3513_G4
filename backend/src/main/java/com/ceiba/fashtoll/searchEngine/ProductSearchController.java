@@ -37,6 +37,7 @@ public class ProductSearchController {
      * Soporta búsqueda por keywords, filtros y paginación.
      * No requiere autenticación.
      */
+    /*
     @GetMapping("/elastic-search")
     public ProductElasticSearchResponse searchProducts(
             @RequestParam(required = false) String keyword,
@@ -69,6 +70,7 @@ public class ProductSearchController {
 
         return productSearchService.search(request);
     }
+     */
 
     /**
      * Re-indexa TODOS los products desde PostgreSQL hacia Elasticsearch.
@@ -77,7 +79,8 @@ public class ProductSearchController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/reindex")
     public ResponseEntity<String> reindexAll() {
-        productSearchService.reindexAll();
+        //productSearchService.reindexAll();
         return ResponseEntity.ok("Reindexación completada exitosamente.");
     }
+
 }

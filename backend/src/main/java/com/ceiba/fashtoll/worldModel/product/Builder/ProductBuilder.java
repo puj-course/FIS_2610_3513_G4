@@ -16,7 +16,7 @@ public interface ProductBuilder {
     void putProductType(Long productTypeId);
     void putEnums(GeneralFit generalFit, Gender gender, Color color);
     void putImagesURLs(List<String> imagesURLs);
-    void putTags(List<Long> tagsIds);
+    void putTags(List<String> tagsIds);
     void adminUpdateProduct(Long productId);
     Product getResult();
 }

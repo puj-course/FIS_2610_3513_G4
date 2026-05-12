@@ -41,5 +41,5 @@ public class ProductAdminUpdateRequest {
     private String linkProduct;
 
     private List<String> imageUrls;
-    private List<Long> tagIds;
+    private List<String> tagIds;
 }

@@ -5,19 +5,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+/*
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;
+*/
 import org.springframework.stereotype.Component;
 
 /**
  * Inicializa el índice 'products_index' de Elasticsearch al ejecutar la aplicación.
  */
-@Component
-public class ElasticsearchIndexInitializer implements ApplicationRunner {
+//@Component
+public class ElasticsearchIndexInitializer /*implements ApplicationRunner */{
 
     private static final Logger log = LoggerFactory.getLogger(ElasticsearchIndexInitializer.class);
     private static final String INDEX_NAME = "products_search";
 
+    /*
     private final ElasticsearchOperations elasticsearchOperations;
 
     public ElasticsearchIndexInitializer(ElasticsearchOperations elasticsearchOperations) {
@@ -41,4 +44,5 @@ public class ElasticsearchIndexInitializer implements ApplicationRunner {
             }
         }
     }
+     */
 }

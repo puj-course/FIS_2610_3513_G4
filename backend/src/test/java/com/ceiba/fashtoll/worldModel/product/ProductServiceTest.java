@@ -11,10 +11,10 @@ package com.ceiba.fashtoll.worldModel.product;
  *    CP-PRD-03: getProductById — ID inexistente → excepción
  *    CP-PRD-04: deleteProduct — ID inexistente → excepción, sin notify
  *    CP-PRD-05: getProductsByBrand — lista filtrada
- *    CP-PRD-06: updateProduct — brandId inexistente → excepción, sin save
+ *    CP-PRD-06: updateSimpleProduct — brandId inexistente → excepción, sin save
  *    CP-PRD-07: getAllProducts — repositorio vacío
  *    CP-PRD-08: getProductByBrand — productId inexistente → excepción
- *    CP-PRD-09: createBrandProduct — lógica Observer (notify CREATED)
+ *    CP-PRD-09: createSimpleBrandProduct — lógica Observer (notify CREATED)
  *    CP-PRD-10: deleteProduct — notify DELETED al eliminar
  * ============================================================
  */
@@ -23,7 +23,6 @@ import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundExcep
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.worldModel.brand.BrandRepository;
 import com.ceiba.fashtoll.worldModel.product.Builder.ProductBuilder;
-import com.ceiba.fashtoll.worldModel.product.Builder.ProductDirector;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
@@ -31,7 +30,6 @@ import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
-import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
@@ -383,10 +381,10 @@ class ProductServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 5 — updateProduct()
+    //  GRUPO 5 — updateSimpleProduct()
     // ═══════════════════════════════════════════════════════════
     @Nested
-    @DisplayName("updateProduct() — Admin update")
+    @DisplayName("updateSimpleProduct() — Admin update")
     class UpdateProductTests {
 
         @Test
@@ -405,7 +403,7 @@ class ProductServiceTest {
             // Debe lanzar excepción y nunca guardar el producto modificado
             assertThrows(
                 ResourceNotFoundException.class,
-                () -> productService.updateProduct(EXISTING_PRODUCT_ID, request),
+                () -> productService.updateSimpleProduct(EXISTING_PRODUCT_ID, request),
                 "Debe lanzar ResourceNotFoundException cuando la marca del request no existe"
             );
             verify(productRepository, never()).save(any());
@@ -413,10 +411,10 @@ class ProductServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 6 — createBrandProduct()
+    //  GRUPO 6 — createSimpleBrandProduct()
     // ═══════════════════════════════════════════════════════════
     @Nested
-    @DisplayName("createBrandProduct() — Lógica Observer (BRAND crea producto)")
+    @DisplayName("createSimpleBrandProduct() — Lógica Observer (BRAND crea producto)")
     class CreateBrandProductTests {
 
         @Test
@@ -443,7 +441,7 @@ class ProductServiceTest {
 
             // --- Act ---
             // Solo el rol BRAND ejecuta este método (restricción impuesta en el controlador)
-            ProductResponse result = productService.createBrandProduct(EXISTING_BRAND_ID, request);
+            ProductResponse result = productService.createSimpleBrandProduct(EXISTING_BRAND_ID, request);
 
             // --- Assert ---
             // El producto debe haberse guardado y el observer debe ser notificado con CREATED

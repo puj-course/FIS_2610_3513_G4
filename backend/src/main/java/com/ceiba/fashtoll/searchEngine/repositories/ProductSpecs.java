@@ -2,13 +2,16 @@ package com.ceiba.fashtoll.searchEngine.repositories;
 
 import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken;
 import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken_;
-import com.ceiba.fashtoll.utilities.enums.GeneralFit;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType_;
 import com.ceiba.fashtoll.worldModel.product.entities.Product_;
+import com.ceiba.fashtoll.worldModel.tag.Tag;
+import com.ceiba.fashtoll.worldModel.tag.Tag_;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.PredicateSpecification;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -68,10 +71,12 @@ public class ProductSpecs{
         };
     }
 
-    public static PredicateSpecification<Product> tags(List<String> tags){
+    public static PredicateSpecification<Product> tags(List<String> requestedTags){
         return (from, builder) -> {
-            if (tags.isEmpty()) return null;
-            return builder.equal(from.get(Product_.tags), tags);
+            if (requestedTags.isEmpty()) return null;
+            Join<Product, Tag> tags = from.join(Product_.tags);
+
+            return builder.in(tags.get(Tag_.NAME)).value(requestedTags);
         };
     }
 

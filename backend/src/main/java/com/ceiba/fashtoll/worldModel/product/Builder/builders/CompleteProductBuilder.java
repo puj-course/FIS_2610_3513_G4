@@ -12,29 +12,37 @@ import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
+import com.ceiba.fashtoll.worldModel.tag.Tag;
+import com.ceiba.fashtoll.worldModel.tag.TagRepository;
+import com.ceiba.fashtoll.worldModel.tag.Tag_;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-@Component("simpleBuilder")
+@Component("completeBuilder")
 @Scope("prototype")
-public class SimpleProductBuilder implements ProductBuilder {
+public class CompleteProductBuilder implements ProductBuilder {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final BrandRepository brandRepository;
     private final ProductRepository productRepository;
     private final ProductTypeRepository productTypeRepository;
+    private final TagRepository tagRepository;
     private Product result;
 
     @Autowired
-    public SimpleProductBuilder(BrandRepository brandRepository, ProductRepository productRepository, ProductTypeRepository productTypeRepository) {
+    public CompleteProductBuilder(BrandRepository brandRepository, ProductRepository productRepository, ProductTypeRepository productTypeRepository, TagRepository tagRepository) {
         this.brandRepository = brandRepository;
         this.productRepository = productRepository;
         this.productTypeRepository = productTypeRepository;
+        this.tagRepository = tagRepository;
     }
 
     @Override
@@ -89,14 +97,13 @@ public class SimpleProductBuilder implements ProductBuilder {
 
     @Override
     public void putImagesURLs(List<String> imagesURLs) {
-        this.result.setImages(null);
-        this.logger.info("El producto '" + this.result.getName() + "' con id: " + this.result.getId() + " NO TIENE URLs DE IMAGENES");
+        this.result.setImages(imagesURLs);
     }
 
     @Override
-    public void putTags(List<Long> tagsIds) {
-        this.result.setTags(null);
-        this.logger.info("El producto '" + this.result.getName() + "' con id: " + this.result.getId() + " NO TIENE TAGS");
+    public void putTags(List<String> tagsIds) {
+        //this.tagRepository.findBy()
+        this.result.setTags(new HashSet<>());
     }
 
     @Override

@@ -119,17 +119,30 @@ public class BrandController {
     }
 
     @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
-    @PostMapping("/my-products")
-    public ResponseEntity<ProductResponse> createMyProduct(Authentication authentication,
+    @PostMapping("/my-products/simple")
+    public ResponseEntity<ProductResponse> createMySimpleProduct(Authentication authentication,
                                                            @Valid @RequestBody ProductCreateRequest request) {
-        return this.brandService.createMyProduct(authentication, request);
+        return this.brandService.createMySimpleProduct(authentication, request);
+    }
+
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
+    @PostMapping("/my-products")
+    public ResponseEntity<ProductResponse> createMyCompleteProduct(Authentication authentication, @Valid @RequestBody ProductCreateRequest request) {
+        return this.brandService.createMyCompleteProduct(authentication, request);
+    }
+
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
+    @PutMapping("/my-products/simple/{id}")
+    public ProductResponse updateMySimpleProduct(Authentication authentication, @PathVariable Long id,
+                                           @Valid @RequestBody ProductUpdateRequest request) {
+        return this.brandService.updateMySimpleProduct(authentication, id, request);
     }
 
     @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @PutMapping("/my-products/{id}")
-    public ProductResponse updateMyProduct(Authentication authentication, @PathVariable Long id,
+    public ProductResponse updateMyCompleteProduct(Authentication authentication, @PathVariable Long id,
                                            @Valid @RequestBody ProductUpdateRequest request) {
-        return this.brandService.updateMyProduct(authentication, id, request);
+        return this.brandService.updateMyCompleteProduct(authentication, id, request);
     }
 
     @PreAuthorize("hasAnyRole('BRAND','ADMIN')")

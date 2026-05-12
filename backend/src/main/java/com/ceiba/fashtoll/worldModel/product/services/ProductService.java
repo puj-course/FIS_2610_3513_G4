@@ -45,6 +45,9 @@ public class ProductService {
     @Autowired
     @Qualifier("simpleJsonBuilder")
     private ObjectProvider<ProductBuilder> simpleJsonBuilderProvider;
+    @Autowired
+    @Qualifier("completeBuilder")
+    private ObjectProvider<ProductBuilder> completeBuilderProvider;
     private ProductDirector director;
 
     @Autowired
@@ -84,7 +87,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse createProduct(ProductCreateRequest request) {
+    public ProductResponse createSimpleProduct(ProductCreateRequest request) {
         ProductBuilder builder = simpleBuilderProvider.getObject();
         this.director = new ProductDirector(builder);
         this.director.makeSimpleProduct(request);
@@ -100,7 +103,23 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse updateProduct(Long productId, ProductAdminUpdateRequest request) {
+    public ProductResponse createCompleteProduct(ProductCreateRequest request) {
+        ProductBuilder builder = completeBuilderProvider.getObject();
+        this.director = new ProductDirector(builder);
+        this.director.makeCompleteProduct(request);
+        Product product = builder.getResult();
+
+        Product savedProduct = this.productRepository.save(product);
+        this.productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se creo el producto '" + savedProduct.getName() + "' con id: " + savedProduct.getId());
+
+        return productMapper.toResponse(savedProduct);
+    }
+
+    @Transactional
+    public ProductResponse updateSimpleProduct(Long productId, ProductAdminUpdateRequest request) {
         ProductBuilder builder = simpleBuilderProvider.getObject();
         this.director = new ProductDirector(builder);
         this.director.adminUpdateSimpleProduct(productId, request);
@@ -111,6 +130,22 @@ public class ProductService {
 
         this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
         this.logger.info("Se actualizo el producto '" + savedProduct.getName() + "' con productId: " + savedProduct.getId());
+
+        return productMapper.toResponse(savedProduct);
+    }
+
+    @Transactional
+    public ProductResponse updateCompleteProduct(Long productId, ProductAdminUpdateRequest request) {
+        ProductBuilder builder = completeBuilderProvider.getObject();
+        this.director = new ProductDirector(builder);
+        this.director.adminUpdateCompleteProduct(productId, request);
+        Product product = builder.getResult();
+
+        Product savedProduct = this.productRepository.save(product);
+        this.productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se creo el producto '" + savedProduct.getName() + "' con id: " + savedProduct.getId());
 
         return productMapper.toResponse(savedProduct);
     }
@@ -143,7 +178,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse createBrandProduct(Long brandId, ProductCreateRequest request) {
+    public ProductResponse createSimpleBrandProduct(Long brandId, ProductCreateRequest request) {
         ProductBuilder builder = simpleBuilderProvider.getObject();
         this.director = new ProductDirector(builder);
         request.setBrandId(brandId);
@@ -160,10 +195,43 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse updateBrandProduct(Long brandId, Long productId, ProductUpdateRequest request) {
+    public ProductResponse createCompleteBrandProduct(Long brandId, ProductCreateRequest request) {
+        ProductBuilder builder = completeBuilderProvider.getObject();
+        this.director = new ProductDirector(builder);
+        request.setBrandId(brandId);
+        this.director.makeCompleteProduct(request);
+        Product product = builder.getResult();
+
+        Product savedProduct = productRepository.save(product);
+        productEventPublisher.notify(new ProductEvent(savedProduct, EventType.CREATED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se creo el producto '" + savedProduct.getName() + "' con id: " + savedProduct.getId() + " de la marca '" + savedProduct.getBrand().getName() + "'");
+
+        return productMapper.toResponse(savedProduct);
+    }
+
+    @Transactional
+    public ProductResponse updateSimpleBrandProduct(Long brandId, Long productId, ProductUpdateRequest request) {
         ProductBuilder builder = simpleBuilderProvider.getObject();
         this.director = new ProductDirector(builder);
         this.director.updateSimpleProduct(brandId, productId, request);
+        Product product = builder.getResult();
+
+        Product savedProduct = productRepository.save(product);
+        productEventPublisher.notify(new ProductEvent(savedProduct, EventType.UPDATED));
+
+        this.logger.info("Se notifico a los suscriptores de 'ProductEventPublisher'");
+        this.logger.info("Se actualizo el producto '" + product.getName() + "' con id: " + product.getId() + " de la marca con id: " + brandId);
+
+        return productMapper.toResponse(savedProduct);
+    }
+
+    @Transactional
+    public ProductResponse updateCompleteBrandProduct(Long brandId, Long productId, ProductUpdateRequest request) {
+        ProductBuilder builder = completeBuilderProvider.getObject();
+        this.director = new ProductDirector(builder);
+        this.director.updateCompleteProduct(brandId, productId, request);
         Product product = builder.getResult();
 
         Product savedProduct = productRepository.save(product);

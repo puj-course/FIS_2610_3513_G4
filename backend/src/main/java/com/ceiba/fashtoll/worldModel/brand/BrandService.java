@@ -151,11 +151,11 @@ public class BrandService {
         return productService.getProductByBrand(user.getId(), id);
     }
 
-    public ResponseEntity<ProductResponse> createMyProduct(Authentication authentication, ProductCreateRequest request) {
+    public ResponseEntity<ProductResponse> createMySimpleProduct(Authentication authentication, ProductCreateRequest request) {
         User user = (User) authentication.getPrincipal();
-        ProductResponse newProduct = new ProductResponse();
+        ProductResponse newProduct;
         if (user != null) {
-            newProduct = productService.createBrandProduct(user.getId(), request);
+            newProduct = productService.createSimpleBrandProduct(user.getId(), request);
         } else {
             this.logger.error("No hay una marca para asociar al producto a crear");
             throw new ResourceNotFoundException("Marca","id",user.getId());
@@ -163,9 +163,26 @@ public class BrandService {
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
-    public ProductResponse updateMyProduct(Authentication authentication, Long id, ProductUpdateRequest request) {
+    public ResponseEntity<ProductResponse> createMyCompleteProduct(Authentication authentication, ProductCreateRequest request) {
         User user = (User) authentication.getPrincipal();
-        return productService.updateBrandProduct(user.getId(), id, request);
+        ProductResponse newProduct;
+        if (user != null) {
+            newProduct = productService.createCompleteBrandProduct(user.getId(), request);
+        } else {
+            this.logger.error("No hay una marca para asociar al producto a crear");
+            throw new ResourceNotFoundException("Marca","id",user.getId());
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
+    }
+
+    public ProductResponse updateMySimpleProduct(Authentication authentication, Long id, ProductUpdateRequest request) {
+        User user = (User) authentication.getPrincipal();
+        return productService.updateSimpleBrandProduct(user.getId(), id, request);
+    }
+
+    public ProductResponse updateMyCompleteProduct(Authentication authentication, Long id, ProductUpdateRequest request) {
+        User user = (User) authentication.getPrincipal();
+        return productService.updateCompleteBrandProduct(user.getId(), id, request);
     }
 
     public ResponseEntity<Void> deleteMyProduct(Authentication authentication, Long id) {
