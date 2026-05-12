@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
 
-        return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AccessDeniedException.class)

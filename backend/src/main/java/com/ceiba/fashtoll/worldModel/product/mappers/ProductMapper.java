@@ -1,9 +1,7 @@
 package com.ceiba.fashtoll.worldModel.product.mappers;
 
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.review.mapper.ReviewMapper;
 import com.ceiba.fashtoll.worldModel.tag.TagMapper;
@@ -68,7 +66,7 @@ public class ProductMapper {
         return response;
     }
 
-    public Product toEntity(ProductCreateRequest request) {
+    public Product toEntity(ProductC_U_Request request) {
         if (request == null) return null;
         Product product = new Product();
         product.setName(request.getName());
@@ -82,7 +80,7 @@ public class ProductMapper {
         return product;
     }
 
-    public void updateEntityFromBrand(ProductUpdateRequest request, Product product) {
+    public void updateEntityFromBrand(ProductC_U_Request request, Product product) {
         if (request == null || product == null) return;
         product.setName(request.getName());
         product.setDescription(request.getDescription());
@@ -95,7 +93,7 @@ public class ProductMapper {
         }
         product.setLinkProduct(request.getLinkProduct());
     }
-    public void updateEntityFromAdmin(ProductAdminUpdateRequest request, Product product) {
+    public void updateEntityFromAdmin(ProductC_U_Request request, Product product) {
         if (request == null || product == null) return;
         product.setName(request.getName());
         product.setDescription(request.getDescription());

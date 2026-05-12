@@ -15,11 +15,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
     List<Product> findByBrand(Brand brand);
-
     List<Product> findByAvailableTrue();
-
     List<Product> findByAvailableFalse();
-
     List<Product> findByBrandId(Long brandId);
 
     @Query("SELECT DISTINCT p FROM Product p JOIN p.tokens t WHERE t.token IN :words")

@@ -1,9 +1,7 @@
 package com.ceiba.fashtoll.worldModel.product.Builder;
 
 import com.ceiba.fashtoll.worldModel.brand.Brand;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +16,7 @@ public class ProductDirector {
         this.builder = builder;
     }
 
-    public void makeSimpleProduct(ProductCreateRequest request){
+    public void makeSimpleProduct(ProductC_U_Request request){
         this.builder.reset();
         boolean available = false;
         if(request.getAvailable() != null) available = request.getAvailable();
@@ -32,16 +30,16 @@ public class ProductDirector {
                 LocalDateTime.now()
         );
 
-        this.builder.associateBrand(request.getBrandId());
+        this.builder.associateBrand(request.getBrandId(), true);
         this.builder.putProductDetails(productDetails);
         this.builder.putOfficialLink(request.getLinkProduct());
         this.builder.putProductType(request.getProductTypeId());
         this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
         this.builder.putImagesURLs(request.getImageUrls());
-        this.builder.putTags(request.getTagIds());
+        this.builder.putTags(request.getTags());
     }
 
-    public void makeCompleteProduct(ProductCreateRequest request){
+    public void makeCompleteProduct(ProductC_U_Request request){
         this.builder.reset();
         boolean available = false;
         if(request.getAvailable() != null) available = request.getAvailable();
@@ -55,68 +53,18 @@ public class ProductDirector {
                 LocalDateTime.now()
         );
 
-        this.builder.associateBrand(request.getBrandId());
+        this.builder.associateBrand(request.getBrandId(), true);
         this.builder.putProductDetails(productDetails);
         this.builder.putOfficialLink(request.getLinkProduct());
         this.builder.putProductType(request.getProductTypeId());
         this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
         this.builder.putImagesURLs(request.getImageUrls());
-        this.builder.putTags(request.getTagIds());
+        this.builder.putTags(request.getTags());
     }
 
-    public void adminUpdateSimpleProduct(Long productId, ProductAdminUpdateRequest request){
+    public void adminUpdateSimpleProduct(Long productId, ProductC_U_Request request){
         this.builder.reset();
-        this.builder.adminUpdateProduct(productId);
-
-        boolean available = false;
-        if(request.getAvailable() != null) available = request.getAvailable();
-
-        ProductDetails productDetails = new ProductDetails(
-                request.getName(),
-                request.getDescription(),
-                request.getPrice(),
-                available,
-                0.0,
-                LocalDateTime.now()
-        );
-
-        this.builder.putProductDetails(productDetails);
-        this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
-        this.builder.putOfficialLink(request.getLinkProduct());
-        this.builder.putProductType(request.getProductTypeId());
-        this.builder.associateBrand(request.getBrandId());
-        this.builder.putImagesURLs(request.getImageUrls());
-        this.builder.putTags(request.getTagIds());
-    }
-
-    public void updateSimpleProduct(Long brandId, Long productId, ProductUpdateRequest request){
-        this.builder.reset();
-        this.builder.adminUpdateProduct(productId);
-
-        boolean available = false;
-        if(request.getAvailable() != null) available = request.getAvailable();
-
-        ProductDetails productDetails = new ProductDetails(
-                request.getName(),
-                request.getDescription(),
-                request.getPrice(),
-                available,
-                0.0,
-                LocalDateTime.now()
-        );
-
-        this.builder.associateBrand(brandId);
-        this.builder.putProductDetails(productDetails);
-        this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
-        this.builder.putOfficialLink(request.getLinkProduct());
-        this.builder.putProductType(request.getProductTypeId());
-        this.builder.putImagesURLs(request.getImageUrls());
-        this.builder.putTags(request.getTagIds());
-    }
-
-    public void adminUpdateCompleteProduct(Long productId, ProductAdminUpdateRequest request){
-        this.builder.reset();
-        this.builder.adminUpdateProduct(productId);
+        this.builder.updateProductID(productId);
 
         boolean available = false;
         if(request.getAvailable() != null) available = request.getAvailable();
@@ -134,14 +82,14 @@ public class ProductDirector {
         this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
         this.builder.putOfficialLink(request.getLinkProduct());
         this.builder.putProductType(request.getProductTypeId());
-        this.builder.associateBrand(request.getBrandId());
+        this.builder.associateBrand(request.getBrandId(), true);
         this.builder.putImagesURLs(request.getImageUrls());
-        this.builder.putTags(request.getTagIds());
+        this.builder.putTags(request.getTags());
     }
 
-    public void updateCompleteProduct(Long brandId, Long productId, ProductUpdateRequest request){
+    public void updateSimpleProduct(Long brandId, Long productId, ProductC_U_Request request){
         this.builder.reset();
-        this.builder.adminUpdateProduct(productId);
+        this.builder.updateProductID(productId);
 
         boolean available = false;
         if(request.getAvailable() != null) available = request.getAvailable();
@@ -155,16 +103,66 @@ public class ProductDirector {
                 LocalDateTime.now()
         );
 
-        this.builder.associateBrand(brandId);
+        this.builder.associateBrand(brandId, true);
         this.builder.putProductDetails(productDetails);
         this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
         this.builder.putOfficialLink(request.getLinkProduct());
         this.builder.putProductType(request.getProductTypeId());
         this.builder.putImagesURLs(request.getImageUrls());
-        this.builder.putTags(request.getTagIds());
+        this.builder.putTags(request.getTags());
     }
 
-    public void makeJsonSimpleProduct(ProductCreateRequest request, Brand brand){
+    public void adminUpdateCompleteProduct(Long productId, ProductC_U_Request request){
+        this.builder.reset();
+        this.builder.updateProductID(productId);
+
+        boolean available = false;
+        if(request.getAvailable() != null) available = request.getAvailable();
+
+        ProductDetails productDetails = new ProductDetails(
+                request.getName(),
+                request.getDescription(),
+                request.getPrice(),
+                available,
+                0.0,
+                LocalDateTime.now()
+        );
+
+        this.builder.putProductDetails(productDetails);
+        this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
+        this.builder.putOfficialLink(request.getLinkProduct());
+        this.builder.putProductType(request.getProductTypeId());
+        this.builder.associateBrand(request.getBrandId(), true);
+        this.builder.putImagesURLs(request.getImageUrls());
+        this.builder.putTags(request.getTags());
+    }
+
+    public void updateCompleteProduct(Long brandId, Long productId, ProductC_U_Request request){
+        this.builder.reset();
+        this.builder.updateProductID(productId);
+
+        boolean available = false;
+        if(request.getAvailable() != null) available = request.getAvailable();
+
+        ProductDetails productDetails = new ProductDetails(
+                request.getName(),
+                request.getDescription(),
+                request.getPrice(),
+                available,
+                0.0,
+                LocalDateTime.now()
+        );
+
+        this.builder.associateBrand(brandId, true);
+        this.builder.putProductDetails(productDetails);
+        this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
+        this.builder.putOfficialLink(request.getLinkProduct());
+        this.builder.putProductType(request.getProductTypeId());
+        this.builder.putImagesURLs(request.getImageUrls());
+        this.builder.putTags(request.getTags());
+    }
+
+    public void makeJsonSimpleProduct(ProductC_U_Request request, Brand brand){
         this.builder.reset();
         boolean available = false;
         if(request.getAvailable() != null) available = request.getAvailable();
@@ -184,6 +182,6 @@ public class ProductDirector {
         this.builder.putProductType(request.getProductTypeId());
         this.builder.putEnums(request.getGeneralFit(), request.getGender(), request.getColor());
         this.builder.putImagesURLs(request.getImageUrls());
-        this.builder.putTags(request.getTagIds());
+        this.builder.putTags(request.getTags());
     }
 }

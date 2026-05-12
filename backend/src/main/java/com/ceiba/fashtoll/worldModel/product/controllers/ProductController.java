@@ -2,8 +2,7 @@ package com.ceiba.fashtoll.worldModel.product.controllers;
 
 //import com.ceiba.fashtoll.worldModel.product.dtos.*;
 //utiliza solo estos dtos? o utiliza todos
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 
 import com.ceiba.fashtoll.worldModel.product.services.ProductService;
@@ -49,27 +48,27 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/simple")
-    public ResponseEntity<ProductResponse> createSimpleProduct(@Valid @RequestBody ProductCreateRequest request) {
+    public ResponseEntity<ProductResponse> createSimpleProduct(@Valid @RequestBody ProductC_U_Request request) {
         ProductResponse newProduct = productService.createSimpleProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<ProductResponse> createCompleteProduct(@Valid @RequestBody ProductCreateRequest request) {
+    public ResponseEntity<ProductResponse> createCompleteProduct(@Valid @RequestBody ProductC_U_Request request) {
         ProductResponse newProduct = productService.createCompleteProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/simple/{id}")
-    public ProductResponse updateSimpleProduct(@PathVariable Long id, @Valid @RequestBody ProductAdminUpdateRequest request) {
+    public ProductResponse updateSimpleProduct(@PathVariable Long id, @Valid @RequestBody ProductC_U_Request request) {
         return productService.updateSimpleProduct(id, request);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ProductResponse updateCompleteProduct(@PathVariable Long id, @Valid @RequestBody ProductAdminUpdateRequest request) {
+    public ProductResponse updateCompleteProduct(@PathVariable Long id, @Valid @RequestBody ProductC_U_Request request) {
         return productService.updateCompleteProduct(id, request);
     }
 

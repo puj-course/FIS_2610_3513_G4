@@ -26,8 +26,7 @@ import com.ceiba.fashtoll.worldModel.product.Builder.ProductBuilder;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
@@ -160,8 +159,8 @@ class ProductServiceTest {
         return resp;
     }
 
-    private ProductCreateRequest buildCreateRequest(Long brandId, String name, BigDecimal price) {
-        ProductCreateRequest req = new ProductCreateRequest();
+    private ProductC_U_Request buildCreateRequest(Long brandId, String name, BigDecimal price) {
+        ProductC_U_Request req = new ProductC_U_Request();
         req.setBrandId(brandId);
         req.setProductTypeId(1L);
         req.setName(name);
@@ -170,8 +169,8 @@ class ProductServiceTest {
         return req;
     }
 
-    private ProductAdminUpdateRequest buildAdminUpdateRequest(Long brandId) {
-        ProductAdminUpdateRequest req = new ProductAdminUpdateRequest();
+    private ProductC_U_Request buildAdminUpdateRequest(Long brandId) {
+        ProductC_U_Request req = new ProductC_U_Request();
         req.setBrandId(brandId);
         req.setName("Updated Name");
         req.setPrice(BigDecimal.valueOf(60_000));
@@ -394,7 +393,7 @@ class ProductServiceTest {
             // --- Arrange ---
             // El producto existe pero la marca referenciada en el request no existe
             Product existingProduct   = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
-            ProductAdminUpdateRequest request = buildAdminUpdateRequest(NON_EXISTING_BRAND_ID);
+            ProductC_U_Request request = buildAdminUpdateRequest(NON_EXISTING_BRAND_ID);
 
             when(productRepository.findById(EXISTING_PRODUCT_ID)).thenReturn(Optional.of(existingProduct));
             when(brandRepository.findById(NON_EXISTING_BRAND_ID)).thenReturn(Optional.empty());
@@ -423,7 +422,7 @@ class ProductServiceTest {
 
             // --- Arrange ---
             // Se simula el flujo completo: builder → producto → save → notify
-            ProductCreateRequest request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME,
+            ProductC_U_Request request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME,
                                                               BigDecimal.valueOf(75_000));
             Product builtProduct  = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
             Product savedProduct  = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);

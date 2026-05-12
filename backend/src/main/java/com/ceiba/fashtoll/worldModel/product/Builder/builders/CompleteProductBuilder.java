@@ -14,17 +14,13 @@ import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
 import com.ceiba.fashtoll.worldModel.tag.Tag;
 import com.ceiba.fashtoll.worldModel.tag.TagRepository;
-import com.ceiba.fashtoll.worldModel.tag.Tag_;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Component("completeBuilder")
 @Scope("prototype")
@@ -51,7 +47,7 @@ public class CompleteProductBuilder implements ProductBuilder {
     }
 
     @Override
-    public void associateBrand(Long brandId) {
+    public void associateBrand(Long brandId, boolean update) {
         if(brandId != null) {
             Brand brand = this.brandRepository.findById(brandId)
                     .orElseThrow(() -> new ResourceNotFoundException("Marca","id",brandId));
@@ -101,13 +97,26 @@ public class CompleteProductBuilder implements ProductBuilder {
     }
 
     @Override
-    public void putTags(List<String> tagsIds) {
-        //this.tagRepository.findBy()
-        this.result.setTags(new HashSet<>());
+    public void putTags(List<String> requestedTags) {
+        Set<Tag> tags = new HashSet<>();
+        /*
+        if (requestedTags != null){
+            for(String tag : requestedTags){
+                Tag newTag = this.tagRepository.findByName(tag).orElseThrow(() -> new ResourceNotFoundException("tag","name",tag));
+                tags.add(newTag);
+            }
+        } else throw new ResourceNotFoundException("requestedTags","CompleteProductBuilder");
+        */
+        for(String tag : requestedTags){ /*ASDJASDLKJASLKDJ*/
+            Tag newTag = this.tagRepository.findByName(tag).orElseThrow(() -> new ResourceNotFoundException("tag","name",tag));
+            tags.add(newTag);
+        }
+
+        this.result.setTags(tags);
     }
 
     @Override
-    public void adminUpdateProduct(Long productId) {
+    public void updateProductID(Long productId) {
         this.result = this.productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", productId));
     }

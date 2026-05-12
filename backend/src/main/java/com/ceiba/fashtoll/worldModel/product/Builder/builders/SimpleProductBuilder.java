@@ -43,7 +43,7 @@ public class SimpleProductBuilder implements ProductBuilder {
     }
 
     @Override
-    public void associateBrand(Long brandId) {
+    public void associateBrand(Long brandId, boolean update) {
         if(brandId != null) {
             Brand brand = this.brandRepository.findById(brandId)
                     .orElseThrow(() -> new ResourceNotFoundException("Marca","id",brandId));
@@ -94,13 +94,13 @@ public class SimpleProductBuilder implements ProductBuilder {
     }
 
     @Override
-    public void putTags(List<Long> tagsIds) {
+    public void putTags(List<String> tagsIds) {
         this.result.setTags(null);
         this.logger.info("El producto '" + this.result.getName() + "' con id: " + this.result.getId() + " NO TIENE TAGS");
     }
 
     @Override
-    public void adminUpdateProduct(Long productId) {
+    public void updateProductID(Long productId) {
         this.result = this.productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", productId));
     }

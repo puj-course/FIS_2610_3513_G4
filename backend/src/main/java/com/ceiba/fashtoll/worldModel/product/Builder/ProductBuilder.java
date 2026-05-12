@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProductBuilder {
     void reset();
-    void associateBrand(Long brandId);
+    void associateBrand(Long brandId, boolean update);
     void setBrand(Brand brand);
     void putProductDetails(ProductDetails productDetails);
     void putOfficialLink(String linkOfficial);
@@ -17,6 +17,6 @@ public interface ProductBuilder {
     void putEnums(GeneralFit generalFit, Gender gender, Color color);
     void putImagesURLs(List<String> imagesURLs);
     void putTags(List<String> tagsIds);
-    void adminUpdateProduct(Long productId);
+    void updateProductID(Long productId);
     Product getResult();
 }

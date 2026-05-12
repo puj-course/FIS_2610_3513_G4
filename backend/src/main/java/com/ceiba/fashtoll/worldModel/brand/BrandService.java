@@ -5,9 +5,8 @@ import com.ceiba.fashtoll.security.auth.AuthService;
 import com.ceiba.fashtoll.security.auth.dtos.RegisterRequest;
 import com.ceiba.fashtoll.utilities.enums.Role;
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.services.ProductService;
 import com.ceiba.fashtoll.worldModel.user.User;
 import com.ceiba.fashtoll.worldModel.user.UserService;
@@ -151,7 +150,7 @@ public class BrandService {
         return productService.getProductByBrand(user.getId(), id);
     }
 
-    public ResponseEntity<ProductResponse> createMySimpleProduct(Authentication authentication, ProductCreateRequest request) {
+    public ResponseEntity<ProductResponse> createMySimpleProduct(Authentication authentication, ProductC_U_Request request) {
         User user = (User) authentication.getPrincipal();
         ProductResponse newProduct;
         if (user != null) {
@@ -163,7 +162,7 @@ public class BrandService {
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
-    public ResponseEntity<ProductResponse> createMyCompleteProduct(Authentication authentication, ProductCreateRequest request) {
+    public ResponseEntity<ProductResponse> createMyCompleteProduct(Authentication authentication, ProductC_U_Request request) {
         User user = (User) authentication.getPrincipal();
         ProductResponse newProduct;
         if (user != null) {
@@ -175,12 +174,12 @@ public class BrandService {
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
-    public ProductResponse updateMySimpleProduct(Authentication authentication, Long id, ProductUpdateRequest request) {
+    public ProductResponse updateMySimpleProduct(Authentication authentication, Long id, ProductC_U_Request request) {
         User user = (User) authentication.getPrincipal();
         return productService.updateSimpleBrandProduct(user.getId(), id, request);
     }
 
-    public ProductResponse updateMyCompleteProduct(Authentication authentication, Long id, ProductUpdateRequest request) {
+    public ProductResponse updateMyCompleteProduct(Authentication authentication, Long id, ProductC_U_Request request) {
         User user = (User) authentication.getPrincipal();
         return productService.updateCompleteBrandProduct(user.getId(), id, request);
     }
