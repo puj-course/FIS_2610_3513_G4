@@ -43,7 +43,7 @@ import static org.mockito.Mockito.*;
 class BrandServiceTest {
 
     // ─────────────────────────────────────────────────────────
-    //  Mocks e inyección
+    // Mocks e inyección
     // ─────────────────────────────────────────────────────────
     @Mock
     private BrandRepository brandRepository;
@@ -64,17 +64,17 @@ class BrandServiceTest {
     private BrandService brandService;
 
     // ─────────────────────────────────────────────────────────
-    //  Constantes de prueba
+    // Constantes de prueba
     // ─────────────────────────────────────────────────────────
-    private static final Long EXISTING_ID     = 1L;
+    private static final Long EXISTING_ID = 1L;
     private static final Long NON_EXISTING_ID = 9999L;
-    private static final String BRAND_NAME    = "Nike";
-    private static final String BRAND_EMAIL   = "nike@fashtoll.com";
+    private static final String BRAND_NAME = "Nike";
+    private static final String BRAND_EMAIL = "nike@fashtoll.com";
     private static final String BRAND_PICTURE = "https://cdn.fashtoll.com/nike.png";
-    private static final String BRAND_LINK    = "https://www.nike.com";
+    private static final String BRAND_LINK = "https://www.nike.com";
 
     // ─────────────────────────────────────────────────────────
-    //  Métodos para construir entidades y DTOs
+    // Métodos para construir entidades y DTOs
     // ─────────────────────────────────────────────────────────
 
     private Brand buildBrand(Long id, String name) {
@@ -91,8 +91,8 @@ class BrandServiceTest {
     }
 
     private BrandResponse buildBrandResponse(Long id, String name,
-                                             Integer followers, Double rating,
-                                             Boolean isVerified) {
+            Integer followers, Double rating,
+            Boolean isVerified) {
         BrandResponse resp = new BrandResponse();
         resp.setId(id);
         resp.setName(name);
@@ -134,7 +134,7 @@ class BrandServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 1 — getAllBrands() / getAllPublicBrands()
+    // GRUPO 1 — getAllBrands() / getAllPublicBrands()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("getAllBrands() / getAllPublicBrands()")
@@ -149,9 +149,9 @@ class BrandServiceTest {
             Brand b1 = buildBrand(1L, "Nike");
             Brand b2 = buildBrand(2L, "Adidas");
             Brand b3 = buildBrand(3L, "Puma");
-            BrandResponse r1 = buildBrandResponse(1L, "Nike",   0, 0.0, false);
+            BrandResponse r1 = buildBrandResponse(1L, "Nike", 0, 0.0, false);
             BrandResponse r2 = buildBrandResponse(2L, "Adidas", 0, 0.0, false);
-            BrandResponse r3 = buildBrandResponse(3L, "Puma",   0, 0.0, false);
+            BrandResponse r3 = buildBrandResponse(3L, "Puma", 0, 0.0, false);
 
             when(brandRepository.findAll()).thenReturn(Arrays.asList(b1, b2, b3));
             when(brandMapper.toResponse(b1)).thenReturn(r1);
@@ -165,9 +165,9 @@ class BrandServiceTest {
             // La lista debe contener exactamente 3 marcas con los nombres correctos
             assertNotNull(result);
             assertEquals(3, result.size());
-            assertEquals("Nike",   result.get(0).getName());
+            assertEquals("Nike", result.get(0).getName());
             assertEquals("Adidas", result.get(1).getName());
-            assertEquals("Puma",   result.get(2).getName());
+            assertEquals("Puma", result.get(2).getName());
             verify(brandRepository, times(1)).findAll();
         }
 
@@ -216,7 +216,7 @@ class BrandServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 2 — getBrandById()
+    // GRUPO 2 — getBrandById()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("getBrandById()")
@@ -233,16 +233,15 @@ class BrandServiceTest {
             // --- Act & Assert ---
             // Debe lanzarse ResourceNotFoundException sin invocar el mapper
             assertThrows(
-                ResourceNotFoundException.class,
-                () -> brandService.getBrandById(NON_EXISTING_ID),
-                "Debe lanzar ResourceNotFoundException cuando la marca no existe"
-            );
+                    ResourceNotFoundException.class,
+                    () -> brandService.getBrandById(NON_EXISTING_ID),
+                    "Debe lanzar ResourceNotFoundException cuando la marca no existe");
             verify(brandMapper, never()).toResponse(any());
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 3 — createBrand()
+    // GRUPO 3 — createBrand()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("createBrand()")
@@ -253,9 +252,10 @@ class BrandServiceTest {
         void createBrand_withValidRequest_initializesBusinessFields() {
 
             // --- Arrange ---
-            // Regla de negocio: toda marca nueva parte desde cero (sin seguidores, sin rating, sin verificar)
+            // Regla de negocio: toda marca nueva parte desde cero (sin seguidores, sin
+            // rating, sin verificar)
             BrandCreateRequest request = buildCreateRequest(BRAND_NAME, BRAND_PICTURE, BRAND_LINK);
-            Brand mappedBrand          = buildBrand(null, BRAND_NAME);
+            Brand mappedBrand = buildBrand(null, BRAND_NAME);
             BrandResponse expectedResp = buildBrandResponse(10L, BRAND_NAME, 0, 0.0, false);
 
             when(brandMapper.toEntity(request)).thenReturn(mappedBrand);
@@ -267,12 +267,13 @@ class BrandServiceTest {
             // --- Assert ---
             // Los campos de negocio deben ser inicializados correctamente
             assertNotNull(result);
-            assertEquals(0,     result.getFollowers(),  "Los seguidores deben iniciar en 0");
-            assertEquals(0.0,   result.getRating(),     "El rating debe iniciar en 0.0");
-            assertFalse(result.getIsVerified(),          "La marca no debe estar verificada al crearse");
-            // Verificación estructural: se setearon los valores en la entidad antes de guardar
-            assertEquals(0,     mappedBrand.getFollowers());
-            assertEquals(0.0,   mappedBrand.getRating());
+            assertEquals(0, result.getFollowers(), "Los seguidores deben iniciar en 0");
+            assertEquals(0.0, result.getRating(), "El rating debe iniciar en 0.0");
+            assertFalse(result.getIsVerified(), "La marca no debe estar verificada al crearse");
+            // Verificación estructural: se setearon los valores en la entidad antes de
+            // guardar
+            assertEquals(0, mappedBrand.getFollowers());
+            assertEquals(0.0, mappedBrand.getRating());
             assertFalse(mappedBrand.getIsVerified());
             verify(brandRepository, times(1)).save(mappedBrand);
         }
@@ -284,7 +285,7 @@ class BrandServiceTest {
             // --- Arrange ---
             // Los campos pictureURL y linkOfficial son opcionales; deben admitir nulos
             BrandCreateRequest request = buildCreateRequest("MarcaSinImagen", null, null);
-            Brand mappedBrand          = new Brand();
+            Brand mappedBrand = new Brand();
             mappedBrand.setName("MarcaSinImagen");
             mappedBrand.setPictureURL(null);
             mappedBrand.setLinkOfficial(null);
@@ -315,7 +316,7 @@ class BrandServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 4 — deleteBrand()
+    // GRUPO 4 — deleteBrand()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("deleteBrand()")
@@ -332,16 +333,15 @@ class BrandServiceTest {
             // --- Act & Assert ---
             // Debe lanzar excepción y nunca llamar a delete()
             assertThrows(
-                ResourceNotFoundException.class,
-                () -> brandService.deleteBrand(NON_EXISTING_ID),
-                "Debe lanzar ResourceNotFoundException cuando la marca no existe"
-            );
+                    ResourceNotFoundException.class,
+                    () -> brandService.deleteBrand(NON_EXISTING_ID),
+                    "Debe lanzar ResourceNotFoundException cuando la marca no existe");
             verify(brandRepository, never()).delete(any());
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 5 — verifyBrand()
+    // GRUPO 5 — verifyBrand()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("verifyBrand() — Lógica de negocio ADMIN")
@@ -359,7 +359,8 @@ class BrandServiceTest {
             when(brandRepository.save(brand)).thenReturn(brand);
 
             // --- Act ---
-            // Solo el rol ADMIN puede ejecutar esta operación (el servicio implementa la lógica)
+            // Solo el rol ADMIN puede ejecutar esta operación (el servicio implementa la
+            // lógica)
             brandService.verifyBrand(EXISTING_ID, true);
 
             // --- Assert ---
@@ -370,7 +371,7 @@ class BrandServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 6 — updateProfile()
+    // GRUPO 6 — updateProfile()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("updateProfile()")
@@ -409,7 +410,8 @@ class BrandServiceTest {
         void updateProfile_withNameOf101Chars_doesNotThrowFromService() {
 
             // --- Arrange ---
-            // La validación @Size(max=100) es responsabilidad del controlador, no del servicio
+            // La validación @Size(max=100) es responsabilidad del controlador, no del
+            // servicio
             String longName = "a".repeat(101);
             Brand brand = buildBrand(EXISTING_ID, "Original");
             BrandProfileUpdateRequest request = buildProfileUpdateRequest(longName, BRAND_PICTURE, BRAND_LINK);
@@ -430,7 +432,171 @@ class BrandServiceTest {
             // El servicio no lanza excepción; delega la validación al controlador
             assertNotNull(result);
             assertEquals(101, result.getName().length(),
-                "El servicio no trunca ni rechaza el nombre largo (eso lo hace @Valid en el controller)");
+                    "El servicio no trunca ni rechaza el nombre largo (eso lo hace @Valid en el controller)");
         }
+    }
+
+    @Test
+    @DisplayName("CP-BRN-11: getPublicBrandById - Retorna marca pública")
+    void getPublicBrandById_returnsPublicBrand() {
+        Brand brand = buildBrand(EXISTING_ID, BRAND_NAME);
+        BrandPublicResponse expected = buildBrandPublicResponse(EXISTING_ID, BRAND_NAME);
+        when(brandRepository.findById(EXISTING_ID)).thenReturn(Optional.of(brand));
+        when(brandMapper.toPublicResponse(brand)).thenReturn(expected);
+
+        BrandPublicResponse result = brandService.getPublicBrandById(EXISTING_ID);
+
+        assertNotNull(result);
+        assertEquals(BRAND_NAME, result.getName());
+    }
+
+    @Test
+    @DisplayName("CP-BRN-12: updateBrandAdmin - Actualiza marca por admin")
+    void updateBrandAdmin_updatesAndReturnsBrand() {
+        Brand brand = buildBrand(EXISTING_ID, BRAND_NAME);
+        BrandAdminUpdateRequest request = new BrandAdminUpdateRequest();
+        BrandResponse expected = buildBrandResponse(EXISTING_ID, BRAND_NAME, 0, 0.0, true);
+
+        when(brandRepository.findById(EXISTING_ID)).thenReturn(Optional.of(brand));
+        when(brandRepository.save(brand)).thenReturn(brand);
+        when(brandMapper.toResponse(brand)).thenReturn(expected);
+
+        BrandResponse result = brandService.updateBrandAdmin(EXISTING_ID, request);
+
+        assertNotNull(result);
+        verify(brandMapper, times(1)).updateEntityFromAdmin(request, brand);
+        verify(brandRepository, times(1)).save(brand);
+    }
+
+    @Test
+    @DisplayName("CP-BRN-13: getProfile - Retorna perfil de la marca")
+    void getProfile_returnsProfile() {
+        Brand brand = buildBrand(EXISTING_ID, BRAND_NAME);
+        BrandProfileResponse expected = new BrandProfileResponse();
+        expected.setName(BRAND_NAME);
+
+        when(brandRepository.findById(EXISTING_ID)).thenReturn(Optional.of(brand));
+        when(brandMapper.toProfileResponse(brand)).thenReturn(expected);
+
+        BrandProfileResponse result = brandService.getProfile(EXISTING_ID);
+
+        assertNotNull(result);
+        assertEquals(BRAND_NAME, result.getName());
+    }
+
+    @Test
+    @DisplayName("CP-BRN-14: changePassword - Cambia la contraseña")
+    void changePassword_changesPassword() {
+        org.springframework.security.core.Authentication auth = mock(
+                org.springframework.security.core.Authentication.class);
+        com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+        com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO request = new com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO();
+
+        boolean result = brandService.changePassword(auth, request);
+
+        assertTrue(result);
+        verify(userService, times(1)).changePassword(EXISTING_ID, request);
+    }
+
+    @Test
+    @DisplayName("CP-BRN-15: getMyProducts - Retorna lista de productos")
+    void getMyProducts_returnsProducts() {
+        org.springframework.security.core.Authentication auth = mock(
+                org.springframework.security.core.Authentication.class);
+        com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
+        when(productService.getProductsByBrand(EXISTING_ID)).thenReturn(Collections.singletonList(prodResp));
+
+        List<com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse> result = brandService.getMyProducts(auth);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    @DisplayName("CP-BRN-16: getMyProduct - Retorna producto específico")
+    void getMyProduct_returnsProduct() {
+        org.springframework.security.core.Authentication auth = mock(
+                org.springframework.security.core.Authentication.class);
+        com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
+        when(productService.getProductByBrand(EXISTING_ID, 1L)).thenReturn(prodResp);
+
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse result = brandService.getMyProduct(auth, 1L);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("CP-BRN-17: createMyProduct - Crea producto")
+    void createMyProduct_createsProduct() {
+        org.springframework.security.core.Authentication auth = mock(
+                org.springframework.security.core.Authentication.class);
+        com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest();
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
+        when(productService.createBrandProduct(EXISTING_ID, request)).thenReturn(prodResp);
+
+        org.springframework.http.ResponseEntity<com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse> response = brandService
+                .createMyProduct(auth, request);
+
+        assertEquals(org.springframework.http.HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(prodResp, response.getBody());
+    }
+
+    @Test
+    @DisplayName("CP-BRN-18: updateMyProduct - Actualiza producto")
+    void updateMyProduct_updatesProduct() {
+        org.springframework.security.core.Authentication auth = mock(
+                org.springframework.security.core.Authentication.class);
+        com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest();
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
+        when(productService.updateBrandProduct(EXISTING_ID, 1L, request)).thenReturn(prodResp);
+
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse result = brandService.updateMyProduct(auth, 1L,
+                request);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("CP-BRN-19: deleteMyProduct - Elimina producto")
+    void deleteMyProduct_deletesProduct() {
+        org.springframework.security.core.Authentication auth = mock(
+                org.springframework.security.core.Authentication.class);
+        com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+
+        org.springframework.http.ResponseEntity<Void> response = brandService.deleteMyProduct(auth, 1L);
+
+        assertEquals(org.springframework.http.HttpStatus.NO_CONTENT, response.getStatusCode());
+        verify(productService, times(1)).deleteBrandProduct(EXISTING_ID, 1L);
+    }
+
+    @Test
+    @DisplayName("CP-BRN-20: injectBrandsFromJSON - Registra marcas")
+    void injectBrandsFromJSON_registersBrands() {
+        BrandDTO dto = new BrandDTO("Test", "test@test.com", "pass", "BRAND", "http", "http");
+        List<BrandDTO> dtoList = Collections.singletonList(dto);
+
+        brandService.injectBrandsFromJSON(dtoList);
+
+        verify(authService, times(1)).brandRegister(any(com.ceiba.fashtoll.security.auth.dtos.RegisterRequest.class));
     }
 }
