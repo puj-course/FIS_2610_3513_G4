@@ -23,7 +23,6 @@ import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundExcep
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.worldModel.brand.BrandRepository;
 import com.ceiba.fashtoll.worldModel.product.Builder.ProductBuilder;
-import com.ceiba.fashtoll.worldModel.product.Builder.ProductDirector;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
@@ -31,7 +30,6 @@ import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
-import com.ceiba.fashtoll.worldModel.product.entities.ProductType;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
@@ -58,7 +56,7 @@ import static org.mockito.Mockito.*;
 class ProductServiceTest {
 
     // ─────────────────────────────────────────────────────────
-    //  Mocks
+    // Mocks
     // ─────────────────────────────────────────────────────────
     @Mock
     private ProductRepository productRepository;
@@ -90,29 +88,28 @@ class ProductServiceTest {
     private ProductService productService;
 
     // ─────────────────────────────────────────────────────────
-    //  Constantes de prueba
+    // Constantes de prueba
     // ─────────────────────────────────────────────────────────
-    private static final Long EXISTING_PRODUCT_ID    = 1L;
+    private static final Long EXISTING_PRODUCT_ID = 1L;
     private static final Long NON_EXISTING_PRODUCT_ID = 888L;
-    private static final Long EXISTING_BRAND_ID      = 10L;
-    private static final Long NON_EXISTING_BRAND_ID  = 9999L;
-    private static final String PRODUCT_NAME         = "Camiseta Negra";
+    private static final Long EXISTING_BRAND_ID = 10L;
+    private static final Long NON_EXISTING_BRAND_ID = 9999L;
+    private static final String PRODUCT_NAME = "Camiseta Negra";
 
     // ─────────────────────────────────────────────────────────
-    //  Setup por cada test
+    // Setup por cada test
     // ─────────────────────────────────────────────────────────
     @BeforeEach
     void setUp() {
         productService = new ProductService(
-            productRepository,
-            brandRepository,
-            productTypeRepository,
-            productMapper,
-            tagRepository,
-            productEventPublisher
-        );
+                productRepository,
+                brandRepository,
+                productTypeRepository,
+                productMapper,
+                tagRepository,
+                productEventPublisher);
 
-        injectField(productService, "simpleBuilderProvider",   simpleBuilderProvider);
+        injectField(productService, "simpleBuilderProvider", simpleBuilderProvider);
         injectField(productService, "simpleJsonBuilderProvider", simpleJsonBuilderProvider);
     }
 
@@ -127,7 +124,7 @@ class ProductServiceTest {
     }
 
     // ─────────────────────────────────────────────────────────
-    //  Métodos para construir entidades y DTOs
+    // Métodos para construir entidades y DTOs
     // ─────────────────────────────────────────────────────────
 
     private Product buildProduct(Long id, String name, Long brandId) {
@@ -181,7 +178,7 @@ class ProductServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 1 — getAllProducts()
+    // GRUPO 1 — getAllProducts()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("getAllProducts()")
@@ -236,7 +233,7 @@ class ProductServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 2 — getProductById()
+    // GRUPO 2 — getProductById()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("getProductById()")
@@ -248,7 +245,7 @@ class ProductServiceTest {
 
             // --- Arrange ---
             // El repositorio encuentra el producto con el ID solicitado
-            Product product  = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
+            Product product = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
             ProductResponse expected = buildProductResponse(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
 
             when(productRepository.findById(EXISTING_PRODUCT_ID)).thenReturn(Optional.of(product));
@@ -275,16 +272,15 @@ class ProductServiceTest {
             // --- Act & Assert ---
             // Debe lanzarse ResourceNotFoundException sin invocar el mapper
             assertThrows(
-                ResourceNotFoundException.class,
-                () -> productService.getProductById(NON_EXISTING_PRODUCT_ID),
-                "Debe lanzar ResourceNotFoundException cuando el producto no existe"
-            );
+                    ResourceNotFoundException.class,
+                    () -> productService.getProductById(NON_EXISTING_PRODUCT_ID),
+                    "Debe lanzar ResourceNotFoundException cuando el producto no existe");
             verify(productMapper, never()).toResponse(any());
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 3 — deleteProduct()
+    // GRUPO 3 — deleteProduct()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("deleteProduct()")
@@ -301,10 +297,9 @@ class ProductServiceTest {
             // --- Act & Assert ---
             // Debe lanzar excepción; el publisher nunca debe recibir una notificación
             assertThrows(
-                ResourceNotFoundException.class,
-                () -> productService.deleteProduct(NON_EXISTING_PRODUCT_ID),
-                "Debe lanzar ResourceNotFoundException cuando el producto no existe"
-            );
+                    ResourceNotFoundException.class,
+                    () -> productService.deleteProduct(NON_EXISTING_PRODUCT_ID),
+                    "Debe lanzar ResourceNotFoundException cuando el producto no existe");
             verify(productEventPublisher, never()).notify(any());
         }
 
@@ -329,12 +324,12 @@ class ProductServiceTest {
             verify(productRepository, times(1)).delete(product);
             verify(productEventPublisher, times(1)).notify(eventCaptor.capture());
             assertEquals(EventType.DELETED, eventCaptor.getValue().getType(),
-                "El tipo de evento debe ser DELETED al eliminar un producto");
+                    "El tipo de evento debe ser DELETED al eliminar un producto");
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 4 — getProductsByBrand() / getProductByBrand()
+    // GRUPO 4 — getProductsByBrand() / getProductByBrand()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("getProductsByBrand() / getProductByBrand()")
@@ -346,9 +341,9 @@ class ProductServiceTest {
 
             // --- Arrange ---
             // Dos productos pertenecen a la misma marca
-            Product p1 = buildProduct(1L, "Top",   EXISTING_BRAND_ID);
+            Product p1 = buildProduct(1L, "Top", EXISTING_BRAND_ID);
             Product p2 = buildProduct(2L, "Short", EXISTING_BRAND_ID);
-            ProductResponse r1 = buildProductResponse(1L, "Top",   EXISTING_BRAND_ID);
+            ProductResponse r1 = buildProductResponse(1L, "Top", EXISTING_BRAND_ID);
             ProductResponse r2 = buildProductResponse(2L, "Short", EXISTING_BRAND_ID);
 
             when(productRepository.findByBrandId(EXISTING_BRAND_ID)).thenReturn(Arrays.asList(p1, p2));
@@ -375,15 +370,14 @@ class ProductServiceTest {
 
             // --- Act & Assert ---
             assertThrows(
-                ResourceNotFoundException.class,
-                () -> productService.getProductByBrand(EXISTING_BRAND_ID, NON_EXISTING_PRODUCT_ID),
-                "Debe lanzar ResourceNotFoundException cuando el productId no existe"
-            );
+                    ResourceNotFoundException.class,
+                    () -> productService.getProductByBrand(EXISTING_BRAND_ID, NON_EXISTING_PRODUCT_ID),
+                    "Debe lanzar ResourceNotFoundException cuando el productId no existe");
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 5 — updateProduct()
+    // GRUPO 5 — updateProduct()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("updateProduct() — Admin update")
@@ -395,25 +389,25 @@ class ProductServiceTest {
 
             // --- Arrange ---
             // El producto existe pero la marca referenciada en el request no existe
-            Product existingProduct   = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
+            Product existingProduct = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
             ProductAdminUpdateRequest request = buildAdminUpdateRequest(NON_EXISTING_BRAND_ID);
 
-            when(productRepository.findById(EXISTING_PRODUCT_ID)).thenReturn(Optional.of(existingProduct));
-            when(brandRepository.findById(NON_EXISTING_BRAND_ID)).thenReturn(Optional.empty());
+            when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
+            doThrow(new com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException("marca", "id",
+                    NON_EXISTING_BRAND_ID)).when(productBuilder).associateBrand(NON_EXISTING_BRAND_ID);
 
             // --- Act & Assert ---
             // Debe lanzar excepción y nunca guardar el producto modificado
             assertThrows(
-                ResourceNotFoundException.class,
-                () -> productService.updateProduct(EXISTING_PRODUCT_ID, request),
-                "Debe lanzar ResourceNotFoundException cuando la marca del request no existe"
-            );
+                    ResourceNotFoundException.class,
+                    () -> productService.updateProduct(EXISTING_PRODUCT_ID, request),
+                    "Debe lanzar ResourceNotFoundException cuando la marca del request no existe");
             verify(productRepository, never()).save(any());
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 6 — createBrandProduct()
+    // GRUPO 6 — createBrandProduct()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("createBrandProduct() — Lógica Observer (BRAND crea producto)")
@@ -426,10 +420,10 @@ class ProductServiceTest {
             // --- Arrange ---
             // Se simula el flujo completo: builder → producto → save → notify
             ProductCreateRequest request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME,
-                                                              BigDecimal.valueOf(75_000));
-            Product builtProduct  = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
-            Product savedProduct  = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
-            ProductResponse resp  = buildProductResponse(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+                    BigDecimal.valueOf(75_000));
+            Product builtProduct = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
+            Product savedProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+            ProductResponse resp = buildProductResponse(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
 
             // Se configura el ObjectProvider para retornar el builder mock
             when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
@@ -442,17 +436,92 @@ class ProductServiceTest {
             ArgumentCaptor<ProductEvent> eventCaptor = ArgumentCaptor.forClass(ProductEvent.class);
 
             // --- Act ---
-            // Solo el rol BRAND ejecuta este método (restricción impuesta en el controlador)
+            // Solo el rol BRAND ejecuta este método (restricción impuesta en el
+            // controlador)
             ProductResponse result = productService.createBrandProduct(EXISTING_BRAND_ID, request);
 
             // --- Assert ---
-            // El producto debe haberse guardado y el observer debe ser notificado con CREATED
+            // El producto debe haberse guardado y el observer debe ser notificado con
+            // CREATED
             assertNotNull(result);
             assertEquals(50L, result.getId());
             verify(productRepository, times(1)).save(builtProduct);
             verify(productEventPublisher, times(1)).notify(eventCaptor.capture());
             assertEquals(EventType.CREATED, eventCaptor.getValue().getType(),
-                "El tipo de evento debe ser CREATED al crear un producto de marca");
+                    "El tipo de evento debe ser CREATED al crear un producto de marca");
         }
+    }
+
+    @Test
+    @DisplayName("CP-PRD-11: createProduct - Crea producto de forma general")
+    void createProduct_createsAndReturnsProduct() {
+        ProductCreateRequest request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME, BigDecimal.valueOf(75_000));
+        Product builtProduct = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
+        Product savedProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+        ProductResponse resp = buildProductResponse(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+
+        when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
+        when(productBuilder.getResult()).thenReturn(builtProduct);
+        when(productRepository.save(builtProduct)).thenReturn(savedProduct);
+        when(productMapper.toResponse(savedProduct)).thenReturn(resp);
+
+        ProductResponse result = productService.createProduct(request);
+
+        assertNotNull(result);
+        assertEquals(50L, result.getId());
+        verify(productRepository, times(1)).save(builtProduct);
+        verify(productEventPublisher, times(1)).notify(any(ProductEvent.class));
+    }
+
+    @Test
+    @DisplayName("CP-PRD-12: updateBrandProduct - Actualiza producto de una marca")
+    void updateBrandProduct_updatesAndReturnsProduct() {
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest();
+        Product builtProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+        Product savedProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+        ProductResponse resp = buildProductResponse(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+
+        when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
+        when(productBuilder.getResult()).thenReturn(builtProduct);
+        when(productRepository.save(builtProduct)).thenReturn(savedProduct);
+        when(productMapper.toResponse(savedProduct)).thenReturn(resp);
+
+        ProductResponse result = productService.updateBrandProduct(EXISTING_BRAND_ID, 50L, request);
+
+        assertNotNull(result);
+        verify(productRepository, times(1)).save(builtProduct);
+        verify(productEventPublisher, times(1)).notify(any(ProductEvent.class));
+    }
+
+    @Test
+    @DisplayName("CP-PRD-13: deleteBrandProduct - Elimina producto de una marca")
+    void deleteBrandProduct_deletesProductAndNotifies() {
+        Product product = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
+        when(productRepository.findById(EXISTING_PRODUCT_ID)).thenReturn(Optional.of(product));
+
+        productService.deleteBrandProduct(EXISTING_BRAND_ID, EXISTING_PRODUCT_ID);
+
+        verify(productRepository, times(1)).delete(product);
+        verify(productEventPublisher, times(1)).notify(any(ProductEvent.class));
+    }
+
+    @Test
+    @DisplayName("CP-PRD-14: injectBrandProductFromJson - Inyecta productos")
+    void injectBrandProductFromJson_injectsProducts() {
+        Brand brand = buildBrand(EXISTING_BRAND_ID, "BrandTest");
+        ProductCreateRequest request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME, BigDecimal.valueOf(75_000));
+        List<ProductCreateRequest> requestList = Collections.singletonList(request);
+        Product builtProduct = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
+        Product savedProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+
+        when(brandRepository.findByName("BrandTest")).thenReturn(Optional.of(brand));
+        when(simpleJsonBuilderProvider.getObject()).thenReturn(productBuilder);
+        when(productBuilder.getResult()).thenReturn(builtProduct);
+        when(productRepository.save(builtProduct)).thenReturn(savedProduct);
+
+        productService.injectBrandProductFromJson("BrandTest", requestList);
+
+        verify(productRepository, times(1)).save(builtProduct);
+        verify(productEventPublisher, times(1)).notify(any(ProductEvent.class));
     }
 }

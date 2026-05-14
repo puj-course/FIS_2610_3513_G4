@@ -42,7 +42,7 @@ import static org.mockito.Mockito.*;
 class ClientServiceTest {
 
     // ─────────────────────────────────────────────────────────
-    //  Mocks e inyección
+    // Mocks e inyección
     // ─────────────────────────────────────────────────────────
     @Mock
     private ClientRepository clientRepository;
@@ -56,19 +56,43 @@ class ClientServiceTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private com.ceiba.fashtoll.worldModel.brand.BrandRepository brandRepository;
+
+    @Mock
+    private com.ceiba.fashtoll.worldModel.brand.BrandMapper brandMapper;
+
+    @Mock
+    private com.ceiba.fashtoll.worldModel.wishlist.WishlistRepository wishlistRepository;
+
+    @Mock
+    private com.ceiba.fashtoll.worldModel.wishlist.WishlistMapper wishlistMapper;
+
+    @Mock
+    private com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository productRepository;
+
+    @Mock
+    private com.ceiba.fashtoll.worldModel.review.repository.BrandReviewRepository brandReviewRepository;
+
+    @Mock
+    private com.ceiba.fashtoll.worldModel.review.repository.ProductReviewRepository productReviewRepository;
+
+    @Mock
+    private com.ceiba.fashtoll.worldModel.review.mapper.ReviewMapper reviewMapper;
+
     @InjectMocks
     private ClientService clientService;
 
     // ─────────────────────────────────────────────────────────
-    //  Constantes de prueba
+    // Constantes de prueba
     // ─────────────────────────────────────────────────────────
-    private static final Long EXISTING_ID    = 1L;
+    private static final Long EXISTING_ID = 1L;
     private static final Long NON_EXISTING_ID = 999L;
-    private static final String CLIENT_NAME   = "Ana García";
-    private static final String CLIENT_EMAIL  = "ana@fashtoll.com";
+    private static final String CLIENT_NAME = "Ana García";
+    private static final String CLIENT_EMAIL = "ana@fashtoll.com";
 
     // ─────────────────────────────────────────────────────────
-    //  Métodos para construir entidades y DTOs
+    // Métodos para construir entidades y DTOs
     // ─────────────────────────────────────────────────────────
 
     private Client buildClient(Long id, String name) {
@@ -106,7 +130,7 @@ class ClientServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 1 — getAllClients()
+    // GRUPO 1 — getAllClients()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("getAllClients()")
@@ -135,7 +159,7 @@ class ClientServiceTest {
             // La lista debe tener exactamente 2 elementos con los datos correctos
             assertNotNull(result, "El resultado no debe ser nulo");
             assertEquals(2, result.size(), "Debe retornar exactamente 2 clientes");
-            assertEquals("Ana",  result.get(0).getName());
+            assertEquals("Ana", result.get(0).getName());
             assertEquals("Luis", result.get(1).getName());
             verify(clientRepository, times(1)).findAll();
         }
@@ -159,7 +183,7 @@ class ClientServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 2 — getClientById()
+    // GRUPO 2 — getClientById()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("getClientById()")
@@ -198,16 +222,15 @@ class ClientServiceTest {
             // --- Act & Assert ---
             // Debe lanzarse ResourceNotFoundException
             assertThrows(
-                ResourceNotFoundException.class,
-                () -> clientService.getClientById(NON_EXISTING_ID),
-                "Debe lanzar ResourceNotFoundException cuando el cliente no existe"
-            );
+                    ResourceNotFoundException.class,
+                    () -> clientService.getClientById(NON_EXISTING_ID),
+                    "Debe lanzar ResourceNotFoundException cuando el cliente no existe");
             verify(clientMapper, never()).toResponse(any());
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 3 — createClient()
+    // GRUPO 3 — createClient()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("createClient()")
@@ -219,10 +242,10 @@ class ClientServiceTest {
 
             // --- Arrange ---
             // Se simula la conversión DTO → entidad → persistencia → DTO de respuesta
-            ClientCreateRequest request  = buildCreateRequest(1L, "Carlos");
-            Client mappedEntity          = buildClient(null, "Carlos");
-            Client savedClient           = buildClient(10L, "Carlos");
-            ClientResponse expectedResp  = buildClientResponse(10L, "Carlos");
+            ClientCreateRequest request = buildCreateRequest(1L, "Carlos");
+            Client mappedEntity = buildClient(null, "Carlos");
+            Client savedClient = buildClient(10L, "Carlos");
+            ClientResponse expectedResp = buildClientResponse(10L, "Carlos");
 
             when(clientMapper.toEntity(request)).thenReturn(mappedEntity);
             when(clientRepository.save(mappedEntity)).thenReturn(savedClient);
@@ -246,10 +269,10 @@ class ClientServiceTest {
             // --- Arrange ---
             // El nombre tiene exactamente 100 caracteres (valor límite permitido)
             String maxName = "x".repeat(100);
-            ClientCreateRequest request  = buildCreateRequest(2L, maxName);
-            Client mappedEntity          = buildClient(null, maxName);
-            Client savedClient           = buildClient(20L, maxName);
-            ClientResponse expectedResp  = buildClientResponse(20L, maxName);
+            ClientCreateRequest request = buildCreateRequest(2L, maxName);
+            Client mappedEntity = buildClient(null, maxName);
+            Client savedClient = buildClient(20L, maxName);
+            ClientResponse expectedResp = buildClientResponse(20L, maxName);
 
             when(clientMapper.toEntity(request)).thenReturn(mappedEntity);
             when(clientRepository.save(mappedEntity)).thenReturn(savedClient);
@@ -259,7 +282,8 @@ class ClientServiceTest {
             ClientResponse result = clientService.createClient(request);
 
             // --- Assert ---
-            // El servicio no rechaza el valor límite; la respuesta conserva el nombre completo
+            // El servicio no rechaza el valor límite; la respuesta conserva el nombre
+            // completo
             assertNotNull(result);
             assertEquals(100, result.getName().length());
             verify(clientRepository, times(1)).save(any());
@@ -267,7 +291,7 @@ class ClientServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 4 — updateClient()
+    // GRUPO 4 — updateClient()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("updateClient()")
@@ -285,10 +309,9 @@ class ClientServiceTest {
             // --- Act & Assert ---
             // Debe lanzar excepción y nunca persistir
             assertThrows(
-                ResourceNotFoundException.class,
-                () -> clientService.updateClient(NON_EXISTING_ID, request),
-                "Debe lanzar ResourceNotFoundException cuando el cliente no existe"
-            );
+                    ResourceNotFoundException.class,
+                    () -> clientService.updateClient(NON_EXISTING_ID, request),
+                    "Debe lanzar ResourceNotFoundException cuando el cliente no existe");
             verify(clientRepository, never()).save(any());
         }
 
@@ -297,11 +320,12 @@ class ClientServiceTest {
         void updateClient_withEmptyName_doesNotThrowFromService() {
 
             // --- Arrange ---
-            // El servicio acepta el string vacío; la validación Bean corresponde al controlador
-            Client client          = buildClient(EXISTING_ID, "Ana");
-            Client savedClient     = buildClient(EXISTING_ID, "");
+            // El servicio acepta el string vacío; la validación Bean corresponde al
+            // controlador
+            Client client = buildClient(EXISTING_ID, "Ana");
+            Client savedClient = buildClient(EXISTING_ID, "");
             ClientUpdateRequest req = buildUpdateRequest("");
-            ClientResponse resp     = buildClientResponse(EXISTING_ID, "");
+            ClientResponse resp = buildClientResponse(EXISTING_ID, "");
 
             when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
             when(clientRepository.save(client)).thenReturn(savedClient);
@@ -318,7 +342,7 @@ class ClientServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 5 — getProfile() y updateProfile()
+    // GRUPO 5 — getProfile() y updateProfile()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("getProfile() / updateProfile()")
@@ -345,13 +369,13 @@ class ClientServiceTest {
             // --- Assert ---
             // El perfil contiene nombre y email exactamente como están en la entidad
             assertNotNull(result);
-            assertEquals(CLIENT_NAME,  result.getName());
+            assertEquals(CLIENT_NAME, result.getName());
             assertEquals(CLIENT_EMAIL, result.getEmail());
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    //  GRUPO 6 — deleteClient()
+    // GRUPO 6 — deleteClient()
     // ═══════════════════════════════════════════════════════════
     @Nested
     @DisplayName("deleteClient()")
@@ -370,8 +394,374 @@ class ClientServiceTest {
             clientService.deleteClient(EXISTING_ID);
 
             // --- Assert ---
-            // Verificación de lógica de negocio: delete() debe invocarse exactamente una vez
+            // Verificación de lógica de negocio: delete() debe invocarse exactamente una
+            // vez
             verify(clientRepository, times(1)).delete(client);
         }
+    }
+
+    @Test
+    @DisplayName("CP-CLI-11: updateProfile - Actualiza el perfil del cliente")
+    void updateProfile_updatesAndReturnsProfile() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        ClientProfileUpdateRequest req = buildProfileUpdateRequest("Nuevo Nombre");
+        ClientProfileResponse resp = new ClientProfileResponse();
+        resp.setName("Nuevo Nombre");
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(clientRepository.save(client)).thenReturn(client);
+        when(clientMapper.toProfileResponse(client)).thenReturn(resp);
+
+        ClientProfileResponse result = clientService.updateProfile(EXISTING_ID, req);
+
+        assertNotNull(result);
+        assertEquals("Nuevo Nombre", result.getName());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-12: changePassword - Cambia contraseña del cliente")
+    void changePassword_updatesPassword() {
+        org.springframework.security.core.Authentication auth = mock(
+                org.springframework.security.core.Authentication.class);
+        com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+
+        com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO req = new com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO();
+        org.springframework.http.ResponseEntity<Void> res = clientService.changePassword(auth, req);
+
+        assertEquals(org.springframework.http.HttpStatus.NO_CONTENT, res.getStatusCode());
+        verify(userService, times(1)).changePassword(EXISTING_ID, req);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-13: followBrand - Sigue una marca exitosamente")
+    void followBrand_addsBrandToFollowed() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        client.setFollowedBrands(new java.util.HashSet<>());
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        brand.setId(2L);
+        brand.setFollowers(0);
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+
+        clientService.followBrand(EXISTING_ID, 2L);
+
+        verify(clientRepository, times(1)).save(client);
+        verify(brandRepository, times(1)).save(brand);
+        assertEquals(1, brand.getFollowers());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-17: unfollowBrand - Deja de seguir una marca")
+    void unfollowBrand_removesBrandFromFollowed() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        brand.setId(2L);
+        brand.setFollowers(1);
+        
+        java.util.Set<com.ceiba.fashtoll.worldModel.brand.Brand> followed = new java.util.HashSet<>();
+        followed.add(brand);
+        client.setFollowedBrands(followed);
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+
+        clientService.unfollowBrand(EXISTING_ID, 2L);
+
+        verify(clientRepository, times(1)).save(client);
+        verify(brandRepository, times(1)).save(brand);
+        assertEquals(0, brand.getFollowers());
+        assertFalse(client.getFollowedBrands().contains(brand));
+    }
+
+    @Test
+    @DisplayName("CP-CLI-18: getFollowedBrands - Retorna lista de marcas seguidas")
+    void getFollowedBrands_returnsList() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        client.setFollowedBrands(new java.util.HashSet<>(Collections.singletonList(brand)));
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(brandMapper.toPublicResponse(brand)).thenReturn(new com.ceiba.fashtoll.worldModel.brand.dtos.BrandPublicResponse());
+
+        List<com.ceiba.fashtoll.worldModel.brand.dtos.BrandPublicResponse> result = clientService.getFollowedBrands(EXISTING_ID);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-14: createWishlist - Crea una lista de deseos")
+    void createWishlist_createsAndReturnsWishlist() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistRequest req = new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistRequest();
+        req.setName("Mi Lista");
+        com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse resp = new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse();
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(wishlistRepository.save(any(com.ceiba.fashtoll.worldModel.wishlist.Wishlist.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
+        when(wishlistMapper.toResponse(any(com.ceiba.fashtoll.worldModel.wishlist.Wishlist.class))).thenReturn(resp);
+
+        com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse result = clientService.createWishlist(EXISTING_ID,
+                req);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-19: getWishlists - Retorna todas las listas de deseos")
+    void getWishlists_returnsList() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        when(wishlistRepository.findByClientId(EXISTING_ID)).thenReturn(Collections.singletonList(wishlist));
+        when(wishlistMapper.toResponse(wishlist)).thenReturn(new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse());
+
+        List<com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse> result = clientService.getWishlists(EXISTING_ID);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-20: getWishlist - Retorna una lista específica")
+    void getWishlist_returnsResponse() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(wishlistMapper.toDetailsResponse(wishlist)).thenReturn(new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistDetailsResponse());
+
+        com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistDetailsResponse result = clientService.getWishlist(EXISTING_ID, 10L);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-21: updateWishlist - Actualiza nombre de lista")
+    void updateWishlist_updatesAndReturns() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistRequest req = new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistRequest();
+        req.setName("Nuevo Nombre");
+
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(wishlistRepository.save(wishlist)).thenReturn(wishlist);
+        when(wishlistMapper.toResponse(wishlist)).thenReturn(new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse());
+
+        clientService.updateWishlist(EXISTING_ID, 10L, req);
+
+        assertEquals("Nuevo Nombre", wishlist.getName());
+        verify(wishlistRepository).save(wishlist);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-22: deleteWishlist - Elimina lista (no default)")
+    void deleteWishlist_deletesIfNotDefault() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        wishlist.setId(10L);
+        wishlist.setName("No Default");
+        
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist defaultW = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        defaultW.setId(1L);
+
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(wishlistRepository.findFirstByClientIdOrderByIdAsc(EXISTING_ID)).thenReturn(Optional.of(defaultW));
+
+        clientService.deleteWishlist(EXISTING_ID, 10L);
+
+        verify(wishlistRepository).delete(wishlist);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-23: addToWishlist - Agrega producto a lista")
+    void addToWishlist_addsProduct() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        wishlist.setProducts(new java.util.HashSet<>());
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(5L);
+
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(productRepository.findById(5L)).thenReturn(Optional.of(product));
+
+        clientService.addToWishlist(EXISTING_ID, 10L, 5L);
+
+        assertTrue(wishlist.getProducts().contains(product));
+        verify(wishlistRepository).save(wishlist);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-24: removeFromWishlist - Quita producto de lista")
+    void removeFromWishlist_removesProduct() {
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(5L);
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        wishlist.setProducts(new java.util.HashSet<>(Collections.singletonList(product)));
+
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(productRepository.findById(5L)).thenReturn(Optional.of(product));
+
+        clientService.removeFromWishlist(EXISTING_ID, 10L, 5L);
+
+        assertFalse(wishlist.getProducts().contains(product));
+        verify(wishlistRepository).save(wishlist);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-15: postBrandReview - Crea una reseña de marca")
+    void postBrandReview_createsReview() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        brand.setId(2L);
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest req = new com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest();
+        req.setComment("Excelente");
+        req.setRating(5);
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse resp = new com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse();
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+        when(brandReviewRepository.existsByClientIdAndBrandId(EXISTING_ID, 2L)).thenReturn(false);
+        when(brandReviewRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
+        when(reviewMapper.toResponse(any(com.ceiba.fashtoll.worldModel.review.entity.BrandReview.class)))
+                .thenReturn(resp);
+
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse result = clientService.postBrandReview(EXISTING_ID, 2L,
+                req);
+
+        assertNotNull(result);
+        verify(brandReviewRepository, times(1)).save(any());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-32: postBrandReview - Lanza excepcion si ya existe la reseña")
+    void postBrandReview_throwsIfAlreadyExists() {
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest req = new com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest();
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(new Client()));
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(new com.ceiba.fashtoll.worldModel.brand.Brand()));
+        when(brandReviewRepository.existsByClientIdAndBrandId(EXISTING_ID, 2L)).thenReturn(true);
+
+        assertThrows(com.ceiba.fashtoll.exceptionHandling.exceptionTypes.DuplicatedResourceException.class, 
+            () -> clientService.postBrandReview(EXISTING_ID, 2L, req));
+    }
+
+    @Test
+    @DisplayName("CP-CLI-25: updateBrandReview - Actualiza reseña de marca")
+    void updateBrandReview_updatesAndRecalculates() {
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        brand.setId(2L);
+        com.ceiba.fashtoll.worldModel.review.entity.BrandReview review = new com.ceiba.fashtoll.worldModel.review.entity.BrandReview();
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest req = new com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest();
+        req.setRating(3);
+
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+        when(brandReviewRepository.findByClientIdAndBrandId(EXISTING_ID, 2L)).thenReturn(Optional.of(review));
+        when(brandReviewRepository.save(review)).thenReturn(review);
+        when(brandReviewRepository.findByBrandId(2L)).thenReturn(Collections.singletonList(review));
+
+        clientService.updateBrandReview(EXISTING_ID, 2L, req);
+
+        assertEquals(3, review.getRating());
+        verify(brandRepository).save(brand);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-26: deleteBrandReview - Elimina reseña de marca")
+    void deleteBrandReview_deletesAndRecalculates() {
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        brand.setId(2L);
+        com.ceiba.fashtoll.worldModel.review.entity.BrandReview review = new com.ceiba.fashtoll.worldModel.review.entity.BrandReview();
+
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+        when(brandReviewRepository.findByClientIdAndBrandId(EXISTING_ID, 2L)).thenReturn(Optional.of(review));
+        when(brandReviewRepository.findByBrandId(2L)).thenReturn(Collections.emptyList());
+
+        clientService.deleteBrandReview(EXISTING_ID, 2L);
+
+        verify(brandReviewRepository).delete(review);
+        verify(brandRepository).save(brand);
+        assertEquals(0.0, brand.getRating());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-27: postProductReview - Crea una reseña de producto")
+    void postProductReview_createsReview() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(3L);
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest req = new com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest();
+        req.setRating(4);
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse resp = new com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse();
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(productRepository.findById(3L)).thenReturn(Optional.of(product));
+        when(productReviewRepository.existsByClientIdAndProductId(EXISTING_ID, 3L)).thenReturn(false);
+        when(productReviewRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
+        when(reviewMapper.toResponse(any(com.ceiba.fashtoll.worldModel.review.entity.ProductReview.class)))
+                .thenReturn(resp);
+
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse result = clientService.postProductReview(EXISTING_ID,
+                3L, req);
+
+        assertNotNull(result);
+        verify(productReviewRepository, times(1)).save(any());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-28: updateProductReview - Actualiza reseña de producto")
+    void updateProductReview_updatesAndRecalculates() {
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(3L);
+        com.ceiba.fashtoll.worldModel.review.entity.ProductReview review = new com.ceiba.fashtoll.worldModel.review.entity.ProductReview();
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest req = new com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest();
+        req.setRating(2);
+
+        when(productRepository.findById(3L)).thenReturn(Optional.of(product));
+        when(productReviewRepository.findByClientIdAndProductId(EXISTING_ID, 3L)).thenReturn(Optional.of(review));
+        when(productReviewRepository.save(review)).thenReturn(review);
+        when(productReviewRepository.findByProductId(3L)).thenReturn(Collections.singletonList(review));
+
+        clientService.updateProductReview(EXISTING_ID, 3L, req);
+
+        assertEquals(2, review.getRating());
+        verify(productRepository).save(product);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-29: deleteProductReview - Elimina reseña de producto")
+    void deleteProductReview_deletesAndRecalculates() {
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(3L);
+        com.ceiba.fashtoll.worldModel.review.entity.ProductReview review = new com.ceiba.fashtoll.worldModel.review.entity.ProductReview();
+
+        when(productRepository.findById(3L)).thenReturn(Optional.of(product));
+        when(productReviewRepository.findByClientIdAndProductId(EXISTING_ID, 3L)).thenReturn(Optional.of(review));
+        when(productReviewRepository.findByProductId(3L)).thenReturn(Collections.emptyList());
+
+        clientService.deleteProductReview(EXISTING_ID, 3L);
+
+        verify(productReviewRepository).delete(review);
+        verify(productRepository).save(product);
+    }
+    
+    @Test
+    @DisplayName("CP-CLI-30: getReviewsForBrand - Retorna reseñas de una marca")
+    void getReviewsForBrand_returnsList() {
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+        when(brandReviewRepository.findByBrandId(2L)).thenReturn(Collections.emptyList());
+
+        List<com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse> result = clientService.getReviewsForBrand(2L);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-31: getReviewsForProduct - Retorna reseñas de un producto")
+    void getReviewsForProduct_returnsList() {
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        when(productRepository.findById(3L)).thenReturn(Optional.of(product));
+        when(productReviewRepository.findByProductId(3L)).thenReturn(Collections.emptyList());
+
+        List<com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse> result = clientService.getReviewsForProduct(3L);
+
+        assertNotNull(result);
     }
 }
