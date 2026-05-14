@@ -33,6 +33,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer rankingScore = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
     @JsonIgnore // para que jackson no serialice el objeto marca

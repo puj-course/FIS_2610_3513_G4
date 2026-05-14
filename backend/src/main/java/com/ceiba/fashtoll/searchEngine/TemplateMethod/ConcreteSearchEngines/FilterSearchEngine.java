@@ -9,14 +9,10 @@ import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.PredicateSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @Component
@@ -39,6 +35,11 @@ public class FilterSearchEngine extends SearchEngine {
                         .and(ProductSpecs.priceRange(filters.minPrice(), filters.maxPrice()))
                         .and(ProductSpecs.tags(filters.tags()))
         );
+
+        if(keyWords != null && !keyWords.isEmpty()){
+
+            return this.rankingComponent.scoreKeywordsAlgorithm(keyWords, spec, pageRequest);
+        }
 
         return this.productRepository.findAll(spec, pageRequest);
     }

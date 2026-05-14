@@ -2,9 +2,12 @@ package com.ceiba.fashtoll.searchEngine.indexingComponent;
 
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "search_token")
 public class SearchToken {
@@ -17,28 +20,4 @@ public class SearchToken {
 
     @ManyToMany(mappedBy = "tokens")
     private Set<Product> products = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String word) {
-        this.token = word;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
 }
