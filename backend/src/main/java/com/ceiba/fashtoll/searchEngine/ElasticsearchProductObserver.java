@@ -21,12 +21,12 @@ import org.springframework.stereotype.Component;
  *
  * Rol GoF: ConcreteObserver
  */
-@Component
+//@Component
 public class ElasticsearchProductObserver /*implements ProductObserver*/ {
 
     private final ProductSearchService productSearchService;
 
-    @Autowired
+    //@Autowired
     public ElasticsearchProductObserver(ProductSearchService productSearchService,
                                         ProductEventPublisher publisher) {
         this.productSearchService = productSearchService;

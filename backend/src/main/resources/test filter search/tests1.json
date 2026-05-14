@@ -36,10 +36,14 @@
 },
   {
     "query": "Adicolor",
-    "productType": "HOODIE",
+    "productTypeName": "Hoodies",
+    "category": "OUTERWEAR",
     "generalFit": "LOOSE",
     "gender": "UNISEX",
     "color": "GREY",
     "minPrice": 200000.0,
-    "maxPrice": 300000.0
+    "maxPrice": 300000.0,
+    "tags": ["FLEECE", "ESSENTIALS"],
+    "page": 0,
+    "size": 12
   }]

@@ -1,25 +1,14 @@
 package com.ceiba.fashtoll.searchEngine;
 
-import com.ceiba.fashtoll.searchEngine.TemplateMethod.FilterSearchEngine;
-import com.ceiba.fashtoll.searchEngine.TemplateMethod.SimpleSearchEngine;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.FilterSearchEngine;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.SimpleSearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.*;
-import com.ceiba.fashtoll.searchEngine.repositories.ProductSearchRepository;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
-import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-/*
-import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import org.springframework.data.elasticsearch.client.elc.NativeQuery;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHit;
-import org.springframework.data.elasticsearch.core.SearchHits;
- */
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,52 +17,60 @@ import java.util.stream.Collectors;
 public class ProductSearchService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    //private final ProductSearchRepository productSearchRepository;
-    //private final ElasticsearchOperations elasticsearchOperations;
-    private final ProductRepository productRepository;
     private final SimpleSearchEngine simpleSearchEngine;
     private final FilterSearchEngine filterSearchEngine;
 
     @Autowired
-    public ProductSearchService(/*ProductSearchRepository productSearchRepository,
-                                ElasticsearchOperations elasticsearchOperations,*/
-                                ProductRepository productRepository, SimpleSearchEngine simpleSearchEngine, FilterSearchEngine filterSearchEngine) {
-
-        //this.productSearchRepository = productSearchRepository;
-        //this.elasticsearchOperations = elasticsearchOperations;
-        this.productRepository = productRepository;
+    public ProductSearchService(SimpleSearchEngine simpleSearchEngine, FilterSearchEngine filterSearchEngine) {
         this.simpleSearchEngine = simpleSearchEngine;
         this.filterSearchEngine = filterSearchEngine;
     }
 
-    public ProductSearchResponse simpleSearch(String query){
-        List<Product> searchResultProducts = this.simpleSearchEngine.processSimpleQuery(query);
-        List<ProductDocument> searchResponseProducts = new ArrayList<>();
+    public ProductSearchResponse simpleSearch(ProductSearchRequest request) {
+        Page<Product> searchResultPage = this.simpleSearchEngine.processSimpleQuery(request);
+        List<Product> searchResultProducts = searchResultPage.getContent();
 
+        List<ProductDocument> searchResponseProducts = new ArrayList<>();
         for(Product p: searchResultProducts){
             ProductDocument nP = this.mapToDocument(p);
-
             searchResponseProducts.add(nP);
         }
 
-        this.logger.info("Se buscaron productos con el query '" + query + "'");
+        ProductSearchResponse searchResponse = new ProductSearchResponse(
+                searchResponseProducts,
+                searchResultPage.getNumber(),
+                searchResultPage.getTotalPages(),
+                searchResultPage.getTotalElements(),
+                searchResultPage.getSize()
+        );
 
-        return new ProductSearchResponse(searchResponseProducts);
+        this.logger.info("Se buscaron productos con el query '" + request.query() + "'");
+
+        return searchResponse;
     }
 
     public ProductSearchResponse filterSearch(ProductSearchRequest request){
-        List<Product> searchResultProducts = this.filterSearchEngine.processFilterQuery(request);
-        List<ProductDocument> searchResponseProducts = new ArrayList<>();
+        Page<Product> searchResultPage = this.filterSearchEngine.processFilterQuery(request);
+        List<Product> searchResultProducts = searchResultPage.getContent();
 
+        List<ProductDocument> searchResponseProducts = new ArrayList<>();
         for(Product p: searchResultProducts){
             ProductDocument nP = this.mapToDocument(p);
 
             searchResponseProducts.add(nP);
         }
 
+        ProductSearchResponse searchResponse = new ProductSearchResponse(
+                searchResponseProducts,
+                searchResultPage.getNumber(),
+                searchResultPage.getTotalPages(),
+                searchResultPage.getTotalElements(),
+                searchResultPage.getSize()
+        );
+
         this.logger.info("Se buscaron productos con filtros y con el query '" + request.query() + "'");
 
-        return new ProductSearchResponse(searchResponseProducts);
+        return searchResponse;
     }
 
     /**

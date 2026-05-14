@@ -12,7 +12,9 @@ public record ProductSearchRequest(
         String color,
         Double minPrice,
         Double maxPrice,
-        List<String> tags
+        List<String> tags,
+        int page,
+        int size
 ) {
     public ProductSearchRequest {
         if (query == null) throw new IllegalArgumentException("Query is required");
@@ -25,5 +27,7 @@ public record ProductSearchRequest(
         if (minPrice == null) minPrice = -1.0;
         if (maxPrice == null) maxPrice = -1.0;
         if (tags == null) tags = new ArrayList<>();
+        if (page < 0) page = 0;
+        if (size < 0)size = 12;
     }
 }

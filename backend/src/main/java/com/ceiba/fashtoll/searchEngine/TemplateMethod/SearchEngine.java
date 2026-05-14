@@ -7,6 +7,10 @@ import com.ceiba.fashtoll.searchEngine.rankingComponent.RankingComponent;
 import com.ceiba.fashtoll.utilities.Singleton.Analyzer;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public abstract class SearchEngine {
@@ -23,14 +27,15 @@ public abstract class SearchEngine {
         this.analyzer = Analyzer.getInstance();
     }
 
-    public final List<Product> processSimpleQuery(String rawQuery){
-        String cleanQuery = this.analyzer.characterFilter(rawQuery);
+    public final Page<Product> processSimpleQuery(ProductSearchRequest request) {
+        String cleanQuery = this.analyzer.characterFilter(request.query());
         List<String> keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+        Pageable pageRequest = PageRequest.of(request.page(), request.size());
 
-        return this.returnResults(keyWords, null);
+        return this.returnResults(keyWords, null, pageRequest);
     }
 
-    public final List<Product> processFilterQuery(ProductSearchRequest request){
+    public final Page<Product> processFilterQuery(ProductSearchRequest request){
         String cleanQuery = this.analyzer.characterFilter(request.query());
         List<String> keyWords = this.analyzer.obtainKeyWords(cleanQuery);
 
@@ -40,14 +45,15 @@ public abstract class SearchEngine {
                 request.generalFit(),
                 request.gender(),
                 request.color(),
-                //request.available(),
                 request.minPrice(),
                 request.maxPrice(),
                 request.tags()
         );
 
-        return this.returnResults(keyWords, filters);
+        Pageable pageRequest = PageRequest.of(request.page(), request.size());
+
+        return this.returnResults(keyWords, filters, pageRequest);
     }
 
-    protected abstract List<Product> returnResults(List<String> keyWords, QueryFilters filters);
+    protected abstract Page<Product> returnResults(List<String> keyWords, QueryFilters filters, Pageable pageRequest);
 }
