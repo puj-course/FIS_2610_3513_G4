@@ -29,46 +29,6 @@ public class ProductSearchController {
     }
 
     /**
-     * Endpoint de búsqueda pública de productos.
-     * Soporta búsqueda por keywords, filtros y paginación.
-     * No requiere autenticación.
-     */
-    /*
-    @GetMapping("/elastic-search")
-    public ProductElasticSearchResponse searchProducts(
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String productTypeName,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String generalFit,
-            @RequestParam(required = false) String gender,
-            @RequestParam(required = false) String color,
-            @RequestParam(required = false) Boolean available,
-            @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) List<String> tags,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size
-    ) {
-        ProductElasticSearchRequest request = ProductElasticSearchRequest.builder()
-                .keyword(keyword)
-                .productTypeName(productTypeName)
-                .category(category)
-                .generalFit(generalFit)
-                .gender(gender)
-                .color(color)
-                .available(available)
-                .minPrice(minPrice)
-                .maxPrice(maxPrice)
-                .tags(tags)
-                .page(page)
-                .size(size)
-                .build();
-
-        return productSearchService.search(request);
-    }
-     */
-
-    /**
      * Re-indexa TODOS los products desde PostgreSQL hacia Elasticsearch.
      * Endpoint solo para Admin para setup inicial o re-sincronización.
      */
