@@ -46,45 +46,53 @@ public class RankingComponent {
                 ? productList.subList(start, end)
                 : new ArrayList<>();
 
-        /*for(Product product : productList){
+        for(Product product : productList){
             product.setRankingScore(0);
-        }*/
+        }
 
         return new PageImpl<>(pagedList, pageable, productList.size());
     }
 
     //evalua un solo producto a la vez, evalua las keywords de ese producto.
     public void calculateTermFrequency(Product product, List<String> queryKeyWords) {
-        int productScore = 0;
-        String desc = product.getDescription();
+        int productScore = 0, productNameScore = 0, productDescriptionScore = 0;
+        String description = product.getDescription();
         String name = product.getName();
 
-        List<Integer> keyWordFrequency = new ArrayList<>();
-        for(String keyword : queryKeyWords) {
-            int aux = (int) this.keyWordCounter(desc, keyword);
-            if(aux <= this.keyWordFrequencyLimit && aux > 0) {
-                keyWordFrequency.add(aux);
-            } else if(aux > this.keyWordFrequencyLimit && aux > 0) {
-                keyWordFrequency.add(this.keyWordFrequencyLimit);
-            }
-        }
-
+        List<Integer> keyWordNameFrequency = new ArrayList<>();
         for(String keyword : queryKeyWords) {
             int aux = (int) this.keyWordCounter(name, keyword);
             if(aux <= this.keyWordFrequencyLimit && aux > 0) {
-                keyWordFrequency.add(aux);
+                keyWordNameFrequency.add(aux);
             } else if(aux > this.keyWordFrequencyLimit && aux > 0) {
-                keyWordFrequency.add(this.keyWordFrequencyLimit);
+                keyWordNameFrequency.add(this.keyWordFrequencyLimit);
             }
         }
 
-        for(Integer p : keyWordFrequency){
-            productScore += p;
+        for(Integer p : keyWordNameFrequency){
+            productNameScore += p;
         }
+
+        List<Integer> keyWordDescFrequency = new ArrayList<>();
+        for(String keyword : queryKeyWords) {
+            int aux = (int) this.keyWordCounter(description, keyword);
+            if(aux <= this.keyWordFrequencyLimit && aux > 0) {
+                keyWordDescFrequency.add(aux);
+            } else if(aux > this.keyWordFrequencyLimit && aux > 0) {
+                keyWordDescFrequency.add(this.keyWordFrequencyLimit);
+            }
+        }
+
+        for(Integer p : keyWordDescFrequency){
+            productDescriptionScore += p;
+        }
+
+        if(description.length() >= 150) productDescriptionScore -= 3;
+        productScore = productNameScore + productDescriptionScore;
+
         product.setRankingScore(productScore);
     }
 
-    // POR AHORA SOLO IMPLEMENTAN 2 DE 3 CRITERIOS PARA CLASIFICAR LOS PRODUCTOS
     public void calculateInverseDocumentFrequency(Product product, List<String> queryKeyWords) {
         int productScore = 0;
         Set<String> queryKeyWordsSet = new HashSet<>(queryKeyWords);
@@ -139,9 +147,6 @@ public class RankingComponent {
         }
         productScore += product.getRankingScore();
         product.setRankingScore(productScore);
-    }
-
-    public void normalizationByFieldLength(){
     }
 
     public long keyWordCounter(String desc, String kW){
