@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SearchEngine {
@@ -28,16 +29,22 @@ public abstract class SearchEngine {
     }
 
     public final Page<Product> processSimpleQuery(ProductSearchRequest request) {
-        String cleanQuery = this.analyzer.characterFilter(request.query());
-        List<String> keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+        List<String> keyWords = new ArrayList<>();
+        if (!request.query().isEmpty()){
+            String cleanQuery = this.analyzer.characterFilter(request.query());
+            keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+        }
         Pageable pageRequest = PageRequest.of(request.page(), request.size());
 
         return this.returnResults(keyWords, null, pageRequest);
     }
 
     public final Page<Product> processFilterQuery(ProductSearchRequest request){
-        String cleanQuery = this.analyzer.characterFilter(request.query());
-        List<String> keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+        List<String> keyWords = new ArrayList<>();
+        if (!request.query().isEmpty()){
+            String cleanQuery = this.analyzer.characterFilter(request.query());
+            keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+        }
 
         QueryFilters filters = new QueryFilters(
                 request.productType(),

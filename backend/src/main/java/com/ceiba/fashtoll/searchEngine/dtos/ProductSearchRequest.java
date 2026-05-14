@@ -17,8 +17,7 @@ public record ProductSearchRequest(
         int size
 ) {
     public ProductSearchRequest {
-        if (query == null) throw new IllegalArgumentException("Query is required");
-        if (query.isEmpty()) throw new IllegalArgumentException("Query is required");
+        if (query == null) query = "";
         if (productType == null) productType = "";
         if (category == null) category = "";
         if (generalFit == null) generalFit = "";

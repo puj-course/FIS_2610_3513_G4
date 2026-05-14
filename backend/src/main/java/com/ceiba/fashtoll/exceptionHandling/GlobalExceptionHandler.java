@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.LocalDateTime;
@@ -84,6 +85,17 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
+    // GlobalExceptionHandler.java (Corrección del falso HTTP 200)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiError> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+        ApiError apiError = new ApiError(
+                HttpStatus.METHOD_NOT_ALLOWED.value(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
 }
