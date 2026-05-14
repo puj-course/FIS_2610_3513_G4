@@ -963,14 +963,7 @@
 
 ---
 
-### [POST] /api/products/search/reindex
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
-### [GET] /api/products/search
+### [POST] /api/products/search
 #### Request Body
 
 | Required | Schema |
@@ -983,18 +976,25 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
 
-### [GET] /api/products/search/simple-search
+### [POST] /api/products/search/simple
 #### Request Body
 
 | Required | Schema |
 | -------- | ------ |
-|  Yes | **application/json**: string<br> |
+|  Yes | **application/json**: [ProductSearchRequest](#productsearchrequest-schema)<br> |
 
 #### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
+
+### [POST] /api/products/search/reindex
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: string<br> |
 
 ---
 
@@ -1233,6 +1233,56 @@
 | password | string |  | Yes |
 | role | string, <br>**Available values:** "CLIENT", "BRAND", "ADMIN" | *Enum:* `"CLIENT"`, `"BRAND"`, `"ADMIN"` | Yes |
 
+#### ProductSearchRequest Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| query | string |  | No |
+| productType | string |  | No |
+| category | string |  | No |
+| generalFit | string |  | No |
+| gender | string |  | No |
+| color | string |  | No |
+| minPrice | double |  | No |
+| maxPrice | double |  | No |
+| tags | [ string ] |  | No |
+| page | integer |  | No |
+| size | integer |  | No |
+
+#### ProductDocument Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | long |  | No |
+| name | string |  | No |
+| description | string |  | No |
+| brandId | long |  | No |
+| brandName | string |  | No |
+| brandPictureUrl | string |  | No |
+| brandIsVerified | boolean |  | No |
+| productTypeName | string |  | No |
+| category | string |  | No |
+| price | number |  | No |
+| generalFit | string |  | No |
+| gender | string |  | No |
+| color | string |  | No |
+| available | boolean |  | No |
+| rating | double |  | No |
+| linkProduct | string |  | No |
+| imageUrls | [ string ] |  | No |
+| tags | [ string ] |  | No |
+| createdAt | dateTime |  | No |
+
+#### ProductSearchResponse Schema
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| searchedProducts | [ [ProductDocument](#productdocument-schema) ] |  | No |
+| currentPage | integer |  | No |
+| totalPages | integer |  | No |
+| totalResults | long |  | No |
+| pageSize | integer |  | No |
+
 #### ClientCreateRequest Schema
 
 | Name | Type | Description | Required |
@@ -1273,50 +1323,6 @@
 | ---- | ---- | ----------- | -------- |
 | email | string (email) |  | Yes |
 | password | string |  | Yes |
-
-#### ProductSearchRequest Schema
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| query | string |  | No |
-| productType | string |  | No |
-| category | string |  | No |
-| generalFit | string |  | No |
-| gender | string |  | No |
-| color | string |  | No |
-| minPrice | double |  | No |
-| maxPrice | double |  | No |
-| tags | [ string ] |  | No |
-
-#### ProductDocument Schema
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | long |  | No |
-| name | string |  | No |
-| description | string |  | No |
-| brandId | long |  | No |
-| brandName | string |  | No |
-| brandPictureUrl | string |  | No |
-| brandIsVerified | boolean |  | No |
-| productTypeName | string |  | No |
-| category | string |  | No |
-| price | number |  | No |
-| generalFit | string |  | No |
-| gender | string |  | No |
-| color | string |  | No |
-| available | boolean |  | No |
-| rating | double |  | No |
-| linkProduct | string |  | No |
-| imageUrls | [ string ] |  | No |
-| tags | [ string ] |  | No |
-| createdAt | dateTime |  | No |
-
-#### ProductSearchResponse Schema
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| searchedProducts | [ [ProductDocument](#productdocument-schema) ] |  | No |
 
 #### WishlistDetailsResponse Schema
 
