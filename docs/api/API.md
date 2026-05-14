@@ -167,7 +167,7 @@
 
 | Required | Schema |
 | -------- | ------ |
-|  Yes | **application/json**: [ProductAdminUpdateRequest](#productadminupdaterequest-schema)<br> |
+|  Yes | **application/json**: [ProductC_U_Request](#productc_u_request-schema)<br> |
 
 #### Responses
 
@@ -188,6 +188,25 @@
 | ---- | ----------- |
 | 200 | OK |
 
+### [PUT] /api/products/simple/{id}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ProductC_U_Request](#productc_u_request-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ProductResponse](#productresponse-schema)<br> |
+
 ### [GET] /api/products
 #### Responses
 
@@ -200,7 +219,20 @@
 
 | Required | Schema |
 | -------- | ------ |
-|  Yes | **application/json**: [ProductCreateRequest](#productcreaterequest-schema)<br> |
+|  Yes | **application/json**: [ProductC_U_Request](#productc_u_request-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ProductResponse](#productresponse-schema)<br> |
+
+### [POST] /api/products/simple
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ProductC_U_Request](#productc_u_request-schema)<br> |
 
 #### Responses
 
@@ -773,7 +805,7 @@
 
 | Required | Schema |
 | -------- | ------ |
-|  Yes | **application/json**: [ProductUpdateRequest](#productupdaterequest-schema)<br> |
+|  Yes | **application/json**: [ProductC_U_Request](#productc_u_request-schema)<br> |
 
 #### Responses
 
@@ -793,6 +825,25 @@
 | Code | Description |
 | ---- | ----------- |
 | 200 | OK |
+
+### [PUT] /api/brands/my-products/simple/{id}
+#### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id | path |  | Yes | long |
+
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ProductC_U_Request](#productc_u_request-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ProductResponse](#productresponse-schema)<br> |
 
 ### [GET] /api/brands
 #### Responses
@@ -826,7 +877,20 @@
 
 | Required | Schema |
 | -------- | ------ |
-|  Yes | **application/json**: [ProductCreateRequest](#productcreaterequest-schema)<br> |
+|  Yes | **application/json**: [ProductC_U_Request](#productc_u_request-schema)<br> |
+
+#### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | OK | ***/***: [ProductResponse](#productresponse-schema)<br> |
+
+### [POST] /api/brands/my-products/simple
+#### Request Body
+
+| Required | Schema |
+| -------- | ------ |
+|  Yes | **application/json**: [ProductC_U_Request](#productc_u_request-schema)<br> |
 
 #### Responses
 
@@ -932,30 +996,6 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
 
-### [GET] /api/products/search/elastic-search
-#### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| keyword | query |  | No | string |
-| productTypeName | query |  | No | string |
-| category | query |  | No | string |
-| generalFit | query |  | No | string |
-| gender | query |  | No | string |
-| color | query |  | No | string |
-| available | query |  | No | boolean |
-| minPrice | query |  | No | double |
-| maxPrice | query |  | No | double |
-| tags | query |  | No | [ string ] |
-| page | query |  | No | integer |
-| size | query |  | No | integer, <br>**Default:** 12 |
-
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: [ProductElasticSearchResponse](#productelasticsearchresponse-schema)<br> |
-
 ---
 
 ### [POST] /api/auth/register
@@ -1020,11 +1060,11 @@
 | name | string |  | No |
 | type | string, <br>**Available values:** "STYLE", "OCCASION", "FIT" | *Enum:* `"STYLE"`, `"OCCASION"`, `"FIT"` | No |
 
-#### ProductAdminUpdateRequest Schema
+#### ProductC_U_Request Schema
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| brandId | long |  | Yes |
+| brandId | long |  | No |
 | productTypeId | long |  | Yes |
 | name | string |  | Yes |
 | description | string |  | No |
@@ -1035,7 +1075,7 @@
 | available | boolean |  | No |
 | linkProduct | string |  | No |
 | imageUrls | [ string ] |  | No |
-| tagIds | [ long ] |  | No |
+| tags | [ string ] |  | No |
 
 #### ProductResponse Schema
 
@@ -1185,22 +1225,6 @@
 | isVerified | boolean |  | No |
 | reviews | [ [ReviewResponse](#reviewresponse-schema) ] |  | No |
 
-#### ProductUpdateRequest Schema
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| productTypeId | long |  | Yes |
-| name | string |  | Yes |
-| description | string |  | No |
-| price | number |  | Yes |
-| generalFit | string, <br>**Available values:** "COMPRESSION", "SKINNY", "SLIM", "REGULAR", "RELAXED", "LOOSE", "OVERSIZED", "OTHER" | *Enum:* `"COMPRESSION"`, `"SKINNY"`, `"SLIM"`, `"REGULAR"`, `"RELAXED"`, `"LOOSE"`, `"OVERSIZED"`, `"OTHER"` | No |
-| gender | string, <br>**Available values:** "MALE", "FEMALE", "UNISEX" | *Enum:* `"MALE"`, `"FEMALE"`, `"UNISEX"` | No |
-| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "CREAM", "GREEN", "BLUE", "NAVY", "TURQUOISE", "PURPLE", "RED", "MAROON", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"CREAM"`, `"GREEN"`, `"BLUE"`, `"NAVY"`, `"TURQUOISE"`, `"PURPLE"`, `"RED"`, `"MAROON"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
-| available | boolean |  | No |
-| linkProduct | string |  | No |
-| imageUrls | [ string ] |  | No |
-| tagIds | [ long ] |  | No |
-
 #### UserCreateRequest Schema
 
 | Name | Type | Description | Required |
@@ -1208,23 +1232,6 @@
 | email | string (email) |  | Yes |
 | password | string |  | Yes |
 | role | string, <br>**Available values:** "CLIENT", "BRAND", "ADMIN" | *Enum:* `"CLIENT"`, `"BRAND"`, `"ADMIN"` | Yes |
-
-#### ProductCreateRequest Schema
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| brandId | long |  | No |
-| productTypeId | long |  | Yes |
-| name | string |  | Yes |
-| description | string |  | No |
-| price | number |  | Yes |
-| generalFit | string, <br>**Available values:** "COMPRESSION", "SKINNY", "SLIM", "REGULAR", "RELAXED", "LOOSE", "OVERSIZED", "OTHER" | *Enum:* `"COMPRESSION"`, `"SKINNY"`, `"SLIM"`, `"REGULAR"`, `"RELAXED"`, `"LOOSE"`, `"OVERSIZED"`, `"OTHER"` | No |
-| gender | string, <br>**Available values:** "MALE", "FEMALE", "UNISEX" | *Enum:* `"MALE"`, `"FEMALE"`, `"UNISEX"` | No |
-| color | string, <br>**Available values:** "WHITE", "BLACK", "GREY", "BROWN", "BEIGE", "CREAM", "GREEN", "BLUE", "NAVY", "TURQUOISE", "PURPLE", "RED", "MAROON", "ORANGE", "PINK", "YELLOW", "GOLD", "SILVER", "MULTICOLOR", "OTHER" | *Enum:* `"WHITE"`, `"BLACK"`, `"GREY"`, `"BROWN"`, `"BEIGE"`, `"CREAM"`, `"GREEN"`, `"BLUE"`, `"NAVY"`, `"TURQUOISE"`, `"PURPLE"`, `"RED"`, `"MAROON"`, `"ORANGE"`, `"PINK"`, `"YELLOW"`, `"GOLD"`, `"SILVER"`, `"MULTICOLOR"`, `"OTHER"` | No |
-| available | boolean |  | No |
-| linkProduct | string |  | No |
-| imageUrls | [ string ] |  | No |
-| tagIds | [ long ] |  | No |
 
 #### ClientCreateRequest Schema
 
@@ -1310,16 +1317,6 @@
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | searchedProducts | [ [ProductDocument](#productdocument-schema) ] |  | No |
-
-#### ProductElasticSearchResponse Schema
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| products | [ [ProductDocument](#productdocument-schema) ] |  | No |
-| currentPage | integer |  | No |
-| totalPages | integer |  | No |
-| totalResults | long |  | No |
-| pageSize | integer |  | No |
 
 #### WishlistDetailsResponse Schema
 
