@@ -449,6 +449,47 @@ class ClientServiceTest {
         clientService.followBrand(EXISTING_ID, 2L);
 
         verify(clientRepository, times(1)).save(client);
+        verify(brandRepository, times(1)).save(brand);
+        assertEquals(1, brand.getFollowers());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-17: unfollowBrand - Deja de seguir una marca")
+    void unfollowBrand_removesBrandFromFollowed() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        brand.setId(2L);
+        brand.setFollowers(1);
+        
+        java.util.Set<com.ceiba.fashtoll.worldModel.brand.Brand> followed = new java.util.HashSet<>();
+        followed.add(brand);
+        client.setFollowedBrands(followed);
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+
+        clientService.unfollowBrand(EXISTING_ID, 2L);
+
+        verify(clientRepository, times(1)).save(client);
+        verify(brandRepository, times(1)).save(brand);
+        assertEquals(0, brand.getFollowers());
+        assertFalse(client.getFollowedBrands().contains(brand));
+    }
+
+    @Test
+    @DisplayName("CP-CLI-18: getFollowedBrands - Retorna lista de marcas seguidas")
+    void getFollowedBrands_returnsList() {
+        Client client = buildClient(EXISTING_ID, CLIENT_NAME);
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        client.setFollowedBrands(new java.util.HashSet<>(Collections.singletonList(brand)));
+
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(client));
+        when(brandMapper.toPublicResponse(brand)).thenReturn(new com.ceiba.fashtoll.worldModel.brand.dtos.BrandPublicResponse());
+
+        List<com.ceiba.fashtoll.worldModel.brand.dtos.BrandPublicResponse> result = clientService.getFollowedBrands(EXISTING_ID);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -468,6 +509,100 @@ class ClientServiceTest {
                 req);
 
         assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-19: getWishlists - Retorna todas las listas de deseos")
+    void getWishlists_returnsList() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        when(wishlistRepository.findByClientId(EXISTING_ID)).thenReturn(Collections.singletonList(wishlist));
+        when(wishlistMapper.toResponse(wishlist)).thenReturn(new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse());
+
+        List<com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse> result = clientService.getWishlists(EXISTING_ID);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-20: getWishlist - Retorna una lista específica")
+    void getWishlist_returnsResponse() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(wishlistMapper.toDetailsResponse(wishlist)).thenReturn(new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistDetailsResponse());
+
+        com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistDetailsResponse result = clientService.getWishlist(EXISTING_ID, 10L);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-21: updateWishlist - Actualiza nombre de lista")
+    void updateWishlist_updatesAndReturns() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistRequest req = new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistRequest();
+        req.setName("Nuevo Nombre");
+
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(wishlistRepository.save(wishlist)).thenReturn(wishlist);
+        when(wishlistMapper.toResponse(wishlist)).thenReturn(new com.ceiba.fashtoll.worldModel.wishlist.dtos.WishlistResponse());
+
+        clientService.updateWishlist(EXISTING_ID, 10L, req);
+
+        assertEquals("Nuevo Nombre", wishlist.getName());
+        verify(wishlistRepository).save(wishlist);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-22: deleteWishlist - Elimina lista (no default)")
+    void deleteWishlist_deletesIfNotDefault() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        wishlist.setId(10L);
+        wishlist.setName("No Default");
+        
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist defaultW = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        defaultW.setId(1L);
+
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(wishlistRepository.findFirstByClientIdOrderByIdAsc(EXISTING_ID)).thenReturn(Optional.of(defaultW));
+
+        clientService.deleteWishlist(EXISTING_ID, 10L);
+
+        verify(wishlistRepository).delete(wishlist);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-23: addToWishlist - Agrega producto a lista")
+    void addToWishlist_addsProduct() {
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        wishlist.setProducts(new java.util.HashSet<>());
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(5L);
+
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(productRepository.findById(5L)).thenReturn(Optional.of(product));
+
+        clientService.addToWishlist(EXISTING_ID, 10L, 5L);
+
+        assertTrue(wishlist.getProducts().contains(product));
+        verify(wishlistRepository).save(wishlist);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-24: removeFromWishlist - Quita producto de lista")
+    void removeFromWishlist_removesProduct() {
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(5L);
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        wishlist.setProducts(new java.util.HashSet<>(Collections.singletonList(product)));
+
+        when(wishlistRepository.findByIdAndClientId(10L, EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(productRepository.findById(5L)).thenReturn(Optional.of(product));
+
+        clientService.removeFromWishlist(EXISTING_ID, 10L, 5L);
+
+        assertFalse(wishlist.getProducts().contains(product));
+        verify(wishlistRepository).save(wishlist);
     }
 
     @Test
@@ -496,7 +631,57 @@ class ClientServiceTest {
     }
 
     @Test
-    @DisplayName("CP-CLI-16: postProductReview - Crea una reseña de producto")
+    @DisplayName("CP-CLI-32: postBrandReview - Lanza excepcion si ya existe la reseña")
+    void postBrandReview_throwsIfAlreadyExists() {
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest req = new com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest();
+        when(clientRepository.findById(EXISTING_ID)).thenReturn(Optional.of(new Client()));
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(new com.ceiba.fashtoll.worldModel.brand.Brand()));
+        when(brandReviewRepository.existsByClientIdAndBrandId(EXISTING_ID, 2L)).thenReturn(true);
+
+        assertThrows(com.ceiba.fashtoll.exceptionHandling.exceptionTypes.DuplicatedResourceException.class, 
+            () -> clientService.postBrandReview(EXISTING_ID, 2L, req));
+    }
+
+    @Test
+    @DisplayName("CP-CLI-25: updateBrandReview - Actualiza reseña de marca")
+    void updateBrandReview_updatesAndRecalculates() {
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        brand.setId(2L);
+        com.ceiba.fashtoll.worldModel.review.entity.BrandReview review = new com.ceiba.fashtoll.worldModel.review.entity.BrandReview();
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest req = new com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest();
+        req.setRating(3);
+
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+        when(brandReviewRepository.findByClientIdAndBrandId(EXISTING_ID, 2L)).thenReturn(Optional.of(review));
+        when(brandReviewRepository.save(review)).thenReturn(review);
+        when(brandReviewRepository.findByBrandId(2L)).thenReturn(Collections.singletonList(review));
+
+        clientService.updateBrandReview(EXISTING_ID, 2L, req);
+
+        assertEquals(3, review.getRating());
+        verify(brandRepository).save(brand);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-26: deleteBrandReview - Elimina reseña de marca")
+    void deleteBrandReview_deletesAndRecalculates() {
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        brand.setId(2L);
+        com.ceiba.fashtoll.worldModel.review.entity.BrandReview review = new com.ceiba.fashtoll.worldModel.review.entity.BrandReview();
+
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+        when(brandReviewRepository.findByClientIdAndBrandId(EXISTING_ID, 2L)).thenReturn(Optional.of(review));
+        when(brandReviewRepository.findByBrandId(2L)).thenReturn(Collections.emptyList());
+
+        clientService.deleteBrandReview(EXISTING_ID, 2L);
+
+        verify(brandReviewRepository).delete(review);
+        verify(brandRepository).save(brand);
+        assertEquals(0.0, brand.getRating());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-27: postProductReview - Crea una reseña de producto")
     void postProductReview_createsReview() {
         Client client = buildClient(EXISTING_ID, CLIENT_NAME);
         com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
@@ -517,5 +702,66 @@ class ClientServiceTest {
 
         assertNotNull(result);
         verify(productReviewRepository, times(1)).save(any());
+    }
+
+    @Test
+    @DisplayName("CP-CLI-28: updateProductReview - Actualiza reseña de producto")
+    void updateProductReview_updatesAndRecalculates() {
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(3L);
+        com.ceiba.fashtoll.worldModel.review.entity.ProductReview review = new com.ceiba.fashtoll.worldModel.review.entity.ProductReview();
+        com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest req = new com.ceiba.fashtoll.worldModel.review.dto.ReviewRequest();
+        req.setRating(2);
+
+        when(productRepository.findById(3L)).thenReturn(Optional.of(product));
+        when(productReviewRepository.findByClientIdAndProductId(EXISTING_ID, 3L)).thenReturn(Optional.of(review));
+        when(productReviewRepository.save(review)).thenReturn(review);
+        when(productReviewRepository.findByProductId(3L)).thenReturn(Collections.singletonList(review));
+
+        clientService.updateProductReview(EXISTING_ID, 3L, req);
+
+        assertEquals(2, review.getRating());
+        verify(productRepository).save(product);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-29: deleteProductReview - Elimina reseña de producto")
+    void deleteProductReview_deletesAndRecalculates() {
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(3L);
+        com.ceiba.fashtoll.worldModel.review.entity.ProductReview review = new com.ceiba.fashtoll.worldModel.review.entity.ProductReview();
+
+        when(productRepository.findById(3L)).thenReturn(Optional.of(product));
+        when(productReviewRepository.findByClientIdAndProductId(EXISTING_ID, 3L)).thenReturn(Optional.of(review));
+        when(productReviewRepository.findByProductId(3L)).thenReturn(Collections.emptyList());
+
+        clientService.deleteProductReview(EXISTING_ID, 3L);
+
+        verify(productReviewRepository).delete(review);
+        verify(productRepository).save(product);
+    }
+    
+    @Test
+    @DisplayName("CP-CLI-30: getReviewsForBrand - Retorna reseñas de una marca")
+    void getReviewsForBrand_returnsList() {
+        com.ceiba.fashtoll.worldModel.brand.Brand brand = new com.ceiba.fashtoll.worldModel.brand.Brand();
+        when(brandRepository.findById(2L)).thenReturn(Optional.of(brand));
+        when(brandReviewRepository.findByBrandId(2L)).thenReturn(Collections.emptyList());
+
+        List<com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse> result = clientService.getReviewsForBrand(2L);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-31: getReviewsForProduct - Retorna reseñas de un producto")
+    void getReviewsForProduct_returnsList() {
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        when(productRepository.findById(3L)).thenReturn(Optional.of(product));
+        when(productReviewRepository.findByProductId(3L)).thenReturn(Collections.emptyList());
+
+        List<com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse> result = clientService.getReviewsForProduct(3L);
+
+        assertNotNull(result);
     }
 }

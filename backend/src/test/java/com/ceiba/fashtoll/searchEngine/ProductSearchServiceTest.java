@@ -13,12 +13,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-
+import org.springframework.data.elasticsearch.core.SearchHits;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductDocument;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchRequest;
+import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchResponse;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -100,5 +106,48 @@ class ProductSearchServiceTest {
 
         verify(productSearchRepository, times(1)).deleteAll();
         verify(productSearchRepository, times(1)).saveAll(any());
+    }
+
+    @Test
+    @DisplayName("CP-SRC-06: search - Búsqueda compleja con filtros en Elasticsearch")
+    void search_withMultipleFilters_returnsResponse() {
+        // Arrange
+        ProductElasticSearchRequest req = new ProductElasticSearchRequest();
+        req.setKeyword("camisa");
+        req.setProductTypeName("Remera");
+        req.setCategory("ROPA");
+        req.setGeneralFit("SLIM");
+        req.setGender("MALE");
+        req.setColor("WHITE");
+        req.setAvailable(true);
+        req.setMinPrice(10.0);
+        req.setMaxPrice(100.0);
+        req.setTags(List.of("tag1", "tag2"));
+        req.setPage(0);
+        req.setSize(10);
+
+        SearchHits<ProductDocument> searchHits = mock(SearchHits.class);
+        when(searchHits.getSearchHits()).thenReturn(Collections.emptyList());
+        when(searchHits.getTotalHits()).thenReturn(0L);
+        when(elasticsearchOperations.search(any(NativeQuery.class), eq(ProductDocument.class))).thenReturn(searchHits);
+
+        // Act
+        ProductElasticSearchResponse response = productSearchService.search(req);
+
+        // Assert
+        assertNotNull(response);
+        verify(elasticsearchOperations).search(any(NativeQuery.class), eq(ProductDocument.class));
+    }
+
+    @Test
+    @DisplayName("CP-SRC-07: mapToDocument - Cobertura de mapeo con campos nulos")
+    void mapToDocument_handlesNulls() {
+        Product product = new Product();
+        product.setId(1L);
+        product.setName("Test");
+
+        productSearchService.indexProduct(product);
+
+        verify(productSearchRepository).save(any(ProductDocument.class));
     }
 }
