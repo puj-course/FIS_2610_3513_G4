@@ -27,6 +27,10 @@ public class RankingComponent {
         this.keyWordFrequencyLimit = 5;
     }
 
+
+    // .stream() es para objetos que no se van a modificar
+    // mientras que new es para objetos que si se modificaran
+    // ordenar cuenta como modificar.
     //las keyWords son las del query de busqueda
     public Page<Product> scoreKeywordsAlgorithm(List<String> queryKeyWords, Specification spec, Pageable pageable) {
         List<Product> productList = new ArrayList<>(this.productRepository.findAll(spec));
@@ -68,6 +72,8 @@ public class RankingComponent {
                 keyWordNameFrequency.add(this.keyWordFrequencyLimit);
             }
         }
+
+        //queryKeyWords.stream().forEach(keyWord -> );
 
         for(Integer p : keyWordNameFrequency){
             productNameScore += p;

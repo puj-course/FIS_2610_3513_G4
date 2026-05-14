@@ -60,7 +60,7 @@ const COLOR_CONFIG: Record<string, { label: string, colorClass: string, style?: 
 
 export default function Catalog() {
   const [params, setParams] = useState<SearchParams>({
-    keyword: "",
+    query: "",
     page: 0,
     size: 12,
   });
@@ -125,20 +125,20 @@ export default function Catalog() {
 
   const handleKeywordSearch = (e?: React.FormEvent) => {
     e?.preventDefault();
-    setParams({ ...params, keyword: keywordInput, page: 0 });
+    setParams({ ...params, query: keywordInput, page: 0 });
   };
 
   const clearKeyword = () => {
     setKeywordInput("");
-    setParams({ ...params, keyword: "", page: 0 });
+    setParams({ ...params, query: "", page: 0 });
   };
 
   const applyFilters = () => {
-    setParams({ ...pendingParams, keyword: keywordInput, page: 0 });
+    setParams({ ...pendingParams, query: keywordInput, page: 0 });
   };
 
   const resetFilters = () => {
-    const defaultParams = { keyword: keywordInput, page: 0, size: 12 };
+    const defaultParams = { query: keywordInput, page: 0, size: 12 };
     setPendingParams(defaultParams);
     setParams(defaultParams);
   };
