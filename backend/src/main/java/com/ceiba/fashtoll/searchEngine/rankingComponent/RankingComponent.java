@@ -11,9 +11,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Component
@@ -35,6 +33,7 @@ public class RankingComponent {
 
         for(Product product : productList){
             this.calculateTermFrequency(product, queryKeyWords);
+            this.calculateInverseDocumentFrequency(product, queryKeyWords);
         }
 
         productList.sort(Comparator.comparing(Product::getRankingScore).reversed());
@@ -47,9 +46,9 @@ public class RankingComponent {
                 ? productList.subList(start, end)
                 : new ArrayList<>();
 
-        for(Product product : productList){
+        /*for(Product product : productList){
             product.setRankingScore(0);
-        }
+        }*/
 
         return new PageImpl<>(pagedList, pageable, productList.size());
     }
@@ -88,18 +87,20 @@ public class RankingComponent {
     // POR AHORA SOLO IMPLEMENTAN 2 DE 3 CRITERIOS PARA CLASIFICAR LOS PRODUCTOS
     public void calculateInverseDocumentFrequency(Product product, List<String> queryKeyWords) {
         int productScore = 0;
-        List<SearchToken> searchTokens = new ArrayList<>(product.getTokens());
+        Set<String> queryKeyWordsSet = new HashSet<>(queryKeyWords);
+        List<SearchToken> productTokens = new ArrayList<>(product.getTokens());
+        List<SearchToken> allSearchTokens = new ArrayList<>(this.searchTokenRepository.findAll());
 
         // evalua que tanto se repite una palabra en el search token repository
         List<Pair<String,Long>> keyWordI_D_Frequency = new ArrayList<>();
-        for(String keyword : queryKeyWords) {
-            long aux = this.searchTokenRepository.countByToken(keyword);
-            if(aux != 0){
-                Pair<String,Long> pair = Pair.of(keyword, aux);
+        for(SearchToken token : allSearchTokens) {
+            Pair<String,Long> pair = this.searchTokenRepository.countByToken(token.getToken());
+            if(pair.getSecond() != 0){
                 keyWordI_D_Frequency.add(pair);
             }
         }
 
+        // obtiene las palabras clave mas raras y las que no son raras
         List<Pair<String,Long>> rarestKeyWords = new ArrayList<>();
 
         if(!keyWordI_D_Frequency.isEmpty()){
@@ -119,7 +120,25 @@ public class RankingComponent {
             }
         }
 
+        List<String> rarestQueryKeyWords = new ArrayList<>();
 
+        // evalua que palabras clave del query coinciden con las palabras mas raras y cuales coinciden con las que no son raras
+        for(Pair<String, Long> pair : rarestKeyWords){
+            if (queryKeyWordsSet.contains(pair.getFirst())) {
+                rarestQueryKeyWords.add(pair.getFirst());
+            }
+        }
+
+        // evalua que palabras clave del producto coinciden con las palabras clave de la busqueda
+        int i = 0;
+        for(String queryKey : rarestQueryKeyWords){
+            if(queryKey.equals(productTokens.get(i).getToken())){
+                productScore += 3;
+            } else productScore += 1;
+            i++;
+        }
+        productScore += product.getRankingScore();
+        product.setRankingScore(productScore);
     }
 
     public void normalizationByFieldLength(){

@@ -3,6 +3,7 @@ package com.ceiba.fashtoll.searchEngine.indexingComponent;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,9 +11,11 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "search_token")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class SearchToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(unique = true, nullable = false)
