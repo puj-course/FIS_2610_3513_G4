@@ -13,8 +13,8 @@ public record ProductSearchRequest(
         Double minPrice,
         Double maxPrice,
         List<String> tags,
-        int page,
-        int size
+        Integer page,
+        Integer size
 ) {
     public ProductSearchRequest {
         if (query == null) query = "";
@@ -26,7 +26,7 @@ public record ProductSearchRequest(
         if (minPrice == null) minPrice = -1.0;
         if (maxPrice == null) maxPrice = -1.0;
         if (tags == null) tags = new ArrayList<>();
-        if (page < 0) page = 0;
-        if (size < 0)size = 12;
+        if (page == null) page = 0;
+        if (size == null) size = 12;
     }
 }

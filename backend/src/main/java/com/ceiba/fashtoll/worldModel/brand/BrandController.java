@@ -35,7 +35,6 @@ public class BrandController {
         return brandService.getAllBrands();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @GetMapping("/public")
     public List<BrandPublicResponse> getAllPublicBrands() {
         return brandService.getAllPublicBrands();
@@ -47,13 +46,11 @@ public class BrandController {
         return brandService.getBrandById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @GetMapping("/public/{id}")
     public BrandPublicResponse getPublicBrandById(@PathVariable Long id) {
         return brandService.getPublicBrandById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @GetMapping("/public/{id}/reviews")
     public ResponseEntity<List<ReviewResponse>> getPublicBrandReviews(@PathVariable Long id) {
         return ResponseEntity.ok(clientService.getReviewsForBrand(id));

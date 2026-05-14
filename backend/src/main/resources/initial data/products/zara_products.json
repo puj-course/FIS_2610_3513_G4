@@ -2,166 +2,181 @@
   {
     "name": "Blazer Estructura Slim Fit",
     "description": "Blazer de cuello con solapas de muesca y manga larga. Bolsillos de ojal en pecho y de solapa en cadera.",
-    "price": 499900.00,
+    "price": 499900.0,
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "NAVY",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/blazer-estructura-slim-fit-p04243430.html",
-    "productTypeId": 21
+    "productTypeId": 21,
+    "imageUrls": []
   },
   {
     "name": "Camiseta Básica Heavy Weight",
     "description": "Camiseta de cuello redondo y manga corta confeccionada en tejido de algodón de alto gramaje.",
-    "price": 89900.00,
+    "price": 89900.0,
     "generalFit": "RELAXED",
     "gender": "MALE",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/camiseta-heavy-weight-p00679304.html",
-    "productTypeId": 1
+    "productTypeId": 1,
+    "imageUrls": []
   },
   {
     "name": "Jean Z1975 High Rise Straight",
     "description": "Jeans de tiro alto con cinco bolsillos. Efecto lavado y pernera recta con acabado sin costura.",
-    "price": 199900.00,
+    "price": 199900.0,
     "generalFit": "REGULAR",
     "gender": "FEMALE",
     "color": "BLUE",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/jeans-z1975-high-rise-straight-p08197022.html",
-    "productTypeId": 7
+    "productTypeId": 7,
+    "imageUrls": []
   },
   {
     "name": "Chaqueta Bomber Oversize",
     "description": "Chaqueta de cuello redondo y manga larga con acabados en combinación de punto elástico.",
-    "price": 399900.00,
+    "price": 399900.0,
     "generalFit": "OVERSIZED",
     "gender": "UNISEX",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/cazadora-bomber-oversize-p03427402.html",
-    "productTypeId": 19
+    "productTypeId": 19,
+    "imageUrls": []
   },
   {
     "name": "Vestido Midi Punto",
     "description": "Vestido de escote pico y tirantes finos. Detalle de aberturas laterales en el bajo.",
-    "price": 159900.00,
+    "price": 159900.0,
     "generalFit": "SLIM",
     "gender": "FEMALE",
     "color": "BEIGE",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/vestido-midi-punto-p05584155.html",
-    "productTypeId": 28
+    "productTypeId": 28,
+    "imageUrls": []
   },
   {
     "name": "Pantalón Chino Cargo",
     "description": "Pantalón de corte relajado con bolsillos laterales de plastrón con solapa en pierna.",
-    "price": 249900.00,
+    "price": 249900.0,
     "generalFit": "LOOSE",
     "gender": "MALE",
     "color": "GREEN",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/pantalon-chino-cargo-p00706430.html",
-    "productTypeId": 8
+    "productTypeId": 8,
+    "imageUrls": []
   },
   {
     "name": "Camisa Oxford Raya Diplomática",
     "description": "Camisa de cuello con botones y manga larga acabada en puño. Tejido de algodón con micro raya.",
-    "price": 179900.00,
+    "price": 179900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BLUE",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/camisa-oxford-rayas-p06917305.html",
-    "productTypeId": 1
+    "productTypeId": 1,
+    "imageUrls": []
   },
   {
     "name": "Zapato Mocasín Track",
     "description": "Zapato tipo mocasín con detalle de antifaz en el empeine. Suela con volumen tipo track.",
-    "price": 299900.00,
+    "price": 299900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BROWN",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/zapato-mocasin-suela-track-p12414320.html",
-    "productTypeId": 17
+    "productTypeId": 17,
+    "imageUrls": []
   },
   {
     "name": "Sudadera Capucha Básica",
     "description": "Sudadera de cuello con capucha ajustable y manga larga con bolsillo tipo canguro.",
-    "price": 199900.00,
+    "price": 199900.0,
     "generalFit": "RELAXED",
     "gender": "UNISEX",
     "color": "GREY",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/sudadera-capucha-p00962401.html",
-    "productTypeId": 18
+    "productTypeId": 18,
+    "imageUrls": []
   },
   {
     "name": "Gafas de Sol Acetato Rectangulares",
     "description": "Gafas de sol con montura de acetato transparente y lentes con protección UV categoría 3.",
-    "price": 129900.00,
+    "price": 129900.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "OTHER",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/gafas-sol-acetato-p04551405.html",
-    "productTypeId": 24
+    "productTypeId": 24,
+    "imageUrls": []
   },
   {
     "name": "Pantalón Jogger Felpa",
     "description": "Pantalón de cintura elástica ajustable con cordón. Bolsillos frontales y acabado en puño elástico.",
-    "price": 129900.00,
+    "price": 129900.0,
     "generalFit": "LOOSE",
     "gender": "MALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/pantalon-jogger-felpa-p00761450.html",
-    "productTypeId": 12
+    "productTypeId": 12,
+    "imageUrls": []
   },
   {
     "name": "Gorra Efecto Desgastado",
     "description": "Gorra de seis paneles con detalle de roturas y efecto lavado. Cierre posterior ajustable.",
-    "price": 79900.00,
+    "price": 79900.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "RED",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/gorra-washed-p03923415.html",
-    "productTypeId": 27
+    "productTypeId": 27,
+    "imageUrls": []
   },
   {
     "name": "Suéter Cuello Redondo Cashmere",
     "description": "Suéter confeccionado en hilatura con mezcla de lana y cashmere. Acabados en nervio.",
-    "price": 299900.00,
+    "price": 299900.0,
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "CREAM",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/jersey-lana-cashmere-p03333301.html",
-    "productTypeId": 23
+    "productTypeId": 23,
+    "imageUrls": []
   },
   {
     "name": "Shorts Denim High Rise",
     "description": "Shorts de tiro alto con cinco bolsillos y bajo acabado con vuelta.",
-    "price": 119900.00,
+    "price": 119900.0,
     "generalFit": "REGULAR",
     "gender": "FEMALE",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/shorts-denim-p06688021.html",
-    "productTypeId": 9
+    "productTypeId": 9,
+    "imageUrls": []
   },
   {
     "name": "Abrigo Lana Cruzado",
     "description": "Abrigo confeccionado con tejido en mezcla de lana. Cuello solapa y manga larga con botones.",
-    "price": 699900.00,
+    "price": 699900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.zara.com/co/es/abrigo-lana-cruzado-p04179330.html",
-    "productTypeId": 20
+    "productTypeId": 20,
+    "imageUrls": []
   }
 ]

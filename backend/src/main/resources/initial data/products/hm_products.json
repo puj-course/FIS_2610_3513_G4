@@ -2,166 +2,181 @@
   {
     "name": "Camiseta de Algodón Regular Fit",
     "description": "Camiseta de cuello redondo en punto de algodón suave. Modelo de corte clásico con cuello acanalado.",
-    "price": 34900.00,
+    "price": 34900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.0685814001.html",
-    "productTypeId": 1
+    "productTypeId": 1,
+    "imageUrls": []
   },
   {
     "name": "Sudadera con Capucha Relaxed Fit",
     "description": "Sudadera en mezcla de algodón con interior cepillado suave. Capucha de doble capa con cordón de ajuste y bolsillo canguro.",
-    "price": 129900.00,
+    "price": 129900.0,
     "generalFit": "RELAXED",
     "gender": "UNISEX",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.0970819001.html",
-    "productTypeId": 18
+    "productTypeId": 18,
+    "imageUrls": []
   },
   {
     "name": "Vaqueros Loose Fit",
     "description": "Vaqueros de cinco bolsillos en denim de algodón rígido. Pernera holgada desde la cadera hasta el bajo.",
-    "price": 169900.00,
+    "price": 169900.0,
     "generalFit": "LOOSE",
     "gender": "MALE",
     "color": "BLUE",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.1009139001.html",
-    "productTypeId": 7
+    "productTypeId": 7,
+    "imageUrls": []
   },
   {
     "name": "Chaqueta Camisera de Pana",
     "description": "Sobre-camisa en pana de algodón suave. Modelo con cuello, botones frontales y bolsillos superiores con solapa.",
-    "price": 149900.00,
+    "price": 149900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BROWN",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.1004112001.html",
-    "productTypeId": 19
+    "productTypeId": 19,
+    "imageUrls": []
   },
   {
     "name": "Pantalón Cargo en Tejido Ripstop",
     "description": "Pantalón en tejido técnico resistente con bolsillos laterales de fuelle y rodillas preformadas.",
-    "price": 149900.00,
+    "price": 149900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "GREEN",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.1010373001.html",
-    "productTypeId": 8
+    "productTypeId": 8,
+    "imageUrls": []
   },
   {
     "name": "Vestido Corto Ajustado",
     "description": "Vestido corto en punto de canalé con cuello redondo y mangas largas. Silueta entallada que realza la figura.",
-    "price": 79900.00,
+    "price": 79900.0,
     "generalFit": "SLIM",
     "gender": "FEMALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.1017405001.html",
-    "productTypeId": 28
+    "productTypeId": 28,
+    "imageUrls": []
   },
   {
     "name": "Camiseta Oversized con Gráfico",
     "description": "Camiseta en punto de algodón grueso con hombros caídos y motivo estampado en el pecho.",
-    "price": 69900.00,
+    "price": 69900.0,
     "generalFit": "OVERSIZED",
     "gender": "UNISEX",
     "color": "GREY",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.1008544001.html",
-    "productTypeId": 1
+    "productTypeId": 1,
+    "imageUrls": []
   },
   {
     "name": "Joggers de Algodón",
     "description": "Pantalón de chándal con cintura elástica y cordón de ajuste. Bajos ajustados con elástico.",
-    "price": 89900.00,
+    "price": 89900.0,
     "generalFit": "RELAXED",
     "gender": "UNISEX",
     "color": "NAVY",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.0970817001.html",
-    "productTypeId": 12
+    "productTypeId": 12,
+    "imageUrls": []
   },
   {
     "name": "Blusa de Lino Mezcla",
     "description": "Blusa fluida con cuello de solapas y cierre de botones. Tejido fresco ideal para el verano.",
-    "price": 99900.00,
+    "price": 99900.0,
     "generalFit": "RELAXED",
     "gender": "FEMALE",
     "color": "BEIGE",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.1018318001.html",
-    "productTypeId": 3
+    "productTypeId": 3,
+    "imageUrls": []
   },
   {
     "name": "Camisa de Franela de Cuadros",
     "description": "Camisa en algodón cepillado suave con diseño de cuadros clásicos. Corte cómodo y funcional.",
-    "price": 119900.00,
+    "price": 119900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "RED",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.0988636001.html",
-    "productTypeId": 1
+    "productTypeId": 1,
+    "imageUrls": []
   },
   {
     "name": "Gorra de Béisbol en Sarga",
     "description": "Gorra clásica en sarga de algodón con bordado frontal y tira ajustable en la parte posterior.",
-    "price": 39900.00,
+    "price": 39900.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "NAVY",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.0983193001.html",
-    "productTypeId": 27
+    "productTypeId": 27,
+    "imageUrls": []
   },
   {
     "name": "Jersey de Punto Cuello Alto",
     "description": "Jersey en punto suave de mezcla de lana con cuello alto acanalado y mangas raglán.",
-    "price": 149900.00,
+    "price": 149900.0,
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "CREAM",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.1004118001.html",
-    "productTypeId": 23
+    "productTypeId": 23,
+    "imageUrls": []
   },
   {
     "name": "Shorts Chino en Algodón",
     "description": "Shorts clásicos de talle estándar con cierre de cremallera y botón. Bolsillos laterales y traseros.",
-    "price": 79900.00,
+    "price": 79900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BEIGE",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.0970803001.html",
-    "productTypeId": 9
+    "productTypeId": 9,
+    "imageUrls": []
   },
   {
     "name": "Gafas de Sol Estilo Retro",
     "description": "Gafas de sol con montura de plástico resistente y lentes tintadas con protección UV.",
-    "price": 49900.00,
+    "price": 49900.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "GOLD",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.0983189001.html",
-    "productTypeId": 24
+    "productTypeId": 24,
+    "imageUrls": []
   },
   {
     "name": "Cinturón de Piel Sintética",
     "description": "Cinturón con hebilla metálica clásica y acabado liso. Un accesorio básico para pantalones formales.",
-    "price": 44900.00,
+    "price": 44900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www2.hm.com/co_co/productpage.0983191001.html",
-    "productTypeId": 26
+    "productTypeId": 26,
+    "imageUrls": []
   }
 ]

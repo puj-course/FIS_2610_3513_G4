@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductC_U_Request {
-    //@NotNull(message = "El ID de la marca es obligatorio")
     private Long brandId;
 
     @NotNull(message = "El ID del tipo de producto es obligatorio")
