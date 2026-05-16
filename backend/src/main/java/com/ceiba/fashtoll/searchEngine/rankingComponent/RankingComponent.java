@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.text.Normalizer;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 @Component
 public class RankingComponent {
@@ -27,18 +29,14 @@ public class RankingComponent {
         this.keyWordFrequencyLimit = 5;
     }
 
-
-    // .stream() es para objetos que no se van a modificar
-    // mientras que new es para objetos que si se modificaran
-    // ordenar cuenta como modificar.
     //las keyWords son las del query de busqueda
     public Page<Product> scoreKeywordsAlgorithm(List<String> queryKeyWords, Specification spec, Pageable pageable) {
-        List<Product> productList = new ArrayList<>(this.productRepository.findAll(spec));
+        List<Product> productList = new ArrayList<>(this.productRepository.findAll(spec).stream().toList());
 
-        for(Product product : productList){
+        productList.forEach(product -> {
             this.calculateTermFrequency(product, queryKeyWords);
             this.calculateInverseDocumentFrequency(product, queryKeyWords);
-        }
+        });
 
         productList.sort(Comparator.comparing(Product::getRankingScore).reversed());
 
@@ -50,9 +48,9 @@ public class RankingComponent {
                 ? productList.subList(start, end)
                 : new ArrayList<>();
 
-        for(Product product : productList){
+        productList.forEach(product -> {
             product.setRankingScore(0);
-        }
+        });
 
         return new PageImpl<>(pagedList, pageable, productList.size());
     }
@@ -63,35 +61,35 @@ public class RankingComponent {
         String description = product.getDescription();
         String name = product.getName();
 
-        List<Integer> keyWordNameFrequency = new ArrayList<>();
-        for(String keyword : queryKeyWords) {
-            int aux = (int) this.keyWordCounter(name, keyword);
-            if(aux <= this.keyWordFrequencyLimit && aux > 0) {
-                keyWordNameFrequency.add(aux);
-            } else if(aux > this.keyWordFrequencyLimit && aux > 0) {
-                keyWordNameFrequency.add(this.keyWordFrequencyLimit);
-            }
-        }
+        List<Integer> keyWordNameFrequency = queryKeyWords.stream()
+                .map(keyword -> (int) this.keyWordCounter(name, keyword))
+                .filter(frequency -> frequency > 0)
+                .map(frequency -> Math.min(frequency, this.keyWordFrequencyLimit))
+                .toList();
 
-        //queryKeyWords.stream().forEach(keyWord -> );
+        productNameScore = keyWordNameFrequency.stream().mapToInt(Integer::intValue).sum();
+        /* mapToInt(Integer::intValue) hace lo mismo que mapToInt(kWFrequency -> kWFrequency),
+        * pues al final lo que hacen los dos es obtener el valor entero de un elemento de la lista
+        * keyWordNameFrequency
+        * */
 
-        for(Integer p : keyWordNameFrequency){
-            productNameScore += p;
-        }
+        /*Stream API
+        * filter() requires a parameter of the functional interface Predicate<T>,
+        * which has the method: boolean test(T variableToTest).
+        * map() requires a parameter of the functional interface Function<T,R>,
+        * which has the method: R apply(T t),
+        * the method does something with 't' and returns the result of the function R.
+        * forEach() requires a parameter of the functional interface Consumer<T>,
+        * which has a method: void accept(T t), the method does something with 't'.
+        * */
 
-        List<Integer> keyWordDescFrequency = new ArrayList<>();
-        for(String keyword : queryKeyWords) {
-            int aux = (int) this.keyWordCounter(description, keyword);
-            if(aux <= this.keyWordFrequencyLimit && aux > 0) {
-                keyWordDescFrequency.add(aux);
-            } else if(aux > this.keyWordFrequencyLimit && aux > 0) {
-                keyWordDescFrequency.add(this.keyWordFrequencyLimit);
-            }
-        }
+        List<Integer> keyWordDescFrequency = queryKeyWords.stream()
+                .map(keyWord -> (int) this.keyWordCounter(description, keyWord))
+                .filter(kWFrequency -> kWFrequency > 0)
+                .map(kWFrequency -> Math.min(kWFrequency, this.keyWordFrequencyLimit))
+                .toList();
 
-        for(Integer p : keyWordDescFrequency){
-            productDescriptionScore += p;
-        }
+        productDescriptionScore = keyWordDescFrequency.stream().mapToInt(Integer::intValue).sum();
 
         if(description.length() >= 150) productDescriptionScore -= 3;
         productScore = productNameScore + productDescriptionScore;
@@ -102,55 +100,43 @@ public class RankingComponent {
     public void calculateInverseDocumentFrequency(Product product, List<String> queryKeyWords) {
         int productScore = 0;
         Set<String> queryKeyWordsSet = new HashSet<>(queryKeyWords);
-        List<SearchToken> productTokens = new ArrayList<>(product.getTokens());
-        List<SearchToken> allSearchTokens = new ArrayList<>(this.searchTokenRepository.findAll());
+        List<SearchToken> productTokens = new ArrayList<>(product.getTokens().stream().toList());
+        List<SearchToken> allSearchTokens = new ArrayList<>(this.searchTokenRepository.findAll().stream().toList());
 
         // evalua que tanto se repite una palabra en el search token repository
-        List<Pair<String,Long>> keyWordI_D_Frequency = new ArrayList<>();
-        for(SearchToken token : allSearchTokens) {
-            Pair<String,Long> pair = this.searchTokenRepository.countByToken(token.getToken());
-            if(pair.getSecond() != 0){
-                keyWordI_D_Frequency.add(pair);
-            }
-        }
+        List<Pair<String,Long>> keyWordI_D_Frequency = allSearchTokens.stream()
+                .map(token -> this.searchTokenRepository.countByToken(token.getToken()))
+                .filter(pair -> pair.getSecond() != 0)
+                .toList();
 
-        // obtiene las palabras clave mas raras y las que no son raras
-        List<Pair<String,Long>> rarestKeyWords = new ArrayList<>();
-
+        // obtiene las palabras clave mas raras
+        List<String> rarestKeyWords = new ArrayList<>();
         if(!keyWordI_D_Frequency.isEmpty()){
+            OptionalLong aux = keyWordI_D_Frequency.stream()
+                    .mapToLong(Pair::getSecond)
+                    .min();
 
-            long minimumFrequency = keyWordI_D_Frequency.getFirst().getSecond();
+            long minimumFrequency = aux.orElse(0L);
 
-            for(Pair<String, Long> pair : keyWordI_D_Frequency){
-                if(pair.getSecond() < minimumFrequency){
-                    minimumFrequency = pair.getSecond();
-                }
-            }
-
-            for (Pair<String, Long> pair : keyWordI_D_Frequency) {
-                if (pair.getSecond() == minimumFrequency) {
-                    rarestKeyWords.add(pair);
-                }
-            }
+            rarestKeyWords = keyWordI_D_Frequency.stream()
+                    .filter(pair -> pair.getSecond() == minimumFrequency)
+                    .map(Pair::getFirst)
+                    .toList();
         }
 
-        List<String> rarestQueryKeyWords = new ArrayList<>();
-
-        // evalua que palabras clave del query coinciden con las palabras mas raras y cuales coinciden con las que no son raras
-        for(Pair<String, Long> pair : rarestKeyWords){
-            if (queryKeyWordsSet.contains(pair.getFirst())) {
-                rarestQueryKeyWords.add(pair.getFirst());
-            }
-        }
+        // evalua que palabras clave del query coinciden con las palabras mas raras
+        List<String> rarestQueryKeyWords = rarestKeyWords.stream()
+                //.filter(keyWord -> queryKeyWordsSet.contains(keyWord))
+                .filter(queryKeyWordsSet::contains)
+                .toList();
 
         // evalua que palabras clave del producto coinciden con las palabras clave de la busqueda
-        int i = 0;
-        for(String queryKey : rarestQueryKeyWords){
-            if(queryKey.equals(productTokens.get(i).getToken())){
-                productScore += 3;
-            } else productScore += 1;
-            i++;
-        }
+        productScore = IntStream.range(0, rarestQueryKeyWords.size())
+                .map(index -> rarestQueryKeyWords.get(index)
+                        .equals(productTokens.get(index).getToken())
+                        ? 3 : 1)
+                .sum();
+
         productScore += product.getRankingScore();
         product.setRankingScore(productScore);
     }
@@ -158,12 +144,10 @@ public class RankingComponent {
     public long keyWordCounter(String desc, String kW){
         String cleanTexto = cleanDescription(desc);
 
-        long count = Pattern.compile(Pattern.quote(kW), Pattern.CASE_INSENSITIVE)
+        return Pattern.compile(Pattern.quote(kW), Pattern.CASE_INSENSITIVE)
                 .matcher(cleanTexto)
                 .results()
                 .count();
-
-       return count;
     }
 
     public static String cleanDescription(String input) {
