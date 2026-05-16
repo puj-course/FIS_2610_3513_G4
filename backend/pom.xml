@@ -28,9 +28,46 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.projectKey>fashtoll</sonar.projectKey>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.organization>puj-course</sonar.organization>
+		<sonar.projectKey>puj-course_FIS_2610_3513_G4</sonar.projectKey>
 		<sonar.projectName>Fashtoll</sonar.projectName>
+		<!-- Exclusiones de cobertura para centrarse solo en la lógica de negocio (Servicios) -->
+		<sonar.coverage.exclusions>
+			**/config/**,
+			**/exceptionHandling/**,
+			**/utilities/**,
+			**/security/**,
+			**/dtos/**,
+			**/entity/**,
+			**/entities/**,
+			**/mappers/**,
+			**/repositories/**,
+			**/controllers/**,
+			**/FashtollApplication.java,
+			**/*Mapper.java,
+			**/*Controller.java,
+			**/*Repository.java,
+			**/*DTO.java,
+			**/*Dto.java,
+			**/*Entity.java,
+			**/*Config.java,
+			**/*Exception.java,
+			**/*_.java,
+			**/User.java,
+			**/Admin.java,
+			**/Client.java,
+			**/Brand.java,
+			**/Tag.java,
+			**/Wishlist.java,
+			**/SearchToken.java,
+			**/FrequenInfo.java,
+			**/UserPreferences.java,
+			**/RankingComponent.java,
+			**/ProductDetails.java,
+			**/ProductEvent.java,
+			**/EventType.java
+		</sonar.coverage.exclusions>
 	</properties>
 	<dependencies>
 
@@ -253,6 +290,43 @@
 			            <id>report</id>
 			            <phase>test</phase>
 			            <goals><goal>report</goal></goals>
+						<configuration>
+							<excludes>
+								<exclude>**/config/**</exclude>
+								<exclude>**/exceptionHandling/**</exclude>
+								<exclude>**/utilities/**</exclude>
+								<exclude>**/security/**</exclude>
+								<exclude>**/dtos/**</exclude>
+								<exclude>**/entity/**</exclude>
+								<exclude>**/entities/**</exclude>
+								<exclude>**/mappers/**</exclude>
+								<exclude>**/repositories/**</exclude>
+								<exclude>**/controllers/**</exclude>
+								<exclude>**/FashtollApplication.class</exclude>
+								<exclude>**/*Mapper.class</exclude>
+								<exclude>**/*Controller.class</exclude>
+								<exclude>**/*Repository.class</exclude>
+								<exclude>**/*DTO.class</exclude>
+								<exclude>**/*Dto.class</exclude>
+								<exclude>**/*Entity.class</exclude>
+								<exclude>**/*Config.class</exclude>
+								<exclude>**/*Exception.class</exclude>
+								<exclude>**/*_.class</exclude>
+								<exclude>**/User.class</exclude>
+								<exclude>**/Admin.class</exclude>
+								<exclude>**/Client.class</exclude>
+								<exclude>**/Brand.class</exclude>
+								<exclude>**/Tag.class</exclude>
+								<exclude>**/Wishlist.class</exclude>
+								<exclude>**/SearchToken.class</exclude>
+								<exclude>**/FrequenInfo.class</exclude>
+								<exclude>**/UserPreferences.class</exclude>
+								<exclude>**/RankingComponent.class</exclude>
+								<exclude>**/ProductDetails.class</exclude>
+								<exclude>**/ProductEvent.class</exclude>
+								<exclude>**/EventType.class</exclude>
+							</excludes>
+						</configuration>
 			        </execution>
 			    </executions>
 			</plugin>
