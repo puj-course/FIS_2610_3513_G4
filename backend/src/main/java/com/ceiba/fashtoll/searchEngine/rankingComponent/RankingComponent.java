@@ -9,10 +9,8 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
-
 import java.text.Normalizer;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
@@ -29,18 +27,24 @@ public class RankingComponent {
         this.keyWordFrequencyLimit = 5;
     }
 
-    //las keyWords son las del query de busqueda
     public Page<Product> scoreKeywordsAlgorithm(List<String> queryKeyWords, Specification spec, Pageable pageable) {
         List<Product> productList = new ArrayList<>(this.productRepository.findAll(spec).stream().toList());
+        List<SearchToken> allSearchTokens = new ArrayList<>(this.searchTokenRepository.findAll().stream().toList());
+
+        // evalua que tanto se repite una palabra en el search token repository
+        List<Pair<String,Long>> keyWordsFrequency = allSearchTokens.stream()
+                .map(token -> this.searchTokenRepository.countByToken(token.getToken()))
+                .filter(pair -> pair.getSecond() != 0)
+                .toList();
 
         productList.forEach(product -> {
             this.calculateTermFrequency(product, queryKeyWords);
-            this.calculateInverseDocumentFrequency(product, queryKeyWords);
+            this.calculateInverseDocumentFrequency(product, queryKeyWords, keyWordsFrequency);
         });
 
         productList.sort(Comparator.comparing(Product::getRankingScore).reversed());
 
-        // 4. Manual Pagination (Slicing)
+        // Paginacion manual
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), productList.size());
 
@@ -48,9 +52,7 @@ public class RankingComponent {
                 ? productList.subList(start, end)
                 : new ArrayList<>();
 
-        productList.forEach(product -> {
-            product.setRankingScore(0);
-        });
+        productList.forEach(product -> product.setRankingScore(0));
 
         return new PageImpl<>(pagedList, pageable, productList.size());
     }
@@ -97,17 +99,10 @@ public class RankingComponent {
         product.setRankingScore(productScore);
     }
 
-    public void calculateInverseDocumentFrequency(Product product, List<String> queryKeyWords) {
+    public void calculateInverseDocumentFrequency(Product product, List<String> queryKeyWords, List<Pair<String,Long>> keyWordI_D_Frequency) {
         int productScore = 0;
         Set<String> queryKeyWordsSet = new HashSet<>(queryKeyWords);
         List<SearchToken> productTokens = new ArrayList<>(product.getTokens().stream().toList());
-        List<SearchToken> allSearchTokens = new ArrayList<>(this.searchTokenRepository.findAll().stream().toList());
-
-        // evalua que tanto se repite una palabra en el search token repository
-        List<Pair<String,Long>> keyWordI_D_Frequency = allSearchTokens.stream()
-                .map(token -> this.searchTokenRepository.countByToken(token.getToken()))
-                .filter(pair -> pair.getSecond() != 0)
-                .toList();
 
         // obtiene las palabras clave mas raras
         List<String> rarestKeyWords = new ArrayList<>();
@@ -141,8 +136,8 @@ public class RankingComponent {
         product.setRankingScore(productScore);
     }
 
-    public long keyWordCounter(String desc, String kW){
-        String cleanTexto = cleanDescription(desc);
+    public long keyWordCounter(String productField, String kW){
+        String cleanTexto = cleanProductField(productField);
 
         return Pattern.compile(Pattern.quote(kW), Pattern.CASE_INSENSITIVE)
                 .matcher(cleanTexto)
@@ -150,7 +145,7 @@ public class RankingComponent {
                 .count();
     }
 
-    public static String cleanDescription(String input) {
+    public static String cleanProductField(String input) {
         if (input == null || input.isBlank()) return "";
 
         // Normalización NFD
