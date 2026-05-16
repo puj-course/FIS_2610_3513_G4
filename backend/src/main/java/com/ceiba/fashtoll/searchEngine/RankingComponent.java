@@ -1,7 +1,6 @@
-package com.ceiba.fashtoll.searchEngine.rankingComponent;
+package com.ceiba.fashtoll.searchEngine;
 
-import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken;
-import com.ceiba.fashtoll.searchEngine.repositories.SearchTokenRepository;
+import com.ceiba.fashtoll.searchEngine.entities.SearchToken;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
-package com.ceiba.fashtoll.searchEngine.repositories;
+package com.ceiba.fashtoll.searchEngine.entities;
 
-import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken;
 import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken_;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType_;
@@ -10,8 +9,6 @@ import com.ceiba.fashtoll.worldModel.tag.Tag_;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.PredicateSpecification;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
 import java.util.List;
 
 @Component

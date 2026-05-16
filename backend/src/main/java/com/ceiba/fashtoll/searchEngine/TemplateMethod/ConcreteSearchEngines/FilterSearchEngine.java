@@ -2,9 +2,9 @@ package com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines;
 
 import com.ceiba.fashtoll.searchEngine.TemplateMethod.SearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.QueryFilters;
-import com.ceiba.fashtoll.searchEngine.indexingComponent.IndexingComponent;
-import com.ceiba.fashtoll.searchEngine.rankingComponent.RankingComponent;
-import com.ceiba.fashtoll.searchEngine.repositories.ProductSpecs;
+import com.ceiba.fashtoll.searchEngine.IndexingComponent;
+import com.ceiba.fashtoll.searchEngine.RankingComponent;
+import com.ceiba.fashtoll.searchEngine.entities.ProductSpecs;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,11 @@ public class FilterSearchEngine extends SearchEngine {
                         .and(ProductSpecs.priceRange(filters.minPrice(), filters.maxPrice()))
                         .and(ProductSpecs.tags(filters.tags()))
         );
-
+        /* 1. SI BUSCO UN PRODUCTO QUE NO ESTA ME MUESTRA LOS PRODUCTOS QUE COINCIDEN CON MI BUSQUEDA
+        * DEBERIA DECIR "NO TENEMOS ESE PRODUCTO PERO TE PODRIA INTERESAR:"
+        * 2. SI BUSCO PANTALONES JEAN ME APARECEN PANTALONES DE SUDADERA, CHINOS, JOGGER,
+        * NO ME APARECEN SOLO JEANS
+        */
         if(keyWords != null && !keyWords.isEmpty()){
 
             return this.rankingComponent.scoreKeywordsAlgorithm(keyWords, spec, pageRequest);

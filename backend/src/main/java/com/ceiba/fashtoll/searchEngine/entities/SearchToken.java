@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.searchEngine.indexingComponent;
+package com.ceiba.fashtoll.searchEngine.entities;
 
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import jakarta.persistence.*;

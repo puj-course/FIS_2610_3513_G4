@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.worldModel.product.entities;
 
-import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken;
+import com.ceiba.fashtoll.searchEngine.entities.SearchToken;
 import com.ceiba.fashtoll.worldModel.brand.Brand;
 import com.ceiba.fashtoll.utilities.enums.Color;
 import com.ceiba.fashtoll.utilities.enums.Gender;
@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
