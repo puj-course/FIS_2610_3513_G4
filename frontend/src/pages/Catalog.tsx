@@ -21,7 +21,6 @@ import {
   LayoutGrid,
   ShoppingBag,
   Sparkles,
-  Zap,
   Star,
   Target
 } from "lucide-react";
@@ -303,8 +302,8 @@ export default function Catalog() {
                             {types.map(type => (
                               <button
                                 key={type.id}
-                                onClick={() => setPendingParams({ ...pendingParams, productTypeName: pendingParams.productTypeName === type.name ? undefined : type.name, category: cat })}
-                                className={`text-left px-4 py-3 rounded-[14px] text-xs font-medium capitalize transition-all ${pendingParams.productTypeName === type.name
+                                onClick={() => setPendingParams({ ...pendingParams, productType: pendingParams.productType === type.name ? undefined : type.name, category: cat })}
+                                className={`text-left px-4 py-3 rounded-[14px] text-xs font-medium capitalize transition-all ${pendingParams.productType === type.name
                                     ? "bg-[#0A0A0A] text-white shadow-md scale-[1.01]"
                                     : "text-[#5F6670] hover:bg-gray-100 hover:text-black"
                                   }`}
