@@ -536,39 +536,39 @@ class BrandServiceTest {
     }
 
     @Test
-    @DisplayName("CP-BRN-17: createMyProduct - Crea producto")
-    void createMyProduct_createsProduct() {
+    @DisplayName("CP-BRN-17: createMySimpleProduct - Crea producto")
+    void createMySimpleProduct_createsProduct() {
         org.springframework.security.core.Authentication auth = mock(
                 org.springframework.security.core.Authentication.class);
         com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
         user.setId(EXISTING_ID);
         when(auth.getPrincipal()).thenReturn(user);
 
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest();
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request();
         com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
-        when(productService.createBrandProduct(EXISTING_ID, request)).thenReturn(prodResp);
+        when(productService.createSimpleBrandProduct(EXISTING_ID, request)).thenReturn(prodResp);
 
         org.springframework.http.ResponseEntity<com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse> response = brandService
-                .createMyProduct(auth, request);
+                .createMySimpleProduct(auth, request);
 
         assertEquals(org.springframework.http.HttpStatus.CREATED, response.getStatusCode());
         assertEquals(prodResp, response.getBody());
     }
 
     @Test
-    @DisplayName("CP-BRN-18: updateMyProduct - Actualiza producto")
-    void updateMyProduct_updatesProduct() {
+    @DisplayName("CP-BRN-18: updateMySimpleProduct - Actualiza producto")
+    void updateMySimpleProduct_updatesProduct() {
         org.springframework.security.core.Authentication auth = mock(
                 org.springframework.security.core.Authentication.class);
         com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
         user.setId(EXISTING_ID);
         when(auth.getPrincipal()).thenReturn(user);
 
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest();
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request();
         com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
-        when(productService.updateBrandProduct(EXISTING_ID, 1L, request)).thenReturn(prodResp);
+        when(productService.updateSimpleBrandProduct(EXISTING_ID, 1L, request)).thenReturn(prodResp);
 
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse result = brandService.updateMyProduct(auth, 1L,
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse result = brandService.updateMySimpleProduct(auth, 1L,
                 request);
 
         assertNotNull(result);

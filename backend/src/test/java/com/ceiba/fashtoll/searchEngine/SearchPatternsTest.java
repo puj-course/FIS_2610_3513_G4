@@ -20,6 +20,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 
@@ -85,20 +88,21 @@ class SearchPatternsTest {
     @Test
     @DisplayName("SearchEngine: SimpleSearchEngine ejecuta búsqueda por tokens")
     void simpleSearchEngine_executesSearch() {
-        List<Product> expected = Collections.singletonList(new Product());
-        when(productRepository.findBySearchTokens(anyList())).thenReturn(expected);
+        Page<Product> expected = new PageImpl<>(Collections.singletonList(new Product()));
+        when(productRepository.findBySearchTokens(anyList(), any(Pageable.class))).thenReturn(expected);
 
-        List<Product> result = simpleSearchEngine.processSimpleQuery("camisa azul");
+        ProductSearchRequest request = new ProductSearchRequest("camisa azul", null, null, null, null, null, null, null, null, 0, 10);
+        Page<Product> result = simpleSearchEngine.processSimpleQuery(request);
 
         assertEquals(expected, result);
-        verify(productRepository).findBySearchTokens(anyList());
+        verify(productRepository).findBySearchTokens(anyList(), any(Pageable.class));
     }
 
     @Test
     @DisplayName("SearchEngine: FilterSearchEngine ejecuta búsqueda con filtros (Cobertura)")
     void filterSearchEngine_executesSearchWithFilters() {
         ProductSearchRequest request = new ProductSearchRequest(
-                "camisa", "1", "Remera", "SLIM", "MALE", "WHITE", 10.0, 50.0, null);
+                "camisa", "1", "Remera", "SLIM", "MALE", "WHITE", 10.0, 50.0, null, 0, 10);
 
         filterSearchEngine.processFilterQuery(request);
     }

@@ -28,15 +28,5 @@ public class ProductSearchController {
         return this.productSearchService.filterSearch(request);
     }
 
-    /**
-     * Re-indexa TODOS los products desde PostgreSQL hacia Elasticsearch.
-     * Endpoint solo para Admin para setup inicial o re-sincronización.
-     */
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/reindex")
-    public ResponseEntity<String> reindexAll() {
-        //productSearchService.reindexAll();
-        return ResponseEntity.ok("Reindexación completada exitosamente.");
-    }
 
 }
