@@ -1,12 +1,12 @@
 package com.ceiba.fashtoll.searchEngine;
 
-import com.ceiba.fashtoll.searchEngine.TemplateMethod.FilterSearchEngine;
-import com.ceiba.fashtoll.searchEngine.TemplateMethod.SimpleSearchEngine;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.FilterSearchEngine;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.SimpleSearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchRequest;
-import com.ceiba.fashtoll.searchEngine.indexingComponent.IndexingComponent;
-import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken;
-import com.ceiba.fashtoll.searchEngine.rankingComponent.RankingComponent;
-import com.ceiba.fashtoll.searchEngine.repositories.SearchTokenRepository;
+import com.ceiba.fashtoll.searchEngine.IndexingComponent;
+import com.ceiba.fashtoll.searchEngine.entities.SearchToken;
+import com.ceiba.fashtoll.searchEngine.RankingComponent;
+import com.ceiba.fashtoll.searchEngine.SearchTokenRepository;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;

@@ -1,6 +1,6 @@
 package com.ceiba.fashtoll.searchEngine.entities;
 
-import com.ceiba.fashtoll.searchEngine.indexingComponent.SearchToken_;
+import com.ceiba.fashtoll.searchEngine.entities.SearchToken_;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.entities.ProductType_;
 import com.ceiba.fashtoll.worldModel.product.entities.Product_;
