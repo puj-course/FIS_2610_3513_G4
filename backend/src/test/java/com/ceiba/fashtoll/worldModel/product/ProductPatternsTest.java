@@ -94,13 +94,13 @@ class ProductPatternsTest {
         ProductDetails details = new ProductDetails("Remera", "Desc", java.math.BigDecimal.valueOf(100.0), true, 4.5,
                 LocalDateTime.now());
 
-        simpleProductBuilder.associateBrand(1L);
+        simpleProductBuilder.associateBrand(1L, false);
         simpleProductBuilder.putProductDetails(details);
         simpleProductBuilder.putOfficialLink("http://link.com");
         simpleProductBuilder.putProductType(2L);
         simpleProductBuilder.putEnums(GeneralFit.REGULAR, Gender.UNISEX, Color.BLACK);
         simpleProductBuilder.putImagesURLs(Collections.singletonList("img.jpg"));
-        simpleProductBuilder.putTags(Collections.singletonList(3L));
+        simpleProductBuilder.putTags(Collections.singletonList("testTags"));
 
         Product result = simpleProductBuilder.getResult();
 
@@ -118,17 +118,17 @@ class ProductPatternsTest {
         simpleProductBuilder.reset();
         when(brandRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> simpleProductBuilder.associateBrand(99L));
+        assertThrows(ResourceNotFoundException.class, () -> simpleProductBuilder.associateBrand(99L, false));
     }
 
     @Test
-    @DisplayName("Builder: adminUpdateProduct carga producto existente")
-    void simpleProductBuilder_adminUpdateProduct_loadsExisting() {
+    @DisplayName("Builder: updateProductID carga producto existente")
+    void simpleProductBuilder_updateProductID_loadsExisting() {
         Product existing = new Product();
         existing.setId(5L);
         when(productRepository.findById(5L)).thenReturn(Optional.of(existing));
 
-        simpleProductBuilder.adminUpdateProduct(5L);
+        simpleProductBuilder.updateProductID(5L);
         assertEquals(existing, simpleProductBuilder.getResult());
     }
 

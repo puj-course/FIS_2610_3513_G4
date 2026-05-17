@@ -544,12 +544,12 @@ class BrandServiceTest {
         user.setId(EXISTING_ID);
         when(auth.getPrincipal()).thenReturn(user);
 
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest();
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request();
         com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
-        when(productService.createBrandProduct(EXISTING_ID, request)).thenReturn(prodResp);
+        when(productService.createSimpleBrandProduct(EXISTING_ID, request)).thenReturn(prodResp);
 
         org.springframework.http.ResponseEntity<com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse> response = brandService
-                .createMyProduct(auth, request);
+                .createMySimpleProduct(auth, request);
 
         assertEquals(org.springframework.http.HttpStatus.CREATED, response.getStatusCode());
         assertEquals(prodResp, response.getBody());
@@ -564,11 +564,11 @@ class BrandServiceTest {
         user.setId(EXISTING_ID);
         when(auth.getPrincipal()).thenReturn(user);
 
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest();
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request();
         com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
-        when(productService.updateBrandProduct(EXISTING_ID, 1L, request)).thenReturn(prodResp);
+        when(productService.updateSimpleProduct(EXISTING_ID, request)).thenReturn(prodResp);
 
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse result = brandService.updateMyProduct(auth, 1L,
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse result = brandService.updateMySimpleProduct(auth, 1L,
                 request);
 
         assertNotNull(result);

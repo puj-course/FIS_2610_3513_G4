@@ -393,7 +393,7 @@ class ProductServiceTest {
 
             when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
             doThrow(new com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException("marca", "id",
-                    NON_EXISTING_BRAND_ID)).when(productBuilder).associateBrand(NON_EXISTING_BRAND_ID);
+                    NON_EXISTING_BRAND_ID)).when(productBuilder).associateBrand(NON_EXISTING_BRAND_ID, true);
 
             // --- Act & Assert ---
             // Debe lanzar excepción y nunca guardar el producto modificado
@@ -454,7 +454,7 @@ class ProductServiceTest {
     @Test
     @DisplayName("CP-PRD-11: createProduct - Crea producto de forma general")
     void createProduct_createsAndReturnsProduct() {
-        ProductCreateRequest request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME, BigDecimal.valueOf(75_000));
+        ProductC_U_Request request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME, BigDecimal.valueOf(75_000));
         Product builtProduct = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
         Product savedProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
         ProductResponse resp = buildProductResponse(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
@@ -464,7 +464,7 @@ class ProductServiceTest {
         when(productRepository.save(builtProduct)).thenReturn(savedProduct);
         when(productMapper.toResponse(savedProduct)).thenReturn(resp);
 
-        ProductResponse result = productService.createProduct(request);
+        ProductResponse result = productService.createSimpleProduct(request);
 
         assertNotNull(result);
         assertEquals(50L, result.getId());
@@ -475,7 +475,7 @@ class ProductServiceTest {
     @Test
     @DisplayName("CP-PRD-12: updateBrandProduct - Actualiza producto de una marca")
     void updateBrandProduct_updatesAndReturnsProduct() {
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest();
+        com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request();
         Product builtProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
         Product savedProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
         ProductResponse resp = buildProductResponse(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
@@ -485,7 +485,7 @@ class ProductServiceTest {
         when(productRepository.save(builtProduct)).thenReturn(savedProduct);
         when(productMapper.toResponse(savedProduct)).thenReturn(resp);
 
-        ProductResponse result = productService.updateBrandProduct(EXISTING_BRAND_ID, 50L, request);
+        ProductResponse result = productService.updateSimpleBrandProduct(EXISTING_BRAND_ID, 50L, request);
 
         assertNotNull(result);
         verify(productRepository, times(1)).save(builtProduct);
@@ -508,8 +508,8 @@ class ProductServiceTest {
     @DisplayName("CP-PRD-14: injectBrandProductFromJson - Inyecta productos")
     void injectBrandProductFromJson_injectsProducts() {
         Brand brand = buildBrand(EXISTING_BRAND_ID, "BrandTest");
-        ProductCreateRequest request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME, BigDecimal.valueOf(75_000));
-        List<ProductCreateRequest> requestList = Collections.singletonList(request);
+        ProductC_U_Request request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME, BigDecimal.valueOf(75_000));
+        List<ProductC_U_Request> requestList = Collections.singletonList(request);
         Product builtProduct = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
         Product savedProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
 

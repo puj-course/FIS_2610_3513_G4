@@ -238,6 +238,7 @@
 
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -257,6 +258,7 @@
 					<parameters>true</parameters>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -269,6 +271,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
 			<plugin>
 			    <groupId>org.jacoco</groupId>
 			    <artifactId>jacoco-maven-plugin</artifactId>
@@ -323,34 +326,35 @@
 			    </executions>
 			</plugin>
 
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.2.5</version>
-					<configuration>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version>
+				<configuration>
+					<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+					<statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+						<disable>false</disable>
+						<version>3.0</version>
+						<usePhrasedFileName>false</usePhrasedFileName>
+						<usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
+						<usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
+						<usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+					</statelessTestsetReporter>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.2.5</version>
+				<configuration>
+					<reportsDirectories>
 						<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-						<statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
-							<disable>false</disable>
-							<version>3.0</version>
-							<usePhrasedFileName>false</usePhrasedFileName>
-							<usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
-							<usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
-							<usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
-						</statelessTestsetReporter>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-report-plugin</artifactId>
-					<version>3.2.5</version>
-					<configuration>
-						<reportsDirectories>
-							<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-						</reportsDirectories>
-						<outputDirectory>${project.build.directory}/site</outputDirectory>
-						<showSuccess>true</showSuccess>
-					</configuration>
-				</plugin>
+					</reportsDirectories>
+					<outputDirectory>${project.build.directory}/site</outputDirectory>
+					<showSuccess>true</showSuccess>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
