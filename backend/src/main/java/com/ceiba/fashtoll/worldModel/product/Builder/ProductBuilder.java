@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface ProductBuilder {
     void reset();
-    void associateBrand(Long brandId);
+    void associateBrand(Long brandId, boolean update);
     void setBrand(Brand brand);
     void putProductDetails(ProductDetails productDetails);
     void putOfficialLink(String linkOfficial);
     void putProductType(Long productTypeId);
     void putEnums(GeneralFit generalFit, Gender gender, Color color);
     void putImagesURLs(List<String> imagesURLs);
-    void putTags(List<Long> tagsIds);
-    void adminUpdateProduct(Long productId);
+    void putTags(List<String> tagsIds);
+    void updateProductID(Long productId);
     Product getResult();
 }

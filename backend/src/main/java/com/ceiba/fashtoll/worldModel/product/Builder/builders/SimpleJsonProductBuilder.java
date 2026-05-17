@@ -38,7 +38,7 @@ public class SimpleJsonProductBuilder implements ProductBuilder {
     }
 
     @Override
-    public void associateBrand(Long brandId) {
+    public void associateBrand(Long brandId, boolean update) {
     }
 
     public void setBrand(Brand brand) {
@@ -83,13 +83,13 @@ public class SimpleJsonProductBuilder implements ProductBuilder {
     }
 
     @Override
-    public void putTags(List<Long> tagsIds) {
+    public void putTags(List<String> tagsIds) {
         this.product.setTags(null);
         this.logger.info("El producto '" + this.product.getName() + "' con id: " + this.product.getId() + " NO TIENE TAGS");
     }
 
     @Override
-    public void adminUpdateProduct(Long productId) {
+    public void updateProductID(Long productId) {
     }
 
     public Product getResult(){

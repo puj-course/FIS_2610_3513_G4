@@ -1,9 +1,8 @@
 package com.ceiba.fashtoll.worldModel.brand;
 
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductUpdateRequest;
 import com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse;
 import com.ceiba.fashtoll.worldModel.user.dtos.PasswordChangeRequestDTO;
 import com.ceiba.fashtoll.worldModel.user.User;
@@ -36,7 +35,6 @@ public class BrandController {
         return brandService.getAllBrands();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @GetMapping("/public")
     public List<BrandPublicResponse> getAllPublicBrands() {
         return brandService.getAllPublicBrands();
@@ -48,13 +46,11 @@ public class BrandController {
         return brandService.getBrandById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @GetMapping("/public/{id}")
     public BrandPublicResponse getPublicBrandById(@PathVariable Long id) {
         return brandService.getPublicBrandById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
     @GetMapping("/public/{id}/reviews")
     public ResponseEntity<List<ReviewResponse>> getPublicBrandReviews(@PathVariable Long id) {
         return ResponseEntity.ok(clientService.getReviewsForBrand(id));
@@ -119,17 +115,30 @@ public class BrandController {
     }
 
     @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
+    @PostMapping("/my-products/simple")
+    public ResponseEntity<ProductResponse> createMySimpleProduct(Authentication authentication,
+                                                           @Valid @RequestBody ProductC_U_Request request) {
+        return this.brandService.createMySimpleProduct(authentication, request);
+    }
+
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @PostMapping("/my-products")
-    public ResponseEntity<ProductResponse> createMyProduct(Authentication authentication,
-                                                           @Valid @RequestBody ProductCreateRequest request) {
-        return this.brandService.createMyProduct(authentication, request);
+    public ResponseEntity<ProductResponse> createMyCompleteProduct(Authentication authentication, @Valid @RequestBody ProductC_U_Request request) {
+        return this.brandService.createMyCompleteProduct(authentication, request);
+    }
+
+    @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
+    @PutMapping("/my-products/simple/{id}")
+    public ProductResponse updateMySimpleProduct(Authentication authentication, @PathVariable Long id,
+                                           @Valid @RequestBody ProductC_U_Request request) {
+        return this.brandService.updateMySimpleProduct(authentication, id, request);
     }
 
     @PreAuthorize("hasAnyRole('BRAND','ADMIN')")
     @PutMapping("/my-products/{id}")
-    public ProductResponse updateMyProduct(Authentication authentication, @PathVariable Long id,
-                                           @Valid @RequestBody ProductUpdateRequest request) {
-        return this.brandService.updateMyProduct(authentication, id, request);
+    public ProductResponse updateMyCompleteProduct(Authentication authentication, @PathVariable Long id,
+                                           @Valid @RequestBody ProductC_U_Request request) {
+        return this.brandService.updateMyCompleteProduct(authentication, id, request);
     }
 
     @PreAuthorize("hasAnyRole('BRAND','ADMIN')")

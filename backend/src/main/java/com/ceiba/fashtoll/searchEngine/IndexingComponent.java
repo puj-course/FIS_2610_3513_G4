@@ -1,7 +1,7 @@
-package com.ceiba.fashtoll.searchEngine.indexingComponent;
+package com.ceiba.fashtoll.searchEngine;
 
+import com.ceiba.fashtoll.searchEngine.entities.SearchToken;
 import com.ceiba.fashtoll.utilities.Singleton.Analyzer;
-import com.ceiba.fashtoll.searchEngine.repositories.SearchTokenRepository;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;

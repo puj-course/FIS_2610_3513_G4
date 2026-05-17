@@ -71,4 +71,14 @@ public class TagService {
 
         this.logger.info("Se elimino el tag '" + tag.getName() + "' con id: " + tag.getId());
     }
+
+    @Transactional
+    public void injectTagsFromJson(List<TagRequest> tagsDTOs){
+        for(TagRequest tagDTO : tagsDTOs){
+            Tag newTag = this.tagMapper.toEntity(tagDTO);
+            this.tagRepository.save(newTag);
+            this.logger.info("Se creo el tag '" + newTag.getName() + "' con id: " + newTag.getId());
+        }
+
+    }
 }

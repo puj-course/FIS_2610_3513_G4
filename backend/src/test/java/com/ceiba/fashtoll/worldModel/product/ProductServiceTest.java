@@ -11,10 +11,10 @@ package com.ceiba.fashtoll.worldModel.product;
  *    CP-PRD-03: getProductById — ID inexistente → excepción
  *    CP-PRD-04: deleteProduct — ID inexistente → excepción, sin notify
  *    CP-PRD-05: getProductsByBrand — lista filtrada
- *    CP-PRD-06: updateProduct — brandId inexistente → excepción, sin save
+ *    CP-PRD-06: updateSimpleProduct — brandId inexistente → excepción, sin save
  *    CP-PRD-07: getAllProducts — repositorio vacío
  *    CP-PRD-08: getProductByBrand — productId inexistente → excepción
- *    CP-PRD-09: createBrandProduct — lógica Observer (notify CREATED)
+ *    CP-PRD-09: createSimpleBrandProduct — lógica Observer (notify CREATED)
  *    CP-PRD-10: deleteProduct — notify DELETED al eliminar
  * ============================================================
  */
@@ -26,8 +26,7 @@ import com.ceiba.fashtoll.worldModel.product.Builder.ProductBuilder;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductAdminUpdateRequest;
-import com.ceiba.fashtoll.worldModel.product.dtos.ProductCreateRequest;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request;
 import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
@@ -159,8 +158,8 @@ class ProductServiceTest {
         return resp;
     }
 
-    private ProductCreateRequest buildCreateRequest(Long brandId, String name, BigDecimal price) {
-        ProductCreateRequest req = new ProductCreateRequest();
+    private ProductC_U_Request buildCreateRequest(Long brandId, String name, BigDecimal price) {
+        ProductC_U_Request req = new ProductC_U_Request();
         req.setBrandId(brandId);
         req.setProductTypeId(1L);
         req.setName(name);
@@ -169,8 +168,8 @@ class ProductServiceTest {
         return req;
     }
 
-    private ProductAdminUpdateRequest buildAdminUpdateRequest(Long brandId) {
-        ProductAdminUpdateRequest req = new ProductAdminUpdateRequest();
+    private ProductC_U_Request buildAdminUpdateRequest(Long brandId) {
+        ProductC_U_Request req = new ProductC_U_Request();
         req.setBrandId(brandId);
         req.setName("Updated Name");
         req.setPrice(BigDecimal.valueOf(60_000));
@@ -377,10 +376,10 @@ class ProductServiceTest {
     }
 
     // ═══════════════════════════════════════════════════════════
-    // GRUPO 5 — updateProduct()
+    //  GRUPO 5 — updateSimpleProduct()
     // ═══════════════════════════════════════════════════════════
     @Nested
-    @DisplayName("updateProduct() — Admin update")
+    @DisplayName("updateSimpleProduct() — Admin update")
     class UpdateProductTests {
 
         @Test
@@ -389,8 +388,8 @@ class ProductServiceTest {
 
             // --- Arrange ---
             // El producto existe pero la marca referenciada en el request no existe
-            Product existingProduct = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
-            ProductAdminUpdateRequest request = buildAdminUpdateRequest(NON_EXISTING_BRAND_ID);
+            Product existingProduct   = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
+            ProductC_U_Request request = buildAdminUpdateRequest(NON_EXISTING_BRAND_ID);
 
             when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
             doThrow(new com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException("marca", "id",
@@ -399,18 +398,19 @@ class ProductServiceTest {
             // --- Act & Assert ---
             // Debe lanzar excepción y nunca guardar el producto modificado
             assertThrows(
-                    ResourceNotFoundException.class,
-                    () -> productService.updateProduct(EXISTING_PRODUCT_ID, request),
-                    "Debe lanzar ResourceNotFoundException cuando la marca del request no existe");
+                ResourceNotFoundException.class,
+                () -> productService.updateSimpleProduct(EXISTING_PRODUCT_ID, request),
+                "Debe lanzar ResourceNotFoundException cuando la marca del request no existe"
+            );
             verify(productRepository, never()).save(any());
         }
     }
 
     // ═══════════════════════════════════════════════════════════
-    // GRUPO 6 — createBrandProduct()
+    //  GRUPO 6 — createSimpleBrandProduct()
     // ═══════════════════════════════════════════════════════════
     @Nested
-    @DisplayName("createBrandProduct() — Lógica Observer (BRAND crea producto)")
+    @DisplayName("createSimpleBrandProduct() — Lógica Observer (BRAND crea producto)")
     class CreateBrandProductTests {
 
         @Test
@@ -419,11 +419,11 @@ class ProductServiceTest {
 
             // --- Arrange ---
             // Se simula el flujo completo: builder → producto → save → notify
-            ProductCreateRequest request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME,
-                    BigDecimal.valueOf(75_000));
-            Product builtProduct = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
-            Product savedProduct = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
-            ProductResponse resp = buildProductResponse(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+            ProductC_U_Request request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME,
+                                                              BigDecimal.valueOf(75_000));
+            Product builtProduct  = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
+            Product savedProduct  = buildProduct(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
+            ProductResponse resp  = buildProductResponse(50L, PRODUCT_NAME, EXISTING_BRAND_ID);
 
             // Se configura el ObjectProvider para retornar el builder mock
             when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
@@ -436,9 +436,8 @@ class ProductServiceTest {
             ArgumentCaptor<ProductEvent> eventCaptor = ArgumentCaptor.forClass(ProductEvent.class);
 
             // --- Act ---
-            // Solo el rol BRAND ejecuta este método (restricción impuesta en el
-            // controlador)
-            ProductResponse result = productService.createBrandProduct(EXISTING_BRAND_ID, request);
+            // Solo el rol BRAND ejecuta este método (restricción impuesta en el controlador)
+            ProductResponse result = productService.createSimpleBrandProduct(EXISTING_BRAND_ID, request);
 
             // --- Assert ---
             // El producto debe haberse guardado y el observer debe ser notificado con

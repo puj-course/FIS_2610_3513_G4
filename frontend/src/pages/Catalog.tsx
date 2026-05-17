@@ -60,7 +60,7 @@ const COLOR_CONFIG: Record<string, { label: string, colorClass: string, style?: 
 
 export default function Catalog() {
   const [params, setParams] = useState<SearchParams>({
-    keyword: "",
+    query: "",
     page: 0,
     size: 12,
   });
@@ -125,20 +125,20 @@ export default function Catalog() {
 
   const handleKeywordSearch = (e?: React.FormEvent) => {
     e?.preventDefault();
-    setParams({ ...params, keyword: keywordInput, page: 0 });
+    setParams({ ...params, query: keywordInput, page: 0 });
   };
 
   const clearKeyword = () => {
     setKeywordInput("");
-    setParams({ ...params, keyword: "", page: 0 });
+    setParams({ ...params, query: "", page: 0 });
   };
 
   const applyFilters = () => {
-    setParams({ ...pendingParams, keyword: keywordInput, page: 0 });
+    setParams({ ...pendingParams, query: keywordInput, page: 0 });
   };
 
   const resetFilters = () => {
-    const defaultParams = { keyword: keywordInput, page: 0, size: 12 };
+    const defaultParams = { query: keywordInput, page: 0, size: 12 };
     setPendingParams(defaultParams);
     setParams(defaultParams);
   };
@@ -391,30 +391,6 @@ export default function Catalog() {
                         )}
                       </button>
                     ))}
-                  </div>
-                </div>
-
-                {/* Disponibilidad */}
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-black">
-                    <Zap className="h-4 w-4" />
-                    <h3 className="font-bold text-sm">Stock</h3>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setPendingParams({ ...pendingParams, available: pendingParams.available === true ? undefined : true })}
-                      className={`flex-1 h-12 rounded-[16px] text-xs font-semibold border transition-all ${pendingParams.available === true ? "bg-[#0A0A0A] text-white border-black shadow-md" : "bg-white border-gray-200 text-[#5F6670] hover:border-gray-300"
-                        }`}
-                    >
-                      Disponibles
-                    </button>
-                    <button
-                      onClick={() => setPendingParams({ ...pendingParams, available: pendingParams.available === false ? undefined : false })}
-                      className={`flex-1 h-12 rounded-[16px] text-xs font-semibold border transition-all ${pendingParams.available === false ? "bg-[#0A0A0A] text-white border-black shadow-md" : "bg-white border-gray-200 text-[#5F6670] hover:border-gray-300"
-                        }`}
-                    >
-                      Ver agotados
-                    </button>
                   </div>
                 </div>
 

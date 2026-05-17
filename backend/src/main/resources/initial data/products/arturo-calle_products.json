@@ -2,166 +2,181 @@
   {
     "name": "Blazer Clásico Fondo Entero",
     "description": "Blazer formal de corte clásico, ideal para la oficina o eventos elegantes. Confección de alta calidad con forro interior.",
-    "price": 359900.00,
+    "price": 359900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "NAVY",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/blazer-para-hombre-slim-fit-fondo-entero-10118544-azul/p",
-    "productTypeId": 21
+    "productTypeId": 21,
+    "imageUrls": []
   },
   {
     "name": "Camisa Polo Básica Piqué",
     "description": "Camisa polo manga corta en tejido piqué de algodón. Un básico imprescindible para un look casual y cómodo.",
-    "price": 89900.00,
+    "price": 89900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "RED",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/polo-para-hombre-10118671-rojo/p",
-    "productTypeId": 4
+    "productTypeId": 4,
+    "imageUrls": []
   },
   {
     "name": "Jean Clásico 5 Bolsillos",
     "description": "Pantalón en denim con diseño tradicional de 5 bolsillos. Lavado medio y costuras a tono para mayor versatilidad.",
-    "price": 129900.00,
+    "price": 129900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BLUE",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/jean-para-hombre-slim-10115049-azul/p",
-    "productTypeId": 7
+    "productTypeId": 7,
+    "imageUrls": []
   },
   {
     "name": "Mocasín Casual en Cuero",
     "description": "Zapatos tipo mocasín fabricados 100% en cuero natural con suela flexible antideslizante para máximo confort.",
-    "price": 249900.00,
+    "price": 249900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BROWN",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/zapatos-tipo-mocasin-para-hombre-10114006-cafe/p",
-    "productTypeId": 17
+    "productTypeId": 17,
+    "imageUrls": []
   },
   {
     "name": "Cinturón de Cuero Reversible",
     "description": "Cinturón formal en cuero genuino con hebilla metálica giratoria que permite usarlo por el lado negro o café.",
-    "price": 79900.00,
+    "price": 79900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/cinturon-reversible-para-hombre-10116858-negro/p",
-    "productTypeId": 26
+    "productTypeId": 26,
+    "imageUrls": []
   },
   {
     "name": "Chaqueta Acolchada Ligera",
     "description": "Chaqueta de peso pluma con relleno térmico. Incluye cuello alto y bolsillos laterales con cierre. Ideal para climas fríos.",
-    "price": 229900.00,
+    "price": 229900.0,
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/chaqueta-acolchada-para-hombre-10118833-negro/p",
-    "productTypeId": 19
+    "productTypeId": 19,
+    "imageUrls": []
   },
   {
     "name": "Camiseta Cuello Redondo Básica",
     "description": "Camiseta de uso diario confeccionada en algodón transpirable. Cuello redondo reforzado y silueta ajustada.",
-    "price": 45900.00,
+    "price": 45900.0,
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/camiseta-cuello-redondo-para-hombre-10115598-blanco/p",
-    "productTypeId": 1
+    "productTypeId": 1,
+    "imageUrls": []
   },
   {
     "name": "Pantalón Jogger Deportivo",
     "description": "Jogger en mezcla de algodón y poliéster con cintura elástica y cordón ajustable. Perfecto para el fin de semana.",
-    "price": 109900.00,
+    "price": 109900.0,
     "generalFit": "RELAXED",
     "gender": "MALE",
     "color": "GREY",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/pantalon-tipo-jogger-para-hombre-10118679-gris/p",
-    "productTypeId": 12
+    "productTypeId": 12,
+    "imageUrls": []
   },
   {
     "name": "Tenis Casual Tipo Cuero",
     "description": "Calzado deportivo de estilo urbano con acabados sintéticos de alta resistencia y suela de caucho vulcanizado.",
-    "price": 189900.00,
+    "price": 189900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/tenis-para-hombre-10116744-blanco/p",
-    "productTypeId": 13
+    "productTypeId": 13,
+    "imageUrls": []
   },
   {
     "name": "Gafas de Sol Estilo Aviador",
     "description": "Lentes polarizados con protección UV400 y montura metálica ultraligera. Un clásico que nunca pasa de moda.",
-    "price": 119900.00,
+    "price": 119900.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "GOLD",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/gafas-de-sol-para-hombre-10118861-dorado/p",
-    "productTypeId": 24
+    "productTypeId": 24,
+    "imageUrls": []
   },
   {
     "name": "Bermuda Casual en Dril",
     "description": "Bermuda de corte recto con bolsillos diagonales. Elaborada en algodón con un toque de elastano para mayor movilidad.",
-    "price": 95900.00,
+    "price": 95900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BEIGE",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/bermuda-en-dril-para-hombre-10118667-beige/p",
-    "productTypeId": 9
+    "productTypeId": 9,
+    "imageUrls": []
   },
   {
     "name": "Suéter Cuello V Fondo Entero",
     "description": "Prenda de tejido de punto ligero, ideal para usar sobre camisas o polos. Cuello en V y puños acanalados.",
-    "price": 115900.00,
+    "price": 115900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "NAVY",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/sueter-para-hombre-10118669-azul-oscuro/p",
-    "productTypeId": 23
+    "productTypeId": 23,
+    "imageUrls": []
   },
   {
     "name": "Gorra Beisbolera Logo AC",
     "description": "Gorra de seis paneles con bordado frontal distintivo de la marca. Cierre ajustable metálico en la parte posterior.",
-    "price": 49900.00,
+    "price": 49900.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "BLUE",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/gorra-para-hombre-10116666-azul/p",
-    "productTypeId": 27
+    "productTypeId": 27,
+    "imageUrls": []
   },
   {
     "name": "Vestido Midi Estampado Casual",
     "description": "Vestido ligero de la línea AC Woman, con caída fluida, escote cruzado y ajuste en la cintura. Ideal para días cálidos.",
-    "price": 169900.00,
+    "price": 169900.0,
     "generalFit": "REGULAR",
     "gender": "FEMALE",
     "color": "MULTICOLOR",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/vestido-para-mujer-10118944-multicolor/p",
-    "productTypeId": 28
+    "productTypeId": 28,
+    "imageUrls": []
   },
   {
     "name": "Abrigo Largo Clásico",
     "description": "Sobretodo elegante para protección contra el clima frío. Solapas anchas, botones frontales y forro interior satinado.",
-    "price": 489900.00,
+    "price": 489900.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "GREY",
     "available": true,
     "linkProduct": "https://www.arturocalle.com/abrigo-para-hombre-10115844-gris/p",
-    "productTypeId": 20
+    "productTypeId": 20,
+    "imageUrls": []
   }
 ]

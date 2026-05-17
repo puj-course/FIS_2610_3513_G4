@@ -21,6 +21,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Brand extends User {
+    private Integer priority = 0;
+
     @Column(name = "picture_url", length = 500)
     private String pictureURL;
 

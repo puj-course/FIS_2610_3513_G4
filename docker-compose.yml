@@ -8,8 +8,8 @@ services:
     container_name: fashtoll-db
     environment:
       POSTGRES_DB: fashtoll_db
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME_SECRET}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_SECRET}
     ports:
       - "5432:5432"
     volumes:
@@ -17,7 +17,7 @@ services:
     networks:
       - fashtoll-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d fashtoll_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME_SECRET} -d fashtoll_db"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -61,8 +61,8 @@ services:
     container_name: fashtoll-backend
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/fashtoll_db
-      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME_SECRET}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD_SECRET}
       SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
