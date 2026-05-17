@@ -25,17 +25,19 @@ export interface Product {
     createdAt: string;
 }
 
+
 export interface SearchResponse {
-    searchedProducts: Product[];
+    products: Product[];
     currentPage: number;
     totalPages: number;
     totalResults: number;
     pageSize: number;
 }
 
+// ProductSearchRequest.java usa "productType" (no "productTypeName")
 export interface SearchParams {
     query?: string;
-    productTypeName?: string;
+    productType?: string;
     category?: string;
     generalFit?: string;
     gender?: string;
@@ -47,23 +49,14 @@ export interface SearchParams {
     size?: number;
 }
 
-
 export const searchProducts = async (params: SearchParams): Promise<SearchResponse> => {
     const response = await axios.post(API_URL, params);
     return {
-        products: response.data.products || response.data.searchedProducts || [],
-        currentPage: response.data.currentPage || 0,
-        totalPages: response.data.totalPages || 0,
-        totalResults: response.data.totalResults || 0,
-        pageSize: response.data.pageSize || 12,
+        // El backend devuelve la lista bajo "searchedProducts"; la normalizamos a "products"
+        products: response.data.searchedProducts ?? [],
+        currentPage: response.data.currentPage ?? 0,
+        totalPages: response.data.totalPages ?? 0,
+        totalResults: response.data.totalResults ?? 0,
+        pageSize: response.data.pageSize ?? 12,
     };
-};
-
-
-
-export const reindexProducts = async (token: string): Promise<string> => {
-    const response = await axios.post(`${API_URL}/reindex`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
 };

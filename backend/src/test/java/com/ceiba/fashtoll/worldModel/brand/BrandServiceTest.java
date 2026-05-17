@@ -536,8 +536,8 @@ class BrandServiceTest {
     }
 
     @Test
-    @DisplayName("CP-BRN-17: createMyProduct - Crea producto")
-    void createMyProduct_createsProduct() {
+    @DisplayName("CP-BRN-17: createMySimpleProduct - Crea producto")
+    void createMySimpleProduct_createsProduct() {
         org.springframework.security.core.Authentication auth = mock(
                 org.springframework.security.core.Authentication.class);
         com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
@@ -556,8 +556,8 @@ class BrandServiceTest {
     }
 
     @Test
-    @DisplayName("CP-BRN-18: updateMyProduct - Actualiza producto")
-    void updateMyProduct_updatesProduct() {
+    @DisplayName("CP-BRN-18: updateMySimpleProduct - Actualiza producto")
+    void updateMySimpleProduct_updatesProduct() {
         org.springframework.security.core.Authentication auth = mock(
                 org.springframework.security.core.Authentication.class);
         com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
@@ -566,7 +566,7 @@ class BrandServiceTest {
 
         com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request();
         com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
-        when(productService.updateSimpleProduct(EXISTING_ID, request)).thenReturn(prodResp);
+        when(productService.updateSimpleBrandProduct(EXISTING_ID, 1L, request)).thenReturn(prodResp);
 
         com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse result = brandService.updateMySimpleProduct(auth, 1L,
                 request);

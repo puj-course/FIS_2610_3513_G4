@@ -10,7 +10,7 @@ RUN npm ci --prefer-offline
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
+FROM nginx:1.27-alpine
 
 LABEL org.opencontainers.image.title="Fashtoll Frontend" \
       org.opencontainers.image.description="React + Vite frontend para la plataforma Fashtoll" \
@@ -23,9 +23,18 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 80
+# Ajustar permisos para que el proceso nginx pueda correr sin root.
+# nginx:alpine incluye el usuario 'nginx' (uid 101) listo para usar.
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chown -R nginx:nginx /var/cache/nginx && \
+    touch /var/run/nginx.pid && \
+    chown nginx:nginx /var/run/nginx.pid
+
+EXPOSE 8080
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost/ || exit 1
+    CMD curl -f http://localhost:8080/ || exit 1
+
+USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]

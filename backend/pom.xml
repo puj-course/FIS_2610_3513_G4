@@ -350,11 +350,53 @@
 				<configuration>
 					<reportsDirectories>
 						<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-					</reportsDirectories>
-					<outputDirectory>${project.build.directory}/site</outputDirectory>
-					<showSuccess>true</showSuccess>
-				</configuration>
-			</plugin>
+						<statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+							<disable>false</disable>
+							<version>3.0</version>
+							<usePhrasedFileName>false</usePhrasedFileName>
+							<usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
+							<usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
+							<usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+						</statelessTestsetReporter>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<version>3.2.5</version>
+					<configuration>
+						<reportsDirectories>
+							<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+						</reportsDirectories>
+						<outputDirectory>${project.build.directory}/site</outputDirectory>
+						<showSuccess>true</showSuccess>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>3.26.0</version>
+					<configuration>
+						<failOnViolation>false</failOnViolation>
+						<printFailingErrors>true</printFailingErrors>
+						<minimumTokens>50</minimumTokens>
+						<linkXRef>false</linkXRef>
+						<targetJdk>21</targetJdk>
+						<excludes>
+							<exclude>**/*_.java</exclude>
+						</excludes>
+					</configuration>
+					<executions>
+						<execution>
+							<id>pmd-check</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>check</goal>
+								<goal>cpd-check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 		</plugins>
 	</build>
 

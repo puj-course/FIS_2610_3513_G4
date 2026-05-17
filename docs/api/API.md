@@ -989,13 +989,6 @@
 | ---- | ----------- | ------ |
 | 200 | OK | ***/***: [ProductSearchResponse](#productsearchresponse-schema)<br> |
 
-### [POST] /api/products/search/reindex
-#### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | OK | ***/***: string<br> |
-
 ---
 
 ### [POST] /api/auth/register

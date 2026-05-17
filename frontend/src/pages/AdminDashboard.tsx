@@ -1,45 +1,29 @@
-import { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { useAuth } from "../hooks/useAuth";
-import { reindexProducts } from "../services/searchService";
 import { useNavigate } from "react-router-dom";
 import { 
   ShieldCheck, 
-  RefreshCw, 
+  Search,
   Users, 
   Building2, 
   Package, 
-  AlertCircle,
   CheckCircle2,
-  Loader2,
   LogOut
 } from "lucide-react";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [reindexing, setReindexing] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+
+  // Suprimir advertencia de variable no usada: user se usa para verificar rol
+  void user;
 
   const handleLogout = () => {
     if (window.confirm("¿Estás seguro de que quieres cerrar sesión?")) {
       logout();
       navigate("/");
-    }
-  };
-
-  const handleReindex = async () => {
-    setReindexing(true);
-    setMessage(null);
-    try {
-      const res = await reindexProducts(user?.token || "");
-      setMessage(`Sincronización: ${res}`);
-    } catch {
-      setMessage("Error al sincronizar con Elasticsearch");
-    } finally {
-      setReindexing(false);
     }
   };
 
@@ -115,41 +99,26 @@ export default function AdminDashboard() {
             <Card className="rounded-[40px] border-[#E5E7EB]">
               <CardHeader>
                 <CardTitle>Operaciones de Sistema</CardTitle>
-                <CardDescription>Herramientas críticas de mantenimiento y sincronización</CardDescription>
+                <CardDescription>Herramientas críticas de mantenimiento</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="p-6 rounded-3xl bg-[#F9FAFB] border border-[#E5E7EB] space-y-4">
                    <div className="flex items-start gap-4">
                       <div className="p-2 bg-white rounded-lg shadow-sm border border-[#E5E7EB]">
-                        <RefreshCw className={`h-5 w-5 text-[#0A0A0A] ${reindexing ? 'animate-spin' : ''}`} />
+                        <Search className="h-5 w-5 text-[#0A0A0A]" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-bold text-[#0A0A0A]">Sincronizar Elasticsearch</h4>
-                        <p className="text-sm text-[#5F6670]">Forzar la re-indexación de todos los productos desde PostgreSQL. Úselo para resolver discrepancias en la búsqueda.</p>
+                        <h4 className="font-bold text-[#0A0A0A]">Motor de Búsqueda Interno</h4>
+                        <p className="text-sm text-[#5F6670]">
+                          El sistema utiliza un motor de búsqueda propio basado en tokenización e indexación sobre PostgreSQL.
+                          La indexación se realiza automáticamente al crear o actualizar productos.
+                        </p>
                       </div>
                    </div>
-                   
-                   {message && (
-                     <div className={`p-4 rounded-xl flex items-center gap-2 text-sm font-bold ${message.includes('Error') ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
-                        {message.includes('Error') ? <AlertCircle className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
-                        {message}
-                     </div>
-                   )}
-
-                   <Button 
-                    className="w-full h-12 rounded-2xl" 
-                    onClick={handleReindex}
-                    disabled={reindexing}
-                   >
-                     {reindexing ? (
-                       <>
-                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                         Ejecutando proceso...
-                       </>
-                     ) : (
-                       "Iniciar Re-indexación Completa"
-                     )}
-                   </Button>
+                   <div className="flex items-center gap-2 p-4 rounded-xl bg-green-50 text-green-700 text-sm font-bold border border-green-100">
+                     <CheckCircle2 className="h-4 w-4" />
+                     Motor activo — sin dependencias externas
+                   </div>
                 </div>
 
                 <div className="p-6 rounded-3xl bg-[#F9FAFB] border border-[#E5E7EB] space-y-4">
@@ -167,7 +136,7 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
 
-            {/* Listado de Entidades - Placeholder para MVP */}
+            {/* Listado de Entidades */}
             <Card className="rounded-[40px] border-[#E5E7EB]">
               <CardHeader>
                 <CardTitle>Gestión de Entidades</CardTitle>
