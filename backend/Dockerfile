@@ -24,9 +24,6 @@ RUN groupadd -r fashtoll && useradd -r -g fashtoll -s /sbin/nologin fashtoll
 COPY --from=build /app/target/*.jar app.jar
 RUN chown fashtoll:fashtoll app.jar
 ENV SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/fashtoll_db \
-    SPRING_DATASOURCE_USERNAME=fashtoll \
-    SPRING_DATASOURCE_PASSWORD=fashtoll \
-    SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200 \
     SPRING_JPA_HIBERNATE_DDL_AUTO=update \
     JAVA_OPTS=""
 

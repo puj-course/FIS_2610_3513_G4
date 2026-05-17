@@ -46,10 +46,16 @@ services:
         condition: service_healthy
     networks:
       - fashtoll-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
     restart: unless-stopped
 
   # ────────────────────────────────────────────────────────────────────────────
-  # FRONTEND — React + Vite servido por Nginx
+  # FRONTEND — React + Vite servido por Nginx (rootless, puerto interno 8080)
   # ────────────────────────────────────────────────────────────────────────────
   frontend:
     build:
@@ -60,11 +66,18 @@ services:
     image: nicojoya/fashtoll-frontend:latest
     container_name: fashtoll-frontend
     ports:
-      - "80:80"
+      - "80:8080"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     networks:
       - fashtoll-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     restart: unless-stopped
 
 # ──────────────────────────────────────────────────────────────────────────────
