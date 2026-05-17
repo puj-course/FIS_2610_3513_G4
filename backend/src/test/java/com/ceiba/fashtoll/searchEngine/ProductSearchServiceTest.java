@@ -1,10 +1,9 @@
 package com.ceiba.fashtoll.searchEngine;
 
-import com.ceiba.fashtoll.searchEngine.TemplateMethod.FilterSearchEngine;
-import com.ceiba.fashtoll.searchEngine.TemplateMethod.SimpleSearchEngine;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.FilterSearchEngine;
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.SimpleSearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchRequest;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchResponse;
-import com.ceiba.fashtoll.searchEngine.repositories.ProductSearchRepository;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -13,15 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.elasticsearch.client.elc.NativeQuery;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHits;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductDocument;
-import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchRequest;
-import com.ceiba.fashtoll.searchEngine.dtos.ProductElasticSearchResponse;
 import java.util.Collections;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -30,12 +23,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Pruebas unitarias de ProductSearchService")
 class ProductSearchServiceTest {
-
-    @Mock
-    private ProductSearchRepository productSearchRepository;
-
-    @Mock
-    private ElasticsearchOperations elasticsearchOperations;
 
     @Mock
     private ProductRepository productRepository;

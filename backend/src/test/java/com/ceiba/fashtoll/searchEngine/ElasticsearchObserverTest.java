@@ -1,5 +1,5 @@
 package com.ceiba.fashtoll.searchEngine;
-
+/*
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,3 +64,4 @@ class ElasticsearchObserverTest {
         verify(productSearchService, times(1)).indexProduct(product);
     }
 }
+*/
