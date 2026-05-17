@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductDocument;
+import org.springframework.data.domain.Page;
+
 import java.util.Collections;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -41,21 +43,47 @@ class ProductSearchServiceTest {
     void simpleSearch_returnsResponse() {
         Product p = new Product();
         p.setId(1L);
-        when(simpleSearchEngine.processSimpleQuery("test")).thenReturn(Collections.singletonList(p));
+        ProductSearchRequest test = new ProductSearchRequest(
+                "test",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0.0,
+                0.0,
+                null,
+                0,
+                0
+        );
+        when(simpleSearchEngine.processSimpleQuery(test)).thenReturn((Page<Product>) Collections.singletonList(p));
 
-        ProductSearchResponse result = productSearchService.simpleSearch("test");
+        ProductSearchResponse result = productSearchService.simpleSearch(test);
 
         assertNotNull(result);
-        verify(simpleSearchEngine, times(1)).processSimpleQuery("test");
+        verify(simpleSearchEngine, times(1)).processSimpleQuery(test);
     }
 
     @Test
     @DisplayName("CP-SRC-02: filterSearch - Búsqueda con filtros")
     void filterSearch_returnsResponse() {
-        ProductSearchRequest req = new ProductSearchRequest("test", null, null, null, null, null, null, null, null);
+        ProductSearchRequest req = new ProductSearchRequest(
+                "test",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0.0,
+                0.0,
+                null,
+                0,
+                0
+        );
+
         Product p = new Product();
         p.setId(1L);
-        when(filterSearchEngine.processFilterQuery(req)).thenReturn(Collections.singletonList(p));
+        when(filterSearchEngine.processFilterQuery(req)).thenReturn((Page<Product>) Collections.singletonList(p));
 
         ProductSearchResponse result = productSearchService.filterSearch(req);
 
@@ -63,6 +91,8 @@ class ProductSearchServiceTest {
         verify(filterSearchEngine, times(1)).processFilterQuery(req);
     }
 
+    /** Se comento las pruebas que se hacian a elastic search, pues ya no se usa
+    /*
     @Test
     @DisplayName("CP-SRC-03: indexProduct - Indexa producto")
     void indexProduct_indexesSuccessfully() {
@@ -137,4 +167,5 @@ class ProductSearchServiceTest {
 
         verify(productSearchRepository).save(any(ProductDocument.class));
     }
+    */
 }

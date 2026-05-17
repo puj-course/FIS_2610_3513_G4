@@ -20,6 +20,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 
@@ -86,19 +89,45 @@ class SearchPatternsTest {
     @DisplayName("SearchEngine: SimpleSearchEngine ejecuta búsqueda por tokens")
     void simpleSearchEngine_executesSearch() {
         List<Product> expected = Collections.singletonList(new Product());
-        when(productRepository.findBySearchTokens(anyList())).thenReturn(expected);
+        when(productRepository.findBySearchTokens(anyList(), null)).thenReturn((Page<Product>) expected);
 
-        List<Product> result = simpleSearchEngine.processSimpleQuery("camisa azul");
+        ProductSearchRequest test = new ProductSearchRequest(
+                "camisa azul",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0.0,
+                0.0,
+                null,
+                0,
+                0
+        );
+
+        Page<Product> result = simpleSearchEngine.processSimpleQuery(test);
 
         assertEquals(expected, result);
-        verify(productRepository).findBySearchTokens(anyList());
+        Pageable pageRequest = PageRequest.of(0, 0);
+        verify(productRepository).findBySearchTokens(anyList(), pageRequest);
     }
 
     @Test
     @DisplayName("SearchEngine: FilterSearchEngine ejecuta búsqueda con filtros (Cobertura)")
     void filterSearchEngine_executesSearchWithFilters() {
         ProductSearchRequest request = new ProductSearchRequest(
-                "camisa", "1", "Remera", "SLIM", "MALE", "WHITE", 10.0, 50.0, null);
+                "camisa",
+                "1",
+                "Remera",
+                "SLIM",
+                "MALE",
+                "WHITE",
+                10.0,
+                50.0,
+                null,
+                0,
+                12
+        );
 
         filterSearchEngine.processFilterQuery(request);
     }
