@@ -1,6 +1,5 @@
-package com.ceiba.fashtoll.config;
+package com.ceiba.fashtoll.security;
 
-import com.ceiba.fashtoll.security.UserDetailsServiceImpl;
 import com.ceiba.fashtoll.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

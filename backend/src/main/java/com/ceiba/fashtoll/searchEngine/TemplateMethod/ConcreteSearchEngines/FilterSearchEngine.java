@@ -1,18 +1,18 @@
-package com.ceiba.fashtoll.searchEngine.TemplateMethod;
+package com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines;
 
+import com.ceiba.fashtoll.searchEngine.TemplateMethod.SearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.QueryFilters;
-import com.ceiba.fashtoll.searchEngine.indexingComponent.IndexingComponent;
-import com.ceiba.fashtoll.searchEngine.rankingComponent.RankingComponent;
-import com.ceiba.fashtoll.searchEngine.repositories.ProductSpecs;
+import com.ceiba.fashtoll.searchEngine.IndexingComponent;
+import com.ceiba.fashtoll.searchEngine.RankingComponent;
+import com.ceiba.fashtoll.searchEngine.entities.ProductSpecs;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.PredicateSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @Component
@@ -24,21 +24,27 @@ public class FilterSearchEngine extends SearchEngine {
     }
 
     @Override
-    protected List<Product> returnResults(List<String> keyWords, QueryFilters filters) {
-        PredicateSpecification<Product> spec = PredicateSpecification.where(
+    protected Page<Product> returnResults(List<String> keyWords, QueryFilters filters, Pageable pageRequest) {
+        Specification<Product> spec = Specification.where(
                 ProductSpecs.keyWords(keyWords)
                         .and(ProductSpecs.productType(filters.productType()))
                         .and(ProductSpecs.category(filters.category()))
                         .and(ProductSpecs.generalFit(filters.generalFit()))
                         .and(ProductSpecs.gender(filters.gender()))
                         .and(ProductSpecs.color(filters.color()))
-                        //.and(ProductSpecs.available(filters.available()))
                         .and(ProductSpecs.priceRange(filters.minPrice(), filters.maxPrice()))
-                        //.and(ProductSpecs.tags(filters.tags()))
+                        .and(ProductSpecs.tags(filters.tags()))
         );
+        /* 1. SI BUSCO UN PRODUCTO QUE NO ESTA ME MUESTRA LOS PRODUCTOS QUE COINCIDEN CON MI BUSQUEDA
+        * DEBERIA DECIR "NO TENEMOS ESE PRODUCTO PERO TE PODRIA INTERESAR:"
+        * 2. SI BUSCO PANTALONES JEAN ME APARECEN PANTALONES DE SUDADERA, CHINOS, JOGGER,
+        * NO ME APARECEN SOLO JEANS
+        */
+        if(keyWords != null && !keyWords.isEmpty()){
 
-        List<Product> products = this.productRepository.findAll(spec);
+            return this.rankingComponent.scoreKeywordsAlgorithm(keyWords, spec, pageRequest);
+        }
 
-        return new ArrayList<>(new LinkedHashSet<>(products));
+        return this.productRepository.findAll(spec, pageRequest);
     }
 }

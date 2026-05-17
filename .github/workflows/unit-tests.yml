@@ -78,3 +78,12 @@ jobs:
           path: backend/target/surefire-reports/
           retention-days: 30
           if-no-files-found: warn
+
+      - name: Subir reporte de Cobertura JaCoCo (artefacto)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-coverage-report
+          path: backend/target/site/jacoco/
+          retention-days: 30
+          if-no-files-found: warn

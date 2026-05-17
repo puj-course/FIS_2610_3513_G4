@@ -2,166 +2,181 @@
   {
     "name": "Nike Air Force 1 '07",
     "description": "El fulgor vive en este modelo original de baloncesto. Un icono de la cultura urbana con revestimientos con costuras duraderas y acabados impecables.",
-    "price": 549950.00,
+    "price": 549950.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www.nike.com/t/air-force-1-07-mens-shoes-jBrhbr/CW2288-111",
-    "productTypeId": 13
+    "productTypeId": 13,
+    "imageUrls": []
   },
   {
     "name": "Nike Air Max 270",
     "description": "La primera unidad Max Air de estilo de vida de Nike ofrece estilo, comodidad y una gran actitud. Inspirada en iconos de Air Max.",
-    "price": 789950.00,
+    "price": 789950.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.nike.com/t/air-max-270-mens-shoes-KkLcGR/AH8050-002",
-    "productTypeId": 13
+    "productTypeId": 13,
+    "imageUrls": []
   },
   {
     "name": "Air Jordan 1 Low",
     "description": "Inspirado en el modelo original de 1985, este calzado ofrece un look impecable y clásico que es familiar pero siempre renovado.",
-    "price": 599950.00,
+    "price": 599950.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "BLUE",
     "available": true,
     "linkProduct": "https://www.nike.com/t/air-jordan-1-low-mens-shoes-0LXhbb/553558-136",
-    "productTypeId": 13
+    "productTypeId": 13,
+    "imageUrls": []
   },
   {
     "name": "Camiseta Nike Sportswear Club",
     "description": "Confeccionada con nuestro algodón de uso diario y un ajuste clásico, ofrece una sensación suave y familiar desde el primer momento.",
-    "price": 129950.00,
+    "price": 129950.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www.nike.com/t/sportswear-club-mens-t-shirt-ShrMm9/AR4997-101",
-    "productTypeId": 1
+    "productTypeId": 1,
+    "imageUrls": []
   },
   {
     "name": "Nike Tech Fleece Windrunner",
     "description": "Nuestra felpa ligera de primera calidad, suave por dentro y por fuera, te ofrece mucha calidez sin añadir volumen.",
-    "price": 529950.00,
+    "price": 529950.0,
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "GREY",
     "available": true,
     "linkProduct": "https://www.nike.com/t/sportswear-tech-fleece-windrunner-mens-full-zip-hoodie-m5GWjG/FB7921-063",
-    "productTypeId": 22
+    "productTypeId": 22,
+    "imageUrls": []
   },
   {
     "name": "Pantalón Nike Tech Fleece Jogger",
     "description": "Con un diseño ajustado que se estrecha hasta los tobillos, estos joggers ofrecen calidez ligera para tu día a día.",
-    "price": 449950.00,
+    "price": 449950.0,
     "generalFit": "SLIM",
     "gender": "MALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.nike.com/t/sportswear-tech-fleece-mens-joggers-gXTOoz/FB8002-010",
-    "productTypeId": 12
+    "productTypeId": 12,
+    "imageUrls": []
   },
   {
     "name": "Leggings Nike Pro 365",
     "description": "Envuelven el cuerpo con una tela suave que se estira mientras te mueves. Tecnología Dri-FIT para mantener la transpirabilidad.",
-    "price": 189950.00,
+    "price": 189950.0,
     "generalFit": "COMPRESSION",
     "gender": "FEMALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.nike.com/t/pro-365-womens-high-waisted-7-8-leggings-1vjbqv/CZ9779-010",
-    "productTypeId": 11
+    "productTypeId": 11,
+    "imageUrls": []
   },
   {
     "name": "Shorts Nike Dri-FIT DNA",
     "description": "Diseñados para el baloncesto, estos shorts combinan materiales de alto rendimiento con un diseño auténtico de la cancha.",
-    "price": 159950.00,
+    "price": 159950.0,
     "generalFit": "LOOSE",
     "gender": "MALE",
     "color": "NAVY",
     "available": true,
     "linkProduct": "https://www.nike.com/t/dri-fit-dna-mens-8-basketball-shorts-4T9Mh4/DH7160-410",
-    "productTypeId": 9
+    "productTypeId": 9,
+    "imageUrls": []
   },
   {
     "name": "Gorra Nike Heritage86",
     "description": "Diseño clásico de seis paneles con una correa ajustable para un ajuste personalizado y el logo Swoosh bordado.",
-    "price": 99950.00,
+    "price": 99950.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www.nike.com/t/sportswear-heritage86-futura-washed-hat-1x0Okk/913011-100",
-    "productTypeId": 27
+    "productTypeId": 27,
+    "imageUrls": []
   },
   {
     "name": "Nike Dunk Low Retro",
     "description": "Creados para la duela pero llevados a las calles, el icono del baloncesto de los 80 regresa con revestimientos de cuero impecable.",
-    "price": 549950.00,
+    "price": 549950.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.nike.com/t/dunk-low-retro-mens-shoes-5FQWGR/DD1391-100",
-    "productTypeId": 13
+    "productTypeId": 13,
+    "imageUrls": []
   },
   {
     "name": "Nike Air Zoom Pegasus 40",
     "description": "Una sensación elástica para cada carrera. El regreso de la respuesta familiar del Pegasus para ayudarte a alcanzar tus metas.",
-    "price": 629950.00,
+    "price": 629950.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "RED",
     "available": true,
     "linkProduct": "https://www.nike.com/t/pegasus-40-mens-road-running-shoes-mVJmCQ/DV3853-600",
-    "productTypeId": 13
+    "productTypeId": 13,
+    "imageUrls": []
   },
   {
     "name": "Nike Blazer Mid '77 Vintage",
     "description": "Estilo de los 70. Amado en los 80. Clásico en los 90. Listo para el futuro con un diseño de cuero y gamuza.",
-    "price": 499950.00,
+    "price": 499950.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "WHITE",
     "available": true,
     "linkProduct": "https://www.nike.com/t/blazer-mid-77-vintage-mens-shoes-nw30B2/BQ6806-100",
-    "productTypeId": 13
+    "productTypeId": 13,
+    "imageUrls": []
   },
   {
     "name": "Camiseta Nike Dri-FIT Legend",
     "description": "Nuestra camiseta de entrenamiento con tecnología de absorción de sudor ayuda a mantener la frescura en los entrenamientos más intensos.",
-    "price": 109950.00,
+    "price": 109950.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "ORANGE",
     "available": true,
     "linkProduct": "https://www.nike.com/t/dri-fit-legend-mens-fitness-t-shirt-9lqP1N/DX0989-813",
-    "productTypeId": 1
+    "productTypeId": 1,
+    "imageUrls": []
   },
   {
     "name": "Hoodie Nike Sportswear Club Fleece",
     "description": "Un básico de armario, esta sudadera con capucha combina un estilo clásico con la comodidad suave del tejido Fleece.",
-    "price": 249950.00,
+    "price": 249950.0,
     "generalFit": "REGULAR",
     "gender": "UNISEX",
     "color": "YELLOW",
     "available": true,
     "linkProduct": "https://www.nike.com/t/sportswear-club-fleece-pullover-hoodie-3Mfnxk/BV2654-716",
-    "productTypeId": 18
+    "productTypeId": 18,
+    "imageUrls": []
   },
   {
     "name": "Vestido Nike Sportswear Essential",
     "description": "La comodidad de tu camiseta favorita en un diseño de vestido chic. Confeccionado con tejido de punto de algodón suave.",
-    "price": 169950.00,
+    "price": 169950.0,
     "generalFit": "LOOSE",
     "gender": "FEMALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.nike.com/t/sportswear-essential-womens-ribbed-midi-dress-w00hT5/CU5093-010",
-    "productTypeId": 28
+    "productTypeId": 28,
+    "imageUrls": []
   }
 ]

@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductUpdateRequest {
+public class ProductC_U_Request {
+    private Long brandId;
+
     @NotNull(message = "El ID del tipo de producto es obligatorio")
     private Long productTypeId;
 
@@ -38,5 +39,5 @@ public class ProductUpdateRequest {
     private String linkProduct;
 
     private List<String> imageUrls;
-    private List<Long> tagIds;
+    private List<String> tags;
 }

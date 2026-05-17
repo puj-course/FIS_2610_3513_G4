@@ -26,7 +26,7 @@ export interface Product {
 }
 
 export interface SearchResponse {
-    products: Product[];
+    searchedProducts: Product[];
     currentPage: number;
     totalPages: number;
     totalResults: number;
@@ -34,13 +34,12 @@ export interface SearchResponse {
 }
 
 export interface SearchParams {
-    keyword?: string;
+    query?: string;
     productTypeName?: string;
     category?: string;
     generalFit?: string;
     gender?: string;
     color?: string;
-    available?: boolean;
     minPrice?: number;
     maxPrice?: number;
     tags?: string[];
@@ -48,13 +47,19 @@ export interface SearchParams {
     size?: number;
 }
 
+
 export const searchProducts = async (params: SearchParams): Promise<SearchResponse> => {
-    // Convert tags array to comma-separated string if axios doesn't handle it as expected by Spring 
-    // or keep as array if Spring expects multiple params with same name.
-    // Spring Boot usually handles List<String> tags as ?tags=v1&tags=v2
-    const response = await axios.get(API_URL, { params });
-    return response.data;
+    const response = await axios.post(API_URL, params);
+    return {
+        products: response.data.products || response.data.searchedProducts || [],
+        currentPage: response.data.currentPage || 0,
+        totalPages: response.data.totalPages || 0,
+        totalResults: response.data.totalResults || 0,
+        pageSize: response.data.pageSize || 12,
+    };
 };
+
+
 
 export const reindexProducts = async (token: string): Promise<string> => {
     const response = await axios.post(`${API_URL}/reindex`, {}, {

@@ -1,0 +1,22 @@
+[
+  { "name": "FLEECE", "type": "STYLE" },
+  { "name": "ESSENTIALS", "type": "STYLE" },
+  { "name": "OVERSIZED", "type": "FIT" },
+  { "name": "CASUAL", "type": "OCCASION" },
+  { "name": "VINTAGE", "type": "STYLE" },
+  { "name": "SLIM", "type": "FIT" },
+  { "name": "FORMAL", "type": "OCCASION" },
+  { "name": "STREETWEAR", "type": "STYLE" },
+  { "name": "WINTER", "type": "OCCASION" },
+  { "name": "SUMMER", "type": "OCCASION" },
+  { "name": "BAGGY", "type": "FIT" },
+  { "name": "MINIMALIST", "type": "STYLE" },
+  { "name": "SPORTY", "type": "STYLE" },
+  { "name": "BOHO", "type": "STYLE" },
+  { "name": "PARTY", "type": "OCCASION" },
+  { "name": "BUSINESS", "type": "OCCASION" },
+  { "name": "SKINNY", "type": "FIT" },
+  { "name": "RETRO", "type": "STYLE" },
+  { "name": "WORKWEAR", "type": "OCCASION" },
+  { "name": "CLASSIC", "type": "STYLE" }
+]
