@@ -393,7 +393,7 @@ class ProductServiceTest {
 
             when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
             doThrow(new com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException("marca", "id",
-                    NON_EXISTING_BRAND_ID)).when(productBuilder).associateBrand(NON_EXISTING_BRAND_ID, true);
+                    NON_EXISTING_BRAND_ID)).when(productBuilder).associateBrand(eq(NON_EXISTING_BRAND_ID), anyBoolean());
 
             // --- Act & Assert ---
             // Debe lanzar excepción y nunca guardar el producto modificado

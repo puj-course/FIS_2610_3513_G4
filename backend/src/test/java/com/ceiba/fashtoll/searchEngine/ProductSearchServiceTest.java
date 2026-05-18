@@ -69,20 +69,7 @@ class ProductSearchServiceTest {
     @Test
     @DisplayName("CP-SRC-02: filterSearch - Búsqueda con filtros")
     void filterSearch_returnsResponse() {
-        ProductSearchRequest req = new ProductSearchRequest(
-                "test",
-                "",
-                "",
-                "",
-                "",
-                "",
-                0.0,
-                0.0,
-                null,
-                0,
-                0
-        );
-
+        ProductSearchRequest req = new ProductSearchRequest("test", null, null, null, null, null, null, null, null, 0, 10);
         Product p = new Product();
         p.setId(1L);
         when(filterSearchEngine.processFilterQuery(req)).thenReturn(new PageImpl<>(List.of(p)));

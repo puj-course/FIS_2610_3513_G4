@@ -100,7 +100,7 @@ class ProductPatternsTest {
         simpleProductBuilder.putProductType(2L);
         simpleProductBuilder.putEnums(GeneralFit.REGULAR, Gender.UNISEX, Color.BLACK);
         simpleProductBuilder.putImagesURLs(Collections.singletonList("img.jpg"));
-        simpleProductBuilder.putTags(Collections.singletonList("testTags"));
+        simpleProductBuilder.putTags(Collections.singletonList("tag"));
 
         Product result = simpleProductBuilder.getResult();
 
