@@ -620,4 +620,77 @@ class BrandServiceTest {
 
         verify(authService, times(1)).brandRegister(any(com.ceiba.fashtoll.security.auth.dtos.RegisterRequest.class));
     }
+
+    @Test
+    @DisplayName("CP-BRN-21: createMyCompleteProduct — Crea un producto completo y retorna ResponseEntity 201 Created")
+    void createMyCompleteProduct_success_returnsCreatedResponse() {
+        // --- Arrange ---
+        Authentication auth = mock(Authentication.class);
+        User user = new User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+        ProductC_U_Request request = new ProductC_U_Request();
+        ProductResponse expectedProductResponse = new ProductResponse();
+        expectedProductResponse.setId(100L);
+
+        when(productService.createCompleteBrandProduct(eq(EXISTING_ID), any(ProductC_U_Request.class)))
+                .thenReturn(expectedProductResponse);
+
+        // --- Act ---
+        org.springframework.http.ResponseEntity<ProductResponse> response =
+                brandService.createMyCompleteProduct(auth, request);
+
+        // --- Assert ---
+        assertNotNull(response, "La respuesta HTTP no debe ser nula");
+        assertEquals(org.springframework.http.HttpStatus.CREATED, response.getStatusCode(),
+                "El código de estado debe ser 201 CREATED");
+        assertEquals(expectedProductResponse, response.getBody(),
+                "El cuerpo de la respuesta debe contener el producto mapeado");
+
+        verify(productService, times(1)).createCompleteBrandProduct(EXISTING_ID, request);
+    }
+
+    @Test
+    @DisplayName("CP-BRN-22: createMyCompleteProduct — Lanza ResourceNotFoundException si el usuario es nulo")
+    void createMyCompleteProduct_nullUser_throwsResourceNotFoundException() {
+        // --- Arrange ---
+        Authentication auth = mock(Authentication.class);
+        when(auth.getPrincipal()).thenReturn(null);
+        ProductC_U_Request request = new ProductC_U_Request();
+
+        // --- Act & Assert ---
+        assertThrows(ResourceNotFoundException.class, () -> {
+            brandService.createMyCompleteProduct(auth, request);
+        }, "Debería lanzar ResourceNotFoundException debido al usuario ausente");
+
+        verify(productService, never()).createCompleteBrandProduct(anyLong(), any());
+    }
+
+    @Test
+    @DisplayName("CP-BRN-23: updateMyCompleteProduct — Actualiza un producto con flujo completo exitosamente")
+    void updateMyCompleteProduct_success_returnsProductResponse() {
+        // --- Arrange ---
+        Authentication auth = mock(Authentication.class);
+        User user = new User();
+        user.setId(EXISTING_ID);
+        when(auth.getPrincipal()).thenReturn(user);
+
+        ProductC_U_Request request = new ProductC_U_Request();
+        ProductResponse expectedResponse = new ProductResponse();
+        expectedResponse.setId(EXISTING_ID);
+
+        when(productService.updateCompleteBrandProduct(
+                eq(EXISTING_ID),
+                eq(EXISTING_ID),
+                any(ProductC_U_Request.class)
+        )).thenReturn(expectedResponse);
+
+        // --- Act ---
+        ProductResponse result = brandService.updateMyCompleteProduct(auth, EXISTING_ID, request);
+
+        // --- Assert ---
+        assertNotNull(result, "El resultado de la actualización no debe ser nulo");
+        assertEquals(expectedResponse, result, "Debe retornar la respuesta exacta del ProductService");
+        verify(productService, times(1)).updateCompleteBrandProduct(EXISTING_ID, EXISTING_ID, request);
+    }
 }
