@@ -6,16 +6,19 @@ import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchRequest;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchResponse;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import java.util.Collections;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,16 +40,30 @@ class ProductSearchServiceTest {
     @Test
     @DisplayName("CP-SRC-01: simpleSearch - Búsqueda simple")
     void simpleSearch_returnsResponse() {
-        ProductSearchRequest req = new ProductSearchRequest("test", null, null, null, null, null, null, null, null, 0, 10);
+        // ARRANGE
         Product p = new Product();
         p.setId(1L);
-        Page<Product> page = new PageImpl<>(Collections.singletonList(p));
-        when(simpleSearchEngine.processSimpleQuery(req)).thenReturn(page);
+        ProductSearchRequest test = new ProductSearchRequest(
+                "test",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0.0,
+                0.0,
+                null,
+                0,
+                0
+        );
+        Mockito.when(simpleSearchEngine.processSimpleQuery(test)).thenReturn(new PageImpl<>(List.of(p)));
 
-        ProductSearchResponse result = productSearchService.simpleSearch(req);
+        // ACT
+        ProductSearchResponse result = productSearchService.simpleSearch(test);
 
-        assertNotNull(result);
-        verify(simpleSearchEngine, times(1)).processSimpleQuery(req);
+        // ASSERT
+        Assertions.assertNotNull(result);
+        Mockito.verify(simpleSearchEngine, times(1)).processSimpleQuery(test);
     }
 
     @Test
@@ -55,8 +72,7 @@ class ProductSearchServiceTest {
         ProductSearchRequest req = new ProductSearchRequest("test", null, null, null, null, null, null, null, null, 0, 10);
         Product p = new Product();
         p.setId(1L);
-        Page<Product> page = new PageImpl<>(Collections.singletonList(p));
-        when(filterSearchEngine.processFilterQuery(req)).thenReturn(page);
+        when(filterSearchEngine.processFilterQuery(req)).thenReturn(new PageImpl<>(List.of(p)));
 
         ProductSearchResponse result = productSearchService.filterSearch(req);
 

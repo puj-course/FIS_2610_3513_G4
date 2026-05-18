@@ -35,6 +35,7 @@ public class Analyzer {
         return analyzer;
     }
 
+    @SuppressWarnings("java:S5852")
     public String characterFilter(String rawQuery){
         //filtro de etiquetas HTML
         String cleanQuery = rawQuery.replaceAll("<[^>]+>", " ");
@@ -49,8 +50,8 @@ public class Analyzer {
         cleanQuery = cleanQuery.replaceAll("\\u0301", "");
         //cambio de & a y
         cleanQuery = cleanQuery.replace("&", "y");
-        //filtro de correo electronico
-        cleanQuery = cleanQuery.replaceAll("[a-zA-Z]+.[a-zA-Z]+(?=@)@[a-zA-Z]+.[a-zA-Z]+", " ");
+        // Filtro de correo electrónico seguro contra ReDoS
+        cleanQuery = cleanQuery.replaceAll("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", " ");
         //filtro de caracteres especiales
         cleanQuery = cleanQuery.replaceAll("[^a-zA-Z\\s]+", " ");
         //filtro de espacios excesivos

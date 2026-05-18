@@ -8,7 +8,6 @@ public record QueryFilters(
         String generalFit,
         String gender,
         String color,
-        //Boolean available,
         Double minPrice,
         Double maxPrice,
         List<String> tags

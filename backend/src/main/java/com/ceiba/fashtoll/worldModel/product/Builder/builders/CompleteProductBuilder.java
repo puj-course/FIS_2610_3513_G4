@@ -99,15 +99,7 @@ public class CompleteProductBuilder implements ProductBuilder {
     @Override
     public void putTags(List<String> requestedTags) {
         Set<Tag> tags = new HashSet<>();
-        /*
-        if (requestedTags != null){
-            for(String tag : requestedTags){
-                Tag newTag = this.tagRepository.findByName(tag).orElseThrow(() -> new ResourceNotFoundException("tag","name",tag));
-                tags.add(newTag);
-            }
-        } else throw new ResourceNotFoundException("requestedTags","CompleteProductBuilder");
-        */
-        for(String tag : requestedTags){ /*ASDJASDLKJASLKDJ*/
+        for(String tag : requestedTags){
             Tag newTag = this.tagRepository.findByName(tag).orElseThrow(() -> new ResourceNotFoundException("tag","name",tag));
             tags.add(newTag);
         }

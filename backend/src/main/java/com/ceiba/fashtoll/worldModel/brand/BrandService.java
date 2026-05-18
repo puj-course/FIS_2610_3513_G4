@@ -61,7 +61,7 @@ public class  BrandService {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
 
-        this.logger.info("Se devolvio la marca '" + brand.getName() + "' con id: " + brand.getId());
+        this.logger.info("Se devolvio la marca '{}' con id: {}", brand.getName(), brand.getId());
 
         return brandMapper.toResponse(brand);
     }
@@ -70,7 +70,7 @@ public class  BrandService {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
 
-        this.logger.info("Se devolvio la marca publica '" + brand.getName() + "' con id: " + brand.getId());
+        this.logger.info("Se devolvio la marca publica '{}' con id: {}", brand.getName(), brand.getId());
 
         return brandMapper.toPublicResponse(brand);
     }
@@ -81,11 +81,9 @@ public class  BrandService {
         brand.setFollowers(0);
         brand.setRating(0.0);
         brand.setIsVerified(false);
-        //Brand savedBrand = brandRepository.save(brand);
         brandRepository.save(brand);
-        //return brandMapper.toResponse(savedBrand);
 
-        this.logger.info("Se creo la marca '" + brand.getName() + "' con id: " + brand.getId());
+        this.logger.info("Se creo la marca '{}' con id: {}", brand.getName(), brand.getId());
 
         return brandMapper.toResponse(brand);
     }
@@ -98,7 +96,7 @@ public class  BrandService {
         brandMapper.updateEntityFromAdmin(request, brand);
         Brand savedBrand = brandRepository.save(brand);
 
-        this.logger.info("Se actualizo la marca '" + brand.getName() + "' con id: " + brand.getId());
+        this.logger.info("Se actualizo la marca '{}' con id: {}", brand.getName(), brand.getId());
 
         return brandMapper.toResponse(savedBrand);
     }
@@ -108,14 +106,14 @@ public class  BrandService {
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id",id));
         brandRepository.delete(brand);
 
-        this.logger.info("Se elimino la marca '" + brand.getName() + "' con id: " + brand.getId());
+        this.logger.info("Se elimino la marca '{}' con id: {}", brand.getName(), brand.getId());
     }
 
     public BrandProfileResponse getProfile(Long brandId) {
         Brand brand = brandRepository.findById(brandId)
                 .orElseThrow(() -> new ResourceNotFoundException("marca","id", brandId));
 
-        this.logger.info("Se devolvio el perfil de la marca '" + brand.getName() + "' con id: " + brand.getId());
+        this.logger.info("Se devolvio el perfil de la marca '{}' con id: {}", brand.getName(), brand.getId());
 
         return brandMapper.toProfileResponse(brand);
     }
@@ -128,7 +126,7 @@ public class  BrandService {
         brandMapper.updateEntityFromProfile(request, brand);
         Brand savedBrand = brandRepository.save(brand);
 
-        this.logger.info("Se actualizo el perfil de la marca '" + brand.getName() + "' con id: " + brand.getId());
+        this.logger.info("Se actualizo el perfil de la marca '{}' con id: {}", brand.getName(), brand.getId());
 
         return brandMapper.toProfileResponse(savedBrand);
     }
@@ -157,7 +155,7 @@ public class  BrandService {
             newProduct = productService.createSimpleBrandProduct(user.getId(), request);
         } else {
             this.logger.error("No hay una marca para asociar al producto a crear");
-            throw new ResourceNotFoundException("Marca","id",user.getId());
+            throw new ResourceNotFoundException("Marca","el metodo createMySimpleProduct de brandService");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
@@ -169,7 +167,7 @@ public class  BrandService {
             newProduct = productService.createCompleteBrandProduct(user.getId(), request);
         } else {
             this.logger.error("No hay una marca para asociar al producto a crear");
-            throw new ResourceNotFoundException("Marca","id",user.getId());
+            throw new ResourceNotFoundException("Marca","el metodo createMySimpleProduct de brandService");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
@@ -197,7 +195,7 @@ public class  BrandService {
         brand.setIsVerified(verified);
         brandRepository.save(brand);
 
-        this.logger.info("Se verifico la  marca '" + brand.getName() + "' con id: " + brand.getId());
+        this.logger.info("Se verifico la marca '{}' con id: {}", brand.getName(), brand.getId());
     }
 
     public void injectBrandsFromJSON(List<BrandDTO>  brandDTOs) {
