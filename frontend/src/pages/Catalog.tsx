@@ -21,7 +21,6 @@ import {
   LayoutGrid,
   ShoppingBag,
   Sparkles,
-  Zap,
   Star,
   Target
 } from "lucide-react";
@@ -504,7 +503,7 @@ export default function Catalog() {
             <div className="flex flex-col sm:flex-row items-end justify-between gap-4 border-b border-gray-100 pb-6">
               <div className="space-y-1 text-center sm:text-left">
                 <h3 className="text-2xl font-black tracking-tight">
-                  Viendo {data?.products.length || 0} de {data?.totalResults || 0} productos
+                  Viendo {data?.searchedProducts.length || 0} de {data?.totalResults || 0} productos
                 </h3>
               </div>
 
@@ -545,7 +544,7 @@ export default function Catalog() {
                   </div>
                   <Button onClick={() => setParams({ ...params })} className="h-12 px-8 bg-red-600 hover:bg-red-700 rounded-xl font-bold text-xs shadow-md">Reintentar</Button>
                 </div>
-              ) : data?.products.length === 0 ? (
+              ) : data?.searchedProducts.length === 0 ? (
                 <div className="text-center py-32 space-y-8 bg-[#F9FAFB] rounded-[48px] border-2 border-dashed border-gray-200">
                   <div className="relative w-fit mx-auto">
                     <div className="h-24 w-24 bg-white rounded-[24px] flex items-center justify-center shadow-lg">
@@ -567,7 +566,7 @@ export default function Catalog() {
                 </div>
               ) : (
                 <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-8 gap-y-12 transition-all duration-500 ${isFetching ? 'opacity-40 grayscale blur-[2px]' : 'opacity-100'}`}>
-                  {data?.products.map((product) => (
+                  {data?.searchedProducts.map((product) => (
                     <ProductCard key={product.id} product={product} />
                   ))}
                 </div>

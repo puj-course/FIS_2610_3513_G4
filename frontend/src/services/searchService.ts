@@ -51,7 +51,7 @@ export interface SearchParams {
 export const searchProducts = async (params: SearchParams): Promise<SearchResponse> => {
     const response = await axios.post(API_URL, params);
     return {
-        products: response.data.products || response.data.searchedProducts || [],
+        searchedProducts: response.data.products || response.data.searchedProducts || [],
         currentPage: response.data.currentPage || 0,
         totalPages: response.data.totalPages || 0,
         totalResults: response.data.totalResults || 0,
