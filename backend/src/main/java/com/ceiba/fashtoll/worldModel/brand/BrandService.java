@@ -157,7 +157,7 @@ public class BrandService {
             newProduct = productService.createSimpleBrandProduct(user.getId(), request);
         } else {
             this.logger.error("No hay una marca para asociar al producto a crear");
-            throw new ResourceNotFoundException("Marca","id",user.getId());
+            throw new ResourceNotFoundException("Marca","el metodo createMySimpleProduct de brandService");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
@@ -169,7 +169,7 @@ public class BrandService {
             newProduct = productService.createCompleteBrandProduct(user.getId(), request);
         } else {
             this.logger.error("No hay una marca para asociar al producto a crear");
-            throw new ResourceNotFoundException("Marca","id",user.getId());
+            throw new ResourceNotFoundException("Marca","el metodo createMySimpleProduct de brandService");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
