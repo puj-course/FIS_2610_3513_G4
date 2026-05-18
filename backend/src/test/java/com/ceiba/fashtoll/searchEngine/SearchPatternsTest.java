@@ -3,10 +3,7 @@ package com.ceiba.fashtoll.searchEngine;
 import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.FilterSearchEngine;
 import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.SimpleSearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchRequest;
-import com.ceiba.fashtoll.searchEngine.IndexingComponent;
 import com.ceiba.fashtoll.searchEngine.entities.SearchToken;
-import com.ceiba.fashtoll.searchEngine.RankingComponent;
-import com.ceiba.fashtoll.searchEngine.SearchTokenRepository;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
@@ -23,6 +20,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.*;
 
@@ -88,11 +86,25 @@ class SearchPatternsTest {
     @Test
     @DisplayName("SearchEngine: SimpleSearchEngine ejecuta búsqueda por tokens")
     void simpleSearchEngine_executesSearch() {
-        Page<Product> expected = new PageImpl<>(Collections.singletonList(new Product()));
-        when(productRepository.findBySearchTokens(anyList(), any(Pageable.class))).thenReturn(expected);
+        Product testProduct = new Product();
+        Page<Product> expected = new PageImpl<>(List.of(testProduct));
+        ProductSearchRequest test = new ProductSearchRequest(
+                "camisa azul",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0.0,
+                0.0,
+                null,
+                0,
+                12
+        );
 
-        ProductSearchRequest request = new ProductSearchRequest("camisa azul", null, null, null, null, null, null, null, null, 0, 10);
-        Page<Product> result = simpleSearchEngine.processSimpleQuery(request);
+        when(productRepository.findBySearchTokens(anyList(), any())).thenReturn(expected);
+
+        Page<Product> result = simpleSearchEngine.processSimpleQuery(test);
 
         assertEquals(expected, result);
         verify(productRepository).findBySearchTokens(anyList(), any(Pageable.class));
@@ -100,10 +112,53 @@ class SearchPatternsTest {
 
     @Test
     @DisplayName("SearchEngine: FilterSearchEngine ejecuta búsqueda con filtros (Cobertura)")
-    void filterSearchEngine_executesSearchWithFilters() {
-        ProductSearchRequest request = new ProductSearchRequest(
-                "camisa", "1", "Remera", "SLIM", "MALE", "WHITE", 10.0, 50.0, null, 0, 10);
+    void filterSearchEngine_executesSearchWithNoQueryAndFilters() {
+        Product testProduct = new Product();
+        Page<Product> expected = new PageImpl<>(List.of(testProduct));
+        ProductSearchRequest noQueryRequest = new ProductSearchRequest(
+                "",
+                "HOODIE",
+                "Remera",
+                "SLIM",
+                "MALE",
+                "WHITE",
+                10.0,
+                50.0,
+                List.of("FLEECE", "ESSENTIALS"),
+                0,
+                12
+        );
 
-        filterSearchEngine.processFilterQuery(request);
+        when(productRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(expected);
+
+        Page<Product> result = filterSearchEngine.processFilterQuery(noQueryRequest);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("SearchEngine: FilterSearchEngine ejecuta búsqueda con filtros (Cobertura)")
+    void filterSearchEngine_executesSearchWithQueryAndFilters(){
+        Product testProduct = new Product();
+        Page<Product> expected = new PageImpl<>(List.of(testProduct));
+        ProductSearchRequest queryRequest = new ProductSearchRequest(
+                "camisas",
+                "HOODIE",
+                "Remera",
+                "SLIM",
+                "MALE",
+                "WHITE",
+                10.0,
+                50.0,
+                List.of("FLEECE", "ESSENTIALS"),
+                0,
+                12
+        );
+
+        when(rankingComponent.scoreKeywordsAlgorithm(anyList(), any(Specification.class), any(Pageable.class))).thenReturn(expected);
+
+        Page<Product> result = filterSearchEngine.processFilterQuery(queryRequest);
+
+        assertEquals(expected, result);
     }
 }

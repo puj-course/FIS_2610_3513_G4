@@ -21,14 +21,22 @@ package com.ceiba.fashtoll.worldModel.brand;
 
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
 import com.ceiba.fashtoll.security.auth.AuthService;
+import com.ceiba.fashtoll.utilities.enums.Color;
+import com.ceiba.fashtoll.utilities.enums.Gender;
+import com.ceiba.fashtoll.utilities.enums.GeneralFit;
 import com.ceiba.fashtoll.worldModel.brand.dtos.*;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request;
+import com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse;
 import com.ceiba.fashtoll.worldModel.product.services.ProductService;
+import com.ceiba.fashtoll.worldModel.user.User;
 import com.ceiba.fashtoll.worldModel.user.UserService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -556,20 +564,33 @@ class BrandServiceTest {
     }
 
     @Test
-    @DisplayName("CP-BRN-18: updateMySimpleProduct - Actualiza producto")
-    void updateMySimpleProduct_updatesProduct() {
-        org.springframework.security.core.Authentication auth = mock(
-                org.springframework.security.core.Authentication.class);
-        com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
+    @DisplayName("CP-BRN-18: updateMyProduct - Actualiza producto")
+    void updateMyProduct_updatesProduct() {
+        Authentication auth = mock(Authentication.class);
+        User user = new User();
         user.setId(EXISTING_ID);
         when(auth.getPrincipal()).thenReturn(user);
 
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request request = new com.ceiba.fashtoll.worldModel.product.dtos.ProductC_U_Request();
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse prodResp = new com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse();
-        when(productService.updateSimpleBrandProduct(EXISTING_ID, 1L, request)).thenReturn(prodResp);
+        ProductC_U_Request testUpdateRequest = new ProductC_U_Request(
+                EXISTING_ID,
+                18L,
+                "Gorra Baseball",
+                "Gorra de béisbol clásica",
+                BigDecimal.valueOf(400000),
+                GeneralFit.COMPRESSION,
+                Gender.UNISEX,
+                Color.BLACK,
+                true,
+                "https://www.adidas.co/gorra-trefoil-baseball/EC3603.html",
+                List.of("nose", "nose2"),
+                List.of("ESSENTIALS")
+        );
+        ProductResponse testProductResponse = new ProductResponse();
+        //2
+        when(productService.updateSimpleBrandProduct(eq(EXISTING_ID), eq(EXISTING_ID), any(ProductC_U_Request.class))).thenReturn(testProductResponse);
 
-        com.ceiba.fashtoll.worldModel.product.dtos.ProductResponse result = brandService.updateMySimpleProduct(auth, 1L,
-                request);
+        //1
+        ProductResponse result = brandService.updateMySimpleProduct(auth, EXISTING_ID, testUpdateRequest);
 
         assertNotNull(result);
     }

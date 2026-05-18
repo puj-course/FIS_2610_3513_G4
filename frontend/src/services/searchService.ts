@@ -52,11 +52,10 @@ export interface SearchParams {
 export const searchProducts = async (params: SearchParams): Promise<SearchResponse> => {
     const response = await axios.post(API_URL, params);
     return {
-        // El backend devuelve la lista bajo "searchedProducts"; la normalizamos a "products"
-        products: response.data.searchedProducts ?? [],
-        currentPage: response.data.currentPage ?? 0,
-        totalPages: response.data.totalPages ?? 0,
-        totalResults: response.data.totalResults ?? 0,
-        pageSize: response.data.pageSize ?? 12,
+        searchedProducts: response.data.products || response.data.searchedProducts || [],
+        currentPage: response.data.currentPage || 0,
+        totalPages: response.data.totalPages || 0,
+        totalResults: response.data.totalResults || 0,
+        pageSize: response.data.pageSize || 12,
     };
 };

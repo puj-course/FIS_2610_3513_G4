@@ -1,0 +1,273 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< com.ceiba:fashtoll >-------------------------
+[INFO] Building fashtoll 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ fashtoll ---
+[INFO] argLine set to "-javaagent:/home/ago/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/target/jacoco.exec,includes=com/ceiba/fashtoll/**,excludes=**/config/**:**/exceptionHandling/**:**/utilities/**:**/security/**:**/dtos/**:**/entity/**:**/entities/**:**/mappers/**:**/repositories/**:**/controllers/**:**/FashtollApplication.class:**/*Mapper.class:**/*Controller.class:**/*Repository.class:**/*DTO.class:**/*Dto.class:**/*Entity.class:**/*Config.class:**/*Exception.class:**/*_.class:**/User.class:**/Admin.class:**/Client.class:**/Brand.class:**/Tag.class:**/Wishlist.class:**/SearchToken.class:**/FrequenInfo.class:**/UserPreferences.class:**/RankingComponent.class:**/ProductDetails.class:**/ProductEvent.class:**/EventType.class:**/*MockitoMock*"
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ fashtoll ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 15 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ fashtoll ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ fashtoll ---
+[INFO] skip non existing resourceDirectory /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ fashtoll ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 12 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] Hibernate compile-time tooling 6.5.2.Final
+[INFO] /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/src/test/java/com/ceiba/fashtoll/searchEngine/SearchPatternsTest.java: /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/src/test/java/com/ceiba/fashtoll/searchEngine/SearchPatternsTest.java uses or overrides a deprecated API.
+[INFO] /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/src/test/java/com/ceiba/fashtoll/searchEngine/SearchPatternsTest.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ fashtoll ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.ceiba.fashtoll.searchEngine.ProductSearchServiceTest
+[ERROR] Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 1.125 s <<< FAILURE! -- in com.ceiba.fashtoll.searchEngine.ProductSearchServiceTest
+[ERROR] com.ceiba.fashtoll.searchEngine.ProductSearchServiceTest.filterSearch_returnsResponse -- Time elapsed: 1.081 s <<< ERROR!
+java.lang.ClassCastException: class java.util.Collections$SingletonList cannot be cast to class org.springframework.data.domain.Page (java.util.Collections$SingletonList is in module java.base of loader 'bootstrap'; org.springframework.data.domain.Page is in unnamed module of loader 'app')
+	at com.ceiba.fashtoll.searchEngine.ProductSearchServiceTest.filterSearch_returnsResponse(ProductSearchServiceTest.java:81)
+
+[ERROR] com.ceiba.fashtoll.searchEngine.ProductSearchServiceTest.simpleSearch_returnsResponse -- Time elapsed: 0.012 s <<< ERROR!
+org.mockito.exceptions.misusing.UnfinishedStubbingException: 
+
+Unfinished stubbing detected here:
+-> at com.ceiba.fashtoll.searchEngine.ProductSearchServiceTest.filterSearch_returnsResponse(ProductSearchServiceTest.java:81)
+
+E.g. thenReturn() may be missing.
+Examples of correct stubbing:
+    when(mock.isOk()).thenReturn(true);
+    when(mock.isOk()).thenThrow(exception);
+    doThrow(exception).when(mock).someVoidMethod();
+Hints:
+ 1. missing thenReturn()
+ 2. you are trying to stub a final method, which is not supported
+ 3. you are stubbing the behaviour of another mock inside before 'thenReturn' instruction is completed
+
+	at com.ceiba.fashtoll.searchEngine.TemplateMethod.SearchEngine.processSimpleQuery(SearchEngine.java:32)
+	at com.ceiba.fashtoll.searchEngine.ProductSearchServiceTest.simpleSearch_returnsResponse(ProductSearchServiceTest.java:54)
+
+[INFO] Running com.ceiba.fashtoll.searchEngine.SearchPatternsTest
+[ERROR] Tests run: 4, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.208 s <<< FAILURE! -- in com.ceiba.fashtoll.searchEngine.SearchPatternsTest
+[ERROR] com.ceiba.fashtoll.searchEngine.SearchPatternsTest.simpleSearchEngine_executesSearch -- Time elapsed: 0.006 s <<< ERROR!
+org.mockito.exceptions.misusing.InvalidUseOfMatchersException: 
+
+Invalid use of argument matchers!
+2 matchers expected, 1 recorded:
+-> at com.ceiba.fashtoll.searchEngine.SearchPatternsTest.simpleSearchEngine_executesSearch(SearchPatternsTest.java:92)
+
+This exception may occur if matchers are combined with raw values:
+    //incorrect:
+    someMethod(any(), "raw String");
+When using matchers, all arguments have to be provided by matchers.
+For example:
+    //correct:
+    someMethod(any(), eq("String by matcher"));
+
+For more info see javadoc for Matchers class.
+
+	at com.ceiba.fashtoll.searchEngine.SearchPatternsTest.simpleSearchEngine_executesSearch(SearchPatternsTest.java:92)
+
+[INFO] Running com.ceiba.fashtoll.security.auth.AuthServiceTest
+14:01:03.386 [main] INFO com.ceiba.fashtoll.security.auth.AuthService -- La marca 'Brand' con email 'brand@test.com' se registro correctamente
+14:01:03.413 [main] INFO com.ceiba.fashtoll.security.auth.AuthService -- El usuario 'null' con email 'test@test.com' inicio sesion.
+14:01:03.418 [main] INFO com.ceiba.fashtoll.security.auth.AuthService -- El cliente 'Test' con email 'test@test.com' se registro correctamente
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.255 s -- in com.ceiba.fashtoll.security.auth.AuthServiceTest
+[INFO] Running com.ceiba.fashtoll.worldModel.brand.BrandServiceTest
+14:01:03.650 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se actualizo la marca 'Nike' con id: 1
+14:01:03.663 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se devolvio el perfil de la marca 'Nike' con id: 1
+14:01:03.699 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se devolvio la marca publica 'Nike' con id: 1
+[INFO] Running com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$CreateBrandTests
+14:01:03.731 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se creo la marca 'MarcaSinImagen' con id: null
+14:01:03.736 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se creo la marca 'Nike' con id: null
+[ERROR] Tests run: 12, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.012 s <<< FAILURE! -- in com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$CreateBrandTests
+[ERROR] com.ceiba.fashtoll.worldModel.brand.BrandServiceTest.updateMyProduct_updatesProduct -- Time elapsed: 0.009 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: not <null>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:159)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:139)
+	at org.junit.jupiter.api.AssertNotNull.failNull(AssertNotNull.java:55)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:40)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:34)
+	at org.junit.jupiter.api.Assertions.assertNotNull(Assertions.java:325)
+	at com.ceiba.fashtoll.worldModel.brand.BrandServiceTest.updateMyProduct_updatesProduct(BrandServiceTest.java:574)
+
+[INFO] Running com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$DeleteBrandTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$DeleteBrandTests
+[INFO] Running com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$VerifyBrandTests
+14:01:03.759 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se verifico la  marca 'Nike' con id: 1
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$VerifyBrandTests
+[INFO] Running com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$UpdateProfileTests
+14:01:03.770 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se actualizo el perfil de la marca 'Original' con id: 1
+14:01:03.775 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se actualizo el perfil de la marca 'OldName' con id: 1
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$UpdateProfileTests
+[INFO] Running com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$GetAllBrandsTests
+14:01:03.784 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se devolvieron todas las marcas
+14:01:03.789 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se devolvieron todas las marcas publicas
+14:01:03.793 [main] INFO com.ceiba.fashtoll.worldModel.brand.BrandService -- Se devolvieron todas las marcas
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$GetAllBrandsTests
+[INFO] Running com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$GetBrandByIdTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.ceiba.fashtoll.worldModel.brand.BrandServiceTest$GetBrandByIdTests
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.366 s -- in com.ceiba.fashtoll.worldModel.brand.BrandServiceTest
+[INFO] Running com.ceiba.fashtoll.worldModel.client.ClientServiceTest
+14:01:04.026 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se devolvieron las marcas seguidas por el cliente 'Ana García'
+14:01:04.033 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 elimino su reseña sobre el producto con id 3
+14:01:04.039 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 actualizo la lista de deseos con id 10
+14:01:04.043 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se devolvieron las reseñas publicas de la marca con id 2
+14:01:04.048 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se devolvieron las reseñas publicas del producto con id 3
+14:01:04.059 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 elimino su reseña sobre la marca con id 2
+14:01:04.065 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 actualizo su reseña sobre la marca con id 2
+14:01:04.071 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 elimino el producto con id 5 de la lista de deseos con id 10
+14:01:04.084 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente 'Ana García' comenzo a seguir la marca 'null'
+14:01:04.088 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente 'Ana García' dejo de seguir la marca 'null'
+14:01:04.094 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 actualizo su reseña sobre el producto con id 3
+14:01:04.099 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 publico una reseña sobre la marca con id 2
+14:01:04.104 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 creo una lista de deseos llamada 'Mi Lista'
+14:01:04.110 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 publico una reseña sobre el producto con id 3
+14:01:04.114 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 guardo el producto con id 5 en la lista de deseos con id 10
+14:01:04.123 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se actualizo el perfil del cliente 'Ana García' con id: 1
+14:01:04.127 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- El cliente con id 1 elimino la lista de deseos con id 10
+[INFO] Running com.ceiba.fashtoll.worldModel.client.ClientServiceTest$UpdateClientTests
+14:01:04.132 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se actualizo el cliente '' con id: 1
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.ceiba.fashtoll.worldModel.client.ClientServiceTest$UpdateClientTests
+[INFO] Running com.ceiba.fashtoll.worldModel.client.ClientServiceTest$GetClientByIdTests
+14:01:04.143 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se devolvio el cliente 'Ana García' con id: 1
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.ceiba.fashtoll.worldModel.client.ClientServiceTest$GetClientByIdTests
+[INFO] Running com.ceiba.fashtoll.worldModel.client.ClientServiceTest$DeleteClientTests
+14:01:04.154 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se elimino el cliente 'Ana García' con id: 1
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.ceiba.fashtoll.worldModel.client.ClientServiceTest$DeleteClientTests
+[INFO] Running com.ceiba.fashtoll.worldModel.client.ClientServiceTest$CreateClientTests
+14:01:04.161 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se creo el cliente 'Carlos' con id: 10
+14:01:04.165 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se creo el cliente 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' con id: 20
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.ceiba.fashtoll.worldModel.client.ClientServiceTest$CreateClientTests
+[INFO] Running com.ceiba.fashtoll.worldModel.client.ClientServiceTest$GetAllClientsTests
+14:01:04.172 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se devolvieron todos los clientes
+14:01:04.177 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se devolvieron todos los clientes
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.ceiba.fashtoll.worldModel.client.ClientServiceTest$GetAllClientsTests
+[INFO] Running com.ceiba.fashtoll.worldModel.client.ClientServiceTest$ProfileTests
+14:01:04.184 [main] INFO com.ceiba.fashtoll.worldModel.client.ClientService -- Se devolvio el perfil del cliente 'Ana García' con id: 1
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.ceiba.fashtoll.worldModel.client.ClientServiceTest$ProfileTests
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.367 s -- in com.ceiba.fashtoll.worldModel.client.ClientServiceTest
+[INFO] Running com.ceiba.fashtoll.worldModel.product.services.ProductTypeServiceTest
+14:01:04.251 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductTypeService -- Se actualizo el tipo de producto 'null' con id: 1
+14:01:04.254 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductTypeService -- Se creo el tipo de producto 'null' con id: 1
+14:01:04.259 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductTypeService -- Se elimino el tipo de producto 'null' con id: 1
+14:01:04.262 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductTypeService -- Se devolvio el tipo de producto 'null' con id: 1
+14:01:04.265 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductTypeService -- Se devolvieron todos los tipos de productos
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.076 s -- in com.ceiba.fashtoll.worldModel.product.services.ProductTypeServiceTest
+[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductPatternsTest
+14:01:04.320 [main] INFO com.ceiba.fashtoll.worldModel.product.Builder.builders.SimpleJsonProductBuilder -- El producto 'Jean' con id: null NO TIENE LINK
+14:01:04.333 [main] INFO com.ceiba.fashtoll.worldModel.product.Builder.builders.SimpleProductBuilder -- El producto 'Remera' con id: null NO TIENE URLs DE IMAGENES
+14:01:04.334 [main] INFO com.ceiba.fashtoll.worldModel.product.Builder.builders.SimpleProductBuilder -- El producto 'Remera' con id: null NO TIENE TAGS
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 s -- in com.ceiba.fashtoll.worldModel.product.ProductPatternsTest
+[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest
+14:01:04.486 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
+14:01:04.486 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se creo el producto 'Camiseta Negra' con id: 50
+14:01:04.489 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
+14:01:04.490 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se elimino el producto 'Camiseta Negra' con id: 1 de la marca con id: 10
+14:01:04.493 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Este builder no asocia Brand al producto, pues busca la marca una sola vez
+14:01:04.497 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
+14:01:04.498 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se actualizo el producto 'Camiseta Negra' con id: 50 de la marca con id: 10
+[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetProductByIdTests
+14:01:04.502 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se devolvio el producto 'Camiseta Negra' con id: 1
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetProductByIdTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetProductsByBrandTests
+14:01:04.512 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se devolvieron todos los productos de la marca con id: 10
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetProductsByBrandTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$CreateBrandProductTests
+14:01:04.525 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
+14:01:04.525 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se creo el producto 'Camiseta Negra' con id: 50 de la marca 'BrandTest'
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$CreateBrandProductTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$DeleteProductTests
+14:01:04.532 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
+14:01:04.532 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se elimino el producto 'Vestido' con id: 5
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$DeleteProductTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$UpdateProductTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$UpdateProductTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetAllProductsTests
+14:01:04.558 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se devolvieron todos los productos
+14:01:04.562 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se devolvieron todos los productos
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetAllProductsTests
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest
+[INFO] Running com.ceiba.fashtoll.worldModel.tag.TagServiceTest
+14:01:04.595 [main] INFO com.ceiba.fashtoll.worldModel.tag.TagService -- Se actualizo el tag 'null' con id: 1
+14:01:04.599 [main] INFO com.ceiba.fashtoll.worldModel.tag.TagService -- Se devolvieron todos los tags
+14:01:04.602 [main] INFO com.ceiba.fashtoll.worldModel.tag.TagService -- Se devolvio el tag 'null' con id: 1
+14:01:04.604 [main] INFO com.ceiba.fashtoll.worldModel.tag.TagService -- Se creo el tag 'null' con id: 1
+14:01:04.607 [main] INFO com.ceiba.fashtoll.worldModel.tag.TagService -- Se elimino el tag 'null' con id: 1
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s -- in com.ceiba.fashtoll.worldModel.tag.TagServiceTest
+[INFO] Running com.ceiba.fashtoll.worldModel.user.UserServiceTest
+14:01:04.634 [main] INFO com.ceiba.fashtoll.worldModel.user.UserService -- Se actualizo el usuario 'null' con id: 1
+14:01:04.637 [main] INFO com.ceiba.fashtoll.worldModel.user.UserService -- Se actualizo la contraseña del usuario 'null' con id: 1
+14:01:04.639 [main] INFO com.ceiba.fashtoll.worldModel.user.UserService -- Se devolvieron todos los usuarios
+14:01:04.642 [main] INFO com.ceiba.fashtoll.worldModel.user.UserService -- Se devolvio el usuario 'null' con id: 1
+14:01:04.645 [main] INFO com.ceiba.fashtoll.worldModel.user.UserService -- Se creo el usuario 'null' con id: 1
+14:01:04.648 [main] INFO com.ceiba.fashtoll.worldModel.user.UserService -- Se actualizo el estado del usuario 'null' con id: 1
+14:01:04.651 [main] INFO com.ceiba.fashtoll.worldModel.user.UserService -- Se elimino el usuario 'null' con id: 1
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in com.ceiba.fashtoll.worldModel.user.UserServiceTest
+[INFO] Running com.ceiba.fashtoll.FashtollApplicationTests
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s -- in com.ceiba.fashtoll.FashtollApplicationTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   BrandServiceTest.updateMyProduct_updatesProduct:574 expected: not <null>
+[ERROR] Errors: 
+[ERROR]   ProductSearchServiceTest.filterSearch_returnsResponse:81 ClassCast class java.util.Collections$SingletonList cannot be cast to class org.springframework.data.domain.Page (java.util.Collections$SingletonList is in module java.base of loader 'bootstrap'; org.springframework.data.domain.Page is in unnamed module of loader 'app')
+[ERROR]   ProductSearchServiceTest.simpleSearch_returnsResponse:54 » UnfinishedStubbing 
+Unfinished stubbing detected here:
+-> at com.ceiba.fashtoll.searchEngine.ProductSearchServiceTest.filterSearch_returnsResponse(ProductSearchServiceTest.java:81)
+
+E.g. thenReturn() may be missing.
+Examples of correct stubbing:
+    when(mock.isOk()).thenReturn(true);
+    when(mock.isOk()).thenThrow(exception);
+    doThrow(exception).when(mock).someVoidMethod();
+Hints:
+ 1. missing thenReturn()
+ 2. you are trying to stub a final method, which is not supported
+ 3. you are stubbing the behaviour of another mock inside before 'thenReturn' instruction is completed
+
+[ERROR]   SearchPatternsTest.simpleSearchEngine_executesSearch:92 InvalidUseOfMatchers 
+Invalid use of argument matchers!
+2 matchers expected, 1 recorded:
+-> at com.ceiba.fashtoll.searchEngine.SearchPatternsTest.simpleSearchEngine_executesSearch(SearchPatternsTest.java:92)
+
+This exception may occur if matchers are combined with raw values:
+    //incorrect:
+    someMethod(any(), "raw String");
+When using matchers, all arguments have to be provided by matchers.
+For example:
+    //correct:
+    someMethod(any(), eq("String by matcher"));
+
+For more info see javadoc for Matchers class.
+
+[INFO] 
+[ERROR] Tests run: 99, Failures: 1, Errors: 3, Skipped: 1
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.948 s
+[INFO] Finished at: 2026-05-17T14:01:04-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project fashtoll: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /home/ago/Ingenieria de Sistemas - data/Git/Fundamentos Ingenieria SW/FIS_2610_3513_G4/backend/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
