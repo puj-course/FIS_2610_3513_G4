@@ -1,6 +1,7 @@
 package com.ceiba.fashtoll.worldModel.brand.dtos;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,4 +20,10 @@ public class BrandProfileUpdateRequest {
 
     @Size(max = 255, message = "El link oficial no puede exceder los 255 caracteres")
     private String linkOfficial;
+
+    @Pattern(
+        regexp = "^\\+[1-9]\\d{7,14}$",
+        message = "El número debe estar en formato E.164 (ej: +573001234567)"
+    )
+    private String phoneNumber;
 }

@@ -23,7 +23,8 @@ CREATE TABLE brands (
     followers INTEGER DEFAULT 0,
     rating NUMERIC(2,1) DEFAULT 0,
     review_count INTEGER DEFAULT 0,
-    is_verified BOOLEAN DEFAULT FALSE
+    is_verified BOOLEAN DEFAULT FALSE,
+    phone_number VARCHAR(20)             -- número en formato E.164 (+573001234567), usado para notificaciones SMS
 );
 
 CREATE TABLE product_types (

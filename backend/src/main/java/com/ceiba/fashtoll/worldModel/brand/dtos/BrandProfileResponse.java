@@ -19,6 +19,7 @@ public class BrandProfileResponse {
     private Double rating;
     private Integer reviewCount;
     private Boolean isVerified;
+    private String phoneNumber;
     private List<ReviewResponse> reviews;
 }
 

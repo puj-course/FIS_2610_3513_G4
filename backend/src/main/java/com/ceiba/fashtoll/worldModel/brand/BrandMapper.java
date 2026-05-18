@@ -76,6 +76,7 @@ public class BrandMapper {
         response.setRating(brand.getRating());
         response.setReviewCount(brand.getReviewCount());
         response.setIsVerified(brand.getIsVerified());
+        response.setPhoneNumber(brand.getPhoneNumber());
 
         if (brand.getReviews() != null) {
             response.setReviews(
@@ -112,6 +113,7 @@ public class BrandMapper {
         brand.setName(request.getName());
         brand.setPictureURL(request.getPictureURL());
         brand.setLinkOfficial(request.getLinkOfficial());
+        brand.setPhoneNumber(request.getPhoneNumber());
     }
 }
 
