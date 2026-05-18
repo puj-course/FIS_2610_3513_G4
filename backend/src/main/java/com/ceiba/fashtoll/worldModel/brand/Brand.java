@@ -31,7 +31,8 @@ public class Brand extends User {
 
     private Integer followers = 0;
 
-    @Min(0) @Max(5)
+    @Min(0)
+    @Max(5)
     private Double rating = 0.0;
 
     @Column(name = "review_count")
@@ -39,6 +40,9 @@ public class Brand extends User {
 
     @Column(name = "is_verified")
     private Boolean isVerified = false;
+
+    @Column(name = "phone_number", length = 20)
+    private String phoneNumber;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     @JsonIgnore // Para que jackon no serialice los productos de la marca
@@ -48,13 +52,16 @@ public class Brand extends User {
     @JsonIgnore
     private List<BrandReview> reviews = new ArrayList<>();
 
-    /* Cuando exista Tag
-    @ManyToMany
-    @JoinTable(
-            name = "brand_tags",
-            joinColumns = @JoinColumn(name = "brand_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private Set<Tag> tags = new HashSet<>();
-    */
+    /*
+     * Cuando exista Tag
+     * 
+     * @ManyToMany
+     * 
+     * @JoinTable(
+     * name = "brand_tags",
+     * joinColumns = @JoinColumn(name = "brand_id"),
+     * inverseJoinColumns = @JoinColumn(name = "tag_id")
+     * )
+     * private Set<Tag> tags = new HashSet<>();
+     */
 }
