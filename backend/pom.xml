@@ -272,63 +272,6 @@
 				</configuration>
 			</plugin>
 
-			<!--
-			<plugin>
-			    <groupId>org.jacoco</groupId>
-			    <artifactId>jacoco-maven-plugin</artifactId>
-			    <version>0.8.12</version>
-			    <executions>
-			        <execution>
-			            <id>prepare-agent</id>
-			            <goals><goal>prepare-agent</goal></goals>
-			        </execution>
-			        <execution>
-			            <id>report</id>
-			            <phase>test</phase>
-			            <goals><goal>report</goal></goals>
-						<configuration>
-							<excludes>
-								<exclude>**/config/**</exclude>
-								<exclude>**/exceptionHandling/**</exclude>
-								<exclude>**/utilities/**</exclude>
-								<exclude>**/security/**</exclude>
-								<exclude>**/dtos/**</exclude>
-								<exclude>**/entity/**</exclude>
-								<exclude>**/entities/**</exclude>
-								<exclude>**/mappers/**</exclude>
-								<exclude>**/repositories/**</exclude>
-								<exclude>**/controllers/**</exclude>
-								<exclude>**/FashtollApplication.class</exclude>
-								<exclude>**/*Mapper.class</exclude>
-								<exclude>**/*Controller.class</exclude>
-								<exclude>**/*Repository.class</exclude>
-								<exclude>**/*DTO.class</exclude>
-								<exclude>**/*Dto.class</exclude>
-								<exclude>**/*Entity.class</exclude>
-								<exclude>**/*Config.class</exclude>
-								<exclude>**/*Exception.class</exclude>
-								<exclude>**/*_.class</exclude>
-								<exclude>**/User.class</exclude>
-								<exclude>**/Admin.class</exclude>
-								<exclude>**/Client.class</exclude>
-								<exclude>**/Brand.class</exclude>
-								<exclude>**/Tag.class</exclude>
-								<exclude>**/Wishlist.class</exclude>
-								<exclude>**/SearchToken.class</exclude>
-								<exclude>**/FrequenInfo.class</exclude>
-								<exclude>**/UserPreferences.class</exclude>
-								<exclude>**/RankingComponent.class</exclude>
-								<exclude>**/ProductDetails.class</exclude>
-								<exclude>**/ProductEvent.class</exclude>
-								<exclude>**/EventType.class</exclude>
-								<exclude>**/*MockitoMock*</exclude>
-							</excludes>
-						</configuration>
-			        </execution>
-			    </executions>
-			</plugin>
-			-->
-
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
