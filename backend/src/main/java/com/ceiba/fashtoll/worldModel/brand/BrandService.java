@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class BrandService {
+public class  BrandService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final BrandRepository brandRepository;

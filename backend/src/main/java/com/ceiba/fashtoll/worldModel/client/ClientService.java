@@ -29,6 +29,7 @@ import com.ceiba.fashtoll.worldModel.review.mapper.ReviewMapper;
 import com.ceiba.fashtoll.worldModel.review.repository.BrandReviewRepository;
 import com.ceiba.fashtoll.worldModel.review.repository.ProductReviewRepository;
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.UnauthorizedException;
+import com.ceiba.fashtoll.utilities.sms.SmsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,7 @@ public class ClientService {
         private final BrandReviewRepository brandReviewRepository;
         private final ProductReviewRepository productReviewRepository;
         private final ReviewMapper reviewMapper;
+        private final SmsService smsService;
 
         @Autowired
         public ClientService(ClientRepository clientRepository, ClientMapper clientMapper, AuthService authService,
@@ -62,7 +64,7 @@ public class ClientService {
                         WishlistRepository wishlistRepository, WishlistMapper wishlistMapper,
                         ProductRepository productRepository,
                         BrandReviewRepository brandReviewRepository, ProductReviewRepository productReviewRepository,
-                        ReviewMapper reviewMapper) {
+                        ReviewMapper reviewMapper, SmsService smsService) {
                 this.clientRepository = clientRepository;
                 this.clientMapper = clientMapper;
                 this.authService = authService;
@@ -75,6 +77,7 @@ public class ClientService {
                 this.brandReviewRepository = brandReviewRepository;
                 this.productReviewRepository = productReviewRepository;
                 this.reviewMapper = reviewMapper;
+                this.smsService = smsService;
         }
 
         public List<ClientResponse> getAllClients() {
@@ -184,6 +187,17 @@ public class ClientService {
                         this.logger
                                         .info("El cliente '" + client.getName() + "' comenzo a seguir la marca '"
                                                         + brand.getName() + "'");
+
+                        // Notificación SMS a la marca (solo si tiene número registrado)
+                        if (brand.getPhoneNumber() != null && !brand.getPhoneNumber().isBlank()) {
+                                String message = String.format(
+                                                "*¡Notificación de Fashtoll!* 👗✨\n\n" +
+                                                "👤 *%s* ahora sigue tu marca.\n" +
+                                                "📈 Ya tienes *%d* seguidores.",
+                                                client.getName(),
+                                                brand.getFollowers());
+                                smsService.sendSms(brand.getPhoneNumber(), message);
+                        }
                 }
         }
 
@@ -374,6 +388,22 @@ public class ClientService {
                 this.logger.info("El cliente con id " + clientId + " publico una reseña sobre la marca con id "
                                 + brandId);
 
+                // Notificación SMS a la marca (solo si tiene número registrado)
+                if (brand.getPhoneNumber() != null && !brand.getPhoneNumber().isBlank()) {
+                        String message = String.format(
+                                "*¡Notificación de Fashtoll!* 👗✨\n\n" +
+                                "⭐ *%s* ha publicado una reseña sobre tu marca:\n\n" +
+                                "📝 _\"%s\"_\n" +
+                                "🏅 Calificación: *%d/5*\n" +
+                                "📊 Tu nuevo rating es *%.1f*",
+                                client.getName(),
+                                request.getComment() != null && !request.getComment().isBlank() ? request.getComment() : "Sin comentario",
+                                request.getRating(),
+                                brand.getRating()
+                        );
+                        smsService.sendSms(brand.getPhoneNumber(), message);
+                }
+
                 return reviewMapper.toResponse(savedReview);
         }
 
@@ -462,6 +492,24 @@ public class ClientService {
 
                 this.logger.info("El cliente con id " + clientId + " publico una reseña sobre el producto con id "
                                 + productId);
+
+                // Notificación SMS a la marca dueña del producto (solo si tiene número registrado)
+                Brand brandOwner = product.getBrand();
+                if (brandOwner != null && brandOwner.getPhoneNumber() != null && !brandOwner.getPhoneNumber().isBlank()) {
+                        String message = String.format(
+                                "*¡Notificación de Fashtoll!* 👗✨\n\n" +
+                                "🛍️ *%s* ha reseñado tu producto *%s*:\n\n" +
+                                "📝 _\"%s\"_\n" +
+                                "🏅 Calificación: *%d/5*\n" +
+                                "📊 Nuevo rating del producto: *%.1f*",
+                                client.getName(),
+                                product.getName(),
+                                request.getComment() != null && !request.getComment().isBlank() ? request.getComment() : "Sin comentario",
+                                request.getRating(),
+                                product.getRating()
+                        );
+                        smsService.sendSms(brandOwner.getPhoneNumber(), message);
+                }
 
                 return reviewMapper.toResponse(savedReview);
         }
