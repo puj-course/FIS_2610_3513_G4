@@ -35,6 +35,7 @@ public class Analyzer {
         return analyzer;
     }
 
+    @SuppressWarnings("java:S5852")
     public String characterFilter(String rawQuery){
         //filtro de etiquetas HTML
         String cleanQuery = rawQuery.replaceAll("<[^>]+>", " ");

@@ -21,6 +21,7 @@ package com.ceiba.fashtoll.worldModel.client;
 
 import com.ceiba.fashtoll.exceptionHandling.exceptionTypes.ResourceNotFoundException;
 import com.ceiba.fashtoll.security.auth.AuthService;
+import com.ceiba.fashtoll.security.auth.dtos.RegisterRequest;
 import com.ceiba.fashtoll.worldModel.client.dtos.*;
 import com.ceiba.fashtoll.worldModel.user.UserService;
 import org.junit.jupiter.api.*;
@@ -288,6 +289,22 @@ class ClientServiceTest {
             assertEquals(100, result.getName().length());
             verify(clientRepository, times(1)).save(any());
         }
+    }
+
+    @Test
+    @DisplayName("CP-CLI-33: injectClientsFromJSON — Procesa e inyecta la lista de clientes en el sistema de autenticación")
+    void injectClientsFromJSON_executesRegistrationForEachDto() {
+        ClientDTO mockDto = mock(ClientDTO.class);
+        when(mockDto.email()).thenReturn("cliente.prueba@fashtoll.com");
+        when(mockDto.password()).thenReturn("password123");
+        when(mockDto.role()).thenReturn("CLIENT");
+        when(mockDto.name()).thenReturn("Alejandro Prueba");
+
+        List<ClientDTO> dtos = List.of(mockDto);
+
+        clientService.injectClientsFromJSON(dtos);
+
+        verify(authService, times(1)).clientRegister(any(RegisterRequest.class));
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -763,5 +780,82 @@ class ClientServiceTest {
         List<com.ceiba.fashtoll.worldModel.review.dto.ReviewResponse> result = clientService.getReviewsForProduct(3L);
 
         assertNotNull(result);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // GRUPO 7 — wishList
+    // ═══════════════════════════════════════════════════════════
+
+    @Test
+    @DisplayName("CP-CLI-34: addToDefaultWishlist — Agrega producto exitosamente si no está duplicado")
+    void addToDefaultWishlist_success_savesProduct() {
+        // --- Arrange ---
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        wishlist.setProducts(new java.util.HashSet<>()); // Lista vacía (no contiene el producto)
+
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(5L);
+
+        when(wishlistRepository.findFirstByClientIdOrderByIdAsc(EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(productRepository.findById(5L)).thenReturn(Optional.of(product));
+
+        // --- Act ---
+        clientService.addToDefaultWishlist(EXISTING_ID, 5L);
+
+        // --- Assert ---
+        assertTrue(wishlist.getProducts().contains(product), "El producto debió ser añadido al Set de la lista");
+        verify(wishlistRepository, times(1)).save(wishlist);
+    }
+
+    @Test
+    @DisplayName("CP-CLI-35: addToDefaultWishlist — No agrega el producto si ya existe en la lista (Evita duplicados)")
+    void addToDefaultWishlist_alreadyContainsProduct_doesNotSave() {
+        // --- Arrange ---
+        com.ceiba.fashtoll.worldModel.product.entities.Product product = new com.ceiba.fashtoll.worldModel.product.entities.Product();
+        product.setId(5L);
+
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+        java.util.Set<com.ceiba.fashtoll.worldModel.product.entities.Product> products = new java.util.HashSet<>();
+        products.add(product); // La lista ya contiene la prenda
+        wishlist.setProducts(products);
+
+        when(wishlistRepository.findFirstByClientIdOrderByIdAsc(EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(productRepository.findById(5L)).thenReturn(Optional.of(product));
+
+        // --- Act ---
+        clientService.addToDefaultWishlist(EXISTING_ID, 5L);
+
+        // --- Assert ---
+        assertEquals(1, wishlist.getProducts().size(), "El tamaño de la lista no debió cambiar");
+        verify(wishlistRepository, never()).save(any()); // Comprobamos que jamás se llamó a persistencia
+    }
+
+    @Test
+    @DisplayName("CP-CLI-36: addToDefaultWishlist — Lanza ResourceNotFoundException si el cliente no tiene lista por defecto")
+    void addToDefaultWishlist_wishlistNotFound_throwsException() {
+        // --- Arrange ---
+        when(wishlistRepository.findFirstByClientIdOrderByIdAsc(NON_EXISTING_ID)).thenReturn(Optional.empty());
+
+        // --- Act & Assert ---
+        assertThrows(ResourceNotFoundException.class,
+                () -> clientService.addToDefaultWishlist(NON_EXISTING_ID, 5L));
+
+        verify(productRepository, never()).findById(anyLong()); // El flujo muere antes de buscar el producto
+    }
+
+    @Test
+    @DisplayName("CP-CLI-37: addToDefaultWishlist — Lanza ResourceNotFoundException si el producto no existe en la tienda")
+    void addToDefaultWishlist_productNotFound_throwsException() {
+        // --- Arrange ---
+        com.ceiba.fashtoll.worldModel.wishlist.Wishlist wishlist = new com.ceiba.fashtoll.worldModel.wishlist.Wishlist();
+
+        when(wishlistRepository.findFirstByClientIdOrderByIdAsc(EXISTING_ID)).thenReturn(Optional.of(wishlist));
+        when(productRepository.findById(NON_EXISTING_ID)).thenReturn(Optional.empty());
+
+        // --- Act & Assert ---
+        assertThrows(ResourceNotFoundException.class,
+                () -> clientService.addToDefaultWishlist(EXISTING_ID, NON_EXISTING_ID));
+
+        verify(wishlistRepository, never()).save(any()); // El flujo muere antes de intentar guardar
     }
 }

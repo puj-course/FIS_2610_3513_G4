@@ -1,4 +1,4 @@
-package com.ceiba.fashtoll.worldModel.product;
+package com.ceiba.fashtoll.worldModel.product.services;
 
 /*
  * ============================================================
@@ -32,7 +32,6 @@ import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.mappers.ProductMapper;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductTypeRepository;
-import com.ceiba.fashtoll.worldModel.product.services.ProductService;
 import com.ceiba.fashtoll.worldModel.tag.TagRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

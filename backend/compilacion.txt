@@ -168,7 +168,7 @@ org.opentest4j.AssertionFailedError: expected: not <null>
 14:01:04.333 [main] INFO com.ceiba.fashtoll.worldModel.product.Builder.builders.SimpleProductBuilder -- El producto 'Remera' con id: null NO TIENE URLs DE IMAGENES
 14:01:04.334 [main] INFO com.ceiba.fashtoll.worldModel.product.Builder.builders.SimpleProductBuilder -- El producto 'Remera' con id: null NO TIENE TAGS
 [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 s -- in com.ceiba.fashtoll.worldModel.product.ProductPatternsTest
-[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest
+[INFO] Running com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest
 14:01:04.486 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
 14:01:04.486 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se creo el producto 'Camiseta Negra' con id: 50
 14:01:04.489 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
@@ -176,27 +176,27 @@ org.opentest4j.AssertionFailedError: expected: not <null>
 14:01:04.493 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Este builder no asocia Brand al producto, pues busca la marca una sola vez
 14:01:04.497 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
 14:01:04.498 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se actualizo el producto 'Camiseta Negra' con id: 50 de la marca con id: 10
-[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetProductByIdTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$GetProductByIdTests
 14:01:04.502 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se devolvio el producto 'Camiseta Negra' con id: 1
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetProductByIdTests
-[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetProductsByBrandTests
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$GetProductByIdTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$GetProductsByBrandTests
 14:01:04.512 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se devolvieron todos los productos de la marca con id: 10
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetProductsByBrandTests
-[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$CreateBrandProductTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$GetProductsByBrandTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$CreateBrandProductTests
 14:01:04.525 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
 14:01:04.525 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se creo el producto 'Camiseta Negra' con id: 50 de la marca 'BrandTest'
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$CreateBrandProductTests
-[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$DeleteProductTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$CreateBrandProductTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$DeleteProductTests
 14:01:04.532 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se notifico a los suscriptores de 'ProductEventPublisher'
 14:01:04.532 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se elimino el producto 'Vestido' con id: 5
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$DeleteProductTests
-[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$UpdateProductTests
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$UpdateProductTests
-[INFO] Running com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetAllProductsTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$DeleteProductTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$UpdateProductTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$UpdateProductTests
+[INFO] Running com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$GetAllProductsTests
 14:01:04.558 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se devolvieron todos los productos
 14:01:04.562 [main] INFO com.ceiba.fashtoll.worldModel.product.services.ProductService -- Se devolvieron todos los productos
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest$GetAllProductsTests
-[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 s -- in com.ceiba.fashtoll.worldModel.product.ProductServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest$GetAllProductsTests
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 s -- in com.ceiba.fashtoll.worldModel.product.services.ProductServiceTest
 [INFO] Running com.ceiba.fashtoll.worldModel.tag.TagServiceTest
 14:01:04.595 [main] INFO com.ceiba.fashtoll.worldModel.tag.TagService -- Se actualizo el tag 'null' con id: 1
 14:01:04.599 [main] INFO com.ceiba.fashtoll.worldModel.tag.TagService -- Se devolvieron todos los tags
