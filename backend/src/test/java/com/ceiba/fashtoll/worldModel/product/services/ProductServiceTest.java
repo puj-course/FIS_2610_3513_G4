@@ -83,6 +83,12 @@ class ProductServiceTest {
     @Mock
     private ProductBuilder productBuilder;
 
+    @Mock
+    private ObjectProvider<ProductBuilder> completeBuilderProvider;
+
+    @Mock
+    private ProductBuilder completeProductBuilder;
+
     private ProductService productService;
 
     // ─────────────────────────────────────────────────────────
@@ -109,6 +115,7 @@ class ProductServiceTest {
 
         injectField(productService, "simpleBuilderProvider", simpleBuilderProvider);
         injectField(productService, "simpleJsonBuilderProvider", simpleJsonBuilderProvider);
+        injectField(productService, "completeBuilderProvider", completeBuilderProvider);
     }
 
     private void injectField(Object target, String fieldName, Object value) {
@@ -521,5 +528,276 @@ class ProductServiceTest {
 
         verify(productRepository, times(1)).save(builtProduct);
         verify(productEventPublisher, times(1)).notify(any(ProductEvent.class));
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // GRUPO 7 — createCompleteProduct() / createCompleteBrandProduct()
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("createCompleteProduct() / createCompleteBrandProduct() — Builder completo")
+    class CreateCompleteProductTests {
+
+        @Test
+        @DisplayName("CP-PRD-15: Crear producto completo (admin) guarda y notifica EventType.CREATED")
+        void createCompleteProduct_withValidRequest_savesAndNotifiesCreated() {
+
+            // --- Arrange ---
+            // Se usa el builder completo vía completeBuilderProvider
+            ProductC_U_Request request = buildCreateRequest(EXISTING_BRAND_ID, PRODUCT_NAME, BigDecimal.valueOf(90_000));
+            Product builtProduct = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
+            Product savedProduct = buildProduct(20L, PRODUCT_NAME, EXISTING_BRAND_ID);
+            ProductResponse resp = buildProductResponse(20L, PRODUCT_NAME, EXISTING_BRAND_ID);
+
+            when(completeBuilderProvider.getObject()).thenReturn(completeProductBuilder);
+            when(completeProductBuilder.getResult()).thenReturn(builtProduct);
+            when(productRepository.save(builtProduct)).thenReturn(savedProduct);
+            when(productMapper.toResponse(savedProduct)).thenReturn(resp);
+
+            ArgumentCaptor<ProductEvent> eventCaptor = ArgumentCaptor.forClass(ProductEvent.class);
+
+            // --- Act ---
+            ProductResponse result = productService.createCompleteProduct(request);
+
+            // --- Assert ---
+            // El producto debe guardarse y el publisher debe recibir CREATED
+            assertNotNull(result);
+            assertEquals(20L, result.getId());
+            verify(productRepository, times(1)).save(builtProduct);
+            verify(productEventPublisher, times(1)).notify(eventCaptor.capture());
+            assertEquals(EventType.CREATED, eventCaptor.getValue().getType(),
+                    "El tipo de evento debe ser CREATED al crear un producto completo");
+        }
+
+        @Test
+        @DisplayName("CP-PRD-16: Crear producto completo de marca asigna brandId y notifica EventType.CREATED")
+        void createCompleteBrandProduct_withValidRequest_setsBrandIdAndNotifiesCreated() {
+
+            // --- Arrange ---
+            // brandId se asigna al request antes de pasarlo al director
+            ProductC_U_Request request = buildCreateRequest(null, PRODUCT_NAME, BigDecimal.valueOf(90_000));
+            Product builtProduct = buildProduct(null, PRODUCT_NAME, EXISTING_BRAND_ID);
+            Product savedProduct = buildProduct(21L, PRODUCT_NAME, EXISTING_BRAND_ID);
+            ProductResponse resp = buildProductResponse(21L, PRODUCT_NAME, EXISTING_BRAND_ID);
+
+            when(completeBuilderProvider.getObject()).thenReturn(completeProductBuilder);
+            when(completeProductBuilder.getResult()).thenReturn(builtProduct);
+            when(productRepository.save(builtProduct)).thenReturn(savedProduct);
+            when(productMapper.toResponse(savedProduct)).thenReturn(resp);
+
+            ArgumentCaptor<ProductEvent> eventCaptor = ArgumentCaptor.forClass(ProductEvent.class);
+
+            // --- Act ---
+            ProductResponse result = productService.createCompleteBrandProduct(EXISTING_BRAND_ID, request);
+
+            // --- Assert ---
+            // El request debe tener el brandId asignado y el publisher debe ser notificado
+            assertNotNull(result);
+            assertEquals(21L, result.getId());
+            assertEquals(EXISTING_BRAND_ID, request.getBrandId(),
+                    "El brandId del request debe asignarse antes de invocar el director");
+            verify(productRepository, times(1)).save(builtProduct);
+            verify(productEventPublisher, times(1)).notify(eventCaptor.capture());
+            assertEquals(EventType.CREATED, eventCaptor.getValue().getType(),
+                    "El tipo de evento debe ser CREATED al crear un producto completo de marca");
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // GRUPO 8 — updateCompleteProduct() / updateCompleteBrandProduct()
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("updateCompleteProduct() / updateCompleteBrandProduct() — Builder completo")
+    class UpdateCompleteProductTests {
+
+        @Test
+        @DisplayName("CP-PRD-17: Actualizar producto completo (admin) guarda y notifica al publisher")
+        void updateCompleteProduct_withValidRequest_savesAndNotifies() {
+
+            // --- Arrange ---
+            ProductC_U_Request request = buildAdminUpdateRequest(EXISTING_BRAND_ID);
+            Product builtProduct = buildProduct(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+            Product savedProduct = buildProduct(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+            ProductResponse resp = buildProductResponse(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+
+            when(completeBuilderProvider.getObject()).thenReturn(completeProductBuilder);
+            when(completeProductBuilder.getResult()).thenReturn(builtProduct);
+            when(productRepository.save(builtProduct)).thenReturn(savedProduct);
+            when(productMapper.toResponse(savedProduct)).thenReturn(resp);
+
+            // --- Act ---
+            ProductResponse result = productService.updateCompleteProduct(EXISTING_PRODUCT_ID, request);
+
+            // --- Assert ---
+            // Debe invocarse save() y notify(); el nombre debe actualizarse
+            assertNotNull(result);
+            assertEquals("Updated Name", result.getName());
+            verify(productRepository, times(1)).save(builtProduct);
+            verify(productEventPublisher, times(1)).notify(any(ProductEvent.class));
+        }
+
+        @Test
+        @DisplayName("CP-PRD-18: Actualizar producto completo de marca guarda y notifica EventType.UPDATED")
+        void updateCompleteBrandProduct_withValidRequest_savesAndNotifiesUpdated() {
+
+            // --- Arrange ---
+            ProductC_U_Request request = buildAdminUpdateRequest(EXISTING_BRAND_ID);
+            Product builtProduct = buildProduct(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+            Product savedProduct = buildProduct(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+            ProductResponse resp = buildProductResponse(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+
+            when(completeBuilderProvider.getObject()).thenReturn(completeProductBuilder);
+            when(completeProductBuilder.getResult()).thenReturn(builtProduct);
+            when(productRepository.save(builtProduct)).thenReturn(savedProduct);
+            when(productMapper.toResponse(savedProduct)).thenReturn(resp);
+
+            ArgumentCaptor<ProductEvent> eventCaptor = ArgumentCaptor.forClass(ProductEvent.class);
+
+            // --- Act ---
+            ProductResponse result = productService.updateCompleteBrandProduct(
+                    EXISTING_BRAND_ID, EXISTING_PRODUCT_ID, request);
+
+            // --- Assert ---
+            // El evento debe ser UPDATED y save() debe invocarse exactamente una vez
+            assertNotNull(result);
+            verify(productRepository, times(1)).save(builtProduct);
+            verify(productEventPublisher, times(1)).notify(eventCaptor.capture());
+            assertEquals(EventType.UPDATED, eventCaptor.getValue().getType(),
+                    "El tipo de evento debe ser UPDATED al actualizar un producto completo de marca");
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // GRUPO 9 — Happy paths faltantes y edge cases adicionales
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("Paths adicionales: updateSimpleProduct, getProductByBrand, deleteBrandProduct, injectBrandProductFromJson")
+    class AdditionalCoverageTests {
+
+        @Test
+        @DisplayName("CP-PRD-19: updateSimpleProduct — flujo exitoso guarda y notifica EventType.UPDATED")
+        void updateSimpleProduct_withValidRequest_savesAndNotifiesUpdated() {
+
+            // --- Arrange ---
+            // Flujo exitoso: el builder construye el producto sin lanzar excepción
+            ProductC_U_Request request = buildAdminUpdateRequest(EXISTING_BRAND_ID);
+            Product builtProduct = buildProduct(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+            Product savedProduct = buildProduct(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+            ProductResponse resp = buildProductResponse(EXISTING_PRODUCT_ID, "Updated Name", EXISTING_BRAND_ID);
+
+            when(simpleBuilderProvider.getObject()).thenReturn(productBuilder);
+            when(productBuilder.getResult()).thenReturn(builtProduct);
+            when(productRepository.save(builtProduct)).thenReturn(savedProduct);
+            when(productMapper.toResponse(savedProduct)).thenReturn(resp);
+
+            ArgumentCaptor<ProductEvent> eventCaptor = ArgumentCaptor.forClass(ProductEvent.class);
+
+            // --- Act ---
+            ProductResponse result = productService.updateSimpleProduct(EXISTING_PRODUCT_ID, request);
+
+            // --- Assert ---
+            // El producto actualizado debe retornarse con el nombre correcto y notificar UPDATED
+            assertNotNull(result);
+            assertEquals("Updated Name", result.getName());
+            verify(productRepository, times(1)).save(builtProduct);
+            verify(productEventPublisher, times(1)).notify(eventCaptor.capture());
+            assertEquals(EventType.UPDATED, eventCaptor.getValue().getType(),
+                    "El tipo de evento debe ser UPDATED al actualizar un producto simple");
+        }
+
+        @Test
+        @DisplayName("CP-PRD-20: getProductByBrand — productId existente retorna datos correctos")
+        void getProductByBrand_withExistingProductId_returnsCorrectResponse() {
+
+            // --- Arrange ---
+            // El producto existe; se retorna la respuesta mapeada
+            Product product = buildProduct(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
+            ProductResponse expected = buildProductResponse(EXISTING_PRODUCT_ID, PRODUCT_NAME, EXISTING_BRAND_ID);
+
+            when(productRepository.findById(EXISTING_PRODUCT_ID)).thenReturn(Optional.of(product));
+            when(productMapper.toResponse(product)).thenReturn(expected);
+
+            // --- Act ---
+            ProductResponse result = productService.getProductByBrand(EXISTING_BRAND_ID, EXISTING_PRODUCT_ID);
+
+            // --- Assert ---
+            // El resultado debe contener el id y nombre correctos del producto
+            assertNotNull(result);
+            assertEquals(EXISTING_PRODUCT_ID, result.getId());
+            assertEquals(PRODUCT_NAME, result.getName());
+        }
+
+        @Test
+        @DisplayName("CP-PRD-21: deleteBrandProduct — productId inexistente lanza excepción sin invocar delete()")
+        void deleteBrandProduct_withNonExistingProductId_throwsAndDoesNotDelete() {
+
+            // --- Arrange ---
+            // El producto no existe; la lambda del orElseThrow debe activarse
+            when(productRepository.findById(NON_EXISTING_PRODUCT_ID)).thenReturn(Optional.empty());
+
+            // --- Act & Assert ---
+            // Debe lanzar excepción; delete() y notify() nunca deben invocarse
+            assertThrows(
+                    ResourceNotFoundException.class,
+                    () -> productService.deleteBrandProduct(EXISTING_BRAND_ID, NON_EXISTING_PRODUCT_ID),
+                    "Debe lanzar ResourceNotFoundException cuando el producto de la marca no existe"
+            );
+            verify(productRepository, never()).delete(any(Product.class));
+            verify(productEventPublisher, never()).notify(any());
+        }
+
+        @Test
+        @DisplayName("CP-PRD-22: injectBrandProductFromJson — brand inexistente lanza excepción sin guardar productos")
+        void injectBrandProductFromJson_withNonExistingBrand_throwsResourceNotFoundException() {
+
+            // --- Arrange ---
+            // La marca no existe; la lambda del orElseThrow de brandRepository debe activarse
+            ProductC_U_Request request = buildCreateRequest(null, PRODUCT_NAME, BigDecimal.valueOf(50_000));
+            List<ProductC_U_Request> requestList = Collections.singletonList(request);
+
+            when(brandRepository.findByName("BrandInexistente")).thenReturn(Optional.empty());
+
+            // --- Act & Assert ---
+            // Debe lanzar ResourceNotFoundException antes de guardar cualquier producto
+            assertThrows(
+                    ResourceNotFoundException.class,
+                    () -> productService.injectBrandProductFromJson("BrandInexistente", requestList),
+                    "Debe lanzar ResourceNotFoundException cuando la marca no existe"
+            );
+            verify(productRepository, never()).save(any());
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // GRUPO 10 — Constructor @Autowired (4-arg)
+    // ═══════════════════════════════════════════════════════════
+    @Nested
+    @DisplayName("Constructor @Autowired de 4 argumentos")
+    class PrimaryConstructorTests {
+
+        @Test
+        @DisplayName("CP-PRD-23: Constructor 4-arg crea instancia válida y getAllProducts() funciona correctamente")
+        void primaryConstructor_createsValidInstance_getAllProductsWorks() {
+
+            // --- Arrange ---
+            // El constructor @Autowired asigna null a productTypeRepository y tagRepository;
+            // se verifica que los métodos que no dependen de esos campos siguen funcionando
+            ProductService serviceWith4Args = new ProductService(
+                    productRepository, brandRepository, productMapper, productEventPublisher);
+
+            Product p1 = buildProduct(1L, "Zapato", EXISTING_BRAND_ID);
+            ProductResponse r1 = buildProductResponse(1L, "Zapato", EXISTING_BRAND_ID);
+
+            when(productRepository.findAll()).thenReturn(Collections.singletonList(p1));
+            when(productMapper.toResponse(p1)).thenReturn(r1);
+
+            // --- Act ---
+            List<ProductResponse> result = serviceWith4Args.getAllProducts();
+
+            // --- Assert ---
+            // El servicio instanciado con 4 args debe retornar los productos del repositorio
+            assertNotNull(result);
+            assertEquals(1, result.size());
+            assertEquals("Zapato", result.get(0).getName());
+        }
     }
 }
