@@ -24,31 +24,6 @@ services:
       start_period: 30s
     restart: unless-stopped
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # MOTOR DE BÚSQUEDA — Elasticsearch 9.0.0
-  # ────────────────────────────────────────────────────────────────────────────
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.0
-    container_name: fashtoll-elasticsearch
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - xpack.security.http.ssl.enabled=false
-      - xpack.security.transport.ssl.enabled=false
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-    ports:
-      - "${ELASTICSEARCH_PORT:-9200}:9200"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-    networks:
-      - fashtoll-net
-    healthcheck:
-      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'"]
-      interval: 20s
-      timeout: 10s
-      retries: 10
-      start_period: 60s
-    restart: unless-stopped
 
   # ────────────────────────────────────────────────────────────────────────────
   # BACKEND — Spring Boot 4 (Java 21)
@@ -63,21 +38,24 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/fashtoll_db
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME_SECRET}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD_SECRET}
-      SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
       - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
     networks:
       - fashtoll-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
     restart: unless-stopped
 
   # ────────────────────────────────────────────────────────────────────────────
-  # FRONTEND — React + Vite servido por Nginx
+  # FRONTEND — React + Vite servido por Nginx (rootless, puerto interno 8080)
   # ────────────────────────────────────────────────────────────────────────────
   frontend:
     build:
@@ -88,11 +66,18 @@ services:
     image: nicojoya/fashtoll-frontend:latest
     container_name: fashtoll-frontend
     ports:
-      - "80:80"
+      - "80:8080"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     networks:
       - fashtoll-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     restart: unless-stopped
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -107,4 +92,3 @@ networks:
 # ──────────────────────────────────────────────────────────────────────────────
 volumes:
   postgres_data:
-  elasticsearch_data:

@@ -24,9 +24,17 @@ jobs:
         working-directory: ./backend
         run: chmod +x mvnw
 
-      - name: Build with Maven
+      - name: Build & Test with Maven
         working-directory: backend
-        run: ./mvnw clean verify -DskipTests
+        run: ./mvnw clean verify
+
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-report
+          path: backend/target/site/jacoco/
+          retention-days: 7
 
   frontend:
     name: Frontend Lint & Build

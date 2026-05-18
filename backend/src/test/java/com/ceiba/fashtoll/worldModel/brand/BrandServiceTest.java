@@ -544,8 +544,8 @@ class BrandServiceTest {
     }
 
     @Test
-    @DisplayName("CP-BRN-17: createMyProduct - Crea producto")
-    void createMyProduct_createsProduct() {
+    @DisplayName("CP-BRN-17: createMySimpleProduct - Crea producto")
+    void createMySimpleProduct_createsProduct() {
         org.springframework.security.core.Authentication auth = mock(
                 org.springframework.security.core.Authentication.class);
         com.ceiba.fashtoll.worldModel.user.User user = new com.ceiba.fashtoll.worldModel.user.User();
