@@ -4,6 +4,7 @@ import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.Filt
 import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.SimpleSearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.ProductSearchRequest;
 import com.ceiba.fashtoll.searchEngine.entities.SearchToken;
+import com.ceiba.fashtoll.worldModel.admin.metrics.QualityMetricsTracker;
 import com.ceiba.fashtoll.worldModel.product.Observer.EventType;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEvent;
 import com.ceiba.fashtoll.worldModel.product.Observer.ProductEventPublisher;
@@ -46,11 +47,13 @@ class SearchPatternsTest {
     private SimpleSearchEngine simpleSearchEngine;
     private FilterSearchEngine filterSearchEngine;
 
+    private QualityMetricsTracker metricsTracker;
+
     @BeforeEach
     void setUp() {
         indexingComponent = new IndexingComponent(searchTokenRepository, publisher, productRepository);
-        simpleSearchEngine = new SimpleSearchEngine(indexingComponent, rankingComponent, productRepository);
-        filterSearchEngine = new FilterSearchEngine(indexingComponent, rankingComponent, productRepository);
+        simpleSearchEngine = new SimpleSearchEngine(indexingComponent, rankingComponent, productRepository, metricsTracker);
+        filterSearchEngine = new FilterSearchEngine(indexingComponent, rankingComponent, productRepository, metricsTracker);
     }
 
     @Test
@@ -111,7 +114,7 @@ class SearchPatternsTest {
     }
 
     @Test
-    @DisplayName("SearchEngine: FilterSearchEngine ejecuta búsqueda con filtros (Cobertura)")
+    @DisplayName("SearchEngine: SimpleSearchEngine ejecuta búsqueda con filtros (Cobertura)")
     void filterSearchEngine_executesSearchWithNoQueryAndFilters() {
         Product testProduct = new Product();
         Page<Product> expected = new PageImpl<>(List.of(testProduct));
@@ -137,7 +140,7 @@ class SearchPatternsTest {
     }
 
     @Test
-    @DisplayName("SearchEngine: FilterSearchEngine ejecuta búsqueda con filtros (Cobertura)")
+    @DisplayName("SearchEngine: SimpleSearchEngine ejecuta búsqueda con filtros (Cobertura)")
     void filterSearchEngine_executesSearchWithQueryAndFilters(){
         Product testProduct = new Product();
         Page<Product> expected = new PageImpl<>(List.of(testProduct));

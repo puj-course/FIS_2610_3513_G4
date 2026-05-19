@@ -66,8 +66,7 @@ public class Analyzer {
         List<String> keyWords = new ArrayList<>();
         spanishStemmer stemmer = new spanishStemmer();
 
-        //Palabras de parada
-
+        //Palabras de parada o filler words
         for(String word : words){
             if (!STOP_WORDS.contains(word)){
                 stemmer.setCurrent(word);
@@ -79,5 +78,13 @@ public class Analyzer {
         }
 
         return keyWords;
+    }
+
+    public double calculateQueryQualityIndex(String rawQuery, List<String> keywords) {
+        String[] totalWords = rawQuery.split("\\s+");
+        keywords = this.obtainKeyWords(rawQuery);
+
+        // Porcentaje de palabras útiles sobre el total enviado por el usuario
+        return ((double) keywords.size() / totalWords.length) * 100;
     }
 }
