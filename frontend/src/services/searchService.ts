@@ -27,7 +27,7 @@ export interface Product {
 
 
 export interface SearchResponse {
-    products: Product[];
+    searchedProducts: Product[];
     currentPage: number;
     totalPages: number;
     totalResults: number;
