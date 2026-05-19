@@ -4,6 +4,7 @@ import com.ceiba.fashtoll.searchEngine.TemplateMethod.SearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.QueryFilters;
 import com.ceiba.fashtoll.searchEngine.IndexingComponent;
 import com.ceiba.fashtoll.searchEngine.RankingComponent;
+import com.ceiba.fashtoll.worldModel.admin.metrics.QualityMetricsTracker;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
 import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ import java.util.List;
 public class SimpleSearchEngine extends SearchEngine {
 
     @Autowired
-    public SimpleSearchEngine(IndexingComponent indexingComponent, RankingComponent rankingComponent, ProductRepository productRepository) {
-        super(indexingComponent, rankingComponent, productRepository);
+    public SimpleSearchEngine(IndexingComponent indexingComponent, RankingComponent rankingComponent, ProductRepository productRepository, QualityMetricsTracker metricsTracker) {
+        super(indexingComponent, rankingComponent, productRepository, metricsTracker);
     }
 
     @Override
