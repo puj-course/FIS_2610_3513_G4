@@ -93,7 +93,7 @@ public class RankingComponent {
         productDescriptionScore = keyWordDescFrequency.stream().mapToInt(Integer::intValue).sum();
 
         if(description.length() >= 150) productDescriptionScore -= 3;
-        productScore = productNameScore + productDescriptionScore;
+        productScore = productNameScore * 10 + productDescriptionScore * 3;
 
         product.setRankingScore(productScore);
     }
