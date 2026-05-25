@@ -19,123 +19,99 @@
 ---
 
 ## 🛠️ Tecnologías Utilizadas
-- **Frontend:** TypeScript, React, Vite, Tailwind CSS, Axios
-- **Backend:** Java, Spring Boot, Spring Security
-- **Construcción:** Maven
-- **Base de Datos:** PostgreSQL, Flyway, Elasticsearch
+- **Frontend:** TypeScript, React, Vite, Tailwind CSS, Framer Motion, Lucide React, React Router, React Query, Axios
+- **Backend:** Java, Spring Boot, Spring Security, Twilio
+- **Base de Datos:** PostgreSQL, Flyway
+- **Construcción y Calidad:** Maven, JUnit, Mockito, Jacoco, PMD, ESLint, PostCSS
 - **DevOps:** GitHub Actions, Docker, SonarQube
 - **Control de versiones:** Git
-- **Otros:** JWT, OpenAPI, Swagger
+- **Documentación y Otros:** JWT, OpenAPI, Swagger, Scalar
 
 ---
 
 ## 🗂️ Estructura del Proyecto
+La siguiente estructura resalta las carpetas y archivos más importantes para el desarrollo y despliegue del proyecto:
+
 ```text
 FIS_2610_3513_G4/
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   └── workflows/
-│       ├── ci.yml
-│       └── cd.yml
-├── conf/
-│   ├── config.yaml
-│   └── settings.json
-├── docs/
-│   ├── api/
-│   ├── architecture/
-│   ├── design/
-│   ├── dynamic view/
-│   ├── learning process/
-│   ├── requirements/
-│   ├── Scrum/
-│   ├── user_guide/
-│   └── Presentación-Inicial-Proyecto.pdf/
-├── jupyter/
-│   ├── notebooks/
-│   │   ├── exploration.ipynb
-│   │   └── analysis.ipynb
-│   └── datasets/
-│       ├── data1.csv
-│       └── data2.csv
-├── scripts/
-│   ├── setup.sh
-│   ├── deploy.sh
-│   └── test.sh
-├── backend/                 # Beckend (Spring Boot)
-│   ├── src/
-│   │   ├── main/
-│   │   |   ├── java/
-│   │   |   └── resources/
-│   │   └── test/
-│   │       └── java/
-│   └── pom.xml
-├── frontend/                # Frontend (React)
-│   ├── public/
-│   └── src/
-├── temp/
-│   ├── temp_file.txt
-│   └── temp_data/
-│       ├── temp1.tmp
-│       └── temp2.tmp
-├── .gitignore
-├── README.md
-├── LICENSE
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── Dockerfile
-├── docker-compose.yml
-├── flyway.conf
-└── Makefile
+├── .github/                 # Workflows de CI/CD (GitHub Actions) e Issue/PR templates
+├── backend/                 # API RESTful (Java, Spring Boot, Maven)
+│   ├── src/main/java/       # Código fuente del backend
+│   ├── src/test/java/       # Código fuente de las pruebas del backend
+│   ├── Dockerfile           # Dockerfile para el backend
+│   └── pom.xml              # Configuración de dependencias Maven
+├── frontend/                # Aplicación Web (React, Vite, TypeScript)
+│   ├── src/                 # Componentes, vistas y lógica del frontend
+│   ├── Dockerfile           # Dockerfile para el frontend
+│   └── package.json         # Configuración y dependencias de npm
+├── conf/                    # Archivos de configuración general
+├── docs/                    # Documentación del proyecto (API, arquitectura, diseño, Scrum)
+├── jupyter/                 # Notebooks de Jupyter y datasets para análisis
+├── scripts/                 # Scripts de utilidad (setup, deploy, test)
+├── docker-compose.yml       # Orquestación de servicios (PostgreSQL, backend, frontend)
+└── README.md                # Documentación principal
 ```
 
 ---
 
-## 📥 Instalación y Ejecución
-**Requisitos**
-- Java 25
-- Maven
-- Docker Desktop
-- Node.js 18+
+## 📥 Instrucciones de Uso
 
-## 💻 Clonar el repositorio
-```text
+### 1. Requisitos Previos
+- **Java 21**
+- **Maven**
+- **Docker Desktop** (para base de datos)
+- **Node.js 20+** y **npm**
+- **Git**
+
+### 2. Clonar el Repositorio
+```bash
 git clone https://github.com/puj-course/FIS_2610_3513_G4.git
 cd FIS_2610_3513_G4
 ```
 
-## 🐋 Ejecución de PostgreSQL y Elasticsearch con Docker
-Para desplegar los servicios de base de datos PostgreSQL e indexación de Elasticsearch, se debe instalar Docker Desktop y ejecutar este comando en la raíz del proyecto:
-```text
+### 3. Levantar Servicios (Base de Datos)
+Para desplegar PostgreSQL, asegúrate de tener Docker Desktop abierto y ejecuta en la raíz del proyecto:
+```bash
 docker compose up -d
 ```
-La base de datos PostgreSQL estará disponible en el puerto 5432. El índice de Elasticsearch estará disponible en el puerto 9200.
+- **PostgreSQL** estará disponible en el puerto `5432`.
 
-## ▶️ Ejecución de la API Spring Boot con IDE
-Abrir el proyecto con cualquier IDE compatible y ejecutarlo. En IntelliJ IDEA:
-```text
-Open Project -> FIS_2610_3513_G4 -> Run 'FashtollApplication'
+### 4. Ejecución del Backend (API Spring Boot)
+**Opción A: Usando un IDE (IntelliJ IDEA, Eclipse, VS Code)**
+1. Abre el proyecto en tu IDE y selecciona la carpeta `backend` o el proyecto raíz.
+2. Espera a que Maven descargue las dependencias.
+3. Ejecuta la clase principal `FashtollApplication`.
+
+**Opción B: Usando Maven desde la terminal**
+```bash
+cd backend
+mvn spring-boot:run
 ```
-La API estará disponible en el puerto 8080.
+La API estará disponible en el puerto `8080`.
 
-### 📚 Documentación de la API en Scalar
-Adicionalmente, puedes abrir [esta página](https://puj-course.github.io/FIS_2610_3513_G4/) que muestra la documentación de la API a partir de OpenAPI y Swagger. Es una interfaz llamativa y moderna en Scalar para conocer cómo funciona la API, sus endpoints y empezar a probarla rápidamente. Este sitio se genera automáticamente gracias GitHub Pages y un pipeline de itegración continua con GitHub Actions.
-
-## 🖼️ Ejecución del frontend con npm
-Ejecutar los siguientes comandos desde la raíz del proyecto para correr la aplicación React.
-```text
+### 5. Ejecución del Frontend (React + Vite)
+En una nueva terminal, navega a la carpeta del frontend para instalar las dependencias y ejecutar la aplicación:
+```bash
 cd frontend
 npm install
-npm run build
 npm run dev
 ```
-La interfaz de inicio estará disponible en la ruta http://localhost:5173/.
+La interfaz web estará disponible en `http://localhost:5173/`.
 
-## 🧪 Ejecución de pruebas (Próximamente)
-```text
-// próximamente disponible...
-docker-compose run backend mvn test
+### 6. Ejecución de Pruebas
+Para ejecutar las pruebas unitarias y de integración del backend:
+```bash
+cd backend
+mvn test
 ```
+
+### 7. Uso de la Aplicación y Documentación
+Una vez que el backend y frontend estén en ejecución, puedes interactuar con Fashtoll de varias formas:
+
+- **Frontend (UI):** Abre `http://localhost:5173/` en tu navegador para usar la interfaz gráfica.
+- **Documentación de la API (Scalar):** Puedes explorar e interactuar con los endpoints visitando [nuestra documentación oficial](https://puj-course.github.io/FIS_2610_3513_G4/). Esta interfaz moderna (creada con Scalar a partir del workflow docs.yml) permite conocer la API y probarla rápidamente.
+- **Swagger UI (Local):** Si prefieres acceder localmente, ingresa a `http://localhost:8080/swagger-ui.html` mientras el backend está en ejecución.
+- **Postman:** Puedes importar la colección apuntando a `http://localhost:8080/v3/api-docs` o crear peticiones directamente hacia los endpoints.
 
 ---
 
