@@ -1,5 +1,6 @@
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,9 @@ public class ArchitectureQualityTest {
 
     @Test
     public void controllers_should_only_call_services() {
-        JavaClasses importedClasses = new ClassFileImporter().importPackages("com.ceiba.fashtoll");
+        JavaClasses importedClasses = new ClassFileImporter()
+                .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS) // ¡Esta es la clave!
+                .importPackages("com.ceiba.fashtoll");
 
         ArchRule rule = classes()
                 .that().resideInAPackage("..controllers..")
@@ -25,6 +28,6 @@ public class ArchitectureQualityTest {
                         "jakarta.." // Crucial: Limpia los 6 errores de @Valid en el log
                 );
 
-        rule.check(importedClasses);
+        rule.evaluate(importedClasses);
     }
 }

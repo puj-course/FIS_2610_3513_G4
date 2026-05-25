@@ -42,18 +42,18 @@ class SearchPatternsTest {
     private ProductEventPublisher publisher;
     @Mock
     private RankingComponent rankingComponent;
+    @Mock
+    private QualityMetricsTracker dummyTracker;
 
     private IndexingComponent indexingComponent;
     private SimpleSearchEngine simpleSearchEngine;
     private FilterSearchEngine filterSearchEngine;
 
-    private QualityMetricsTracker metricsTracker;
-
     @BeforeEach
     void setUp() {
         indexingComponent = new IndexingComponent(searchTokenRepository, publisher, productRepository);
-        simpleSearchEngine = new SimpleSearchEngine(indexingComponent, rankingComponent, productRepository, metricsTracker);
-        filterSearchEngine = new FilterSearchEngine(indexingComponent, rankingComponent, productRepository, metricsTracker);
+        simpleSearchEngine = new SimpleSearchEngine(indexingComponent, rankingComponent, productRepository, dummyTracker);
+        filterSearchEngine = new FilterSearchEngine(indexingComponent, rankingComponent, productRepository, dummyTracker);
     }
 
     @Test

@@ -27,6 +27,4 @@ public class ProductSearchController {
     public ProductSearchResponse filterSearchProducts(@RequestBody ProductSearchRequest request){
         return this.productSearchService.filterSearch(request);
     }
-
-
 }

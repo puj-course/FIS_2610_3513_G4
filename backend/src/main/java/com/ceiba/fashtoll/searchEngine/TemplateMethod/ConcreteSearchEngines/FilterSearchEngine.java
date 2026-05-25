@@ -28,13 +28,13 @@ public class FilterSearchEngine extends SearchEngine {
     protected Page<Product> returnResults(List<String> keyWords, QueryFilters filters, Pageable pageRequest) {
         Specification<Product> spec = Specification.where(
                 ProductSpecs.keyWords(keyWords)
-                        .and(ProductSpecs.productType(filters.productType()))
-                        .and(ProductSpecs.category(filters.category()))
-                        .and(ProductSpecs.generalFit(filters.generalFit()))
-                        .and(ProductSpecs.gender(filters.gender()))
-                        .and(ProductSpecs.color(filters.color()))
-                        .and(ProductSpecs.priceRange(filters.minPrice(), filters.maxPrice()))
-                        .and(ProductSpecs.tags(filters.tags()))
+                        .or(ProductSpecs.productType(filters.productType()))
+                        .or(ProductSpecs.category(filters.category()))
+                        .or(ProductSpecs.generalFit(filters.generalFit()))
+                        .or(ProductSpecs.gender(filters.gender()))
+                        .or(ProductSpecs.color(filters.color()))
+                        .or(ProductSpecs.priceRange(filters.minPrice(), filters.maxPrice()))
+                        .or(ProductSpecs.tags(filters.tags()))
         );
         /* 1. SI BUSCO UN PRODUCTO QUE NO ESTA ME MUESTRA LOS PRODUCTOS QUE COINCIDEN CON MI BUSQUEDA
         * DEBERIA DECIR "NO TENEMOS ESE PRODUCTO PERO TE PODRIA INTERESAR:"

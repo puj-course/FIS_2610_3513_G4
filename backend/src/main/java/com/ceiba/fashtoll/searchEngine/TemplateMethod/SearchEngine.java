@@ -32,50 +32,44 @@ public abstract class SearchEngine {
     }
 
     public final Page<Product> processSimpleQuery(ProductSearchRequest request) {
-        List<String> keyWords = new ArrayList<>();
-        if (!request.query().isEmpty()){
-            String cleanQuery = this.analyzer.characterFilter(request.query());
-            keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+        String cleanQuery = this.analyzer.characterFilter(request.query());
+        List<String> keyWords = this.analyzer.obtainKeyWords(cleanQuery);
 
-            // Evalua el porcentaje de palabras utiles en el query del usuario
+        // Evalua el porcentaje de palabras utiles en el query del usuario
+        if(!request.query().isEmpty()){
             double textQuality = analyzer.calculateQueryQualityIndex(request.query(), keyWords);
             metricsTracker.addQueryQualitySample(textQuality);
-
-            Pageable pageRequest = PageRequest.of(request.page(), request.size());
-
-            return this.returnResults(keyWords, null, pageRequest);
         }
 
-        return null;
+        Pageable pageRequest = PageRequest.of(request.page(), request.size());
+
+        return this.returnResults(keyWords, null, pageRequest);
     }
 
-    public final Page<Product> processFilterQuery(ProductSearchRequest request){
-        List<String> keyWords = new ArrayList<>();
-        if (!request.query().isEmpty()){
-            String cleanQuery = this.analyzer.characterFilter(request.query());
-            keyWords = this.analyzer.obtainKeyWords(cleanQuery);
+    public final Page<Product> processFilterQuery(ProductSearchRequest request) {
+        String cleanQuery = this.analyzer.characterFilter(request.query());
+        List<String> keyWords = this.analyzer.obtainKeyWords(cleanQuery);
 
-            // Evalua el porcentaje de palabras utiles en el query del usuario
+        // Evalua el porcentaje de palabras utiles en el query del usuario
+        if(!request.query().isEmpty()){
             double textQuality = analyzer.calculateQueryQualityIndex(request.query(), keyWords);
             metricsTracker.addQueryQualitySample(textQuality);
-
-            QueryFilters filters = new QueryFilters(
-                    request.productType(),
-                    request.category(),
-                    request.generalFit(),
-                    request.gender(),
-                    request.color(),
-                    request.minPrice(),
-                    request.maxPrice(),
-                    request.tags()
-            );
-
-            Pageable pageRequest = PageRequest.of(request.page(), request.size());
-
-            return this.returnResults(keyWords, filters, pageRequest);
         }
 
-        return null;
+        QueryFilters filters = new QueryFilters(
+                request.productType(),
+                request.category(),
+                request.generalFit(),
+                request.gender(),
+                request.color(),
+                request.minPrice(),
+                request.maxPrice(),
+                request.tags()
+        );
+
+        Pageable pageRequest = PageRequest.of(request.page(), request.size());
+
+        return this.returnResults(keyWords, filters, pageRequest);
     }
 
     protected abstract Page<Product> returnResults(List<String> keyWords, QueryFilters filters, Pageable pageRequest);

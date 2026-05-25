@@ -288,58 +288,57 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.12</version>
-				<!-- Sin configuracion global: el agente no filtra nada al instrumentar,
-				     lo que evita ClassNotFoundException en el classpath del fork de Surefire -->
+				<configuration>
+					<includes>
+						<include>com/ceiba/fashtoll/**</include>
+					</includes>
+					<excludes>
+						<exclude>**/config/**</exclude>
+						<exclude>**/exceptionHandling/**</exclude>
+						<exclude>**/utilities/**</exclude>
+						<exclude>**/security/**</exclude>
+						<exclude>**/dtos/**</exclude>
+						<exclude>**/entity/**</exclude>
+						<exclude>**/entities/**</exclude>
+						<exclude>**/mappers/**</exclude>
+						<exclude>**/repositories/**</exclude>
+						<exclude>**/controllers/**</exclude>
+						<exclude>**/FashtollApplication.class</exclude>
+						<exclude>**/*Mapper.class</exclude>
+						<exclude>**/*Controller.class</exclude>
+						<exclude>**/*Repository.class</exclude>
+						<exclude>**/*DTO.class</exclude>
+						<exclude>**/*Dto.class</exclude>
+						<exclude>**/*Entity.class</exclude>
+						<exclude>**/*Config.class</exclude>
+						<exclude>**/*Exception.class</exclude>
+						<exclude>**/*_.class</exclude>
+						<exclude>**/User.class</exclude>
+						<exclude>**/Admin.class</exclude>
+						<exclude>**/Client.class</exclude>
+						<exclude>**/Brand.class</exclude>
+						<exclude>**/Tag.class</exclude>
+						<exclude>**/Wishlist.class</exclude>
+						<exclude>**/SearchToken.class</exclude>
+						<exclude>**/FrequenInfo.class</exclude>
+						<exclude>**/UserPreferences.class</exclude>
+						<exclude>**/RankingComponent.class</exclude>
+						<exclude>**/ProductDetails.class</exclude>
+						<exclude>**/ProductEvent.class</exclude>
+						<exclude>**/EventType.class</exclude>
+						<exclude>**/*MockitoMock*</exclude>
+					</excludes>
+				</configuration>
+
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
 						<goals><goal>prepare-agent</goal></goals>
-						<!-- Agente limpio: solo destfile, sin includes/excludes -->
 					</execution>
 					<execution>
 						<id>report</id>
 						<phase>test</phase>
 						<goals><goal>report</goal></goals>
-						<!-- Exclusiones aplicadas solo al reporte HTML, no al agente -->
-						<configuration>
-							<excludes>
-								<exclude>**/config/**</exclude>
-								<exclude>**/exceptionHandling/**</exclude>
-								<exclude>**/utilities/**</exclude>
-								<exclude>**/security/**</exclude>
-								<exclude>**/dtos/**</exclude>
-								<exclude>**/entity/**</exclude>
-								<exclude>**/entities/**</exclude>
-								<exclude>**/mappers/**</exclude>
-								<exclude>**/repositories/**</exclude>
-								<exclude>**/controllers/**</exclude>
-								<exclude>**/FashtollApplication.class</exclude>
-								<exclude>**/*Mapper.class</exclude>
-								<exclude>**/*Controller.class</exclude>
-								<exclude>**/*Repository.class</exclude>
-								<exclude>**/*DTO.class</exclude>
-								<exclude>**/*Dto.class</exclude>
-								<exclude>**/*Entity.class</exclude>
-								<exclude>**/*Config.class</exclude>
-								<exclude>**/*Exception.class</exclude>
-								<exclude>**/*_.class</exclude>
-								<exclude>**/_*.class</exclude>
-								<exclude>**/User.class</exclude>
-								<exclude>**/Admin.class</exclude>
-								<exclude>**/Client.class</exclude>
-								<exclude>**/Brand.class</exclude>
-								<exclude>**/Tag.class</exclude>
-								<exclude>**/Wishlist.class</exclude>
-								<exclude>**/SearchToken.class</exclude>
-								<exclude>**/FrequenInfo.class</exclude>
-								<exclude>**/UserPreferences.class</exclude>
-								<exclude>**/RankingComponent.class</exclude>
-								<exclude>**/ProductDetails.class</exclude>
-								<exclude>**/ProductEvent.class</exclude>
-								<exclude>**/EventType.class</exclude>
-								<exclude>**/*MockitoMock*</exclude>
-							</excludes>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

@@ -3,6 +3,7 @@ package com.ceiba.fashtoll.worldModel.admin;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import com.ceiba.fashtoll.worldModel.admin.metrics.QualityMetricsTracker;
@@ -53,7 +54,9 @@ public class AdminController {
     private double checkArchitectureCompliance() {
         try {
             // Escanea las clases del proyecto
-            JavaClasses importedClasses = new ClassFileImporter().importPackages("com.ceiba.fashtoll");
+            JavaClasses importedClasses = new ClassFileImporter()
+                    .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS) // ¡Esta es la clave!
+                    .importPackages("com.ceiba.fashtoll");
 
             // Define la regla para atrapar violaciones arquitectonicas
             ArchRule controllersRule = classes()

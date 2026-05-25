@@ -4,10 +4,14 @@ import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.Filt
 import com.ceiba.fashtoll.searchEngine.TemplateMethod.ConcreteSearchEngines.SimpleSearchEngine;
 import com.ceiba.fashtoll.searchEngine.dtos.*;
 import com.ceiba.fashtoll.worldModel.product.entities.Product;
+import com.ceiba.fashtoll.worldModel.product.repositories.ProductRepository;
+import com.ceiba.fashtoll.worldModel.tag.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,58 +23,81 @@ public class ProductSearchService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final SimpleSearchEngine simpleSearchEngine;
     private final FilterSearchEngine filterSearchEngine;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public ProductSearchService(SimpleSearchEngine simpleSearchEngine, FilterSearchEngine filterSearchEngine) {
+    public ProductSearchService(SimpleSearchEngine simpleSearchEngine, FilterSearchEngine filterSearchEngine, ProductRepository productRepository) {
         this.simpleSearchEngine = simpleSearchEngine;
         this.filterSearchEngine = filterSearchEngine;
+        this.productRepository = productRepository;
     }
 
     public ProductSearchResponse simpleSearch(ProductSearchRequest request) {
         Page<Product> searchResultPage = this.simpleSearchEngine.processSimpleQuery(request);
-        List<Product> searchResultProducts = searchResultPage.getContent();
+        List<Product> searchResultProducts;
 
-        List<ProductDocument> searchResponseProducts = new ArrayList<>();
-        for(Product p: searchResultProducts){
-            ProductDocument nP = this.mapToDocument(p);
-            searchResponseProducts.add(nP);
+        if(searchResultPage != null) {
+            searchResultProducts = searchResultPage.getContent();
+
+
+            List<ProductDocument> searchResponseProducts = new ArrayList<>();
+            for (Product p : searchResultProducts) {
+                ProductDocument nP = this.mapToDocument(p);
+                searchResponseProducts.add(nP);
+            }
+
+            ProductSearchResponse searchResponse = new ProductSearchResponse(
+                    searchResponseProducts,
+                    searchResultPage.getNumber(),
+                    searchResultPage.getTotalPages(),
+                    searchResultPage.getTotalElements(),
+                    searchResultPage.getSize()
+            );
+
+            this.logger.info("Se buscaron productos con el query '" + request.query() + "'");
+
+            return searchResponse;
         }
 
-        ProductSearchResponse searchResponse = new ProductSearchResponse(
-                searchResponseProducts,
-                searchResultPage.getNumber(),
-                searchResultPage.getTotalPages(),
-                searchResultPage.getTotalElements(),
-                searchResultPage.getSize()
-        );
-
-        this.logger.info("Se buscaron productos con el query '" + request.query() + "'");
-
-        return searchResponse;
+        return null;
     }
 
     public ProductSearchResponse filterSearch(ProductSearchRequest request){
-        Page<Product> searchResultPage = this.filterSearchEngine.processFilterQuery(request);
-        List<Product> searchResultProducts = searchResultPage.getContent();
+        Page<Product> searchResultPage;
+        List<Product> searchResultProducts;
 
-        List<ProductDocument> searchResponseProducts = new ArrayList<>();
-        for(Product p: searchResultProducts){
-            ProductDocument nP = this.mapToDocument(p);
+        if(checkIfHasntFilter(request) && (request.query() == null || request.query().isEmpty())) {
+            Pageable pageRequest = PageRequest.of(request.page(), request.size());
 
-            searchResponseProducts.add(nP);
+            searchResultPage = this.productRepository.findAll(pageRequest);
+        } else {
+            searchResultPage = this.filterSearchEngine.processFilterQuery(request);
         }
 
-        ProductSearchResponse searchResponse = new ProductSearchResponse(
-                searchResponseProducts,
-                searchResultPage.getNumber(),
-                searchResultPage.getTotalPages(),
-                searchResultPage.getTotalElements(),
-                searchResultPage.getSize()
-        );
+        if(searchResultPage != null) {
+            searchResultProducts = searchResultPage.getContent();
 
-        this.logger.info("Se buscaron productos con filtros y con el query '" + request.query() + "'");
+            List<ProductDocument> searchResponseProducts = new ArrayList<>();
+            for (Product p : searchResultProducts) {
+                ProductDocument nP = this.mapToDocument(p);
 
-        return searchResponse;
+                searchResponseProducts.add(nP);
+            }
+
+            ProductSearchResponse searchResponse = new ProductSearchResponse(
+                    searchResponseProducts,
+                    searchResultPage.getNumber(),
+                    searchResultPage.getTotalPages(),
+                    searchResultPage.getTotalElements(),
+                    searchResultPage.getSize()
+            );
+
+            this.logger.info("Se buscaron productos con filtros y con el query '" + request.query() + "'");
+
+            return searchResponse;
+        }
+
+        return null;
     }
 
     /**
@@ -102,10 +129,19 @@ public class ProductSearchService {
                         : List.of())
                 .tags(product.getTags() != null
                         ? product.getTags().stream()
-                            .map(tag -> tag.getName())
+                            .map(Tag::getName)
                             .collect(Collectors.toList())
                         : List.of())
                 .createdAt(product.getLastTimeEdited())
                 .build();
+    }
+
+    public boolean checkIfHasntFilter(ProductSearchRequest request){
+        return (request.productType() == null || request.productType().isEmpty()) &&
+                (request.category()== null || request.category().isEmpty()) &&
+                (request.color()== null || request.color().isEmpty()) &&
+                (request.generalFit()== null || request.generalFit().isEmpty()) &&
+                (request.gender()== null || request.gender().isEmpty()) &&
+                request.minPrice() == null && request.maxPrice() == null && request.tags() == null;
     }
 }

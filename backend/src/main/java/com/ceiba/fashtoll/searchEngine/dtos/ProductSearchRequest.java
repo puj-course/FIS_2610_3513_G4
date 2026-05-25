@@ -17,15 +17,6 @@ public record ProductSearchRequest(
         Integer size
 ) {
     public ProductSearchRequest {
-        if (query == null) query = "";
-        if (productType == null) productType = "";
-        if (category == null) category = "";
-        if (generalFit == null) generalFit = "";
-        if (gender == null) gender = "";
-        if (color == null) color = "";
-        if (minPrice == null) minPrice = -1.0;
-        if (maxPrice == null) maxPrice = -1.0;
-        if (tags == null) tags = new ArrayList<>();
         if (page == null) page = 0;
         if (size == null) size = 12;
     }
