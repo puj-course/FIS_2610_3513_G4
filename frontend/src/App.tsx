@@ -11,8 +11,7 @@ import BrandPublicProfile from "./pages/BrandPublicProfile";
 import ClientProfile from "./pages/ClientProfile";
 import BrandDashboard from "./pages/BrandDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
-
-
+import AboutUs from "./pages/AboutUs";
 
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
@@ -31,6 +30,7 @@ function App() {
             <Route path="/productos/:id" element={<ProductDetail />} />
             <Route path="/marcas" element={<BrandListing />} />
             <Route path="/marcas/:id" element={<BrandPublicProfile />} />
+            <Route path="/sobre-nosotros" element={<AboutUs />} />
             
             {/* Rutas Protegidas */}
             <Route 

@@ -1,11 +1,13 @@
 import { useState, useMemo } from "react";
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Navbar } from "../components/Navbar";
 import { getProductById } from "../services/productDetailService";
 import type { TagDetail } from "../services/productDetailService";
 import { type Product } from "../services/searchService";
 import { getPublicBrandById } from "../services/brandPublicService";
+import { useAuth } from "../hooks/useAuth";
+import { addToFavorites, removeFromFavorites, getDefaultWishlist } from "../services/clientService";
 import {
   ChevronLeft,
   ChevronRight,
@@ -24,6 +26,7 @@ import {
   Heart,
   Package,
   Building2,
+  Loader2
 } from "lucide-react";
 import { VerifiedBadge } from "../components/ui/VerifiedBadge";
 import { Button } from "../components/ui/button";
@@ -175,6 +178,48 @@ export default function ProductDetail() {
   const stateProduct = location.state?.product as Product | undefined;
 
   const [currentImage, setCurrentImage] = useState(0);
+
+  const queryClient = useQueryClient();
+
+  // 1. Validar la sesión del usuario
+  const { user } = useAuth();
+  const token = user?.token;
+  const isClient = token && user?.role === "CLIENT";
+
+  // 2. Traer los favoritos del cliente
+  const { data: wishlist } = useQuery({
+    queryKey: ["defaultWishlist"],
+    queryFn: () => getDefaultWishlist(token || ""),
+                                      enabled: !!isClient, // Solo consulta si hay un cliente logueado
+  });
+
+  // 3. Evaluar si este producto está en la wishlist (Manejamos si el backend devuelve un Array o un Objeto con 'products')
+  const favoriteProducts = Array.isArray(wishlist) ? wishlist : (wishlist?.products || []);
+  const isFavorite = favoriteProducts.some((p: any) => p.id === Number(id));
+
+  // 4. Mutaciones para añadir y remover
+  const addFavMut = useMutation({
+    mutationFn: () => addToFavorites(Number(id), token || ""),
+                                onSuccess: () => queryClient.invalidateQueries({ queryKey: ["defaultWishlist"] })
+  });
+
+  const removeFavMut = useMutation({
+    mutationFn: () => removeFromFavorites(Number(id), token || ""),
+                                   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["defaultWishlist"] })
+  });
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!isClient) {
+      alert("Debes iniciar sesión como cliente para añadir productos a tus favoritos.");
+      return;
+    }
+    if (isFavorite) {
+      removeFavMut.mutate();
+    } else {
+      addFavMut.mutate();
+    }
+  };
 
   const { data: detail, isLoading: isDetailLoading } = useQuery({
     queryKey: ["productDetail", id],
@@ -453,6 +498,28 @@ export default function ProductDetail() {
                 </div>
               </div>
             </div>
+
+            {/* BOTÓN DE FAVORITOS (Full Width, Estilo Revista de Moda) */}
+            {isClient && (
+              <Button
+              onClick={handleFavoriteClick}
+              disabled={addFavMut.isPending || removeFavMut.isPending}
+              className={`w-full h-16 px-6 font-bold rounded-[24px] shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 text-base ${
+                isFavorite
+                ? "bg-gray-200 hover:bg-gray-300 text-black border border-gray-300"
+                : "bg-white hover:bg-gray-50 text-black border-2 border-black"
+              }`}
+              >
+              {addFavMut.isPending || removeFavMut.isPending ? (
+                <Loader2 className="h-6 w-6 animate-spin text-black" />
+              ) : (
+                <>
+                <Heart className={`h-6 w-6 ${isFavorite ? "fill-black" : ""}`} />
+                {isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"}
+                </>
+              )}
+              </Button>
+            )}
 
             {/* Price */}
             <div className="py-5 px-6 bg-[#0A0A0A] rounded-[24px] flex items-center justify-between">

@@ -9,7 +9,9 @@
     "available": true,
     "linkProduct": "https://www.nike.com/t/air-force-1-07-mens-shoes-jBrhbr/CW2288-111",
     "productTypeId": 13,
-    "imageUrls": []
+    "imageUrls": [
+      "https://nikeco.vtexassets.com/arquivos/ids/197130-1200-auto?v=638343774195200000&width=1200&height=auto&aspect=true"
+    ]
   },
   {
     "name": "Nike Air Max 270",
@@ -21,7 +23,9 @@
     "available": true,
     "linkProduct": "https://www.nike.com/t/air-max-270-mens-shoes-KkLcGR/AH8050-002",
     "productTypeId": 13,
-    "imageUrls": []
+    "imageUrls": [
+      "https://static.nike.com/a/images/t_web_pdp_535_v2/f_auto,u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/gorfwjchoasrrzr1fggt/AIR+MAX+270.png"
+    ]
   },
   {
     "name": "Air Jordan 1 Low",
@@ -33,7 +37,13 @@
     "available": true,
     "linkProduct": "https://www.nike.com/t/air-jordan-1-low-mens-shoes-0LXhbb/553558-136",
     "productTypeId": 13,
-    "imageUrls": []
+    "imageUrls": [
+      "https://nikeco.vtexassets.com/arquivos/ids/961137-1200-auto?v=639030632179000000&width=1200&height=auto&aspect=true",
+      "https://nikeco.vtexassets.com/arquivos/ids/961139-1200-auto?v=639030632215000000&width=1200&height=auto&aspect=true",
+      "https://nikeco.vtexassets.com/arquivos/ids/961140-1200-auto?v=639030632229070000&width=1200&height=auto&aspect=true",
+      "https://nikeco.vtexassets.com/arquivos/ids/961143-1200-auto?v=639030632274070000&width=1200&height=auto&aspect=true",
+      "https://nikeco.vtexassets.com/arquivos/ids/961144-1200-auto?v=639030632289670000&width=1200&height=auto&aspect=true"
+    ]
   },
   {
     "name": "Camiseta Nike Sportswear Club",

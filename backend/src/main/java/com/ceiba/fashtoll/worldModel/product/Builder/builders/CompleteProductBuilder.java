@@ -98,6 +98,8 @@ public class CompleteProductBuilder implements ProductBuilder {
 
     @Override
     public void putTags(List<String> requestedTags) {
+        if(requestedTags == null) return;
+
         Set<Tag> tags = new HashSet<>();
         for(String tag : requestedTags){
             Tag newTag = this.tagRepository.findByName(tag).orElseThrow(() -> new ResourceNotFoundException("tag","name",tag));

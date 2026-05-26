@@ -4,7 +4,7 @@ import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { 
   getBrandProfile, 
@@ -36,7 +36,6 @@ import {
 } from "lucide-react";
 import { VerifiedBadge } from "../components/ui/VerifiedBadge";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
 
 export default function BrandDashboard() {
   const { user, logout } = useAuth();
@@ -174,24 +173,29 @@ export default function BrandDashboard() {
     });
   }
 
-  const [prevEditingProduct, setPrevEditingProduct] = useState<ProductManagement | null>(null);
-  if (editingProduct !== prevEditingProduct) {
-    setPrevEditingProduct(editingProduct);
+  // Cargar datos en el formulario de forma segura cuando se da clic en "Editar"
+  useEffect(() => {
     if (editingProduct) {
       setProductForm({
-        name: editingProduct.name,
-        description: editingProduct.description,
-        price: editingProduct.price,
-        productTypeId: editingProduct.productType.id.toString(),
-        generalFit: editingProduct.generalFit,
-        gender: editingProduct.gender,
-        color: editingProduct.color,
-        available: editingProduct.available,
-        linkProduct: editingProduct.linkProduct || "",
-        imageUrls: editingProduct.imageUrls.length > 0 ? [...editingProduct.imageUrls, ""] : [""],
-        tagIds: Array.isArray(editingProduct.tags) ? editingProduct.tags.map((t) => t.id) : []
+        name: editingProduct.name || "",
+        description: editingProduct.description || "",
+        price: editingProduct.price || 0,
+        // Usamos ?. para evitar que la página colapse si el productType viene nulo
+        productTypeId: editingProduct.productType?.id?.toString() || "",
+                     generalFit: editingProduct.generalFit || "REGULAR",
+                     gender: editingProduct.gender || "UNISEX",
+                     color: editingProduct.color || "BLACK",
+                     available: editingProduct.available ?? true,
+                     linkProduct: editingProduct.linkProduct || "",
+                     imageUrls: Array.isArray(editingProduct.imageUrls) && editingProduct.imageUrls.length > 0
+                     ? [...editingProduct.imageUrls, ""]
+                     : [""],
+                     tagIds: Array.isArray(editingProduct.tags)
+                     ? editingProduct.tags.map((t) => t?.id).filter(Boolean)
+                     : []
       });
     } else {
+      // Limpiar formulario cuando se da a "Agregar Nuevo Producto"
       setProductForm({
         name: "",
         description: "",
@@ -206,7 +210,7 @@ export default function BrandDashboard() {
         tagIds: []
       });
     }
-  }
+  }, [editingProduct]);
 
   const handleLogout = () => {
     if (window.confirm("¿Estás seguro de que quieres cerrar sesión?")) {
@@ -249,7 +253,8 @@ export default function BrandDashboard() {
     const finalData = {
       ...productForm,
       productTypeId: parseInt(productForm.productTypeId),
-      imageUrls: finalImageUrls
+      imageUrls: finalImageUrls,
+      tagIds: productForm.tagIds || []
     };
 
     if (editingProduct) {

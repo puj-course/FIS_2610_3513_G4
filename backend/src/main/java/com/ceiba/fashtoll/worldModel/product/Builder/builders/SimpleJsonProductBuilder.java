@@ -78,8 +78,7 @@ public class SimpleJsonProductBuilder implements ProductBuilder {
 
     @Override
     public void putImagesURLs(List<String> imagesURLs) {
-        this.product.setImages(null);
-        this.logger.info("El producto '" + this.product.getName() + "' con id: " + this.product.getId() + " NO TIENE URLs DE IMAGENES");
+        this.product.setImages(imagesURLs);
     }
 
     @Override

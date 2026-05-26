@@ -83,6 +83,12 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getWishlists(user.getId()));
     }
 
+    @GetMapping("/profile/wishlists/default")
+    public ResponseEntity<WishlistDetailsResponse> getDefaultWishlist(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(clientService.getDefaultWishlist(user.getId()));
+    }
+
     @GetMapping("/profile/wishlists/{wishlistId}")
     public ResponseEntity<WishlistDetailsResponse> getWishlist(Authentication authentication,
             @PathVariable Long wishlistId) {
@@ -116,6 +122,13 @@ public class ClientController {
     public ResponseEntity<Void> addToDefaultWishlist(Authentication authentication, @PathVariable Long productId) {
         User user = (User) authentication.getPrincipal();
         clientService.addToDefaultWishlist(user.getId(), productId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/profile/wishlists/default/products/{productId}")
+    public ResponseEntity<Void> removeFromDefaultWishlist(Authentication authentication, @PathVariable Long productId) {
+        User user = (User) authentication.getPrincipal();
+        clientService.removeFromDefaultWishlist(user.getId(), productId);
         return ResponseEntity.ok().build();
     }
 

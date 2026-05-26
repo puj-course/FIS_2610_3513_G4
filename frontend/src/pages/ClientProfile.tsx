@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../co
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { useAuth } from "../hooks/useAuth";
-import { User, Mail, LogOut, Heart, Store, Lock, Save, Loader2 } from "lucide-react";
+import { User, Mail, LogOut, Heart, Store, Lock, Save, Loader2, ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import * as clientService from "../services/clientService";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -22,6 +22,33 @@ export default function ClientProfile() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  // 1. Añade esta consulta debajo de tu query de clientProfile
+  const { data: followedBrands, isLoading: isBrandsLoading } = useQuery({
+    queryKey: ["followedBrands"],
+    queryFn: () => clientService.getFollowedBrands(user?.token || ""),
+    enabled: !!user?.token && activeSection === "brands", // Solo se ejecuta si es la sección activa
+  });
+
+  // --- FAVORITOS Y PAGINACIÓN ---
+  const [currentFavoritePage, setCurrentFavoritePage] = useState(1);
+  const FAVORITES_PER_PAGE = 4; // Cambia este número si quieres mostrar más o menos por página
+
+  const { data: wishlistData, isLoading: isWishlistLoading } = useQuery({
+    queryKey: ["defaultWishlist"],
+    queryFn: () => clientService.getDefaultWishlist(user?.token || ""),
+                                                                        enabled: !!user?.token && activeSection === "favorites", // Solo dispara si entra a favoritos
+  });
+
+  // Procesamos los datos de favoritos y calculamos las páginas
+  const favoriteProducts = Array.isArray(wishlistData) ? wishlistData : (wishlistData?.products || []);
+  const totalFavoritePages = Math.max(1, Math.ceil(favoriteProducts.length / FAVORITES_PER_PAGE));
+
+  // Obtenemos solo los productos que corresponden a la página actual
+  const currentFavorites = favoriteProducts.slice(
+    (currentFavoritePage - 1) * FAVORITES_PER_PAGE,
+                                                  currentFavoritePage * FAVORITES_PER_PAGE
+  );
 
   // Fetch profile data
   const { data: profile, isLoading: isProfileLoading, refetch: refetchProfile } = useQuery({
@@ -160,30 +187,166 @@ export default function ClientProfile() {
         );
       case "favorites":
         return (
-          <Card className="rounded-[32px] border-[#E5E7EB] bg-[#F9FAFB]/50 border-dashed">
-            <CardContent className="py-24 text-center space-y-4">
-              <div className="p-4 bg-white rounded-2xl inline-block shadow-sm">
-                <Heart className="h-8 w-8 text-red-500 fill-current" />
+          <Card className="rounded-[32px] border-[#E5E7EB]">
+          <CardHeader>
+          <CardTitle className="text-3xl font-black tracking-tight">Mis Favoritos</CardTitle>
+          <CardDescription>Tus prendas guardadas para comprar después</CardDescription>
+          </CardHeader>
+          <CardContent>
+          {isWishlistLoading ? (
+            <div className="flex h-48 items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-[#5F6670]" />
+            </div>
+          ) : favoriteProducts.length > 0 ? (
+            <div className="space-y-6">
+
+            {/* Grid de Productos Favoritos */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {currentFavorites.map((product: any) => (
+              <div
+              key={product.id}
+              className="p-4 bg-white rounded-2xl border border-[#E5E7EB] flex gap-4 shadow-sm hover:shadow-md transition-all group cursor-pointer hover:border-black"
+              onClick={() => navigate(`/productos/${product.id}`)}
+              >
+              {/* Miniatura del producto */}
+              <div className="h-28 w-24 shrink-0 rounded-xl bg-[#F8F9FA] overflow-hidden relative border border-gray-100">
+              {product.imageUrls && product.imageUrls.length > 0 ? (
+                <img
+                src={product.imageUrls[0]}
+                alt={product.name}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              ) : (
+                <div className="h-full w-full flex items-center justify-center text-gray-300">
+                <ImageIcon className="h-8 w-8" />
+                </div>
+              )}
               </div>
-              <h3 className="font-black text-2xl text-[#0A0A0A]">Tus Favoritos aparecerán aquí</h3>
-              <p className="text-base text-[#5F6670] max-w-sm mx-auto">
-                Guarda las prendas que más te gusten para verlas más tarde en tu perfil personal.
+
+              {/* Información del producto */}
+              <div className="flex flex-col justify-center flex-1 min-w-0">
+              <h4 className="font-bold text-base text-[#0A0A0A] capitalize truncate group-hover:underline">
+              {product.name.toLowerCase()}
+              </h4>
+              <p className="text-lg font-black text-[#0A0A0A] mt-1">
+              ${product.price?.toLocaleString("es-CO") || 0}
               </p>
-            </CardContent>
+              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 text-red-600 rounded-lg text-xs font-bold w-fit">
+              <Heart className="h-3.5 w-3.5 fill-red-500" />
+              Guardado
+              </div>
+              </div>
+              </div>
+            ))}
+            </div>
+
+            {/* Paginación Interactiva */}
+            {totalFavoritePages > 1 && (
+              <div className="flex items-center justify-center gap-6 pt-6 border-t border-[#E5E7EB]">
+              <Button
+              variant="outline"
+              className="rounded-xl font-bold border-[#E5E7EB] hover:bg-gray-50 text-black"
+              onClick={() => setCurrentFavoritePage(p => Math.max(1, p - 1))}
+              disabled={currentFavoritePage === 1}
+              >
+              <ChevronLeft className="h-4 w-4 mr-2" /> Anterior
+              </Button>
+              <span className="text-sm font-bold text-[#5F6670]">
+              Página {currentFavoritePage} de {totalFavoritePages}
+              </span>
+              <Button
+              variant="outline"
+              className="rounded-xl font-bold border-[#E5E7EB] hover:bg-gray-50 text-black"
+              onClick={() => setCurrentFavoritePage(p => Math.min(totalFavoritePages, p + 1))}
+              disabled={currentFavoritePage === totalFavoritePages}
+              >
+              Siguiente <ChevronRight className="h-4 w-4 ml-2" />
+              </Button>
+              </div>
+            )}
+
+            </div>
+          ) : (
+            /* Vista vacía en caso de no tener favoritos */
+            <div className="text-center py-16 space-y-4 border border-[#E5E7EB] border-dashed rounded-[24px] bg-[#F9FAFB]/50">
+            <div className="p-4 bg-white rounded-2xl inline-block shadow-sm">
+            <Heart className="h-8 w-8 text-red-500 fill-current" />
+            </div>
+            <h3 className="font-black text-2xl text-[#0A0A0A]">Tus Favoritos aparecerán aquí</h3>
+            <p className="text-base text-[#5F6670] max-w-sm mx-auto px-4">
+            Guarda las prendas que más te gusten para verlas más tarde en tu perfil personal.
+            </p>
+            <Button
+            className="rounded-xl font-bold mt-4 bg-[#0A0A0A] hover:bg-black text-white px-8"
+            onClick={() => navigate("/productos")}
+            >
+            Explorar Catálogo
+            </Button>
+            </div>
+          )}
+          </CardContent>
           </Card>
         );
       case "brands":
         return (
-          <Card className="rounded-[32px] border-[#E5E7EB] bg-[#F9FAFB]/50 border-dashed">
-            <CardContent className="py-24 text-center space-y-4">
-              <div className="p-4 bg-white rounded-2xl inline-block shadow-sm">
-                <Store className="h-8 w-8 text-blue-500" />
+          <Card className="rounded-[32px] border-[#E5E7EB]">
+          <CardHeader>
+          <CardTitle className="text-3xl font-black tracking-tight">Marcas Seguidas</CardTitle>
+          </CardHeader>
+          <CardContent>
+          {isBrandsLoading ? (
+            <div className="flex h-48 items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-[#5F6670]" />
+            </div>
+          ) : followedBrands && followedBrands.length > 0 ? (
+            /* Grid de Marcas Seguidas */
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {followedBrands.map((brand: any) => (
+              <div
+              key={brand.id}
+              className="p-6 bg-white rounded-2xl border border-[#E5E7EB] flex items-center justify-between shadow-sm hover:shadow-md transition-shadow group"
+              >
+              <div className="flex items-center gap-4">
+              <div className="h-14 w-14 rounded-full bg-[#F3F4F6] overflow-hidden flex items-center justify-center font-bold text-xl border border-gray-100">
+              {brand.pictureUrl ? (
+                <img src={brand.pictureUrl} alt={brand.name} className="h-full w-full object-cover" />
+              ) : (
+                brand.name.charAt(0).toUpperCase()
+              )}
               </div>
-              <h3 className="font-black text-2xl text-[#0A0A0A]">Marcas que sigues</h3>
-              <p className="text-base text-[#5F6670] max-w-sm mx-auto">
-                Aquí podrás ver las actualizaciones y nuevos lanzamientos de tus marcas favoritas.
-              </p>
-            </CardContent>
+              <div>
+              <h4 className="font-bold text-lg text-[#0A0A0A] capitalize group-hover:underline cursor-pointer" onClick={() => navigate(`/marcas/${brand.id}`)}>
+              {brand.name.toLowerCase()}
+              </h4>
+              <p className="text-xs font-semibold text-[#5F6670]">{brand.followers?.toLocaleString() || 0} seguidores</p>
+              </div>
+              </div>
+
+              {/* Enlace directo al perfil */}
+              <Button
+              variant="ghost"
+              size="sm"
+              className="rounded-xl font-bold"
+              onClick={() => navigate(`/marcas/${brand.id}`)}
+              >
+              Ver Perfil
+              </Button>
+              </div>
+            ))}
+            </div>
+          ) : (
+            /* Vista vacía en caso de no seguir a nadie */
+            <div className="text-center py-16 space-y-4 border border-[#E5E7EB] border-dashed rounded-[24px] bg-[#F9FAFB]/50">
+            <div className="p-4 bg-white rounded-2xl inline-block shadow-sm">
+            <Store className="h-8 w-8 text-blue-500" />
+            </div>
+            <h3 className="font-black text-2xl text-[#0A0A0A]">Aún no sigues marcas</h3>
+            <p className="text-base text-[#5F6670] max-w-sm mx-auto px-4">
+            Explora el catálogo oficial de marcas asociadas de Fashtoll y conéctate para recibir notificaciones exclusivas.
+            </p>
+            </div>
+          )}
+          </CardContent>
           </Card>
         );
       case "password":
