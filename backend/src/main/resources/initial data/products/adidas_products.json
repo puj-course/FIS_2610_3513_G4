@@ -10,20 +10,32 @@
     "linkProduct": "https://www.adidas.co/tenis-stan-smith-unisex/M20325.html",
     "productTypeId": 13,
     "imageUrls": [
-      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/4edaa6d5b65a40d19f20a7fa00ea641f_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_01_standard.jpg"
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/4edaa6d5b65a40d19f20a7fa00ea641f_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_01_standard.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/032883d31557442c8275a347004753a4_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_02_standard_hover.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/d4dff87f03d84a4c92dca34700474f79_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_03_standard.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/9484876cdcb94b17a496a7fa00ea6ee9_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_06_standard.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/bc1598164e0743d39b41aa9b010d771b_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_07_standard.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/bdccdf07da8044e7a3aea6a5011cd730_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_09_standard.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/df7de38cc7f842778ce5a34700475fed_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_41_detail.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/beab99c4c8c9490c9e80a347004764e6_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_42_detail.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/cb72996225414deaa7c9a7fa00eaba35_9366/Tenis_Stan_Smith_UNISEX_Blanco_M20325_43_detail.jpg"
     ]
   },
   {
-    "name": "Tenis Samba OG",
+    "name": "Tenis CLOT Samba by Edison Chen",
     "description": "Nacidos en las canchas de fútbol, estos tenis son un pilar del estilo urbano con su clásica puntera de gamuza y suela de caucho color caramelo.",
-    "price": 499950.0,
+    "price": 699950.0,
     "generalFit": "REGULAR",
     "gender": "MALE",
     "color": "BLACK",
     "available": true,
     "linkProduct": "https://www.adidas.co/tenis-samba-og/B75806.html",
     "productTypeId": 13,
-    "imageUrls": []
+    "imageUrls": [
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/d8f8f3a0467741fa86a552d9cb318dc8_9366/Tenis_CLOT_Samba_by_Edison_Chen_Blanco_KJ0274_HM51.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/089ddd4f0acd41868645fdc0085a2ffd_9366/Tenis_CLOT_Samba_by_Edison_Chen_Blanco_KJ0274_00_plp_standard.jpg",
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/799f3ba2d845413bb024d8a090f8a0ca_9366/Tenis_CLOT_Samba_by_Edison_Chen_Blanco_KJ0274_04_standard.jpg"
+    ]
   },
   {
     "name": "Camiseta Adicolor Classics 3 Tiras",
@@ -83,7 +95,9 @@
     "available": true,
     "linkProduct": "https://www.adidas.co/tenis-superstar/EG4958.html",
     "productTypeId": 13,
-    "imageUrls": []
+    "imageUrls": [
+      "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/0f595a8bdec24360bd6341f9809d3800_9366/Tenis_Superstar_II_Ninos_Blanco_JH9978_01_00_standard.jpg"
+    ]
   },
   {
     "name": "Gorra Trefoil Baseball",

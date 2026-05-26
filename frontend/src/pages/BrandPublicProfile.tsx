@@ -2,6 +2,9 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Navbar } from "../components/Navbar";
 import { getPublicBrandById } from "../services/brandPublicService";
+import { useAuth } from "../hooks/useAuth"; // Ajusta la ruta según tu proyecto
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { followBrand, unfollowBrand, getFollowedBrands } from "../services/clientService";
 import { 
   Star, 
   Users, 
@@ -63,6 +66,51 @@ const FAKE_REVIEWS = [
 
 export default function BrandPublicProfile() {
   const { id } = useParams<{ id: string }>();
+
+  const queryClient = useQueryClient();
+
+  // 1. Extraemos el usuario global del contexto
+  const { user } = useAuth();
+
+  // 2. Extraemos el token que ya viaja dentro de la estructura de ese usuario
+  const token = user?.token;
+
+  // 3. Condición estricta: Debe haber token y el rol de usuario debe ser "CLIENT"
+  const isClient = token && user?.role === "CLIENT";
+
+  // 4. Consultamos la lista de marcas seguidas por este cliente usando el token
+  const { data: followedBrands } = useQuery({
+    queryKey: ["followedBrands"],
+    queryFn: () => getFollowedBrands(token || ""),
+                                            enabled: !!isClient, // Solo se ejecuta si el rol es CLIENT
+  });
+
+  // 5. Validamos si el cliente sigue a la marca de esta página en específico
+  const isFollowing = followedBrands?.some((b: any) => b.id === Number(id)) || false;
+
+  const followMut = useMutation({
+    mutationFn: () => followBrand(Number(id), token || ""),
+                                onSuccess: () => {
+                                  queryClient.invalidateQueries({ queryKey: ["followedBrands"] });
+                                  queryClient.invalidateQueries({ queryKey: ["publicBrand", id] });
+                                }
+  });
+
+  const unfollowMut = useMutation({
+    mutationFn: () => unfollowBrand(Number(id), token || ""),
+                                  onSuccess: () => {
+                                    queryClient.invalidateQueries({ queryKey: ["followedBrands"] });
+                                    queryClient.invalidateQueries({ queryKey: ["publicBrand", id] });
+                                  }
+  });
+
+  const handleFollowClick = () => {
+    if (isFollowing) {
+      unfollowMut.mutate();
+    } else {
+      followMut.mutate();
+    }
+  };
 
   const { data: brand, isLoading, isError } = useQuery({
     queryKey: ["publicBrand", id],
@@ -179,7 +227,45 @@ export default function BrandPublicProfile() {
               </div>
             </div>
 
-            {/* CTA */}
+            {/* Contenedor Horizontal Exclusivo para los Botones de Acción */}
+            <div className="flex flex-row items-center justify-center gap-4 w-full">
+
+            {/* Botón 1: Visitar tienda oficial (A la izquierda) */}
+            {brand.linkOfficial && (
+              <a
+              href={brand.linkOfficial.startsWith('http') ? brand.linkOfficial : `https://${brand.linkOfficial}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 h-16 px-10 bg-[#0A0A0A] hover:bg-black text-white font-bold rounded-[20px] shadow-xl hover:shadow-2xl transition-all hover:scale-105 active:scale-95 group"
+              >
+              Visitar tienda oficial
+              <ExternalLink className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </a>
+            )}
+
+            {/* Botón 2: Seguir Marca (A la derecha de forma estricta) */}
+            {isClient && (
+              <Button
+              onClick={handleFollowClick}
+              disabled={followMut.isPending || unfollowMut.isPending}
+              className={`h-16 px-10 font-bold rounded-[20px] shadow-xl transition-all hover:scale-105 active:scale-95 ${
+                isFollowing
+                ? "bg-gray-200 hover:bg-gray-300 text-black border border-gray-300"
+                : "bg-white hover:bg-gray-50 text-black border-2 border-black"
+              }`}
+              >
+              {followMut.isPending || unfollowMut.isPending ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : isFollowing ? (
+                "Dejar de seguir"
+              ) : (
+                "Seguir"
+              )}
+              </Button>
+            )}
+
+            </div> {/* Fin del contenedor horizontal */}
+            {/*
             {brand.linkOfficial && (
               <a 
                 href={brand.linkOfficial.startsWith('http') ? brand.linkOfficial : `https://${brand.linkOfficial}`}
@@ -191,6 +277,29 @@ export default function BrandPublicProfile() {
                 <ExternalLink className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </a>
             )}
+
+
+            {isClient && (
+              <Button
+              onClick={handleFollowClick}
+              disabled={followMut.isPending || unfollowMut.isPending}
+              className={`h-16 px-10 font-bold rounded-[20px] shadow-xl transition-all hover:scale-105 active:scale-95 ${
+                isFollowing
+                ? "bg-gray-200 hover:bg-gray-300 text-black border border-gray-300"
+                : "bg-white hover:bg-gray-50 text-black border-2 border-black"
+              }`}
+              >
+              {followMut.isPending || unfollowMut.isPending ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : isFollowing ? (
+                "Dejar de seguir"
+              ) : (
+                "Seguir"
+              )}
+              </Button>
+            )}
+            */}
+
           </div>
         </div>
 

@@ -23,6 +23,13 @@ export interface AuthResponse {
   role: string;
 }
 
+// En tu archivo AuthTypes.ts
+export interface AuthUser {
+  email: string;
+  role: string;
+  token: string; // <--- Asegúrate de que esto esté aquí
+}
+
 export const register = async (data: RegisterRequest): Promise<AuthResponse> => {
   const response = await axios.post(`${API_URL}/register`, data);
   return response.data;

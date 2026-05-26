@@ -238,6 +238,12 @@ public class ClientService {
                                 .collect(Collectors.toList());
         }
 
+        public WishlistDetailsResponse getDefaultWishlist(Long clientId) {
+                Wishlist defualtWishlist = wishlistRepository.findFirstByClientIdOrderByIdAsc(clientId)
+                        .orElseThrow(() -> new ResourceNotFoundException("lista de deseos por defecto", "cliente", clientId));
+                return wishlistMapper.toDetailsResponse(defualtWishlist);
+        }
+
         public WishlistDetailsResponse getWishlist(Long clientId, Long wishlistId) {
                 Wishlist wishlist = wishlistRepository.findByIdAndClientId(wishlistId, clientId)
                                 .orElseThrow(() -> new ResourceNotFoundException("lista de deseos", "id", wishlistId));
@@ -304,6 +310,23 @@ public class ClientService {
                         wishlistRepository.save(defaultWishlist);
                         this.logger.info("El cliente con id " + clientId + " guardo el producto con id " + productId
                                         + " en su lista por defecto");
+                }
+        }
+
+        @Transactional
+        public void removeFromDefaultWishlist(Long clientId, Long productId) {
+                Wishlist defaultWishlist = wishlistRepository.findFirstByClientIdOrderByIdAsc(clientId)
+                        .orElseThrow(() -> new ResourceNotFoundException("lista de deseos por defecto",
+                                "cliente", clientId));
+
+                Product product = productRepository.findById(productId)
+                        .orElseThrow(() -> new ResourceNotFoundException("producto", "id", productId));
+
+                if (defaultWishlist.getProducts().contains(product)) {
+                        defaultWishlist.getProducts().remove(product);
+                        wishlistRepository.save(defaultWishlist);
+                        this.logger.info("El cliente con id " + clientId + " elimino el producto con id " + productId
+                                + " de la lista de deseos default");
                 }
         }
 
